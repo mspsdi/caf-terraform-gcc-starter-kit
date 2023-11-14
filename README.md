@@ -45,10 +45,10 @@ The purpose of the "AZURE GCC Acceleration Kit" is to facilitate the workload se
 </p>
 
 
-### Tested with
-CAF Rover rover:1.6.0-rc1-2310.0211
-Azurerm 3.80
-CAF Terraform 5.76
+### Tested - 15 Nov 2023
+CAF Rover: version rover:1.6.0-rc1-2310.0211 <br/>
+Azurerm: vseraion 3.80 <br/>
+CAF Terraform: version 5.76 <br/>
 
 
 ### Features
