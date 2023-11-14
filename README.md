@@ -146,9 +146,17 @@ To get a local copy up and running follow these simple steps below.
 
 In order to start deploying your environments with CAF landing zones, you need an Azure subscription (Trial, MSDN, etc.) and you need to install the following components on your machine:
 * Visual Studio Code
-* Docker Desktop or Rancher Desktop in dockerd mode.
+* Docker Desktop or Rancher Desktop in dockerd mode.
 * Git
-
+<br/><br/>
+* Git Clone the Repo
+```bash
+git clone https://github.com/mspsdi/caf-terraform-gcc-starter-kit
+```
+* Open working folder with Visual Studio Code (Note: Reopen in container when prompt in VS Code)
+  * * (if required) Install VS Code Extension - Dev Containers
+* Add a zsh terminal from VS Code
+* Follow the steps in README.md file
 
 <!--
 Before you can start running the project, below are tools that you will need to install in your development computers.
