@@ -85,7 +85,7 @@ DevOps Compartment
 
 - [ ] Acceleration Kit UI 
 - [ ] Integration with GitHub
-- [ ] One Kit deployment
+- [ ] One Click deployment
 
 ### Built With
 
@@ -188,42 +188,33 @@ rover ignite --playbook /tf/caf/ansible/gcc-starter-playbook.yml
 sudo chmod -R -f 777 /tf/caf/{{gcc_starter_project_folder}}
 cd /tf/caf
 
-#### End Ignite - code generator
-
-
 
 #### B. Begin CAF Terraform for GCC
 
-
-
-#### Preparation - GCC simulator environment ** OPTIONAL
+##### Preparation - GCC simulator environment ** OPTIONAL
 
 
 OPTIONAL - create development environment (only for your own test environment)
 go to /tf/caf/{{gcc_starter_project_folder}}/gcc-dev-env/README.md
 
-#### ** IMPORTANT - set ARM_USE_MSI = true everytime you bring up the zsh terminal if using agent to execute rover commands
-#### export ARM_USE_MSI=true
-
 
 #### 1. level 0 - launchpad
 
-
 1.1. launchpad - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level0/launchpad
-
+```bash
 rover -lz /tf/caf/landingzones/caf_launchpad \
   -launchpad \
   -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level0/launchpad \
   -env {{caf_environment}} \
   -skip-permission-check \
   -a plan
-
+```
 
 #### 2. level 3 - networking
 
 
 2.1. level 3 - shared services - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/shared_services
-
+```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
   -level level3 \
   -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/shared_services \
@@ -232,9 +223,10 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
   -skip-permission-check \
   -tfstate shared_services.tfstate \
   -a plan
+```
 
 2.2. level 3 - management - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_management
-
+```
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_management \
@@ -242,9 +234,10 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -env {{caf_environment}} \
 -tfstate networking_spoke_management.tfstate \
 -a plan
+```
 
 2.3. level 3 - devops - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_devops
-
+```bash
 rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_devops \
@@ -252,36 +245,40 @@ rover -lz /tf/caf/landingzones/caf_solution \
 -env {{caf_environment}} \
 -tfstate networking_spoke_devops.tfstate \
 -a plan
+```
 
 2.4. level 3 - hub internet - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_hub_internet
-
+```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_hub_internet \
 -env {{caf_environment}} \
 -tfstate networking_hub_internet.tfstate \
 -a plan
+```
 
 2.5. level 3 - hub intranet - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_hub_intranet
-
+```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_hub_intranet \
 -env {{caf_environment}} \
 -tfstate networking_hub_intranet.tfstate \
 -a plan
+```
 
 2.6. level 3 - spoke project - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_internet
-
+```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_internet \
 -env {{caf_environment}} \
 -tfstate networking_spoke_internet.tfstate \
 -a plan
+```
 
 2.7. level 3 - vnet peering - /tf/caf/ansible/templates/configuration/level3/networking_vnet_peering
-
+```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_vnet_peering \
@@ -289,12 +286,12 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -env {{caf_environment}} \
 -tfstate networking_vnet_peering.tfstate \
 -a plan
+```
 
 #### firewall, application gateway
 
-
 2.8. egress firewall internet
-
+```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/egress_internet/firewall \
@@ -302,9 +299,10 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -env {{caf_environment}} \
 -tfstate networking_firewall_egress_internet.tfstate \
 -a apply
+```
 
 2.9. egress firewall intranet
-
+```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/egress_intranet/firewall \
@@ -312,27 +310,30 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -env {{caf_environment}} \
 -tfstate networking_firewall_egress_intranet.tfstate \
 -a apply
+```
 
 2.10. agw internet
-
+```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/ingress_internet/agw \
 -env {{caf_environment}} \
 -tfstate solution_accelerators_agw_internet_ssl.tfstate \
 -a apply
+```
 
 2.11. agw intranet
-
+```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/ingress_intranet/agw \
 -env {{caf_environment}} \
 -tfstate solution_accelerators_agw_intranet_ssl.tfstate \
 -a apply
+```
 
 2.12. ingress firewall internet
-
+```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/ingress_internet/firewall \
@@ -340,9 +341,10 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -env {{caf_environment}} \
 -tfstate networking_firewall_ingress_internet.tfstate \
 -a apply
+```
 
 2.13. ingress firewall intranet
-
+```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/ingress_intranet/firewall \
@@ -350,17 +352,14 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -env {{caf_environment}} \
 -tfstate networking_firewall_ingress_intranet.tfstate \
 -a apply
-
+```
 
 #### 3. level 4 - solution accelerators
 
-
-
-#### DevOps, Management Zone
-
+##### DevOps, Management Zone
 
 3.1. Management bastion host and tooling server
-
+```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/management \
@@ -368,10 +367,10 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -env {{caf_environment}} \
 -tfstate solution_accelerators_management.tfstate \
 -a apply
-
+```
 
 3.2. devops runner vm or container instances
-
+```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/devops \
@@ -379,46 +378,41 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -env {{caf_environment}} \
 -tfstate solution_accelerators_devops.tfstate \
 -a apply
+```
 
-#### Project
-
+##### Project
 
 3.3. sql server
-
+```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/mssql \
 -env {{caf_environment}} \
 -tfstate solution_accelerators_mssql.tfstate \
 -a apply
+```
 
 3.4. cosmo db
-
+```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/cosmosdb \
 -env {{caf_environment}} \
 -tfstate solution_accelerators_cosmosdb.tfstate \
 -a apply
-
+```
 3.5 aks and acr
-
+```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/aks \
 -env {{caf_environment}} \
 -tfstate solution_accelerators_aks.tfstate \
 -a apply
-
-
-
-#### End CAF Terraform for GCC
-
+```
 
 
 #### 4. Testing
-
-
 
 4.1. ** OPTIONAL: deploy sample azure-vote application and validation through internet and intranet
 
@@ -435,7 +429,9 @@ Goto keyvault {{project_code}}-kv-mssql secrets to retrieve your sql server admi
 
 #### develop
 
-The develop branch is for testing and staging of all new features, fixes and tests. When the develop branch is stable and functional in the Azure staging-environment `func azure functionapp publish cep-xxx-staging-fx`, we publish the Functions project into Azure for production `func azure functionapp publish cep-xxx-prod-fx`.
+The develop branch is for testing and staging of all new features, fixes and tests. 
+<!-- When the develop branch is stable and functional in the Azure staging-environment `func azure functionapp publish cep-xxx-staging-fx`, we publish the Functions project into Azure for production `func azure functionapp publish cep-xxx-prod-fx`.
+-->
 
 <!-- VERSIONING -->
 ## Versioning
