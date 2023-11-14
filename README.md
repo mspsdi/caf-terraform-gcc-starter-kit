@@ -9,7 +9,7 @@ caf terraform accelerator kit for public sector
 
 <!-- PROJECT LOGO -->
 <p align="center">
-    <img src="docs/CEP.png" height="180" width="180"/>
+    <img src="docs/gcc-starter-kit-icon.png" height="180" width="180"/>
 </p>
 
 <!-- TABLE OF CONTENTS -->
@@ -31,7 +31,9 @@ caf terraform accelerator kit for public sector
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+<!--
 HTX and Microsoft have joined forces to create a Cloud-Based Evidence Platform that can help the Singapore Police Force (SPF) with their investigations. The platform, called Cloud Evidence Platform, is designed to gather open-source intelligence (OSINT) data that is relevant to a crime and transform it into admissible evidence that can support the SPF in investigation and in court. The platform leverages Microsoft's Azure cloud services and artificial intelligence capabilities to collect, analyze, and present OSINT data from various sources, such as social media, online forums, news articles, and public databases. The platform also ensures the integrity, security, and privacy of the data, as well as its compliance with legal and ethical standards. The Cloud Evidence Platform is expected to enhance the efficiency, effectiveness, and accuracy of the SPF's investigations, as well as to reduce the workload and risks for the investigators.
+-->
 
 The purpose of the “AZURE GCC Acceleration Kit” is to facilitate the workload setup in AZURE environment. This will be achieved in a two-step layered approach.  
 <p align="center">
@@ -45,32 +47,57 @@ The purpose of the “AZURE GCC Acceleration Kit” is to facilitate the workloa
 
 ### Features
 
-- [x] User Management
-- [x] Case Management
-- [x] Website Screenshot Exporting Capabilities
+Public Segment
+- [x] Ingress Fiewall
+- [x] Egress Firewall
+- [x] Ingress Application Gateway with WAF
+
+Private Segment
+- [x] AKS private cluster
+- [x] AKS private cluster
+- [x] AKS private cluster
+- [x] APIM
+- [x] App Service
+- [x] Container Instance
+- [x] Open AI Service
+- [x] Cognitive Search Service
+- [x] Cosmos DB
+- [x] App Service
+- [x] SQL Server
+
 
 ### Work In Progress
 
-- [ ] Social Media Exporting Capabilities
-- [ ] Audit Trail
-- [ ] WoG AD Integration
+- [ ] Acceleration Kit UI 
+- [ ] Integration with GitHub
+- [ ] One Kit deployment
 
 ### Built With
 
-Cloud Evidence Platform (CEP) runs on Microsoft Azure and is built on top of React and NodeJS. It relies on Azure SQL Database and Azure Storage for storage, Azure Communication Services to dispatch e-mails and is deployed on Azure App Service and Azure Function. Optionally, CEP can also talk to Government-hosted systems - SingPass/CorpPass/MyInfo to retrieve form-filler identities, and E-mail servers hosted in Government Data Centres.
+<!-- Cloud Evidence Platform (CEP) runs on Microsoft Azure and is built on top of React and NodeJS. It relies on Azure SQL Database and Azure Storage for storage, Azure Communication Services to dispatch e-mails and is deployed on Azure App Service and Azure Function. Optionally, CEP can also talk to Government-hosted systems - SingPass/CorpPass/MyInfo to retrieve form-filler identities, and E-mail servers hosted in Government Data Centres.
+-->
+
+- CAF Terraform
+- CAF Rover
+- Terraform
+- Ansible
+- Jinja2 template
 
 ### Architecture
 
-This section aims to give the reader an overview of CEP's architecture, relative to external systems and in terms of how the codebase is organised.
+This section aims to give the reader an overview of GCC Starter architecture
+<!-- , relative to external systems and in terms of how the codebase is organised. -->
 
 #### Overview Architecture
 
 <p align="center">
-  <img src="docs/CEP Architectures/CEP Overview Architecture-Dev.png">
+  <img src="docs/gcc-starter-kit-architecture.png">
 </p>
 
 ### Frontend
 
+WIP
+<!--
 The frontend of the Cloud Evidence Platform is built using React, a popular JavaScript library for creating user interfaces. React enables the frontend to be fast, responsive, and modular, as well as supporting features such as routing, authentication, and state management. Below is the screenshot from CEP.
 
 <p align="center">
@@ -92,6 +119,7 @@ The Cloud Evidence Platform (CEP) API consists of three distinct functions that 
 | URL Export API | XXXXXX |
 | Add Case API | XXXXXX |
 | Process Job API | XXXXXX |
+-->
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -100,6 +128,13 @@ To get a local copy up and running follow these simple steps below.
 
 ### Prerequisites
 
+In order to start deploying your environments with CAF landing zones, you need an Azure subscription (Trial, MSDN, etc.) and you need to install the following components on your machine:
+* Visual Studio Code
+* Docker Desktop or Rancher Desktop in dockerd mode.
+* Git
+
+
+<!--
 Before you can start running the project, below are tools that you will need to install in your development computers.
 
 * Install [Python](https://www.python.org/downloads/), [Node.js](https://nodejs.org/en/download/), [Git](https://git-scm.com/downloads), [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) and [Azure Function CLI](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=macos%2Cisolated-process%2Cnode-v4%2Cpython-v2%2Chttp-trigger%2Ccontainer-apps&pivots=programming-language-csharp)
@@ -112,71 +147,52 @@ Before you can start running the project, below are tools that you will need to 
 
 * Good Knowledge on [Azure Fundamentals](https://docs.microsoft.com/en-us/azure/?product=featured).
 
-### Branch
+-->
 
-#### develop
-
-The develop branch is for testing and staging of all new features, fixes and tests. When the develop branch is stable and functional in the Azure staging-environment `func azure functionapp publish cep-xxx-staging-fx`, we publish the Functions project into Azure for production `func azure functionapp publish cep-xxx-prod-fx`.
-
-<!-- VERSIONING -->
-## Versioning
-
-We follow [semantic versioning](https://semver.org/) for all of our builds.
-
-<!-- LICENSE -->
-## License
-
-This project is licensed under the [MIT license](#LICENSE.md).
+### deployment
 
 
+### A. Ignite - code generator
 
 
-# deployment
+### A1. edit the below configuration files
 
-=======================================================
-# A. Ignite - code generator
-========================================================
-
-# A1. edit the below configuration files
-========================================================
 
 /tf/caf/definition/config_application.yaml
 /tf/caf/definition/config_gcc.yaml
 /tf/caf/definition/config_solution_accelerators.yaml
 
 
-# check prefix and subscription id
+### check prefix and subscription id
 
-# A2. execute ignite
-========================================================
+### A2. execute ignite
 
 cd /tf/caf/ansible
-# ansible-playbook gcc-starter-playbook.yml
+### ansible-playbook gcc-starter-playbook.yml
 rover ignite --playbook /tf/caf/ansible/gcc-starter-playbook.yml
 sudo chmod -R -f 777 /tf/caf/{{gcc_starter_project_folder}}
 cd /tf/caf
 
-=======================================================
-# End Ignite - code generator
-========================================================
+### End Ignite - code generator
 
-=================================================================================
-# B. Begin CAF Terraform for GCC
-=================================================================================
 
-================================================================================
-# Preparation - GCC simulator environment ** OPTIONAL
-================================================================================
+=========================
+### B. Begin CAF Terraform for GCC
+=========================
+
+========================
+### Preparation - GCC simulator environment ** OPTIONAL
+========================
 
 OPTIONAL - create development environment (only for your own test environment)
 go to /tf/caf/{{gcc_starter_project_folder}}/gcc-dev-env/README.md
 
-# ** IMPORTANT - set ARM_USE_MSI = true everytime you bring up the zsh terminal if using agent to execute rover commands
-# export ARM_USE_MSI=true
+### ** IMPORTANT - set ARM_USE_MSI = true everytime you bring up the zsh terminal if using agent to execute rover commands
+### export ARM_USE_MSI=true
 
-================================================================================
-# 1. level 0 - launchpad
-=================================================================================
+========================
+### 1. level 0 - launchpad
+=========================
 
 1.1. launchpad - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level0/launchpad
 
@@ -187,9 +203,9 @@ rover -lz /tf/caf/landingzones/caf_launchpad \
   -skip-permission-check \
   -a plan
 
-================================================================================
-# 2. level 3 - networking
-=================================================================================
+========================
+### 2. level 3 - networking
+=========================
 
 2.1. level 3 - shared services - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/shared_services
 
@@ -259,7 +275,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -tfstate networking_vnet_peering.tfstate \
 -a plan
 
-# firewall, application gateway
+### firewall, application gateway
 ===============================
 
 2.8. egress firewall internet
@@ -320,12 +336,12 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -tfstate networking_firewall_ingress_intranet.tfstate \
 -a apply
 
-================================================================================
-# 3. level 4 - solution accelerators
-================================================================================
+========================
+### 3. level 4 - solution accelerators
+========================
 
 
-# DevOps, Management Zone
+### DevOps, Management Zone
 ===============================
 
 3.1. Management bastion host and tooling server
@@ -349,7 +365,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -tfstate solution_accelerators_devops.tfstate \
 -a apply
 
-# Project
+### Project
 ===============================
 
 3.3. sql server
@@ -380,13 +396,13 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -a apply
 
 
-=================================================================================
-# End CAF Terraform for GCC
-=================================================================================
+=========================
+### End CAF Terraform for GCC
+=========================
 
-=================================================================================
-# 4. Testing
-=================================================================================
+=========================
+### 4. Testing
+=========================
 
 
 4.1. ** OPTIONAL: deploy sample azure-vote application and validation through internet and intranet
@@ -398,6 +414,23 @@ cd /tf/caf/ansible/templates/scripts
 
 4.3. sql server admin password
 Goto keyvault {{project_code}}-kv-mssql secrets to retrieve your sql server admin password
+
+
+### Branch
+
+#### develop
+
+The develop branch is for testing and staging of all new features, fixes and tests. When the develop branch is stable and functional in the Azure staging-environment `func azure functionapp publish cep-xxx-staging-fx`, we publish the Functions project into Azure for production `func azure functionapp publish cep-xxx-prod-fx`.
+
+<!-- VERSIONING -->
+## Versioning
+
+We follow [semantic versioning](https://semver.org/) for all of our builds.
+
+<!-- LICENSE -->
+## License
+
+This project is licensed under the [MIT license](#LICENSE.md).
 
 
 
