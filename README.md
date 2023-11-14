@@ -47,15 +47,23 @@ The purpose of the “AZURE GCC Acceleration Kit” is to facilitate the workloa
 
 ### Features
 
-Public Segment
+#### Public Segment
+
+Internet Ingress
 - [x] Ingress Fiewall
 - [x] Egress Firewall
 - [x] Ingress Application Gateway with WAF
 
-Private Segment
+Intranet Ingress
+- [x] Ingress Fiewall
+- [x] Egress Firewall
+- [x] Ingress Application Gateway with WAF
+
+#### Private Segment
+
+Project compartment
 - [x] AKS private cluster
-- [x] AKS private cluster
-- [x] AKS private cluster
+- [x] Azure Container Registry
 - [x] APIM
 - [x] App Service
 - [x] Container Instance
@@ -64,6 +72,13 @@ Private Segment
 - [x] Cosmos DB
 - [x] App Service
 - [x] SQL Server
+
+Management Compartment
+- [x] Bastion Host
+- [x] Tooling Windows Server
+
+DevOps Compartment
+- [ ] VPN Gateway
 
 
 ### Work In Progress
