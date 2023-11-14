@@ -164,7 +164,7 @@ Before you can start running the project, below are tools that you will need to 
 
 -->
 
-### deployment
+### Deployment
 
 
 #### A. Ignite - code generator
@@ -173,8 +173,8 @@ Before you can start running the project, below are tools that you will need to 
 #### A1. edit the below configuration files
 
 
-/tf/caf/definition/config_application.yaml
-/tf/caf/definition/config_gcc.yaml
+/tf/caf/definition/config_application.yaml<br/>
+/tf/caf/definition/config_gcc.yaml<br/>
 /tf/caf/definition/config_solution_accelerators.yaml
 
 
