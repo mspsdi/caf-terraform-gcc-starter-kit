@@ -180,14 +180,13 @@ Before you can start running the project, below are tools that you will need to 
 
 #### check prefix and subscription id
 
-#### A2. execute ignite
-
+#### A2. execute rover ignite to generate the caf terraform tfvars file
+```bash
 cd /tf/caf/ansible
-#### ansible-playbook gcc-starter-playbook.yml
 rover ignite --playbook /tf/caf/ansible/gcc-starter-playbook.yml
 sudo chmod -R -f 777 /tf/caf/{{gcc_starter_project_folder}}
 cd /tf/caf
-
+```
 
 #### B. Begin CAF Terraform for GCC
 
