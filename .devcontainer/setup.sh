@@ -22,11 +22,6 @@ git config --global --add safe.directory /tf/caf/aztfmod
 
 git config pull.rebase false 
 
-# Patches 0: fixed dial tcp: lookup xxx.xxx.xxx.xxx: no such host
-sudo chmod -R -f 777 /etc/resolv.conf 
-cp /tf/caf/patches/etc/resolv.conf /etc/resolv.conf
-
-
 if [ ! -d /tf/caf/landingzones ]; then
   # git clone --branch int-5.6.0 https://github.com/Azure/caf-terraform-landingzones.git /tf/caf/landingzones
   # clone latest caf terraform landingzones - 5.75
@@ -116,5 +111,10 @@ if [ ! -d /tf/caf/landingzones ]; then
     # fixed cp /tf/caf/patches/recovery_vault/private_endpoints.tf /tf/caf/landingzones/aztfmod/modules/recovery_vault/private_endpoints.tf
     cd /tf/caf/
     # note: /tf/caf/landingzones/aztfmod/main.tf show the version of the azurerm
+
+    # Patches 0: fixed dial tcp: lookup xxx.xxx.xxx.xxx: no such host - ** IMPORTANT: applicable for non MS Network
+    sudo chmod -R -f 777 /etc/resolv.conf 
+    cp /tf/caf/patches/etc/resolv.conf /etc/resolv.conf
+
   fi
 fi
