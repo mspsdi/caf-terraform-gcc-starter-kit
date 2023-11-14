@@ -49,7 +49,9 @@ The purpose of the "AZURE GCC Acceleration Kit" is to facilitate the workload se
 CAF Rover: version rover:1.6.0-rc1-2310.0211 <br/>
 Azurerm: version 3.80 <br/>
 CAF Terraform: version 5.76 <br/>
+aztfmod/azurecaf: 1.2.0 <br/>
 
+Version: 0.1-1.6.0-5.76-3.80 (0.1-[rover version]-[caf terraform version]-[azurerm version])
 
 ### Features
 
@@ -181,6 +183,9 @@ Before you can start running the project, below are tools that you will need to 
 
 ### Deployment
 
+Recommend Internet CIDR Range: 100.64.0.0/10
+
+
 
 #### A. Ignite - code generator
 
@@ -202,6 +207,9 @@ rover ignite --playbook /tf/caf/ansible/gcc-starter-playbook.yml
 sudo chmod -R -f 777 /tf/caf/{{gcc_starter_project_folder}}
 cd /tf/caf
 ```
+
+To continue, goto README.md file 
+/tf/caf/{{gcc_starter_project_folder}}/README.md
 
 #### B. Begin CAF Terraform for GCC
 

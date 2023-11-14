@@ -19,9 +19,9 @@ configuration_gcc:
   # **Optional - Non GCC
   ingress_egress_vnet_name_ingress_internet_cidr: 100.1.0.0/24
   ingress_egress_vnet_name_egress_internet_cidr: 100.1.1.0/24
-  ingress_egress_vnet_name_ingress_intranet_cidr: 10.2.0.0/25
-  ingress_egress_vnet_name_egress_intranet_cidr: 10.2.1.0/25
-  internet_vnet_name_cidr: 100.2.0.0/24
+  ingress_egress_vnet_name_ingress_intranet_cidr: # 10.2.0.0/25
+  ingress_egress_vnet_name_egress_intranet_cidr: # 10.2.1.0/25
+  internet_vnet_name_cidr: 100.2.0.0/24 # project vnet
   management_vnet_name_cidr: 100.3.0.0/24
   devops_vnet_name_cidr: 100.4.0.0/24 
 
