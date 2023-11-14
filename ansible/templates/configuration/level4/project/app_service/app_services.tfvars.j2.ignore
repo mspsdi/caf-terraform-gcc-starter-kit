@@ -44,24 +44,24 @@ app_services = {
 
     }
 
-    diagnostic_profiles = {
-      central_logs_region = {
-        definition_key   = "app_service"
-        destination_type = "log_analytics"
-        destination_key  = "central_logs"
-        lz_key = "shared_services" # TODO: is this required?
-      }
-    }  
-
     # diagnostic_profiles = {
-    #   app_service = {
+    #   central_logs_region = {
     #     definition_key   = "app_service"
-    #     destination_type = "log_analytics"    
-    #     destination_key  = "central_logs"            
-    #     # destination_type = "event_hub"
-    #     # destination_key  = "central_logs_example" 
+    #     destination_type = "log_analytics"
+    #     destination_key  = "central_logs"
+    #     lz_key = "shared_services" # TODO: is this required?
     #   }
-    # }
+    # }  
+
+    diagnostic_profiles = {
+      app_service = {
+        definition_key   = "app_service"
+        destination_type = "log_analytics"    
+        destination_key  = "central_logs"            
+        # destination_type = "event_hub"
+        # destination_key  = "central_logs_example" 
+      }
+    }
 
     tags = { 
       purpose = "internet app service" 
@@ -494,63 +494,64 @@ app_services = {
 */
 
 
-# # unable to use the one in shared service remote lz - create locally
-# # For diagnostic settings
-# diagnostics_definition = {
-#   app_service = {
-#     name = "operational_logs_and_metrics"
+# unable to use the one in shared service remote lz - create locally
+# For diagnostic settings
+diagnostics_definition = {
+  app_service = {
+    name = "operational_logs_and_metrics"
 
-#     categories = {
-#       log = [
-#         #["Category name",  "Diagnostics Enabled(true/false)", "Retention Enabled(true/false)", Retention_period]
-#         ["AppServiceHTTPLogs", true, false, 0],
-#         ["AppServiceConsoleLogs", true, false, 0],
-#         ["AppServiceAppLogs", true, false, 0],
-#         ["AppServiceAuditLogs", true, false, 0],
-#         ["AppServiceIPSecAuditLogs", true, false, 0],
-#         ["AppServicePlatformLogs", true, false, 0],
-#       ]
-#       metric = [
-#         #["Category name",  "Diagnostics Enabled(true/false)", "Retention Enabled(true/false)", Retention_period]
-#         ["AllMetrics", true, false, 0],
-#       ]
-#     }
-#   }
+    categories = {
+      log = [
+        #["Category name",  "Diagnostics Enabled(true/false)", "Retention Enabled(true/false)", Retention_period]
+        ["AppServiceHTTPLogs", true, false, 0],
+        ["AppServiceConsoleLogs", true, false, 0],
+        ["AppServiceAppLogs", true, false, 0],
+        ["AppServiceAuditLogs", true, false, 0],
+        ["AppServiceIPSecAuditLogs", true, false, 0],
+        ["AppServicePlatformLogs", true, false, 0],
+      ]
+      metric = [
+        #["Category name",  "Diagnostics Enabled(true/false)", "Retention Enabled(true/false)", Retention_period]
+        ["AllMetrics", true, false, 0],
+      ]
+    }
+  }
 
-# }
+}
 
-# # diagnostic_event_hub_namespaces = {
-# #   event_hub_namespace1 = {
-# #     name               = "security_operation_logs"
-# #     resource_group_key = "webapp_rg_re1"
-# #     sku                = "Standard"
-# #     region             = "region1"
-# #   }
-# # }
-
-# # # gcc is using govtech law, this is for non gcc
-# # # resource id: /subscriptions/6f035180-4066-42f0-b0fa-5fbc1ae67500/resourceGroups/esdso-rg-ops-re1/providers/Microsoft.OperationalInsights/workspaces/esdso-log-agency-law
-# diagnostic_log_analytics = {
-#   central_logs_region1 = {
-#     region             = "region1"
-#     name               = "agency-law" # law resource name: esdso-log-agency-law
+# diagnostic_event_hub_namespaces = {
+#   event_hub_namespace1 = {
+#     name               = "security_operation_logs"
 #     resource_group_key = "webapp_rg_re1"
+#     sku                = "Standard"
+#     region             = "region1"
 #   }
 # }
 
-# diagnostics_destinations = {
-#   # Storage keys must reference the azure region name
-#   log_analytics = {   # <- this is destination type
-#     central_logs = {  # <- this is destination key
-#       log_analytics_key              = "central_logs_region1"
-#       lz_key = "shared_services" # test remote key
-#       log_analytics_destination_type = "Dedicated"
-#     }
-#   }
-#   # event_hub_namespaces = {
-#   #   central_logs_example = {
-#   #     event_hub_namespace_key = "event_hub_namespace1"
-#   #   }
-#   # }
+# # gcc is using govtech law, this is for non gcc
+# # resource id: /subscriptions/6f035180-4066-42f0-b0fa-5fbc1ae67500/resourceGroups/esdso-rg-ops-re1/providers/Microsoft.OperationalInsights/workspaces/esdso-log-agency-law
+diagnostic_log_analytics = {
+  central_logs_region1 = {
+    region             = "region1"
+    name               = "agency-law" # law resource name: esdso-log-agency-law
+    resource_group_key = "webapp_rg_re1"
+  }
+}
 
-# }
+diagnostics_destinations = {
+  # Storage keys must reference the azure region name
+  log_analytics = {   # <- this is destination type
+    central_logs = {  # <- this is destination key
+      log_analytics_key              = "central_logs_region1"
+      lz_key = "shared_services" # test remote key
+      log_analytics_destination_type = "Dedicated"
+    }
+  }
+  # event_hub_namespaces = {
+  #   central_logs_example = {
+  #     event_hub_namespace_key = "event_hub_namespace1"
+  #   }
+  # }
+
+}
+

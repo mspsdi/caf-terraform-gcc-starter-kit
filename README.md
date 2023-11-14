@@ -465,5 +465,9 @@ We follow [semantic versioning](https://semver.org/) for all of our builds.
 
 This project is licensed under the [MIT license](#LICENSE.md).
 
+## Troubleshooting Tips
+
+ERROR: dial tcp: lookup management.azure.com on 127.0.0.11:53: no such host
+Resolution: re-run the rover apply command
 
 
