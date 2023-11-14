@@ -35,7 +35,7 @@ caf terraform accelerator kit for public sector
 HTX and Microsoft have joined forces to create a Cloud-Based Evidence Platform that can help the Singapore Police Force (SPF) with their investigations. The platform, called Cloud Evidence Platform, is designed to gather open-source intelligence (OSINT) data that is relevant to a crime and transform it into admissible evidence that can support the SPF in investigation and in court. The platform leverages Microsoft's Azure cloud services and artificial intelligence capabilities to collect, analyze, and present OSINT data from various sources, such as social media, online forums, news articles, and public databases. The platform also ensures the integrity, security, and privacy of the data, as well as its compliance with legal and ethical standards. The Cloud Evidence Platform is expected to enhance the efficiency, effectiveness, and accuracy of the SPF's investigations, as well as to reduce the workload and risks for the investigators.
 -->
 
-The purpose of the “AZURE GCC Acceleration Kit” is to facilitate the workload setup in AZURE environment. This will be achieved in a two-step layered approach.  
+The purpose of the "AZURE GCC Acceleration Kit" is to facilitate the workload setup in AZURE environment. This will be achieved in a two-step layered approach.  
 <p align="center">
     <img src="docs/overall-workflow-1.png"/>
 </p>
@@ -45,7 +45,14 @@ The purpose of the “AZURE GCC Acceleration Kit” is to facilitate the workloa
 </p>
 
 
+### Tested with
+CAF Rover rover:1.6.0-rc1-2310.0211
+Azurerm 3.80
+CAF Terraform 5.76
+
+
 ### Features
+
 
 #### Public Segment
 
