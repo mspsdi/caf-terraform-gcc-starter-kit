@@ -149,12 +149,12 @@ In order to start deploying your environments with CAF landing zones, you need a
 * Docker Desktop or Rancher Desktop in dockerd mode.
 * Git
 <br/><br/>
-* Git Clone the Repo
+#### Git Clone the Repo
 ```bash
 git clone https://github.com/mspsdi/caf-terraform-gcc-starter-kit
 ```
 * Open working folder with Visual Studio Code (Note: Reopen in container when prompt in VS Code)
-  * * (if required) Install VS Code Extension - Dev Containers
+  * (if required) Install VS Code Extension - Dev Containers
 * Add a zsh terminal from VS Code
 * Follow the steps in README.md file
 
