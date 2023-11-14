@@ -1,2 +1,275 @@
 # caf-terraform-gcc-starter-kit
 caf terraform accelerator kit for public sector
+
+
+
+# deployment
+
+=======================================================
+# A. Ignite - code generator
+========================================================
+
+# A1. edit the below configuration files
+========================================================
+
+/tf/caf/definition/config_application.yaml
+/tf/caf/definition/config_gcc.yaml
+/tf/caf/definition/config_solution_accelerators.yaml
+
+
+# check prefix and subscription id
+
+# A2. execute ignite
+========================================================
+
+cd /tf/caf/ansible
+# ansible-playbook gcc-starter-playbook.yml
+rover ignite --playbook /tf/caf/ansible/gcc-starter-playbook.yml
+sudo chmod -R -f 777 /tf/caf/{{gcc_starter_project_folder}}
+cd /tf/caf
+
+=======================================================
+# End Ignite - code generator
+========================================================
+
+=================================================================================
+# B. Begin CAF Terraform for GCC
+=================================================================================
+
+================================================================================
+# Preparation - GCC simulator environment ** OPTIONAL
+================================================================================
+
+OPTIONAL - create development environment (only for your own test environment)
+go to /tf/caf/{{gcc_starter_project_folder}}/gcc-dev-env/README.md
+
+# ** IMPORTANT - set ARM_USE_MSI = true everytime you bring up the zsh terminal if using agent to execute rover commands
+# export ARM_USE_MSI=true
+
+================================================================================
+# 1. level 0 - launchpad
+=================================================================================
+
+1.1. launchpad - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level0/launchpad
+
+rover -lz /tf/caf/landingzones/caf_launchpad \
+  -launchpad \
+  -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level0/launchpad \
+  -env {{caf_environment}} \
+  -skip-permission-check \
+  -a plan
+
+================================================================================
+# 2. level 3 - networking
+=================================================================================
+
+2.1. level 3 - shared services - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/shared_services
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+  -level level3 \
+  -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/shared_services \
+  -parallelism 30 \
+  -env {{caf_environment}} \
+  -skip-permission-check \
+  -tfstate shared_services.tfstate \
+  -a plan
+
+2.2. level 3 - management - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_management
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level3 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_management \
+-parallelism 30 \
+-env {{caf_environment}} \
+-tfstate networking_spoke_management.tfstate \
+-a plan
+
+2.3. level 3 - devops - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_devops
+
+rover -lz /tf/caf/landingzones/caf_solution \
+-level level3 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_devops \
+-parallelism 30 \
+-env {{caf_environment}} \
+-tfstate networking_spoke_devops.tfstate \
+-a plan
+
+2.4. level 3 - hub internet - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_hub_internet
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level3 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_hub_internet \
+-env {{caf_environment}} \
+-tfstate networking_hub_internet.tfstate \
+-a plan
+
+2.5. level 3 - hub intranet - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_hub_intranet
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level3 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_hub_intranet \
+-env {{caf_environment}} \
+-tfstate networking_hub_intranet.tfstate \
+-a plan
+
+2.6. level 3 - spoke project - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_internet
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level3 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_internet \
+-env {{caf_environment}} \
+-tfstate networking_spoke_internet.tfstate \
+-a plan
+
+2.7. level 3 - vnet peering - /tf/caf/ansible/templates/configuration/level3/networking_vnet_peering
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level3 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_vnet_peering \
+-parallelism 30 \
+-env {{caf_environment}} \
+-tfstate networking_vnet_peering.tfstate \
+-a plan
+
+# firewall, application gateway
+===============================
+
+2.8. egress firewall internet
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level3 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/egress_internet/firewall \
+-parallelism 30 \
+-env {{caf_environment}} \
+-tfstate networking_firewall_egress_internet.tfstate \
+-a apply
+
+2.9. egress firewall intranet
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level3 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/egress_intranet/firewall \
+-parallelism 30 \
+-env {{caf_environment}} \
+-tfstate networking_firewall_egress_intranet.tfstate \
+-a apply
+
+2.10. agw internet
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level3 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/ingress_internet/agw \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_agw_internet_ssl.tfstate \
+-a apply
+
+2.11. agw intranet
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level3 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/ingress_intranet/agw \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_agw_intranet_ssl.tfstate \
+-a apply
+
+2.12. ingress firewall internet
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level3 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/ingress_internet/firewall \
+-parallelism 30 \
+-env {{caf_environment}} \
+-tfstate networking_firewall_ingress_internet.tfstate \
+-a apply
+
+2.13. ingress firewall intranet
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level3 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/ingress_intranet/firewall \
+-parallelism 30 \
+-env {{caf_environment}} \
+-tfstate networking_firewall_ingress_intranet.tfstate \
+-a apply
+
+================================================================================
+# 3. level 4 - solution accelerators
+================================================================================
+
+
+# DevOps, Management Zone
+===============================
+
+3.1. Management bastion host and tooling server
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/management \
+-parallelism 30 \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_management.tfstate \
+-a apply
+
+
+3.2. devops runner vm or container instances
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/devops \
+-parallelism 30 \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_devops.tfstate \
+-a apply
+
+# Project
+===============================
+
+3.3. sql server
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/mssql \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_mssql.tfstate \
+-a apply
+
+3.4. cosmo db
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/cosmosdb \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_cosmosdb.tfstate \
+-a apply
+
+3.5 aks and acr
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/aks \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_aks.tfstate \
+-a apply
+
+
+=================================================================================
+# End CAF Terraform for GCC
+=================================================================================
+
+=================================================================================
+# 4. Testing
+=================================================================================
+
+
+4.1. ** OPTIONAL: deploy sample azure-vote application and validation through internet and intranet
+
+4.2. add deny all to app nsg and web nsg
+
+cd /tf/caf/ansible/templates/scripts
+../level3_networking.sh
+
+4.3. sql server admin password
+Goto keyvault {{project_code}}-kv-mssql secrets to retrieve your sql server admin password
+
+
+
