@@ -70,15 +70,14 @@ Intranet Ingress
 
 Project compartment
 - [x] AKS private cluster
-- [x] Azure Container Registry
-- [x] APIM
-- [x] App Service
-- [x] Container Instance
-- [x] Open AI Service
-- [x] Cognitive Search Service
-- [x] Cosmos DB
-- [x] App Service
-- [x] SQL Server
+- [x] Azure Container Registry + private endpoint
+- [x] APIM stsv2 vnet injection
+- [x] App Service + vnet injection + private endpoint
+- [x] Container Instance 
+- [x] Open AI Service + private endpoint
+- [x] Cognitive Search Service + private endpoint
+- [x] Cosmos DB + private endpoint
+- [x] SQL Server + private endpoint
 
 Management Compartment
 - [x] Bastion Host
