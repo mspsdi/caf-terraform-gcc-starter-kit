@@ -152,10 +152,10 @@ Before you can start running the project, below are tools that you will need to 
 ### deployment
 
 
-### A. Ignite - code generator
+#### A. Ignite - code generator
 
 
-### A1. edit the below configuration files
+#### A1. edit the below configuration files
 
 
 /tf/caf/definition/config_application.yaml
@@ -163,36 +163,36 @@ Before you can start running the project, below are tools that you will need to 
 /tf/caf/definition/config_solution_accelerators.yaml
 
 
-### check prefix and subscription id
+#### check prefix and subscription id
 
-### A2. execute ignite
+#### A2. execute ignite
 
 cd /tf/caf/ansible
-### ansible-playbook gcc-starter-playbook.yml
+#### ansible-playbook gcc-starter-playbook.yml
 rover ignite --playbook /tf/caf/ansible/gcc-starter-playbook.yml
 sudo chmod -R -f 777 /tf/caf/{{gcc_starter_project_folder}}
 cd /tf/caf
 
-### End Ignite - code generator
+#### End Ignite - code generator
 
 
-=========================
-### B. Begin CAF Terraform for GCC
-=========================
 
-========================
-### Preparation - GCC simulator environment ** OPTIONAL
-========================
+#### B. Begin CAF Terraform for GCC
+
+
+
+#### Preparation - GCC simulator environment ** OPTIONAL
+
 
 OPTIONAL - create development environment (only for your own test environment)
 go to /tf/caf/{{gcc_starter_project_folder}}/gcc-dev-env/README.md
 
-### ** IMPORTANT - set ARM_USE_MSI = true everytime you bring up the zsh terminal if using agent to execute rover commands
-### export ARM_USE_MSI=true
+#### ** IMPORTANT - set ARM_USE_MSI = true everytime you bring up the zsh terminal if using agent to execute rover commands
+#### export ARM_USE_MSI=true
 
-========================
-### 1. level 0 - launchpad
-=========================
+
+#### 1. level 0 - launchpad
+
 
 1.1. launchpad - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level0/launchpad
 
@@ -203,9 +203,9 @@ rover -lz /tf/caf/landingzones/caf_launchpad \
   -skip-permission-check \
   -a plan
 
-========================
-### 2. level 3 - networking
-=========================
+
+#### 2. level 3 - networking
+
 
 2.1. level 3 - shared services - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/shared_services
 
@@ -275,8 +275,8 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -tfstate networking_vnet_peering.tfstate \
 -a plan
 
-### firewall, application gateway
-===============================
+#### firewall, application gateway
+
 
 2.8. egress firewall internet
 
@@ -336,13 +336,13 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -tfstate networking_firewall_ingress_intranet.tfstate \
 -a apply
 
-========================
-### 3. level 4 - solution accelerators
-========================
+
+#### 3. level 4 - solution accelerators
 
 
-### DevOps, Management Zone
-===============================
+
+#### DevOps, Management Zone
+
 
 3.1. Management bastion host and tooling server
 
@@ -365,8 +365,8 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -tfstate solution_accelerators_devops.tfstate \
 -a apply
 
-### Project
-===============================
+#### Project
+
 
 3.3. sql server
 
@@ -396,13 +396,13 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -a apply
 
 
-=========================
-### End CAF Terraform for GCC
-=========================
 
-=========================
-### 4. Testing
-=========================
+#### End CAF Terraform for GCC
+
+
+
+#### 4. Testing
+
 
 
 4.1. ** OPTIONAL: deploy sample azure-vote application and validation through internet and intranet
