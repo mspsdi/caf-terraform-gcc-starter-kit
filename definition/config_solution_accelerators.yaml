@@ -3,7 +3,7 @@
 ---
 configuration:
   agency_code: 
-  project_code: esdso
+  project_code: ignite # replace with your project code
   cidr_ingress_egress_zone_subnet_ingress_internet: 	100.1.0.0/26 
   cidr_ingress_egress_zone_subnet_ingress_agw_internet: 	100.1.0.64/26 
   cidr_ingress_egress_zone_subnet_egress_internet: 	100.1.1.0/26   
@@ -16,11 +16,11 @@ configuration:
   cidr_internet_zone_subnet_data: 	100.2.0.32/27
 
   cidr_internet_zone_subnet_web: 	100.2.0.64/27 # app service
-  cidr_internet_zone_subnet_service: 	100.2.0.96/27
-  cidr_internet_zone_subnet_chatgpt: 	100.2.0.128/27
-  cidr_internet_zone_subnet_ai: 	100.2.0.160/27
-  cidr_internet_zone_subnet_applicationgateway: 	100.2.0.192/27
-  cidr_internet_zone_subnet_linux_function_app: 100.2.0.224/27
+  cidr_internet_zone_subnet_service: 	100.2.0.96/27 # make sure no overlay cidr
+  cidr_internet_zone_subnet_chatgpt: 	100.2.0.128/27 # make sure no overlay cidr
+  cidr_internet_zone_subnet_ai: 	100.2.0.160/27 # make sure no overlay cidr
+  cidr_internet_zone_subnet_applicationgateway: 	100.2.0.192/27 # make sure no overlay cidr
+  cidr_internet_zone_subnet_linux_function_app: 100.2.0.224/27 # make sure no overlay cidr
   cidr_internet_zone_subnet_it:  100.2.0.224/27 # make sure no overlay cidr
   
   cidr_management_zone_subnet_infra: 	100.3.0.0/26

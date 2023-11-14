@@ -2,12 +2,12 @@
 configuration_gcc:
   gcc_platform: 0 # 1: gcc platform or 0: non-gcc platform
   platform_name: caf_terraform_starter 
-  subscription_id: 6f035180-4066-42f0-b0fa-5fbc1ae67500 # gcclite 0b5b13b8-0ad7-4552-936f-8fae87e0633f  # msdn e22a351f-db36-4a02-9793-0f2189d5f3ab # MSDN
-  spn_name: gcci-spn-landing-zone-001 # dummy value TODO: configure how this spn is being used?
+  subscription_id: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx 
+  spn_name: gcci-spn-landing-zone-001 # dummy value - reserve for future use
   # GCC 2.0 compartment information 
-  resource_group_name:	gcci-platform
-  log_analytics_workspace_resource_group_name:	gcci-agency-law
-  log_analytics_workspace_name:	gcci-agency-workspace
+  resource_group_name:	gcci-platform # do not change
+  log_analytics_workspace_resource_group_name:	gcci-agency-law  # do not change
+  log_analytics_workspace_name:	gcci-agency-workspace  # do not change
   # virtual network - leave empty if there is no such virtual network   
   ingress_egress_vnet_name_ingress_internet: gcci-vnet-ingress-internet 
   ingress_egress_vnet_name_egress_internet: gcci-vnet-egress-internet

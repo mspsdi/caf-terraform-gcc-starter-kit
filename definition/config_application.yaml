@@ -11,7 +11,7 @@ configuration_application:
   ingress_intranet_aks_fqdn: # dummy value    
   ingress_internet_agw_fqdn: demoapp1 # dummy value demoapp1.internet.caflabs.com 
   ingress_intranet_agw_fqdn:  # dummy value demoapp1.intranet.caflabs.com    
-  ingress_internet_dns_zone: internet.dso.gov.sg # dummy value demoapp1.internet.caflabs.com 
+  ingress_internet_dns_zone: internet.xxx.gov.sg # dummy value demoapp1.internet.caflabs.com 
   ingress_intranet_dns_zone:  # dummy value demoapp1.intranet.caflabs.com    
   egress_intranet_firewall_ip:  # dummy value intranet firewall subnet cidr + 4     
   egress_internet_firewall_ip: 100.1.1.4 # dummy value internet firewall subnet cidr + 4   

@@ -78,6 +78,7 @@ Management Compartment
 - [x] Tooling Windows Server
 
 DevOps Compartment
+- [x] Runner Container Instance
 - [ ] VPN Gateway
 
 
