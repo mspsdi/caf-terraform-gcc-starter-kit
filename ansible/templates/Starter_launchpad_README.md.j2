@@ -1,0 +1,101 @@
+# open azure portal bash command
+# execute the steps to create bastion and a window vm
+
+  az group create --name rg-launchpad --location southeastasia
+
+# create vnet
+  az network vnet create \
+      --name vnet-starter \
+      --resource-group rg-launchpad \
+      --address-prefix 172.16.0.0/22 \
+      --subnet-name snet-tooling \
+      --subnet-prefixes 172.16.0.0/26 \
+      --location southeastasia 
+
+  az network nsg create -g rg-launchpad -n nsg-empty --tags env=dev --location southeastasia 
+
+  az network nsg create -g rg-launchpad -n nsg-bastion --tags env=dev --location southeastasia 
+
+
+    inbound
+    az network nsg rule create -g rg-launchpad --nsg-name nsg-bastion --priority 120 -n in-allow-https --protocol Tcp --source-address-prefixes Internet --destination-address-prefixes '*' --destination-port-ranges 443 --access Allow
+
+    az network nsg rule create -g rg-launchpad --nsg-name nsg-bastion --priority 130 -n in-allow-gateway-manager --protocol Tcp --source-address-prefixes GatewayManager --destination-address-prefixes '*' --destination-port-ranges 443 --access Allow
+
+    az network nsg rule create -g rg-launchpad --nsg-name nsg-bastion --priority 140 -n in-allow-load-balancer --protocol Tcp --source-address-prefixes AzureLoadBalancer --destination-address-prefixes '*' --destination-port-ranges 443 --access Allow
+
+    az network nsg rule create -g rg-launchpad --nsg-name nsg-bastion --priority 150 -n in-allow-bastion-host-communication-8080 --protocol Tcp --destination-port-ranges 8080 --source-address-prefixes VirtualNetwork --destination-address-prefixes VirtualNetwork --access Allow
+
+    az network nsg rule create -g rg-launchpad --nsg-name nsg-bastion --priority 151 -n in-allow-bastion-host-communication-5701 --protocol Tcp --destination-port-ranges 5701 --source-address-prefixes VirtualNetwork --destination-address-prefixes VirtualNetwork --access Allow
+    
+    outbound
+    az network nsg rule create -g rg-launchpad --nsg-name nsg-bastion --priority 100 --direction Outbound -n out-vnet-allow-22 --destination-port-ranges 22 --protocol Tcp --destination-address-prefixes VirtualNetwork --source-address-prefixes "*"  --access Allow
+
+    az network nsg rule create -g rg-launchpad --nsg-name nsg-bastion --priority 101 --direction Outbound -n out-vnet-allow-3389 --destination-port-ranges 3389 --protocol Tcp --destination-address-prefixes VirtualNetwork --source-address-prefixes "*"   --access Allow
+
+    az network nsg rule create -g rg-launchpad --nsg-name nsg-bastion --priority 110 --direction Outbound -n out-azure-cloud-allow-443 --destination-port-ranges 443 --protocol Tcp --destination-address-prefixes AzureCloud --source-address-prefixes "*"  --access Allow
+
+    az network nsg rule create -g rg-launchpad --nsg-name nsg-bastion --priority 120 --direction Outbound -n out-communication-allow-8080 --destination-port-ranges 8080 --protocol Tcp --destination-address-prefixes  VirtualNetwork --source-address-prefixes VirtualNetwork  --access Allow
+
+    az network nsg rule create -g rg-launchpad --nsg-name nsg-bastion --priority 121 --direction Outbound -n out-communication-allow-5701 --destination-port-ranges 5701 --protocol Tcp --destination-address-prefixes  VirtualNetwork --source-address-prefixes VirtualNetwork  --access Allow
+
+    az network nsg rule create -g rg-launchpad --nsg-name nsg-bastion --priority 130 --direction Outbound -n out-gateway-information-allow --destination-port-ranges 80 --protocol Tcp --destination-address-prefixes Internet --source-address-prefixes "*"     --access Allow
+
+
+# create bastion host
+
+  az network vnet subnet create \
+      --name AzureBastionSubnet \
+      --resource-group rg-launchpad \
+      --vnet-name vnet-starter \
+      --address-prefix 172.16.1.0/26 \
+      --nsg nsg-bastion 
+
+  az network public-ip create \
+      --resource-group rg-launchpad \
+      --name public-ip \
+      --sku Standard \
+      --location southeastasia \
+      --zone 1 2 3
+
+  az network bastion create \
+      --name bastion \
+      --public-ip-address public-ip \
+      --resource-group rg-launchpad \
+      --vnet-name vnet-starter \
+      --location southeastasia
+
+  # the above command will prompt you to install bastion extension.
+
+# create vm without public ip and size Standard_D8s_v3
+
+<!-- Architecture    Offer                         Publisher               Sku                                 Urn                                                                            Alias                    Version
+--------------  ----------------------------  ----------------------  ----------------------------------  ------------------------------------------------------------------------------ -----------------------  ---------
+x64             WindowsServer                 MicrosoftWindowsServer  2022-Datacenter                     MicrosoftWindowsServer:WindowsServer:2022-Datacenter:latest                    Win2022Datacenter         latest
+x64             WindowsServer                 MicrosoftWindowsServer  2022-datacenter-azure-edition-core  MicrosoftWindowsServer:WindowsServer:2022-datacenter-azure-edition-core:latest Win2022AzureEditionCore   latest
+x64             WindowsServer                 MicrosoftWindowsServer  2019-Datacenter                     MicrosoftWindowsServer:WindowsServer:2019-Datacenter:latest                    Win2019Datacenter         latest
+x64             WindowsServer                 MicrosoftWindowsServer  2016-Datacenter                     MicrosoftWindowsServer:WindowsServer:2016-Datacenter:latest                    Win2016Datacenter         latest
+x64             WindowsServer                 MicrosoftWindowsServer  2012-R2-Datacenter                  MicrosoftWindowsServer:WindowsServer:2012-R2-Datacenter:latest                 Win2012R2Datacenter       latest
+x64             WindowsServer                 MicrosoftWindowsServer  2012-Datacenter                     MicrosoftWindowsServer:WindowsServer:2012-Datacenter:latest                    Win2012Datacenter         latest -->
+
+  az vm create \
+      --resource-group rg-launchpad \
+      --name vm1 \
+      --image Win2019Datacenter \
+      --vnet-name vnet-starter \
+      --subnet snet-tooling \
+      --admin-username azureuser \
+      --public-ip-address "" \
+      --size Standard_D8s_v3
+
+
+=======================================================================
+
+login vm with id azureuser
+
+=======================================================================
+
+
+
+
+ 

@@ -1,0 +1,30 @@
+
+private_dns = {
+  dns1 = {
+    name               = "{{ingress_intranet_dns_zone}}"
+    resource_group_key = "networking_hub_intranet_re1"
+
+    records = {
+      a_records = {
+        aks = {
+          name    = "{{ingress_intranet_aks_fqdn}}"
+          ttl     = 3600
+          records = ["{{ingress_intranet_aks_ip}}"] # TODO: set the aks intranet private ip address
+        }
+        ingress = {
+          name    = "{{ingress_intranet_agw_fqdn}}"
+          ttl     = 3600
+          records = ["{{ingress_intranet_agw_ip}}"] # TODO: set the agw intranet private ip address
+        }        
+      }                
+    }
+
+    vnet_links = {
+      app_internet_vnet_link = {
+        name               = "ingress-intranet-vnet"
+        registration_enabled = true
+        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_intranet}}"
+      }    
+    }
+  }
+}

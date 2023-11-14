@@ -1,0 +1,21 @@
+load_balancers = {
+  lb1_re1 = {
+    name                      = "lb1_re1" 
+    sku                       = "basic"
+    resource_group_key        = "vmss_rg1"
+    backend_address_pool_name = "vmss1"
+    frontend_ip_configurations = {
+      config1 = {
+        name = "config1"
+        # set subnet_id to resource_id of referenced subnet
+        subnet_id = "web_subnet1"
+        private_ip_address_allocation = "Dynamic"
+      }
+    }
+    tags = {  # use desired tags
+      project-code = "ignite" # use project-code
+      env          = "sit" # use env
+      purpose      = "gcc dev environment shared services resource group"
+    } 
+  }
+}

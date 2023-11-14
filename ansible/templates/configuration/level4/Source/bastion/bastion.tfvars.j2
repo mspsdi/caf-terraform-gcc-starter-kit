@@ -1,0 +1,32 @@
+# 28 Sep 2022 - thiamsoon
+# remarks: add in "subnet_id" attribute to accept "subnet_id" variable
+# file: /tf/caf/landingzones/aztfmod/bastion_service.tf
+# line 40
+bastion_hosts = {
+  bastion_hub_re1 = {
+    name               = "bastion-host"
+    region             = "region1"
+    resource_group_key = "bastion_rg_re1"
+    subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}/subnets/AzureBastionSubnet"
+    public_ip_key      = "bastion_host_pip_re1"
+
+    tags = { 
+      purpose = "{{zone_code}} bastion host" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"          
+    }  
+
+
+    # TODO: you can setup up to 5 profiles
+    # diagnostic_profiles = {
+    #   central_logs_region1 = {
+    #     definition_key   = "bastion_host"
+    #     destination_type = "log_analytics"
+    #     destination_key  = "central_logs"
+    #   }
+    # }
+  }
+
+}

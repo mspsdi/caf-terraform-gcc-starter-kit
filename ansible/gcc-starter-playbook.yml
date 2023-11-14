@@ -1,0 +1,2287 @@
+# sample ignite commands
+# rover ignite \
+#   --playbook /tf/caf/landingzones/templates/platform/ansible.yaml \
+#   -e base_templates_folder=/tf/caf/landingzones/templates/platform \
+#   -e resource_template_folder=/tf/caf/landingzones/templates/resources \
+#   -e config_folder=/tf/caf/definitions/single_reuse/platform \
+#   -e landingzones_folder=/tf/caf/landingzones
+# If you are changing a value in this file you need to execute the following command to update the definition folder
+
+# cd /tf/caf/ansible
+# rover ignite --playbook "/tf/caf/ansible/gcc-starter-playbook.yml"
+# sudo chmod -R -f 777 /tf/caf/[platform_name]_[predix]_[caf_environment]
+# sudo chmod -R -f 777 /tf/caf/gcc_starter_???_sandpit
+# cd /tf/caf
+# OR
+# ansible-playbook gcc-starter-playbook.yml
+
+# change internet and intranet agw ip 
+# internet agw ip line 176  /tf/caf/gcc_starter/landingzone/configuration/level3/ingress_internet/firewall/firewall_policies.tfvars
+# intranet agw ip line 176 /tf/caf/gcc_starter/landingzone/configuration/level3/ingress_intranet/firewall/firewall_policies.tfvars
+# line 18 agw private dns /tf/caf/gcc_starter/landingzone/configuration/level3/networking_hub_intranet/private_dns.tfvars
+#          records = ["10.210.118.202"] # TODO: set the agw intranet private ip address
+---
+- hosts: 127.0.0.1
+# include variables file config.yaml
+  vars_files:
+    - /tf/caf/definition/config_gcc.yaml
+    - /tf/caf/definition/config_solution_accelerators.yaml
+    - /tf/caf/definition/config_application.yaml
+# end include variables file config.yaml
+    
+  vars:
+# begin set global variable
+    - name: set global variables  
+      gcc_starter_project_folder: "{{configuration_gcc.platform_name | trim}}_{{configuration.project_code | trim}}_{{caf_environment}}"    
+      # landingzone_parent_folder: "/tf/caf/gcc_starter"         
+      landingzone_parent_folder: "/tf/caf/{{gcc_starter_project_folder}}"      
+      landingzone_folder: "/tf/caf/{{gcc_starter_project_folder}}/landingzone"    
+      templates_folder: "/tf/caf/ansible/templates"      
+      cidr_subnet_web: ""
+      cidr_subnet_app: ""
+      cidr_subnet_data: ""
+      cidr_subnet_it: ""
+      cidr_subnet_gut: ""
+      cidr_subnet_infra: ""
+      cidr_subnet_security: ""
+      cidr_subnet_devops: ""
+      cidr_subnet_private_endpoint: ""   
+      zone_code: "" # iz - intranet zone, ez - internet zone, mz - management zone, dz - devops zone, ingress zone ie 
+      tier_code: "" # web, app, data, it, gut 
+      zone_internet: "internet" # internet zone
+      zone_intranet: "intranet"  # intranet zone
+      zone_management: "management" # management zone
+      zone_devops: "devops" # devops zone
+      zone_ingress_egress: "ingress" # dmz zone
+      tier_web: "web"
+      tier_app: "app"
+      tier_data: "data"
+      tier_it: "it"
+      tier_gut: "gut"
+
+      solution_accelerators_path: ""
+      templates_path: ""   
+# end set global variables
+
+# gcc starter kit configuration
+      # prefix: "{{configuration.agency_code | trim}}{{configuration.project_code | trim}}"  
+      prefix: "{{configuration.project_code | trim}}"  
+      agency_code: "{{configuration.agency_code | trim}}"
+      project_code: "{{configuration.project_code | trim}}"  
+      env: "sandpit"       
+      
+
+      on_prem_api_ip: "{{configuration_application.on_prem_api_ip | trim}}"
+      on_prem_sftp_ip: "{{configuration_application.on_prem_sftp_ip | trim}}"
+      on_prem_mq_ip: "{{configuration_application.on_prem_mq_ip | trim}}"
+      ingress_intranet_agw_ip: "{{configuration_application.ingress_intranet_agw_ip | trim}}"
+      ingress_internet_agw_ip: "{{configuration_application.ingress_internet_agw_ip | trim}}"
+      ingress_internet_aks_ip: "{{configuration_application.ingress_internet_aks_ip | trim}}"
+      ingress_intranet_aks_ip: "{{configuration_application.ingress_intranet_aks_ip | trim}}"
+      egress_intranet_firewall_ip:  "{{configuration_application.egress_intranet_firewall_ip | trim}}"
+      egress_internet_firewall_ip:  "{{configuration_application.egress_internet_firewall_ip | trim}}"  
+
+      ingress_internet_aks_fqdn:  "{{configuration_application.ingress_internet_aks_fqdn | trim}}"  
+      ingress_internet_agw_fqdn:  "{{configuration_application.ingress_internet_agw_fqdn | trim}}"  
+      ingress_internet_dns_zone:  "{{configuration_application.ingress_internet_dns_zone | trim}}"  
+
+      ingress_intranet_aks_fqdn:  "{{configuration_application.ingress_intranet_aks_fqdn | trim}}"  
+      ingress_intranet_agw_fqdn:  "{{configuration_application.ingress_intranet_agw_fqdn | trim}}"  
+      ingress_intranet_dns_zone:  "{{configuration_application.ingress_intranet_dns_zone | trim}}"  
+
+
+      # aks_ip_internet: "{{configuration_application.aks_ip_internet | trim}}"
+      # aks_ip_intranet: "{{configuration_application.aks_ip_intranet | trim}}"
+      # agw_ip_internet: "{{configuration_application.agw_ip_internet | trim}}"
+      # agw_ip_intranet: "{{configuration_application.agw_ip_intranet | trim}}"
+
+      # gcc central managed configuration
+      gcc_platform: "{{configuration_gcc.gcc_platform | trim}}"          
+      subscription_id: "{{configuration_gcc.subscription_id | trim}}" 
+      resource_group_name: "{{configuration_gcc.resource_group_name | trim}}" 
+      log_analytics_workspace_resource_group_name: "{{configuration_gcc.log_analytics_workspace_resource_group_name | trim}}" 
+      log_analytics_workspace_name: "{{configuration_gcc.log_analytics_workspace_name | trim}}" 
+      spn_name: "{{configuration_gcc.spn_name | trim}}"       
+      ingress_egress_vnet_name_ingress_internet: "{{configuration_gcc.ingress_egress_vnet_name_ingress_internet | trim}}" 
+      ingress_egress_vnet_name_egress_internet: "{{configuration_gcc.ingress_egress_vnet_name_egress_internet | trim}}" 
+      ingress_egress_vnet_name_ingress_intranet: "{{configuration_gcc.ingress_egress_vnet_name_ingress_intranet | trim}}" 
+      ingress_egress_vnet_name_egress_intranet: "{{configuration_gcc.ingress_egress_vnet_name_egress_intranet | trim}}" 
+
+      internet_vnet_name: "{{configuration_gcc.internet_vnet_name | trim}}" 
+      # intranet_vnet_name: "{{configuration_gcc.intranet_vnet_name | trim}}"   
+      management_vnet_name: "{{configuration_gcc.management_vnet_name | trim}}" 
+      devops_vnet_name: "{{configuration_gcc.devops_vnet_name | trim}}" 
+
+
+
+      # ingress_egress_vnet_name_ingress_internet_cidr: 100.1.0.0/24
+      # ingress_egress_vnet_name_egress_internet_cidr: 100.1.1.0/24
+      # ingress_egress_vnet_name_ingress_intranet_cidr: 10.2.0.0/25
+      # ingress_egress_vnet_name_egress_intranet_cidr: 10.2.1.0/25
+      # internet_vnet_name_cidr: 100.2.0.0/24
+      # management_vnet_name_cidr: 100.3.0.0/24
+      # devops_vnet_name_cidr: 100.4.0.0/24 
+
+      ingress_egress_vnet_name_ingress_internet_cidr: "{{configuration_gcc.ingress_egress_vnet_name_ingress_internet_cidr | trim}}" 
+      ingress_egress_vnet_name_egress_internet_cidr: "{{configuration_gcc.ingress_egress_vnet_name_egress_internet_cidr | trim}}" 
+      ingress_egress_vnet_name_ingress_intranet_cidr: "{{configuration_gcc.ingress_egress_vnet_name_ingress_intranet_cidr | trim}}" 
+      ingress_egress_vnet_name_egress_intranet_cidr: "{{configuration_gcc.ingress_egress_vnet_name_egress_intranet_cidr | trim}}" 
+      internet_vnet_name_cidr: "{{configuration_gcc.internet_vnet_name_cidr | trim}}" 
+      management_vnet_name_cidr: "{{configuration_gcc.management_vnet_name_cidr | trim}}" 
+      devops_vnet_name_cidr: "{{configuration_gcc.devops_vnet_name_cidr | trim}}" 
+
+
+
+      # solution accelerators configuration
+      cidr_ingress_egress_zone_subnet_ingress_internet: "{{configuration.cidr_ingress_egress_zone_subnet_ingress_internet | trim}}"    
+      cidr_ingress_egress_zone_subnet_ingress_agw_internet: "{{configuration.cidr_ingress_egress_zone_subnet_ingress_agw_internet | trim}}"    
+      cidr_ingress_egress_zone_subnet_egress_internet: "{{configuration.cidr_ingress_egress_zone_subnet_egress_internet | trim}}" 
+      cidr_ingress_egress_zone_subnet_egress_mgmt_internet: "{{configuration.cidr_ingress_egress_zone_subnet_egress_mgmt_internet | trim}}" 
+
+      cidr_ingress_egress_zone_subnet_ingress_intranet: "{{configuration.cidr_ingress_egress_zone_subnet_ingress_intranet | trim}}"    
+      cidr_ingress_egress_zone_subnet_ingress_agw_intranet: "{{configuration.cidr_ingress_egress_zone_subnet_ingress_agw_intranet | trim}}"    
+      cidr_ingress_egress_zone_subnet_egress_intranet: "{{configuration.cidr_ingress_egress_zone_subnet_egress_intranet | trim}}" 
+      cidr_ingress_egress_zone_subnet_egress_mgmt_intranet: "{{configuration.cidr_ingress_egress_zone_subnet_egress_mgmt_intranet | trim}}"       
+      
+      cidr_internet_zone_subnet_app: "{{configuration.cidr_internet_zone_subnet_app | trim}}" 
+      cidr_internet_zone_subnet_data: "{{configuration.cidr_internet_zone_subnet_data | trim}}" 
+
+      cidr_internet_zone_subnet_web: "{{configuration.cidr_internet_zone_subnet_web | trim}}" # app service
+      cidr_internet_zone_subnet_service: "{{configuration.cidr_internet_zone_subnet_service | trim}}" 
+      cidr_internet_zone_subnet_chatgpt: "{{configuration.cidr_internet_zone_subnet_chatgpt | trim}}" 
+      cidr_internet_zone_subnet_ai: "{{configuration.cidr_internet_zone_subnet_ai | trim}}" 
+      cidr_internet_zone_subnet_applicationgateway: "{{configuration.cidr_internet_zone_subnet_applicationgateway | trim}}" 
+      cidr_internet_zone_subnet_linux_function_app: "{{configuration.cidr_internet_zone_subnet_linux_function_app | trim}}" 
+      cidr_internet_zone_subnet_it: "{{configuration.cidr_internet_zone_subnet_it| trim}}" 
+
+      cidr_intranet_zone_subnet_app: "{{configuration.cidr_intranet_zone_subnet_app | trim}}" 
+      cidr_intranet_zone_subnet_data: "{{configuration.cidr_intranet_zone_subnet_data | trim}}" 
+
+      cidr_management_zone_subnet_infra: "{{configuration.cidr_management_zone_subnet_infra | trim}}" 
+      cidr_management_zone_subnet_security: "{{configuration.cidr_management_zone_subnet_security | trim}}" 
+      cidr_management_zone_subnet_bastion: "{{configuration.cidr_management_zone_subnet_bastion | trim}}" 
+      cidr_devops_zone_subnet_runner: "{{configuration.cidr_devops_zone_subnet_runner | trim}}"  
+      cidr_devops_zone_subnet_gateway: "{{configuration.cidr_devops_zone_subnet_gateway | trim}}"        
+# end gcc starter kit configuration
+
+# internet zone, intranet zone, management zone, devops zone variables
+      ingress_egress_firewall: "{{solution_accelerators.ingress_egress_zone.firewall | trim}}" 
+      ingress_egress_firewall_egress: "{{solution_accelerators.ingress_egress_zone.firewall_egress | trim}}" 
+      ingress_egress_firewall_intranet: "{{solution_accelerators.ingress_egress_zone_intranet.firewall | trim}}" 
+      ingress_egress_firewall_egress_intranet: "{{solution_accelerators.ingress_egress_zone_intranet.firewall_egress | trim}}" 
+      ingress_egress_agw: "{{solution_accelerators.ingress_egress_zone.agw | trim}}" 
+      ingress_egress_agw_intranet: "{{solution_accelerators.ingress_egress_zone_intranet.agw | trim}}" 
+      internet_app_acr: "{{solution_accelerators.internet_zone.app.app_acr | trim}}" 
+      internet_app_aks: "{{solution_accelerators.internet_zone.app.app_aks | trim}}" 
+      internet_app_vmss_windows: "{{solution_accelerators.internet_zone.app.app_vmss_windows | trim}}" 
+      internet_app_vmss_linux: "{{solution_accelerators.internet_zone.app.app_vmss_linux | trim}}" 
+      internet_app_vm_windows: "{{solution_accelerators.internet_zone.app.app_vm_windows | trim}}" 
+      internet_app_vm_linux: "{{solution_accelerators.internet_zone.app.app_vm_linux | trim}}" 
+
+      internet_app_linux_function_app: "{{solution_accelerators.internet_zone.app.app_linux_function_app | trim}}" 
+      internet_app_openai: "{{solution_accelerators.internet_zone.app.app_openai | trim}}" 
+      internet_app_app_service: "{{solution_accelerators.internet_zone.app.app_app_service | trim}}" 
+      internet_app_cognitive_service: "{{solution_accelerators.internet_zone.app.app_cognitive_service | trim}}" 
+      internet_data_storage_account: "{{solution_accelerators.internet_zone.data.data_storage_account | trim}}" 
+
+      internet_app_search_service: "{{solution_accelerators.internet_zone.app.app_search_service | trim}}" 
+      internet_app_agw: "{{solution_accelerators.internet_zone.app.app_agw | trim}}" 
+      internet_app_container_instance: "{{solution_accelerators.internet_zone.app.app_container_instance | trim}}" 
+      internet_app_keyvault: "{{solution_accelerators.internet_zone.app.app_keyvault | trim}}" 
+      internet_app_apim: "{{solution_accelerators.internet_zone.app.app_apim | trim}}" 
+
+      internet_data_cosmosdb: "{{solution_accelerators.internet_zone.data.data_cosmosdb | trim}}" 
+      internet_data_mssql: "{{solution_accelerators.internet_zone.data.data_mssql | trim}}" 
+      internet_data_postgresql: "{{solution_accelerators.internet_zone.data.data_postgresql | trim}}" 
+      internet_data_redis_cache: "{{solution_accelerators.internet_zone.data.data_redis_cache | trim}}" 
+      intranet_app_aks_with_web_application_gateway: "{{solution_accelerators.intranet_zone.app.app_aks_with_web_application_gateway | trim}}" 
+      intranet_app_vmss_windows: "{{solution_accelerators.intranet_zone.app.app_vmss_windows | trim}}" 
+      intranet_app_vmss_linux: "{{solution_accelerators.intranet_zone.app.app_vmss_linux | trim}}" 
+      intranet_app_vm_windows: "{{solution_accelerators.intranet_zone.app.app_vm_windows | trim}}" 
+      intranet_app_vm_linux: "{{solution_accelerators.intranet_zone.app.app_vm_linux | trim}}" 
+      intranet_data_mssql: "{{solution_accelerators.intranet_zone.data.data_mssql | trim}}" 
+      intranet_data_postgresql: "{{solution_accelerators.intranet_zone.data.data_postgresql | trim}}" 
+      intranet_data_redis_cache: "{{solution_accelerators.intranet_zone.data.data_redis_cache | trim}}" 
+      management_bastion: "{{solution_accelerators.management_zone.bastion | trim}}" 
+  #   monitoring: 1    
+  #   recovery_services_vault: 1 
+  #   ampls: 1   
+  #   application_insights: 0 # wip
+  #   automation: 0          # wip      
+      management_monitoring: "{{solution_accelerators.management_zone.monitoring | trim}}" 
+      management_recovery_services_vault: "{{solution_accelerators.management_zone.recovery_services_vault | trim}}" 
+      management_ampls: "{{solution_accelerators.management_zone.ampls | trim}}" 
+      management_application_insights: "{{solution_accelerators.management_zone.application_insights | trim}}" 
+      management_automation: "{{solution_accelerators.management_zone.automation | trim}}" 
+
+      devops_vm_runner: "{{solution_accelerators.devops_zone.vm_runner | trim}}" 
+      # devops_acr: "{{solution_accelerators.devops_zone.acr | trim}}" 
+
+    # # prefix
+    # - name: set_prefix
+    #   set_fact:
+    #     prefix: "{{ configuration.project_code | trim }}"
+    #   when: configuration.agency_code | trim  == "" or configuration.agency_code | trim  == "None"
+# end internet zone, intranet zone, management zone, devops zone variables
+
+# prompt for environment
+  vars_prompt:
+    - name: caf_environment
+      prompt: Set the Environment of the project e.g. dev, sit, uat, stg, prd, tqa, sandpit
+      private: no
+      default: sandpit
+# end prompt for environment
+
+  tasks:
+
+# begin initial folder structure
+    - name: folder structure
+      # beign block
+      block:
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{landingzone_parent_folder}}/"
+          state: directory
+          mode: '0777' 
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{landingzone_folder}}/"
+          state: directory
+          mode: '0777' 
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{landingzone_folder}}/configuration/"
+          state: directory
+          mode: '0777' 
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{landingzone_parent_folder}}/scripts/"
+          state: directory
+          mode: '0777' 
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{landingzone_folder}}/configuration/level0/"
+          state: directory
+          mode: '0777'
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{landingzone_folder}}/configuration/level3/"
+          state: directory
+          mode: '0777'     
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{landingzone_folder}}/configuration/level4/"
+          state: directory
+          mode: '0777'               
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{landingzone_folder}}/configuration/level4/project"
+          state: directory
+          mode: '0777' 
+        when: internet_vnet_name | trim  != "None"   
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{landingzone_folder}}/configuration/gcc_dev_env"
+          state: directory
+          mode: '0777'     
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{landingzone_folder}}/configuration/gcc_dev_env/modules"
+          state: directory
+          mode: '0777'               
+
+      # - name: Create a directory if it does not exist
+      #   ansible.builtin.file:
+      #     path: "{{landingzone_folder}}/configuration/level4/intranet"
+      #     state: directory
+      #     mode: '0777'         
+
+      # - name: Create a directory if it does not exist
+      #   ansible.builtin.file:
+      #     path: "{{landingzone_folder}}/configuration/level4/internet"
+      #     state: directory
+      #     mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{landingzone_folder}}/configuration/level4/management"
+          state: directory
+          mode: '0777'  
+        when: management_vnet_name | trim  != "None"          
+     
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{landingzone_folder}}/configuration/level4/devops"
+          state: directory
+          mode: '0777'      
+        when: devops_vnet_name | trim  != "None"          
+
+
+
+
+      # end block folder structure                           
+# end folder structure
+
+# ----------------------------
+# begin level0
+# ----------------------------
+
+# level0/launchpad 
+    - name: level0 launchpad 
+      # beign block
+      block:
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: ""
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level0/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level0/launchpad/"
+          templates_path: "{{templates_folder}}/configuration/level0/launchpad/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: launchpad_files_to_process
+
+      - name: copy launchpad_files
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{launchpad_files_to_process.files}}"    
+      # end creating tfvars files
+
+      # end block      
+# end level0/launchpad
+
+# ----------------------------
+# end level0
+# ----------------------------
+
+# ----------------------------
+# begin level3
+# ----------------------------
+
+# level3/networking_vnet_peering 
+    - name: level3 networking_vnet_peering
+      # beign block
+      block:   
+      
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_internet}}"
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level3/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level3/networking_vnet_peering/"
+          templates_path: "{{templates_folder}}/configuration/level3/networking_vnet_peering/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: networking_vnet_peering_files_to_process
+
+      - name: copy networking_vnet_peering_files
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{networking_vnet_peering_files_to_process.files}}"    
+      # end creating tfvars files
+
+      # when: internet_vnet_name | trim != "None"
+      # become: true
+      # become_user: root
+      ignore_errors: yes
+      # end block          
+# end level3/networking_vnet_peering
+
+# level3/shared_services 
+    - name: level3 shared_services
+      # beign block
+      block:   
+      
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_internet}}"
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level3/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level3/shared_services/"
+          templates_path: "{{templates_folder}}/configuration/level3/shared_services/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: shared_services_files_to_process
+
+      - name: copy shared_services_files
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{shared_services_files_to_process.files}}"    
+      # end creating tfvars files
+
+      # when: internet_vnet_name | trim != "None"
+      # become: true
+      # become_user: root
+      ignore_errors: yes
+      # end block          
+# end level3/shared_services
+
+# ----------------------------
+# end level3
+# ----------------------------
+
+# ---------------------------------------------------------------------------------------------------
+# begin level 3 ingress egress zone internet
+# ---------------------------------------------------------------------------------------------------
+
+# set ingress zone variables
+    - name: set internet zone variables
+      # beign block
+      block:
+      - name: init variables
+        set_fact:
+          cidr_subnet_web: ""
+          cidr_subnet_app: ""
+          cidr_subnet_data: ""
+          cidr_subnet_it: ""
+          cidr_subnet_gut: ""
+          vnet_resource_id: ""
+
+      - name: set_internet vnet resource id to vnet_resource_id
+        set_fact:
+          vnet_resource_id: "{{ '/subscriptions/' + subscription_id | trim + '/resourceGroups/' + resource_group_name | trim + '/providers/Microsoft.Network/virtualNetworks/' + ingress_egress_vnet_name_egress_internet | trim }}"
+        when: ingress_egress_vnet_name_ingress_internet | trim  != "None"
+
+      when: ingress_egress_vnet_name_ingress_internet | trim != "None"
+      become: true
+      # become_user: root
+      ignore_errors: yes
+      # end block 
+# end set ingress zone variables      
+
+# level3/networking_hub_internet - ingress/egress zone
+    - name: level3 networking_hub_internet
+      # beign block
+      block:   
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_internet}}"
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level3/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level3/networking_hub_internet/"
+          templates_path: "{{templates_folder}}/configuration/level3/networking_hub_internet/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: networking_hub_files_to_process
+
+      - name: copy networking_hub_files
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{networking_hub_files_to_process.files}}"    
+      # end creating tfvars files
+
+      when: ingress_egress_vnet_name_ingress_internet | trim != "None"
+      become: true
+      ignore_errors: yes
+      # end block          
+# end level3/networking_hub_internet
+
+# level3/egress_internet/firewall
+    - name: level3 egress_internet firewall
+      # beign block
+      block:   
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_internet}}"
+          tier_code: "egress"
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level3/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level3/egress_internet/firewall/"
+          templates_path: "{{templates_folder}}/configuration/level3/egress_internet/firewall/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: egress_internet_firewall_files_to_process
+
+      - name: copy networking_firewall_files
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{egress_internet_firewall_files_to_process.files}}"    
+      # end creating tfvars files
+
+      when: ingress_egress_firewall_egress| trim == '1'
+      become: true
+      ignore_errors: yes
+      # end block          
+# end level3/egress_internet/firewall
+
+# level3/ingress_internet/firewall
+    - name: level3 ingress_internet firewall
+      # beign block
+      block:   
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_internet}}"
+          tier_code: "ingress"          
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level3/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level3/ingress_internet/firewall/"
+          templates_path: "{{templates_folder}}/configuration/level3/ingress_internet/firewall/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: ingress_internet_firewall_files_to_process
+
+      - name: copy networking_firewall_files
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{ingress_internet_firewall_files_to_process.files}}"    
+      # end creating tfvars files
+
+      when: ingress_egress_firewall | trim == '1'
+      become: true
+      ignore_errors: yes
+      # end block          
+# end level3/ingress_internet/firewall
+
+# level3/ingress_internet/agw
+    - name: level3 ingress_internet agw
+      # beign block
+      block:   
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_internet}}"
+          tier_code: "ingress"          
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level3/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level3/ingress_internet/agw/"
+          templates_path: "{{templates_folder}}/configuration/level3/ingress_internet/agw/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: ingress_internet_agw_files_to_process
+
+      - name: copy networking_agw_files
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{ingress_internet_agw_files_to_process.files}}"    
+      # end creating tfvars files
+
+      when: ingress_egress_agw | trim == '1'
+      become: true
+      ignore_errors: yes
+      # end block          
+# end level3/ingress_internet/firewagwall
+
+# ---------------------------------------------------------------------------------------------------
+# end level 3 ingress egress zone internet
+# ---------------------------------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------------------------------
+# begin level 3 ingress egress zone intranet
+# ---------------------------------------------------------------------------------------------------
+
+# set ingress zone variables
+    - name: set internet zone variables
+      # beign block
+      block:
+      - name: init variables
+        set_fact:
+          cidr_subnet_web: ""
+          cidr_subnet_app: ""
+          cidr_subnet_data: ""
+          cidr_subnet_it: ""
+          cidr_subnet_gut: ""
+          vnet_resource_id: ""
+
+
+      - name: set_internet vnet resource id to vnet_resource_id
+        set_fact:
+          vnet_resource_id: "{{ '/subscriptions/' + subscription_id | trim + '/resourceGroups/' + resource_group_name | trim + '/providers/Microsoft.Network/virtualNetworks/' + ingress_egress_vnet_name_egress_internet | trim }}"
+        when: ingress_egress_vnet_name_ingress_internet | trim  != "None"
+            
+      when: ingress_egress_vnet_name_ingress_internet | trim != "None"
+      become: true
+      # become_user: root
+      ignore_errors: yes
+      # end block 
+# end set ingress zone variables      
+
+# level3/networking_hub_intranet - ingress/egress zone
+    - name: level3 networking_hub_intranet
+      # beign block
+      block:   
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_intranet}}"
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level3/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level3/networking_hub_intranet/"
+          templates_path: "{{templates_folder}}/configuration/level3/networking_hub_intranet/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: networking_hub_files_to_process
+
+      - name: copy networking_hub_files
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{networking_hub_files_to_process.files}}"    
+      # end creating tfvars files
+
+      when: ingress_egress_vnet_name_ingress_intranet | trim != "None"
+      become: true
+      ignore_errors: yes
+      # end block          
+# end level3/networking_hub_intranet
+
+# level3/egress_intranet/firewall
+    - name: level3 egress_intranet firewall
+      # beign block
+      block:   
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_intranet}}"
+          tier_code: "egress"          
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level3/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level3/egress_intranet/firewall/"
+          templates_path: "{{templates_folder}}/configuration/level3/egress_intranet/firewall/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: egress_intranet_firewall_files_to_process
+
+      - name: copy networking_firewall_files
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{egress_intranet_firewall_files_to_process.files}}"    
+      # end creating tfvars files
+
+      when: ingress_egress_firewall_egress_intranet | trim == '1'
+      become: true
+      ignore_errors: yes
+      # end block          
+# end level3/egress_intranet/firewall
+
+# level3/ingress_intranet/firewall
+    - name: level3 ingress_intranet firewall
+      # beign block
+      block:   
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_intranet}}"
+          tier_code: "ingress"          
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level3/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level3/ingress_intranet/firewall/"
+          templates_path: "{{templates_folder}}/configuration/level3/ingress_intranet/firewall/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: ingress_intranet_firewall_files_to_process
+
+      - name: copy networking_firewall_files
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{ingress_intranet_firewall_files_to_process.files}}"    
+      # end creating tfvars files
+
+      when: ingress_egress_firewall_intranet | trim == '1'
+      become: true
+      ignore_errors: yes
+      # end block          
+# end level3/egress_intranet/firewall
+
+# level3/ingress_intranet/agw
+    - name: level3 ingress_intranet agw
+      # beign block
+      block:   
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_intranet}}"
+          tier_code: "ingress"          
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level3/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level3/ingress_intranet/agw/"
+          templates_path: "{{templates_folder}}/configuration/level3/ingress_intranet/agw/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: ingress_intranet_agw_files_to_process
+
+      - name: copy networking_firewall_files
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{ingress_intranet_agw_files_to_process.files}}"    
+      # end creating tfvars files
+
+      when: ingress_egress_agw_intranet | trim == '1'
+      become: true
+      ignore_errors: yes
+      # end block          
+# end level3/egress_intranet/agw
+
+
+# ---------------------------------------------------------------------------------------------------
+# end level 3 ingress egress zone intranet
+# ---------------------------------------------------------------------------------------------------
+
+
+# ---------------------------------------------------------------------------------------------------
+# begin internet zone
+# ---------------------------------------------------------------------------------------------------
+
+# set internet zone variables
+    - name: set internet zone variables
+      # beign block
+      block:
+      - name: init variables
+        set_fact:
+          cidr_subnet_web: ""
+          cidr_subnet_app: ""
+          cidr_subnet_data: ""
+          cidr_subnet_it: ""
+          cidr_subnet_gut: ""
+          vnet_resource_id: ""
+          vnet_name: ""
+
+      # - name: set_cidr_internet_zone_subnet_web
+      #   set_fact:
+      #     cidr_subnet_web: "{{ cidr_internet_zone_subnet_web | trim }}"
+      #   when: cidr_internet_zone_subnet_web | trim  != "None"
+
+      - name: set_vnet_name
+        set_fact:
+          vnet_name: "{{ internet_vnet_name | trim }}"
+        when: internet_vnet_name | trim  != "None"  
+
+      - name: set_cidr_internet_zone_subnet_app
+        set_fact:
+          cidr_subnet_app: "{{ cidr_internet_zone_subnet_app | trim }}"
+        when: cidr_internet_zone_subnet_app | trim  != "None"
+
+      - name: set_cidr_internet_zone_subnet_data
+        set_fact:
+          cidr_subnet_data: "{{ cidr_internet_zone_subnet_data | trim }}"
+        when: cidr_internet_zone_subnet_data | trim  != "None"      
+
+      # - name: set_cidr_internet_zone_subnet_it
+      #   set_fact:
+      #     cidr_subnet_it: "{{ cidr_internet_zone_subnet_it | trim }}"
+      #   when: cidr_internet_zone_subnet_it | trim  != "None"      
+
+      # - name: set_cidr_internet_zone_subnet_gut
+      #   set_fact:
+      #     cidr_subnet_gut: "{{ cidr_internet_zone_subnet_gut | trim }}"
+      #   when: cidr_internet_zone_subnet_gut | trim  != "None"   
+
+      - name: set_internet vnet resource id to vnet_resource_id
+        set_fact:
+          vnet_resource_id: "{{ '/subscriptions/' + subscription_id | trim + '/resourceGroups/' + resource_group_name | trim + '/providers/Microsoft.Network/virtualNetworks/' + internet_vnet_name | trim }}"
+        when: internet_vnet_name | trim  != "None"
+      
+      when: internet_vnet_name | trim != "None"
+      become: true
+      # become_user: root
+      ignore_errors: yes
+      # end block 
+# end set internet zone variables      
+
+# ----------------------------
+# begin level3
+# ----------------------------
+
+# level3/internet/networking_spoke - internet zone
+    - name: level3 internet zone networking spoke
+      # beign block
+      block:    
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_internet}}"
+          tier_code: ""          
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level3/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level3/networking_spoke_internet/"
+          templates_path: "{{templates_folder}}/configuration/level3/networking_spoke_internet/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: networking_spoke_files_to_process
+
+      - name: copy networking_spoke_files
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{networking_spoke_files_to_process.files}}"    
+      # end creating tfvars files
+
+      when: internet_vnet_name | trim != "None"
+      become: true
+      ignore_errors: yes
+      # end block          
+# end level3/internet/networking_spoke
+
+
+# # level3/internet/networking_private_dns - internet zone
+#     - name: level3 private_dns internet zone networking spoke
+#       # beign block
+#       block:    
+
+#       # start set variables
+#       - name: set_variables
+#         set_fact:
+#           zone_code: "{{zone_internet}}"
+#           tier_code: ""          
+#           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level3/"
+#           solution_accelerators_path: "{{landingzone_folder}}/configuration/level3/networking_private_dns/"
+#           templates_path: "{{templates_folder}}/configuration/level3/networking_private_dns/"          
+#       # end set variables
+
+#       # start folder structure
+#       - name: Create a directory if it does not exist
+#         ansible.builtin.file:
+#           path: "{{solution_accelerators_parent_path}}"
+#           state: directory
+#           mode: '0777'    
+
+#       - name: Create a directory if it does not exist
+#         ansible.builtin.file:
+#           path: "{{solution_accelerators_path}}"
+#           state: directory
+#           mode: '0777'  
+#       #end folder structure
+
+#       # start creating tfvars files
+#       - find:
+#           paths: "{{templates_path}}" 
+#           # recurse: yes
+#           patterns: ["*.j2"]
+#           file_type: file
+#         register: networking_private_dns_files_to_process
+
+#       - name: copy networking_private_dns_files
+#         include_tasks: template_j2_to_tfvars.yml      
+#         loop: "{{networking_private_dns_files_to_process.files}}"    
+#       # end creating tfvars files
+
+#       when: internet_vnet_name | trim != "None"
+#       become: true
+#       ignore_errors: yes
+#       # end block          
+# # end level3/internet/networking_spoke
+
+# ----------------------------
+# end level3
+# ----------------------------
+
+# ----------------------------
+# begin internet level4
+# ----------------------------
+
+# level4/internet/aks
+    - name: internet zone aks
+      # beign block
+      block:
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_internet}}"
+          tier_code: "{{tier_app}}"           
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/aks/"
+          templates_path: "{{templates_folder}}/configuration/level4/project/aks/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: aks_files_to_process
+
+      - name: copy aks_files
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{aks_files_to_process.files}}"     
+      # end creating tfvars files
+
+      when: internet_app_aks == '1' or internet_app_aks == 'yes'
+      become: true
+      ignore_errors: no
+      # end block    
+# end level4/internet/aks
+
+# level4 internet/mssql
+    - name: internet zone mssql
+      # beign block
+      block:
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_internet}}"
+          tier_code: "{{tier_data}}"           
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/mssql/"
+          templates_path: "{{templates_folder}}/configuration/level4/project/mssql/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: mssql_files_to_process
+
+      - name: copy mssql_files
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{mssql_files_to_process.files}}"     
+      # end creating tfvars files
+
+      when: internet_data_mssql == '1' or internet_data_mssql == 'yes'
+      become: true
+      ignore_errors: no
+      # end block    
+# end level4/internet/mssql
+
+# level4 internet/acr 
+    - name: internet zone acr
+      # beign block
+      block:
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_internet}}"
+          tier_code: "{{tier_app}}"   
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/acr/"
+          templates_path: "{{templates_folder}}/configuration/level4/project/acr/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: acr_files_to_process
+
+      - name: copy acr
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{acr_files_to_process.files}}"     
+      # end creating tfvars files
+
+      when: internet_app_acr | trim == '1'  or internet_app_acr | trim == 'yes'
+      become: true
+      ignore_errors: no
+      # end block   
+# end level4 internet/acr
+
+# level4 internet/cosmosdb 
+    - name: internet zone cosmosdb
+      # beign block
+      block:
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_internet}}"
+          tier_code: "{{tier_app}}"   
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/cosmosdb/"
+          templates_path: "{{templates_folder}}/configuration/level4/project/cosmosdb/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: cosmosdb_files_to_process
+
+      - name: copy cosmosdb
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{cosmosdb_files_to_process.files}}"     
+      # end creating tfvars files
+
+      when: internet_data_cosmosdb | trim == '1'  or internet_data_cosmosdb | trim == 'yes'
+      become: true
+      ignore_errors: no
+      # end block   
+# end level4 internet/cosmosdb
+
+# level4 internet/app_service 
+    - name: internet zone app_service
+      # beign block
+      block:
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_internet}}"
+          tier_code: "{{tier_app}}"   
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/app_service/"
+          templates_path: "{{templates_folder}}/configuration/level4/project/app_service/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: app_service_files_to_process
+
+      - name: copy app_service
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{app_service_files_to_process.files}}"     
+      # end creating tfvars files
+
+      when: internet_app_app_service | trim == '1'  or internet_app_app_service | trim == 'yes'
+      become: true
+      ignore_errors: no
+      # end block   
+# end level4 internet/app_service
+
+
+# level4 internet/cognitive_service 
+    - name: internet zone cognitive_service
+      # beign block
+      block:
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_internet}}"
+          tier_code: "{{tier_app}}"   
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/cognitive_service/"
+          templates_path: "{{templates_folder}}/configuration/level4/project/cognitive_service/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: cognitive_service_files_to_process
+
+      - name: copy cognitive_service
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{cognitive_service_files_to_process.files}}"     
+      # end creating tfvars files
+
+      when: internet_app_cognitive_service | trim == '1'  or internet_app_cognitive_service | trim == 'yes'
+      become: true
+      ignore_errors: no
+      # end block   
+# end level4 internet/cognitive_service
+
+# level4 internet/storage_account 
+    - name: internet zone storage_account
+      # beign block
+      block:
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_internet}}"
+          tier_code: "{{tier_app}}"   
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/storage_account/"
+          templates_path: "{{templates_folder}}/configuration/level4/project/storage_account/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: storage_account_files_to_process
+
+      - name: copy storage_account
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{storage_account_files_to_process.files}}"     
+      # end creating tfvars files
+
+      when: internet_data_storage_account | trim == '1'  or internet_data_storage_account | trim == 'yes'
+      become: true
+      ignore_errors: no
+      # end block   
+# end level4 internet/storage_account
+
+# level4 internet/openai_service 
+    - name: internet zone openai
+      # beign block
+      block:
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_internet}}"
+          tier_code: "{{tier_app}}"   
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/openai_service/"
+          templates_path: "{{templates_folder}}/configuration/level4/project/openai_service/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: openai_service_files_to_process
+
+      - name: copy openai
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{openai_service_files_to_process.files}}"     
+      # end creating tfvars files
+
+      when: internet_app_openai | trim == '1'  or internet_app_openai | trim == 'yes'
+      become: true
+      ignore_errors: no
+      # end block   
+# end level4 internet/openai_service
+
+# level4 internet/linux_function_app 
+    - name: internet zone linux_function_app
+      # beign block
+      block:
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_internet}}"
+          tier_code: "{{tier_app}}"   
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/linux_function_app/"
+          templates_path: "{{templates_folder}}/configuration/level4/project/linux_function_app/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: linux_function_app_files_to_process
+
+      - name: copy linux_function_app
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{linux_function_app_files_to_process.files}}"     
+      # end creating tfvars files
+
+      when: internet_app_linux_function_app | trim == '1'  or internet_app_linux_function_app | trim == 'yes'
+      become: true
+      ignore_errors: no
+      # end block   
+# end level4 internet/linux_function_app
+
+# level4 internet/search_service 
+    - name: internet zone search_service
+      # beign block
+      block:
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_internet}}"
+          tier_code: "{{tier_app}}"   
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/search_service/"
+          templates_path: "{{templates_folder}}/configuration/level4/project/search_service/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: search_service_files_to_process
+
+      - name: copy search_service
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{search_service_files_to_process.files}}"     
+      # end creating tfvars files
+
+      when: internet_app_search_service | trim == '1'  or internet_app_search_service | trim == 'yes'
+      become: true
+      ignore_errors: no
+      # end block   
+# end level4 internet/search_service
+
+# level4 internet/agw 
+    - name: internet zone agw
+      # beign block
+      block:
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_internet}}"
+          tier_code: "{{tier_app}}"   
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/agw/"
+          templates_path: "{{templates_folder}}/configuration/level4/project/agw/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: agw_files_to_process
+
+      - name: copy agw
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{agw_files_to_process.files}}"     
+      # end creating tfvars files
+
+      when: internet_app_agw | trim == '1'  or internet_app_agw | trim == 'yes'
+      become: true
+      ignore_errors: no
+      # end block   
+# end level4 internet/agw
+
+# level4 internet/container_instance 
+    - name: internet zone container_instance
+      # beign block
+      block:
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_internet}}"
+          tier_code: "{{tier_app}}"   
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/container_instance/"
+          templates_path: "{{templates_folder}}/configuration/level4/project/container_instance/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: container_instance_files_to_process
+
+      - name: copy container_instance
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{container_instance_files_to_process.files}}"     
+      # end creating tfvars files
+
+      when: internet_app_container_instance | trim == '1'  or internet_app_container_instance | trim == 'yes'
+      become: true
+      ignore_errors: no
+      # end block   
+# end level4 internet/container_instance
+
+# level4 internet/keyvault 
+    - name: internet zone keyvault
+      # beign block
+      block:
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_internet}}"
+          tier_code: "{{tier_app}}"   
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/keyvault/"
+          templates_path: "{{templates_folder}}/configuration/level4/project/keyvault/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: keyvault_files_to_process
+
+      - name: copy keyvault
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{keyvault_files_to_process.files}}"     
+      # end creating tfvars files
+
+      when: internet_app_keyvault | trim == '1'  or internet_app_keyvault | trim == 'yes'
+      become: true
+      ignore_errors: no
+      # end block   
+# end level4 internet/keyvault
+
+# level4 internet/apim 
+    - name: internet zone apim
+      # beign block
+      block:
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_internet}}"
+          tier_code: "{{tier_app}}"   
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/apim/"
+          templates_path: "{{templates_folder}}/configuration/level4/project/apim/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: apim_files_to_process
+
+      - name: copy apim
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{apim_files_to_process.files}}"     
+      # end creating tfvars files
+
+      when: internet_app_apim | trim == '1'  or internet_app_apim | trim == 'yes'
+      become: true
+      ignore_errors: no
+      # end block   
+# end level4 internet/apim
+
+# ----------------------------
+# end internet level4
+# ----------------------------
+
+# ---------------------------------------------------------------------------------------------------
+# end internet zone
+# ---------------------------------------------------------------------------------------------------
+
+
+# ---------------------------------------------------------------------------------------------------
+# begin management zone
+# ---------------------------------------------------------------------------------------------------
+
+# set management zone variables
+    - name: set management zone variables
+      # beign block
+      block:
+      - name: init variables
+        set_fact:
+          vnet_resource_id: ""
+          zone_code: ""          
+          tier_code: ""           
+
+      - name: set_zone code
+        set_fact:
+          zone_code: "{{zone_management}}"
+
+      - name: set_internet vnet resource id to vnet_resource_id
+        set_fact:
+          vnet_resource_id: "{{ '/subscriptions/' + subscription_id | trim + '/resourceGroups/' + resource_group_name | trim + '/providers/Microsoft.Network/virtualNetworks/' + management_vnet_name | trim }}"
+        when: management_vnet_name | trim  != "None"
+      
+      when: management_vnet_name | trim  != "None"
+      become: true
+      ignore_errors: yes
+      # end block 
+# end set management zone variables  
+
+# level3/management/networking_spoke_management - management zone
+    - name: level3 management zone networking spoke management
+      # beign block
+      block:    
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_management}}"
+          tier_code: ""          
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level3/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level3/networking_spoke_management/"
+          templates_path: "{{templates_folder}}/configuration/level3/networking_spoke_management/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: networking_spoke_management_files_to_process
+
+      - name: copy networking_spoke_files
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{networking_spoke_management_files_to_process.files}}"    
+      # end creating tfvars files
+
+      when: management_vnet_name | trim != "None"
+      become: true
+      ignore_errors: yes
+      # end block          
+# end level3/management/networking_spoke_management
+
+# level4 management including bastion and tooling
+    - name: management zone bastion
+      # beign block
+      block:
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_management}}"
+          tier_code: ""          
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/management/"
+          templates_path: "{{templates_folder}}/configuration/level4/management/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: bastion_files_to_process
+
+      - name: copy bastion_files
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{bastion_files_to_process.files}}"     
+      # end creating tfvars files
+
+      when: management_bastion | trim == '1'  or management_bastion | trim == 'yes'
+      become: true
+      ignore_errors: no
+      # end block
+# end level4 management/bastion
+
+# ---------------------------------------------------------------------------------------------------
+# begin management zone
+# ---------------------------------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------------------------------
+# begin devops zone
+# ---------------------------------------------------------------------------------------------------
+
+# set devops zone variables
+    - name: set devops zone variables
+      # beign block
+      block:
+      - name: init variables
+        set_fact:
+          vnet_resource_id: ""
+          zone_code: ""
+          tier_code: ""             
+
+      - name: set_zone code
+        set_fact:
+          zone_code: "{{ zone_devops }}"
+
+      #     cidr_subnet_devops: ""
+      #     cidr_subnet_private_endpoint: ""    
+
+      # - name: set_cidr_devops_zone_subnet_runner
+      #   set_fact:
+      #     cidr_subnet_devops: "{{ cidr_devops_zone_subnet_runner | trim }}"
+      #   when: cidr_devops_zone_subnet_runner | trim  != "None"
+
+      # - name: set_cidr_devops_zone_subnet_private_endpoint
+      #   set_fact:
+      #     cidr_subnet_private_endpoint: "{{ cidr_devops_zone_subnet_private_endpoint | trim }}"
+      #   when: cidr_devops_zone_subnet_private_endpoint | trim  != "None"
+
+      - name: set_devops vnet resource id to vnet_resource_id
+        set_fact:
+          vnet_resource_id: "{{ '/subscriptions/' + subscription_id | trim + '/resourceGroups/' + resource_group_name | trim + '/providers/Microsoft.Network/virtualNetworks/' + devops_vnet_name | trim }}"
+        when: devops_vnet_name | trim  != "None"
+      
+      when: devops_vnet_name | trim  != "None"
+      become: true
+      ignore_errors: yes
+      # end block 
+# end set devops zone variables  
+
+# level3/devops/networking_spoke_devops - devops zone
+    - name: level3 devops zone networking spoke devops
+      # beign block
+      block:    
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_devops}}"
+          tier_code: ""          
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level3/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level3/networking_spoke_devops/"
+          templates_path: "{{templates_folder}}/configuration/level3/networking_spoke_devops/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: networking_spoke_devops_files_to_process
+
+      - name: copy networking_spoke_files
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{networking_spoke_devops_files_to_process.files}}"    
+      # end creating tfvars files
+
+      when: devops_vnet_name | trim != "None"
+      become: true
+      ignore_errors: yes
+      # end block          
+# end level3/devops/networking_spoke_devops
+
+# level4 devops including runners
+    - name: management zone bastion
+      # beign block
+      block:
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_devops}}"
+          tier_code: ""          
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/devops/"
+          templates_path: "{{templates_folder}}/configuration/level4/devops/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: bastion_files_to_process
+
+      - name: copy bastion_files
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{bastion_files_to_process.files}}"     
+      # end creating tfvars files
+
+      when: devops_vm_runner | trim == '1'  or devops_vm_runner | trim == 'yes'
+      become: true
+      ignore_errors: no
+      # end block
+# end level4 devops
+
+# ---------------------------------------------------------------------------------------------------
+# end devops zone
+# ---------------------------------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------------------------------
+# begin development environment
+# ---------------------------------------------------------------------------------------------------
+
+# dev_env 
+    - name: dev_env 
+      # beign block
+      block:
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: ""
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/gcc_dev_env/"
+          templates_path: "{{templates_folder}}/configuration/gcc_dev_env/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: dev_env_files_to_process
+
+      - name: copy launchpad_files
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{dev_env_files_to_process.files}}"    
+      # end creating tfvars files
+
+      # end block      
+# end dev_env
+
+# dev_env modules
+    - name: dev_env 
+      # beign block
+      block:
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: ""
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/gcc_dev_env/modules/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/gcc_dev_env/modules/scaffolding/"
+          templates_path: "{{templates_folder}}/configuration/gcc_dev_env/modules/scaffolding/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: dev_env_modules_files_to_process
+
+      - name: copy launchpad_files
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{dev_env_modules_files_to_process.files}}"    
+      # end creating tfvars files
+
+      # end block      
+# end dev_env modules
+
+# ---------------------------------------------------------------------------------------------------
+# end development environment
+# ---------------------------------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------------------------------
+# begin bash script
+# ---------------------------------------------------------------------------------------------------
+
+# bash script
+    - name: bash_script 
+      # beign block
+      block:
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: ""
+          solution_accelerators_parent_path: "{{landingzone_parent_folder}}/"
+          solution_accelerators_path: "{{landingzone_parent_folder}}/scripts/"
+          templates_path: "{{templates_folder}}/scripts/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: bash_script_files_to_process
+
+      - name: copy launchpad_files
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{bash_script_files_to_process.files}}"    
+      # end creating tfvars files
+
+      # end block      
+# end dev_env
+
+# ---------------------------------------------------------------------------------------------------
+# end bash script
+# ---------------------------------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------------------------------
+# begin readme file
+# ---------------------------------------------------------------------------------------------------
+
+# readme file
+    - name: README.md files
+      template:
+        src: "{{templates_folder}}/README.md.j2"   
+        dest: "{{landingzone_parent_folder}}/README.md"
+
+# ---------------------------------------------------------------------------------------------------
+# end readme file
+# ---------------------------------------------------------------------------------------------------
+
+
+    - debug:
+        msg:
+        - "You have now initialized the definition of the platform"
+        - "You can review and adjust the yaml files."
+        - "agency_code: {{agency_code}}"
+        - "project_code: {{project_code}}"  
+        - "subscription_id: {{subscription_id}}" 
+        - "resource_group_name: {{resource_group_name}}" 
+        - "log_analytics_workspace_name: {{log_analytics_workspace_name}}" 
+        # - "spn_name: {{spn_name}}"       
+        # - "ingress_egress_vnet_name_ingress: {{ingress_egress_vnet_name_ingress}}" 
+        # - "internet_vnet_name: {{internet_vnet_name}}" 
+        # - "intranet_vnet_name: {{intranet_vnet_name}}"   
+        # - "management_vnet_name: {{management_vnet_name}}" 
+        # - "devops_vnet_name: {{devops_vnet_name}}" 
+        # # - "cidr_internet_zone_subnet_web: {{cidr_internet_zone_subnet_web}}" 
+        # - "cidr_internet_zone_subnet_app: {{cidr_internet_zone_subnet_app}}" 
+        # - "cidr_internet_zone_subnet_data: {{cidr_internet_zone_subnet_data}}" 
+        # #- "cidr_internet_zone_subnet_it: {{cidr_internet_zone_subnet_it}}" 
+        # #- "cidr_internet_zone_subnet_gut: {{cidr_internet_zone_subnet_gut}}" 
+        # #- "cidr_intranet_zone_subnet_web: {{cidr_intranet_zone_subnet_web}}" 
+        # #- "cidr_intranet_zone_subnet_app: {{cidr_intranet_zone_subnet_app}}" 
+        # #- "cidr_intranet_zone_subnet_data: {{cidr_intranet_zone_subnet_data}}" 
+        # #- "cidr_intranet_zone_subnet_it: {{cidr_intranet_zone_subnet_it}}" 
+        # #- "cidr_intranet_zone_subnet_gut: {{cidr_intranet_zone_subnet_gut}}" 
+        # - "cidr_management_zone_subnet_infra: {{cidr_management_zone_subnet_infra}}" 
+        # - "cidr_management_zone_subnet_security: {{cidr_management_zone_subnet_security}}" 
+        # - "cidr_management_zone_subnet_bastion: {{cidr_management_zone_subnet_bastion}}"         
+        # - "cidr_devops_zone_subnet_runner: {{cidr_devops_zone_subnet_runner}}"  
+        # - "cidr_devops_zone_subnet_private_endpoint: {{cidr_devops_zone_subnet_private_endpoint}}"   
+        #- "internet_web_application_gateway: {{internet_web_application_gateway}}"   
+        # - "internet_app_aks_with_web_application_gateway: {{internet_app_aks_with_web_application_gateway}}"           
+        # - "internet_app_vmss_windows: {{internet_app_vmss_windows}}"       
+        # - "internet_app_vmss_linux: {{internet_app_vmss_linux}}"       
+        # - "internet_app_vm_windows: {{internet_app_vm_windows}}"       
+        # - "internet_app_vm_linux: {{internet_app_vm_linux}}"                       
+        # - "internet_data_mssql: {{internet_data_mssql}}"      
+        # - "internet_data_postgresql: {{internet_data_postgresql}}"        
+        # - "internet_data_redis_cache: {{internet_data_redis_cache}}"   
+        # #- "internet_it_apim: {{internet_it_apim}}"           
+        # #- "internet_it_vm_sftp: {{internet_it_vm_sftp}}"   
+        # #- "internet_gut_vm_forward_proxy: {{internet_gut_vm_forward_proxy}}"      
+        # #- "internet_gut_vm_sftp: {{internet_gut_vm_sftp}}"    
+        # #- "internet_gut_application_gateway: {{internet_gut_application_gateway}}"  
+        # #- "intranet_web_application_gateway: {{intranet_web_application_gateway}}"   
+        # #- "intranet_app_aks_with_web_application_gateway: {{intranet_app_aks_with_web_application_gateway}}"           
+        # - "intranet_app_vmss_windows: {{intranet_app_vmss_windows}}"       
+        # - "intranet_app_vmss_linux: {{intranet_app_vmss_linux}}"       
+        # - "intranet_app_vm_windows: {{intranet_app_vm_windows}}"       
+        # - "intranet_app_vm_linux: {{intranet_app_vm_linux}}"                       
+        # - "intranet_data_mssql: {{intranet_data_mssql}}"      
+        # - "intranet_data_postgresql: {{intranet_data_postgresql}}"        
+        # - "intranet_data_redis_cache: {{intranet_data_redis_cache}}"   
+        # # - "intranet_it_apim: {{intranet_it_apim}}"           
+        # # - "intranet_it_vm_sftp: {{intranet_it_vm_sftp}}"   
+        # # - "intranet_gut_vm_forward_proxy: {{intranet_gut_vm_forward_proxy}}"      
+        # # - "intranet_gut_vm_sftp: {{intranet_gut_vm_sftp}}"    
+        # #- "intranet_gut_application_gateway: {{intranet_gut_application_gateway}}"   
+        # - "management_bastion: {{management_bastion}}"        
+        # - "devops_vm_runner: {{devops_vm_runner}}"         
+        # - "devops_acr: {{devops_acr}}"                  

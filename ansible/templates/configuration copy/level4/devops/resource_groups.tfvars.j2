@@ -1,0 +1,14 @@
+resource_groups = {
+  devops_rg = {
+    name = "devops-container-groups-re1"           
+    region = "region1"    
+    tags = { 
+      purpose = "container groups resource group" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"          
+    }      
+  }
+}
+

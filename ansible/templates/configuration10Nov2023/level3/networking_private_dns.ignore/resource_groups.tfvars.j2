@@ -1,0 +1,13 @@
+resource_groups = {
+  networking_private_dns_rg_re1 = {
+    name   = "networking_private_dns-re1"
+    region = "region1"
+    tags = { 
+      purpose = "networking private dns resource groups" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"        
+    }   
+  }
+}

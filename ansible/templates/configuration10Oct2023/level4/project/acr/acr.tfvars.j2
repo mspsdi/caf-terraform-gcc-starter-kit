@@ -1,0 +1,68 @@
+#
+# Reference Example: aztfmod/examples/compute/container_registry/200-acr-private-link
+#
+azure_container_registries = {
+  aks_acr = {
+    name               = "aks-acr"
+    resource_group_key = "acr_rg_re1"
+    sku                = "Premium"
+    public_network_access_enabled = false
+
+    # in gcc, no georeplications is required 
+
+    private_endpoints = {
+      aks_acr_pep = {
+        name               = "aks-acr-private-link"
+        resource_group_key = "acr_rg_re1"
+        # internet app subnet
+        subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-app-internet"
+        private_service_connection = {
+          name                 = "acr-private-link"
+          is_manual_connection = false
+          subresource_names    = ["registry"]
+        }
+
+        private_dns = {
+          zone_group_name = "acr_rg_re1" # TODO: is this the resource group name?        
+          # lz_key = "shared_services" # if DNS keys is deployed in another landingzone
+          keys = ["acr_dns_re1"]            
+        }
+       
+      }
+
+      tooling_host_acr_pep = {
+        name               = "tooling-acr"
+        resource_group_key = "acr_rg_re1"
+        subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}/subnets/{{prefix}}-snet-infra-management"
+        private_service_connection = {
+          name                 = "tooling-acr"
+          is_manual_connection = false
+          subresource_names    = ["registry"]
+        }
+        private_dns = {
+          zone_group_name = "acr_rg_re1"
+          # lz_key          = "shared_services"
+          keys            = ["acr_dns_re1"]
+        }
+      }      
+    }  
+
+    # you can setup up to 5 key
+    diagnostic_profiles = {
+      central_logs_region1 = {
+        definition_key   = "azure_container_registry"
+        destination_type = "log_analytics"
+        destination_key  = "central_logs"
+        lz_key = "shared_services"
+      }
+    }
+
+    tags = { 
+      purpose = "{{zone_code}} acr" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"          
+    }   
+  }
+}

@@ -1,0 +1,38 @@
+landingzone = {
+  backend_type        = "azurerm"
+  level               = "level4"
+  key                 = "vmss_linux"      # recommend to set to folder name
+  global_settings_key = "shared_services" # set to 1 of the tfstates key name
+  tfstates = {
+    shared_services = {
+      level   = "current"
+      tfstate = "agz_prj1_shared_services.tfstate" # set to referenced landingzone tfstate name
+    }
+  }
+}
+
+
+resource_groups = {
+  vmss_rg1 = {
+    name = "vmss_rg1"           
+    region = "region1"    
+    tags = {  # use desired tags
+      project-code = "ignite" # use project-code
+      env          = "sit" # use env
+      purpose      = "gcc dev environment shared services resource group"
+    } 
+  }
+}
+
+
+managed_identities = {
+  vmss_msi = {
+    name               = "<placeholder>" 
+    resource_group_key = "vmss_rg1"
+    tags = {  # use desired tags
+      project-code = "ignite" # use project-code
+      env          = "sit" # use env
+      purpose      = "gcc dev environment shared services resource group"
+    } 
+  }
+}

@@ -1,0 +1,56 @@
+
+virtual_subnets = {
+
+  # begin ingress zone
+  AzureFirewallSubnet = {
+    name    = "AzureFirewallSubnet" # Must be called AzureFirewallSubnet
+    cidr    = ["{{cidr_ingress_egress_zone_subnet_ingress_intranet}}"] # 64 ips
+    service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]    
+    vnet = {
+      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_intranet}}"
+
+    }      
+  } 
+  ApplicationGatewaySubnet = {
+    name    = "ingress-agw" 
+    cidr    = ["10.2.0.64/27"]  # 23 ips
+    nsg_key = "web_nsg"    
+    service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]    
+    vnet = {
+      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_intranet}}"
+
+    }      
+  }  
+  ApimSubnet = {
+    name    = "ingress-apim" 
+    cidr    = ["10.2.0.96/27"]  # 32 ips
+    nsg_key = "it_nsg"    
+    service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]    
+    vnet = {
+      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_intranet}}"
+
+    }      
+  }   
+  # end ingress zone
+
+  # begin egress zone
+  AzureFirewallSubnet_egress = {
+    name    = "AzureFirewallSubnet" # Must be called AzureFirewallSubnet
+    cidr    = ["{{cidr_ingress_egress_zone_subnet_egress_intranet}}"]   # 64 ips
+    service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]    
+    vnet = {
+      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_intranet}}"
+
+    }      
+  }  
+  AzureFirewallMangementSubnet_egress = {
+    name    = "AzureFirewallManagementSubnet" 
+    cidr    = ["{{cidr_ingress_egress_zone_subnet_egress_mgmt_intranet}}"]   # 64 ips
+    service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]    
+    vnet = {
+      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_intranet}}"
+
+    }      
+  }   
+  # end egress zone  
+}

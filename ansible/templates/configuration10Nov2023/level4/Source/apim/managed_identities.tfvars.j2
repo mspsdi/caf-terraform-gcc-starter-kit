@@ -1,0 +1,13 @@
+managed_identities = {
+  apim_msi = {
+    name               = "apim" 
+    resource_group_key = "apim_rg_re1"
+    tags = { 
+      purpose = "{{zone_code}} apim managed identity" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"          
+    }  
+  }
+}

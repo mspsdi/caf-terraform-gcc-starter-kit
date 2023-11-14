@@ -1,0 +1,54 @@
+recovery_vaults = {
+  rsv = {
+    name               = "management-infra"
+    resource_group_key = "ops_rg_re1"
+    region             = "region1"
+
+    soft_delete_enabled = false
+
+    backup_policies = {
+      vms = {
+        policy1 = {
+          name      = "VMBackupPolicy1"
+          vault_key = "rv1"
+          rg_key    = "ops_rg_re1"
+          timezone  = "UTC"
+          backup = {
+            frequency = "Daily"
+            time      = "23:00"
+          }
+          retention_daily = {
+            count = 10
+          }
+          retention_weekly = {
+            count    = 4
+            weekdays = ["Sunday"]
+          }
+        }
+      }
+    }
+    
+    
+    private_endpoints = {
+      # Require enforce_private_link_endpoint_network_policies set to true on the subnet
+      private-link-keyvault = {
+        name               = "pep-rsv"
+        subnet_id         = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}/subnets/{{prefix}}-snet-infra-management"
+        resource_group_key = "ops_rg_re1"
+
+        private_service_connection = {
+          name                 = "psc-rsv"
+          is_manual_connection = false
+          subresource_names    = ["AzureBackup"]
+        }
+
+        private_dns = {
+           keys   = ["backup_dns_re1"]
+        }
+      }
+    }
+    
+  }
+}
+
+

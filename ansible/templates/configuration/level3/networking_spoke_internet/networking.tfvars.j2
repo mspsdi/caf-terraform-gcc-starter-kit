@@ -1,0 +1,196 @@
+{% if gcc_platform | trim == '1' %}
+#------------------------------------------------------
+# this page is leave blank intentionally
+#------------------------------------------------------
+{% else %}
+vnets = {
+
+  # project vnet - internet zone
+  vnet_spoke_internet_re1 = { 
+    resource_group_key = "networking_spoke_internet_re1"
+    region             = "region1"
+    vnet = {
+      name          = "spoke-internet-re1"
+      address_space = ["{{internet_vnet_name_cidr}}"] # ["100.2.0.0/24"]
+    }
+
+
+  # cidr_internet_zone_subnet_app: 	100.2.0.0/27
+  # cidr_internet_zone_subnet_data: 	100.2.0.32/27
+  # cidr_internet_zone_subnet_web: 	100.2.0.64/27
+  # cidr_internet_zone_subnet_service: 	100.2.0.96/27
+  # cidr_internet_zone_subnet_chatgpt: 	100.2.0.128/27
+  # cidr_internet_zone_subnet_ai: 	100.2.0.160/27
+  # cidr_internet_zone_subnet_applicationgateway: 	100.2.0.192/27
+  # cidr_internet_zone_subnet_linux_function_app: 100.2.0.224/27
+  # cidr_internet_zone_subnet_app_service: 100.2.0.64/27
+
+    subnets = {
+
+      # private segment
+      # aks, private endpoint to app service etc...
+      app_internet_subnet = {
+        name    = "app-internet"
+        cidr    = ["{{cidr_internet_zone_subnet_app}}"] # ["100.2.0.0/27"]
+        nsg_key = "app_nsg"
+        # route_table_key = "default_to_firewall_re1"    # enable this if route_tables is used
+        enforce_private_link_endpoint_network_policies = "true"    
+        service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]
+        # vnet = {
+        #   id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-internet"
+        # }    
+      }  
+
+      # mssql, storage account etc...
+      db_internet_subnet = {
+        name    = "db-internet"
+        cidr    = ["{{cidr_internet_zone_subnet_data}}"] # ["100.2.0.32/27"]
+        nsg_key = "db_nsg"
+        service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]
+        enforce_private_link_endpoint_network_policies = "true"   
+        # vnet = {
+        #   id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-internet"
+        # }
+      }  
+
+      # websubnet, service_subnet, chatgptsubnet, aisubnet,  applicaitongatewaysubnet
+
+{% if internet_app_app_service | trim == '1' %}
+
+      # it_subnet1 = {
+      #   name    = "it"
+      #   cidr    = ["172.0.5.0/24"]
+      #   nsg_key = "it_nsg"
+      #   service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]
+      #   enforce_private_link_endpoint_network_policies = "true"    
+      #   vnet = {
+      #     id = "/subscriptions/e22a351f-db36-4a02-9793-0f2189d5f3ab/resourceGroups/s01-rg-agency-vnets/providers/Microsoft.Network/virtualNetworks/s01-vnet-spoke-internet-re1"
+      #     # lz_key = ""
+      #     # key = "vnet1"
+      #   }
+      # } 
+
+      # apim subnet
+      it_internet_subnet = {
+        name    = "it-internet"
+        cidr    = ["{{cidr_internet_zone_subnet_it}}"] # ["100.2.0.240/27"]
+        nsg_key = "apim_nsg"
+        service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]
+        enforce_private_link_endpoint_network_policies = "true"   
+        # delegation = {
+        #   name               = "webapp"
+        #   service_delegation = "Microsoft.Web/serverFarms"
+        #  actions            = ["Microsoft.Network/virtualNetworks/subnets/action"]
+        # }          
+        # vnet = {
+        #   id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-internet"
+        # }
+      }  
+{% endif %}   
+
+{% if internet_app_app_service | trim == '1' %}
+      # delegated subnet app service vnet injection
+      web_internet_subnet = {
+        name    = "web-internet"
+        cidr    = ["{{cidr_internet_zone_subnet_web}}"] # ["100.2.0.64/27"]
+        nsg_key = "web_nsg"
+        service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]
+        enforce_private_link_endpoint_network_policies = "true"   
+        delegation = {
+          name               = "webapp"
+          service_delegation = "Microsoft.Web/serverFarms"
+          actions            = ["Microsoft.Network/virtualNetworks/subnets/action"]
+        }          
+        # vnet = {
+        #   id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-internet"
+        # }
+      }  
+{% endif %}    
+
+      # always created
+      # private endpoint for keyvault, acr etc ...
+      service_internet_subnet = {
+        name    = "service-internet"
+        cidr    = ["{{cidr_internet_zone_subnet_service}}"] # ["100.2.0.96/27"]
+        nsg_key = "service_nsg"
+        service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]
+        enforce_private_link_endpoint_network_policies = "true"   
+        # vnet = {
+        #   id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-internet"
+        # }
+      } 
+
+{% if internet_app_container_instance | trim == '1' %}
+      # chatgpt web
+      chatgpt_internet_subnet = {
+        name    = "chatgpt-internet"
+        cidr    = ["{{cidr_internet_zone_subnet_chatgpt}}"] # ["100.2.0.128/27"]
+        nsg_key = "chatgpt_nsg"
+        service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]
+        enforce_private_link_endpoint_network_policies = "true"  
+        delegation = {
+          name               = "container_groups"
+          service_delegation = "Microsoft.ContainerInstance/containerGroups" # Microsoft.Web/serverFarms"
+          actions            = ["Microsoft.Network/virtualNetworks/subnets/action"]
+        }      
+        # vnet = {
+        #   id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-internet"
+        # }
+      } 
+{% endif %}    
+
+{% if internet_app_openai | trim == '1' or internet_app_search_service | trim == '1' %}
+      # openai and search service private endpoint
+      ai_internet_subnet = {
+        name    = "ai-internet"
+        cidr    = ["{{cidr_internet_zone_subnet_ai}}"] # ["100.2.0.160/27"]
+        nsg_key = "ai_nsg"
+        service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]
+        enforce_private_link_endpoint_network_policies = "true"   
+        # vnet = {
+        #   id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-internet"
+        # }
+      }   
+{% endif %}    
+
+{% if internet_app_agw | trim == '1' %}
+      applicaitongateway_internet_subnet = {
+        name    = "applicationgateway-internet"
+        cidr    = ["{{cidr_internet_zone_subnet_applicationgateway}}"] # ["100.2.0.192/27"]
+        nsg_key = "app_nsg" # "applicationgateway_nsg"
+        service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]
+        enforce_private_link_endpoint_network_policies = "true"   
+        # vnet = {
+        #   id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-internet"
+        # }
+      }  
+{% endif %}    
+
+{% if internet_app_linux_function_app | trim == '1' %}
+      # delegated subnet linux function app
+      functionapps_internet_subnet = {
+        name    = "function-apps-internet"
+        cidr    = ["{{cidr_internet_zone_subnet_linux_function_app}}"] # ["100.2.0.224/27"]
+        nsg_key = "functionapps_nsg"
+        service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]
+        enforce_private_link_endpoint_network_policies = "true"   
+        # TODO: add Delegated function - Delegated to "Microsoft.Web/serverFarms"
+        delegation = {
+          name               = "functions"
+          service_delegation = "Microsoft.Web/serverFarms"
+          actions            = ["Microsoft.Network/virtualNetworks/subnets/action"]
+        }    
+        # vnet = {
+        #   id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-internet"
+        # }
+      }
+{% endif %}   
+
+      # end private segment
+    }
+
+  }
+  
+} 
+# vnets
+{% endif %}

@@ -1,0 +1,67 @@
+
+#
+# execute the rover commands in the following order:
+# ** must execute one after another [do not run in parallel]
+# 
+
+# level 3 - networking
+================================================================================
+
+1. shared services
+  /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/shared_services
+
+2. networking spoke management
+  /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_management
+
+3. networking spoke devops
+  /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_devops
+
+
+4. networking hub internet
+  /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_hub_internet
+
+
+  4.1 agw
+    /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/ingress_internet/agw
+    Take note of agw private ip address
+  4.2 ingress firewall
+    # set the agw private ip in /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/ingress_internet/firewall/ firewall_policies.tfvars
+    # line 98 - translated_address = "100.1.0.4" # TODO: Add private ip of app gw
+    /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/ingress_internet/firewall
+
+  4.3 egress firewall
+    /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/egress_internet/firewall
+
+5. networking hub intranet
+  /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_hub_intranet
+
+  5.1 agw
+    /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/ingress_intranet/agw
+
+  5.2 ingress firewall
+    /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/ingress_intranet/firewall
+
+  5.3 egress firewall
+    /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/egress_intranet/firewall
+
+6. networking spoke internet
+  /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_internet
+
+# level 4 - solution accelerators
+================================================================================
+
+7. sql server
+
+8. acr
+
+9. aks
+
+# DevOps, Management Zone
+================================================================================
+
+10. runner vm / container instances
+
+11. bastion host
+
+
+

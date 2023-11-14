@@ -1,0 +1,53 @@
+
+
+---
+configuration:
+  agency_code: 
+  project_code: escep
+  cidr_ingress_egress_zone_subnet_ingress_internet: 	100.1.0.0/26 
+  cidr_ingress_egress_zone_subnet_ingress_agw_internet: 	100.1.0.64/26 
+  cidr_ingress_egress_zone_subnet_egress_internet: 	100.1.1.0/26   
+  cidr_ingress_egress_zone_subnet_egress_mgmt_internet: 	100.1.1.64/26  
+  cidr_ingress_egress_zone_subnet_ingress_intranet: 	10.2.0.0/26
+  cidr_ingress_egress_zone_subnet_ingress_agw_intranet: 	10.2.0.64/27
+  cidr_ingress_egress_zone_subnet_egress_intranet: 	10.2.1.0/26
+  cidr_ingress_egress_zone_subnet_egress_mgmt_intranet: 	10.2.1.64/26
+  cidr_internet_zone_subnet_app: 	100.2.0.0/25
+  cidr_internet_zone_subnet_data: 	100.2.0.128/27
+  cidr_management_zone_subnet_infra: 	100.3.0.0/26
+  cidr_management_zone_subnet_security: 	100.3.0.64/26
+  cidr_management_zone_subnet_bastion: 	100.3.0.128/26
+  cidr_devops_zone_subnet_runner: 	100.4.0.16/28
+  cidr_devops_zone_subnet_gateway: 	100.4.0.0/28
+# solution_accelerators - value is "1" or "0" : 1 = yes, 0 = no     
+solution_accelerators:
+  ingress_egress_zone:
+    firewall: 1 
+    agw: 1 
+    firewall_egress: 1 
+  ingress_egress_zone_intranet:
+    firewall: 1 
+    agw: 1 
+    firewall_egress: 1 
+  internet_zone: 
+    app: 
+      app_aks: 1
+      app_acr: 1    
+    data: 
+      data_cosmosdb: 1   
+      data_mssql: 1   
+      data_storage_account: 1       
+  management_zone: 
+    bastion: 1
+    tooling_server: 1   
+    monitoring: 1    
+    recovery_services_vault: 1 
+    ampls: 1   
+    application_insights: 0 # wip
+    automation: 1          # wip
+  devops_zone: 
+    vm_runner: 1
+                   
+               
+           
+

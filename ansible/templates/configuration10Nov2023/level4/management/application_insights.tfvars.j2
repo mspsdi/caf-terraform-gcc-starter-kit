@@ -1,0 +1,16 @@
+{% if management_application_insights | trim == '1' %}
+azurerm_application_insights = {
+  app_insights = {
+    name                                = "app-insights-u-adlx-u3mt-mgmt"
+    resource_group_key                  = "mgmt_ops_re1"
+    application_type                    = "web"
+    log_analytics_workspace_destination = "central_logs"
+  }
+}
+{% endif %}  
+
+{% if management_application_insights | trim != '1' %}
+#------------------------------------------------------
+# this page is leave blank intentionally
+#------------------------------------------------------
+{% endif %}  

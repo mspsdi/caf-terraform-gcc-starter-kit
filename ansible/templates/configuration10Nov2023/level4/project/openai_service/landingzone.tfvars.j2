@@ -1,0 +1,20 @@
+landingzone = {
+  backend_type        = "azurerm"
+  level               = "level4"
+  key                 = "openai"      
+  global_settings_key = "launchpad" 
+  tfstates = {
+    shared_services = {
+      level   = "lower"
+      tfstate = "shared_services.tfstate"      
+    }
+    networking_spoke_internet = {
+      level   = "lower"
+      tfstate = "networking_spoke_internet.tfstate"       
+    } 
+    networking_spoke_management = {
+      level   = "lower"
+      tfstate = "networking_spoke_management.tfstate"       
+    }    
+  }
+}

@@ -1,0 +1,77 @@
+## Overview
+
+The /landingzone/configuration/level3/compartment_peering folder contains the tfvars files for peering the compartments
+
+For more information on Virtual Network Peering please visit: https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-peering-overview
+
+The below Virtual Networks (Compartments) have been peered:
+
+
+delux-ez-ingress-uat <-> delux-ez-project-uat
+
+delux-ez-egress-uat  <-> delux-ez-project-uat
+
+delux-iz-ingress-uat <-> delux-ez-project-uat
+
+delux-iz-egress-uat  <-> delux-ez-project-uat
+
+delux-ez-project-uat <-> delux-ez-mgmt-uat
+
+delux-am-devops-uat  <-> delux-ez-mgmt-uat
+
+delux-am-devops-uat  <-> delux-ez-project-uat
+
+| **File** | **Purpose** | **Resource Deployed** | **Comment** |
+|--|--|--|--|
+| landingzone.tfvars | Landing Zone config setting level and key  | N/A | N/A |
+| peerings.tfvars | Contains peering configuration | N/A | N/A |
+
+
+## Pre-requisites
+
+TBC
+
+## Deployment - Automated trigger on Gitlab pipeline
+
+TBC
+
+## Deployment - Manual using Rover
+
+### login to Azure tenant
+rover login  --tenant {your subscription id}
+
+### set to subscription (optional)
+az account set --subscription {your subscription id}
+
+```bash
+
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level3 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_vnet_peering \
+-parallelism 30 \
+-env {{caf_environment}} \
+-tfstate networking_vnet_peering.tfstate \
+-a plan
+
+```
+
+```bash
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level3 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_vnet_peering \
+-parallelism 30 \
+-env {{caf_environment}} \
+-tfstate networking_vnet_peering.tfstate \
+-a apply
+```  
+
+```bash
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level3 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_vnet_peering \
+-parallelism 30 \
+-env {{caf_environment}} \
+-tfstate networking_vnet_peering.tfstate \
+-a destroy
+``` 

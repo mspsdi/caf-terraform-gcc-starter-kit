@@ -1,0 +1,13 @@
+managed_identities = {
+  mssql_msi_re1 = {
+    name               = "mssql" 
+    resource_group_key = "mssql_rg_re1"
+    tags = { 
+      purpose = "mssql managed_identities" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"        
+    }     
+  }
+}

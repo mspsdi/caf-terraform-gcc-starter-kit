@@ -1,0 +1,16 @@
+virtual_machine_scale_sets = {
+  vmss1 = {
+    resource_group_key                   = "vmss_rg1"
+    os_type                              = "linux"
+    lz_key                               = "shared_services"
+    keyvault_key                         = "kv1"
+    boot_diagnostics_storage_account_key = "bootdiag1"
+
+    tags = { # use desired tags
+      zone    = "<placeholder>"
+      tier    = "<placeholder>"
+      purpose = "Sovereign Cloud dev environment vmss linux"
+    }
+#    ...
+  }
+}

@@ -1,0 +1,33 @@
+# policy has errror
+#Error: creating or updating Api Operation Policy: (Policy Name "xml" / Operation Name "apimapio1" / Api Name "ignite-apimapi-example-api" / Service Name "ignite-apim-integration-re1" / Resource Group "ignite-rg-apim-rg-re1"): apimanagement.APIOperationPolicyClient#CreateOrUpdate: Failure responding to request: StatusCode=400 -- Original Error: autorest/azure: Service returned an error. Status=400 Code="ValidationError" Message="Entity with specified identifier not found"
+#│ 
+#│   with module.solution.module.api_management_api_operation_policy["apimapiopo1"].azurerm_api_management_api_operation_policy.apim,
+#│   on ../aztfmod/modules/apim/api_management_api_operation_policy/module.tf line 1, in resource "azurerm_api_management_api_operation_policy" "apim":
+#│    1: resource "azurerm_api_management_api_operation_policy" "apim" {
+
+api_management_api_operation_policy = {
+  apimapiopo1 = {
+    api = {
+      key = "apima1"
+    }
+    api_management = {
+      key = "integration_apim_re1"
+    }
+    resource_group = {
+      key = "apim_rg_re1"
+    }
+    api_operation = {
+      id = "apimapio1"
+    }
+
+
+    xml_content = <<XML
+<policies>
+  <inbound>
+    <find-and-replace from="xyz" to="abc" />
+  </inbound>
+</policies>
+XML
+
+  }
+}

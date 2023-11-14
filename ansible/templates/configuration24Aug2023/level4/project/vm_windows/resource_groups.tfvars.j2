@@ -1,0 +1,14 @@
+resource_groups = {
+  vm_windows_tooling_re1 = {
+    name = "vm_windows_ingress_re1"
+    region = "region1"      
+    tags = { 
+      purpose = "{{zone_code}} vm tooling server resource group" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"          
+    }    
+  }
+}
+

@@ -1,0 +1,6 @@
+# network_files.yml
+---
+- name: "{{item.path}}"
+  template:
+    src: "{{templates_path}}{{item.path | basename}}"
+    dest: "{{solution_accelerators_path}}{{item.path | basename | replace('.j2','')}}"

@@ -1,0 +1,11 @@
+managed_identities = {
+  vmss_msi = {
+    name               = "vmss_msi" 
+    resource_group_key = "linux_vmss_rg"
+    tags = {  # use desired tags
+      project-code = "ignite" # use project-code
+      env          = "sit" # use env
+      purpose      = "gcc dev environment shared services resource group"
+    } 
+  }
+}

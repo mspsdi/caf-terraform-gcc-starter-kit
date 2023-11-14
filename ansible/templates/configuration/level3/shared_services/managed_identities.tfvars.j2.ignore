@@ -1,0 +1,46 @@
+managed_identities = {
+{% if internet_app_aks | trim == '1' %}  
+  aks_usermsi = {
+    name               = "aks-usermsi" 
+    resource_group_key = "ops_rg_re1"
+
+    tags = { 
+      purpose = "internet aks managed identity" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"           
+    }  
+  }
+{% endif %}  
+
+{% if internet_data_mssql | trim == '1' %}
+  # TODO: check how is this used? - currently not used
+  mssql_msi_re1 = {
+    name               = "mssql" 
+    resource_group_key = "ops_rg_re1"
+    tags = { 
+      purpose = "mssql managed identity" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"           
+    }     
+  } 
+{% endif %}  
+
+{% if internet_data_cosmosdb | trim == '1' %}  
+  cosmos_msi_re1 = {
+    name               = "cosmos" 
+    resource_group_key = "ops_rg_re1"
+    tags = { 
+      purpose = "cosmos managed identity" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"           
+    }     
+  } 
+{% endif %}  
+
+}

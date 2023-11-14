@@ -1,0 +1,54 @@
+private_dns = {
+
+  blob_dns_re1 = {
+    name               = "privatelink.blob.core.windows.net"
+    resource_group_key = "storage_accounts_re1"
+    
+
+{% if gcc_platform | trim == '1' %}
+    vnet_links = {
+      sa_internet_vnet_link = {
+        name                 = "sa-internet-vnet"
+        registration_enabled = false
+        virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+      }
+      sa_management_vnet_link = {
+        name                 = "sa-management-vnet"
+        registration_enabled = false
+        virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+      }
+    }
+
+{% else %}
+    vnet_links = {
+      sa_internet_vnet_link = {
+        name               = "sa-app-internet-vnet"
+        # registration_enabled = false # a virtual network can only link to one private dns zone with registration enabled
+        vnet_key = "vnet_spoke_internet_re1"
+        lz_key = "networking_spoke_internet"    
+        #          virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+      }  
+
+      sa_management_vnet_link = {
+        name                 = "sa-management-vnet"
+        # registration_enabled = false
+        vnet_key = "vnet_hub_management_re1"
+        lz_key = "networking_spoke_management"        
+        # virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+      }      
+
+    }
+{% endif %}  
+
+
+    tags = { 
+      purpose = "{{zone_code}} storage account private dns" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"          
+    } 
+
+  }
+
+}

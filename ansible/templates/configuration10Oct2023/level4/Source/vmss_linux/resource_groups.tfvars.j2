@@ -1,0 +1,12 @@
+resource_groups = {
+  linux_vmss_rg = {
+    name = "linux-vmss"           
+    region = "region1"    
+    tags = {  # use desired tags
+      project-code = "ignite" # use project-code
+      env          = "sit" # use env
+      purpose      = "gcc dev environment shared services resource group"
+    } 
+  }
+}
+

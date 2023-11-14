@@ -1,0 +1,18 @@
+load_balancers = {
+  lb1 = {
+    name                      = "<placeholder>" 
+    sku                       = "basic"
+    resource_group_key        = "win_vmss_rg1"
+    backend_address_pool_name = "vmss1"
+    frontend_ip_configurations = {
+      config1 = {
+        name = "config1"
+        # set subnet_id to resource_id of referenced subnet
+        subnet_id                     = "<placeholder>"
+        private_ip_address_allocation = "Static"
+        private_ip_address            = "10.1.0.8" # set desired static IP
+      }
+    }
+    ...
+  }
+}

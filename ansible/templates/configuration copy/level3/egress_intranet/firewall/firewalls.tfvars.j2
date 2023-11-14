@@ -1,0 +1,52 @@
+azurerm_firewalls = {
+  # ingress firewall
+  fw_re1 = {
+    name               = "egress-intranet"
+    resource_group_key = "networking_firewall_re1"
+    # add the resource group name to resolve the issue of subnet rg different from firewall rg
+    # TODO: subnet resource group name - input as variable for code generation
+    # ** firewall MUST be in the same resource group as VNet and Subnet AzureFirewallSubnet
+    resource_group_name = "{{resource_group_name}}" # the resource group name of the subnet    
+
+    subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_intranet}}/subnets/AzureFirewallSubnet"
+    sku_tier = "Basic"
+    firewall_policy_key = "policy1"    
+    public_ips = {
+      ip_configuration = {
+        name = "public-ip"
+        public_ip_key = "firewall_re1"
+        subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_intranet}}/subnets/AzureFirewallSubnet"
+      }
+    }
+
+    # management subnet is required for force tunneling
+    management_ip_configuration = {
+     management_ip_configuration = {
+       name = "management-ip"
+       public_ip_key = "firewall_mgmt_re1"
+       subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_intranet}}/subnets/AzureFirewallManagementSubnet"
+     }
+    }    
+
+    # 27 Sep 2022 - add diagnostic_profiles and tags
+    tags = { 
+      purpose = "ingress networking spoke resource group" # replace with purpose
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"          
+    } 
+
+    diagnostic_profiles = {
+      central_logs_region = {
+        definition_key   = "firewall"
+        destination_type = "log_analytics"
+        destination_key  = "central_logs"
+      }
+    }
+
+
+  }
+
+}
+

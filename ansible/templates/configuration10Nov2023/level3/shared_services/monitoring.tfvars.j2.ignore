@@ -1,0 +1,17 @@
+monitoring = {
+  service_health_alerts = {
+    enable_service_health_alerts = true
+    name                         = "service-health-alert"
+    action_group_name            = "ag_servicehealth"
+    shortname                    = "HealthAlerts" # expected length of short_name to be in the range (1 - 12), got ServiceHealthAlerts
+    resource_group_key           = "ops_rg_re1"
+
+    email_alert_settings = {
+      email_alert1 = {
+        name                    = "email-alert-servicehealth"
+        email_address           = "thiamsoontan@microsoft.com" # TODO: replace with your email address
+        use_common_alert_schema = false
+      } 
+    } 
+  }
+}

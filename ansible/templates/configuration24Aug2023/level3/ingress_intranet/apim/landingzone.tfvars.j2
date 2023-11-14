@@ -1,0 +1,17 @@
+landingzone = {
+  backend_type        = "azurerm"
+  level               = "level3"
+  key                 = "apim" 
+  global_settings_key = "shared_services"
+  tfstates = {
+    launchpad = {
+      level   = "lower"
+      tfstate = "caf_launchpad.tfstate"
+    }    
+    shared_services = {
+      level   = "current"
+      tfstate = "shared_services.tfstate"       
+    }
+  }
+}
+

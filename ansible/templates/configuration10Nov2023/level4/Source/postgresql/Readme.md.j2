@@ -1,0 +1,67 @@
+This will create
+--vnet
+--Subnets (Web\App\Data)
+--nsg
+rover login
+
+az account set --subscription {{subscription_id}}
+
+
+why would hit this error:
+╷
+│ Error: Attempt to index null value
+│ 
+│   on ../aztfmod/modules/resource_group/module.tf line 15, in resource "azurerm_resource_group" "rg":
+│   15:   location = var.global_settings.regions[lookup(var.settings, "region", var.global_settings.default_region)]
+│     ├────────────────
+│     │ var.global_settings.default_region is "region1"
+│     │ var.global_settings.regions is null
+│     │ var.settings is object with 2 attributes
+│ 
+│ This value is null, so it does not have any indices.
+╵
+Terraform plan return code: 1
+Error on or near line 386: Error running terraform plan; exiting with status 1
+
+solution: destroy and re-created
+
+
+
+# vnet id: vnet
+# check sku size
+# az vm list-skus --location eastus --size Standard_D --all --output table
+-tfstate agz_xyz_prd_iz_mssql.tfstate \
+/tf/caf/gcc-ignite/level0/launchpad \
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/{{zone_code}}/postgresql \
+-parallelism 30 \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_{{zone_code}}_postgresql.tfstate \
+-a plan
+
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/{{zone_code}}/postgresql \
+-parallelism 30 \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_{{zone_code}}_postgresql.tfstate \
+-a apply
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/{{zone_code}}/postgresql \
+-parallelism 30 \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_{{zone_code}}_postgresql.tfstate \
+-a destroy
+
+
+
+
+
+
+# apim nsg
+https://docs.microsoft.com/en-us/azure/api-management/api-management-using-with-vnet?tabs=stv2

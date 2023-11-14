@@ -1,0 +1,233 @@
+private_dns = {
+
+{% if internet_app_aks | trim == '1' %}
+  aks_dns_re1 = {
+    name               = "privatelink.southeastasia.azmk8s.io"
+    resource_group_key = "ops_rg_re1"
+
+    # vnet link is created after vnet is crated.
+    vnet_links = {
+      aks_internet_vnet_link = {
+        name               = "aks-internet-vnet"
+        registration_enabled = false # a virtual network can only link to one private dns zone with registration enabled
+        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+      }   
+      # aks_management_vnet_link = {
+      #   name                 = "aks-management-vnet"
+      #   registration_enabled = false
+      #   virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+      # }
+      # aks_devops_vnet_link = {
+      #   name                 = "aks-devops-vnet"
+      #   registration_enabled = false
+      #   virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}"
+      # }                          
+    }
+
+    tags = { 
+      purpose = "internet azmk8s private dns" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"            
+    } 
+  }
+
+  acr_dns_re1 = {
+    name               = "privatelink.azurecr.io" # must be this name 0 do not change
+    resource_group_key = "ops_rg_re1"
+
+    # vnet link is created after vnet is crated.
+    vnet_links = {
+      acr_internet_vnet_link = {
+        name               = "acr-app-internet-vnet"
+        registration_enabled = false # a virtual network can only link to one private dns zone with registration enabled
+        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+      }                 
+    }
+
+    tags = { 
+      purpose = "acr private dns" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"            
+    }      
+  }
+{% endif %}
+
+{% if internet_data_mssql | trim == '1' %}
+  db_dns_re1 = {
+    name               = "privatelink.database.windows.net" # must be this name 0 do not change
+    resource_group_key = "ops_rg_re1"
+
+    vnet_links = {
+      db_internet_vnet_link = {
+        name                 = "db-internet-vnet"
+        registration_enabled = false
+        virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+      }
+      # db_management_vnet_link = {
+      #   name                 = "db-management-vnet"
+      #   registration_enabled = false
+      #   virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+      # }
+    }
+
+    tags = { 
+      purpose = "internet mssql private dns" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"           
+    } 
+  }
+{% endif %}
+
+{% if internet_data_cosmosdb | trim == '1' %}
+  cosmos_dns_re1 = {
+    name               = "documents.azure.com"
+    resource_group_key = "ops_rg_re1"
+
+    vnet_links = {
+      cosmos_internet_vnet_link = {
+        name = "cosmos-vnet-link"
+        registration_enabled = false        
+        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+      }
+    }
+
+    tags = { 
+      purpose = "internet cosmos private dns" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"           
+    } 
+  }
+{% endif %}
+
+  #   monitoring: 1    
+  #   recovery_services_vault: 1 
+  #   ampls: 1   
+  #   application_insights: 0 # wip
+  #   automation: 0          # wip
+
+{% if management_recovery_services_vault | trim == '1' %}
+  backup_dns_re1 = {
+    name               = "privatelink.sea.backup.windowsazure.com"
+    resource_group_key = "ops_rg_re1"
+    vnet_links = {
+      vnet_link_project = {
+        name               = "backup-vent-link-project"
+        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+      }
+      vnet_link_mgmt = {
+        name               = "backup-vent-link-mgmt"
+        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+      }
+    }
+
+    tags = { 
+      purpose = "management backup private dns" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"            
+    } 
+  }
+{% endif %}  
+
+  # begin ampls dns
+{% if management_ampls | trim == '1' %}  
+  monitor_dns_re1  = {
+    name               = "privatelink.monitor.azure.com"
+    resource_group_key = "ops_rg_re1"
+    vnet_links = {
+      vnet_link_project = {
+        name               = "monitor-vent-link-project"
+        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+      }
+      vnet_link_mgmt = {
+        name               = "monitor-vent-link-mgmt"
+        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+      }
+
+    }
+    tags = { 
+      purpose = "management monitor private dns" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"            
+    }     
+  }  
+
+  oms_dns_re1 = {
+    name               = "privatelink.oms.opinsights.azure.com"
+    resource_group_key = "ops_rg_re1"
+    vnet_links = {
+      vnet_link_project = {
+        name               = "backup-vent-link-project"
+        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+      }
+      vnet_link_mgmt = {
+        name               = "backup-vent-link-mgmt"
+        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+      }
+    }
+    tags = { 
+      purpose = "management ampls oms private dns" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"            
+    }     
+  }
+
+  ods_dns_re1 = {
+    name               = "privatelink.ods.opinsights.azure.com"
+    resource_group_key = "ops_rg_re1"
+    vnet_links = {
+      vnet_link_project = {
+        name               = "backup-vent-link-project"
+        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+      }
+      vnet_link_mgmt = {
+        name               = "backup-vent-link-mgmt"
+        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+      }
+    }
+    tags = { 
+      purpose = "management ampls ods private dns" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"            
+    }     
+  }
+
+  agentsvc_dns_re1 = {
+    name               = "privatelink.agentsvc.azure-automation.net"
+    resource_group_key = "ops_rg_re1"
+    vnet_links = {
+      vnet_link_project = {
+        name               = "backup-vent-link-project"
+        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+      }
+      vnet_link_mgmt = {
+        name               = "backup-vent-link-mgmt"
+        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+      }
+    }
+    tags = { 
+      purpose = "management ampls agentsvc private dns" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"            
+    }     
+  }  
+{% endif %}    
+  # end ampls dns
+}

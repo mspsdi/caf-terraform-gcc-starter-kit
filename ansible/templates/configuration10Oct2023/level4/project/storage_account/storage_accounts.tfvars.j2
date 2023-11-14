@@ -1,0 +1,56 @@
+
+# https://docs.microsoft.com/en-us/azure/storage/
+storage_accounts = {
+
+  # storage account 1
+  sa1 = {
+    name               = "sa1"
+    resource_group_key = "storage_accounts_re1"
+    region             = "region1"
+
+    account_kind             = "StorageV2"
+    account_tier             = "Standard"
+    account_replication_type = "LRS"
+
+    containers = {
+      dev = {
+        name = "random"
+      }
+    }
+
+    private_endpoints = {
+      private-link-storage-account = {
+        name = "sa1-pep"
+
+        subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-db-internet"
+        resource_group_key = "storage_accounts_re1"
+
+        private_service_connection = {
+          name                 = "psc-sa1"
+          is_manual_connection = false
+          subresource_names    = ["blob"]
+        }
+
+        private_dns = {
+          zone_group_name = "storage_accounts_re1" # the resource group key # "services_internet_db_rg"
+          keys            = ["blob_dns_re1"]
+        } 
+
+      }
+    }
+
+    tags = {
+      purpose = "internet storage accounts"       
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"   
+    }      
+
+  } 
+
+}
+
+
+
+

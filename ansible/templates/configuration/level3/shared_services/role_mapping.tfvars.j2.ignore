@@ -1,0 +1,48 @@
+# must grant contributor right to internet vnet inorder to create correct internal lb
+role_mapping = {
+  built_in_role_mapping = {
+
+
+    # role mapping must execute before ask cluster
+    # grant aks_usermsi with right "Private DNS Zone Contributor" to "privatelink.southeastasia.azmk8s.io" private dns zone
+    private_dns = {
+{% if internet_app_aks | trim == '1' %}      
+      aks_dns_re1 = {
+        "Private DNS Zone Contributor" = {
+          managed_identities = {
+            keys = ["aks_usermsi"]
+          }
+        }
+      }
+      acr_dns_re1 = {
+        "Private DNS Zone Contributor" = {
+          managed_identities = {
+            keys = ["aks_usermsi"]
+          }
+        }
+      }  
+{% endif %}
+
+{% if internet_data_mssql | trim == '1' %}
+      db_dns_re1 = {
+        "Private DNS Zone Contributor" = {
+          managed_identities = {
+            keys = ["mssql_msi_re1"]
+          }
+        }
+      }  
+{% endif %}
+
+{% if internet_data_cosmosdb | trim == '1' %}
+      cosmos_dns_re1 = {
+        "Private DNS Zone Contributor" = {
+          managed_identities = {
+            keys = ["cosmos_msi_re1"]
+          }
+        }
+      }  
+{% endif %}       
+
+    } 
+  }
+}

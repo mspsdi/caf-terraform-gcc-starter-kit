@@ -1,0 +1,17 @@
+landingzone = {
+  backend_type        = "azurerm"
+  level               = "level4"
+  key                 = "vmss_windows"      # recommend to set to folder name
+  global_settings_key = "shared_services" # set to 1 of the tfstates key name
+  tfstates = {
+    shared_services = {
+      level   = "lower"
+      tfstate = "shared_services.tfstate" # set to referenced landingzone tfstate name
+    }
+    networking_spoke = {
+      level   = "lower"
+      tfstate = "networking_spoke_internet.tfstate"
+    }    
+  }
+}
+

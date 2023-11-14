@@ -1,0 +1,33 @@
+
+private_dns = {
+  dns1 = {
+    name               = "internet.caflabs.com"
+    resource_group_key = "networking_hub_internet_re1"
+
+    records = {
+      a_records1 = {
+        ingress = {
+          name    = "aks"
+          ttl     = 3600
+          records = ["100.2.0.94"] # TODO: set the agw internet private ip address
+        }
+      }      
+      a_records2 = {
+        ingress = {
+          name    = "demoapp1"
+          ttl     = 3600
+          records = ["100.1.0.74"] # TODO: set the agw internet private ip address
+        }
+      }
+           
+    }
+
+    vnet_links = {
+      app_internet_vnet_link = {
+        name               = "ingress-internet-vnet"
+        registration_enabled = true
+        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
+      }    
+    }
+  }
+}

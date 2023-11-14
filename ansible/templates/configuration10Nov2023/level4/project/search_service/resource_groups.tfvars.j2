@@ -1,0 +1,15 @@
+resource_groups = {
+  search_service_rg_re1 = {
+    name = "search-service-re1"           
+    region = "region1"    
+
+    tags = { 
+      purpose = "{{zone_code}} search service resource group" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"          
+    }    
+  }
+
+}

@@ -1,0 +1,13 @@
+resource_groups = {
+  fa_rg_re1 = {
+    name = "function-app-re1"           
+    region = "region1"    
+    tags = { 
+      purpose = "{{zone_code}} linux function app resource group" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"          
+    }     
+  }
+}

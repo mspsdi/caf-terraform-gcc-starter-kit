@@ -1,0 +1,26 @@
+keyvaults = {
+  sql_kv_re1 = {
+    name                        = "mssql" 
+    resource_group_key          = "mssql_rg_re1"
+    sku_name                    = "standard"
+    # soft_delete_enabled         = true
+    soft_delete_enabled         = false    # set to true for production
+    purge_protection_enabled    = false    # set to true for production
+    enabled_for_disk_encryption = true
+
+    creation_policies = {
+      logged_in_user = {
+        secret_permissions = ["Set", "Get", "List", "Delete", "Purge", "Recover"]
+        key_permissions    = ["Get", "List", "Update", "Create", "Import", "Delete", "Recover", "Backup", "Restore", "Decrypt", "Encrypt", "UnwrapKey", "WrapKey", "Verify", "Sign", "Purge"]
+      }
+    }
+
+    tags = { 
+      purpose = "mssql keyvaults" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"        
+    }   
+  }
+}

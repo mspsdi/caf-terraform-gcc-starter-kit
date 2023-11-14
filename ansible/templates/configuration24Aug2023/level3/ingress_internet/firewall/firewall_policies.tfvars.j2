@@ -1,0 +1,183 @@
+azurerm_firewall_policies = {
+  # for ingress firewall
+  # TODO: Add support for TLS inspection
+  # TODO: SSL Encryption and Decryption
+
+# resource "azurerm_firewall_policy" "example" {
+#   name                = "example"
+#   resource_group_name = "example"
+#   location            = "West Europe"
+#   identity {
+#       type = "UserAssigned"
+#       user_assigned_identity_ids = [azurerm_user_assigned_identity.test.id]
+#   }
+#   sku="Premium"
+#   tls_certificate{
+#       key_vault_secret_id = azurerm_key_vault_secret.Certificate.id//<id of the keyvault Secret where CA is stored>
+#       name = //<name of the certificate stored in the keyvault>
+#   }
+#   intrusion_detection {
+#       mode="Alert"
+#       signature_overrides {
+#           id = "sigOverrideParam1 id (2024897)" 
+#           state = "Deny" 
+#       }
+#       signature_overrides {
+#           id = "sigOverrideParam2 id (2024898)"
+#           state = "Alert"
+#       }
+#       traffic_bypass {
+#           name = "SecretBypass"
+#           protocol ="TCP"
+#           source_addresses = ["*"]
+#           destination_addresses =["1.1.1.1"]
+#           destination_ports = ["80"]
+#       }
+#   }
+# }
+
+  policy1 = {
+    name               = "firewall-policy-ingress-internet"
+    resource_group_key = "networking_firewall_re1"
+    region             = "region1"
+    sku                = "Premium"
+
+    # tls_inspection = {}
+    # tls_inspection = {
+    #   mode = "InspectAll"
+    #   # mode = "DoNotInspect"
+    #   # mode = "InspectOutbound"
+    #   # mode = "InspectInbound"
+    #   managed_identity_key = "networking_firewall_re1"
+    #   ssl_certificates = {
+    #     cert1 = {
+    #       name = "cert1"
+    #       data = "base64 encoded certificate"
+    #     }
+    #   }
+    # }
+
+    # # Required if you want to use Network rules with FQDNs
+    # dns = {
+    #   proxy_enabled = true
+    # }
+
+    threat_intelligence_mode = "Alert"
+
+    #   threat_intelligence_allowlist = {
+    #     ip_addresses = []
+    #     fqdns        = []
+    #   }
+
+    intrusion_detection = {
+      mode                = "Alert"
+    #     signature_overrides = {
+    #       id    = ""
+    #       state = ""
+    #     }
+    #     traffic_bypass      = {
+    #       name                  = ""
+    #       protocol              = ""
+    #       description           = ""
+    #       destination_addresses = ""
+    #       destination_ip_groups = ""
+    #       destination_ports     = ""
+    #       source_addresses      = ""
+    #       source_ip_groups      = ""
+    #     }
+    }
+  }
+}
+
+azurerm_firewall_policy_rule_collection_groups = {
+  group1 = {
+    #firewall_policy_id = "Azure Resource ID"
+    firewall_policy_key = "policy1"
+    name                = "ingress-fwpolicy-rcg"
+    priority            = 500
+
+
+    # application_rule_collection
+    # agw-internet
+    # *
+    # Http:80
+    # demoapp11.caflabs.com
+    # Allow
+
+    application_rule_collections = {
+      rule1 = { # this may not be required.
+        name     = "app-rule-collection1"
+        priority = 500
+        action   = "Allow"
+        rules = {
+          rule1 = {
+            name = "agw-rule1"
+            protocols = {
+              http = {
+                type = "Http"
+                port = 80
+              }          
+              https = {
+                type = "Https"
+                port = 443
+              }
+              http8080 = {
+                type = "Http"
+                port = 8080
+              }              
+            }
+            source_addresses  = ["*"]
+            destination_fqdns = ["demoapp1.internet.caflabs.com"] # TODO: change to your applicaiton fdqn
+          }
+        }
+      }
+    }
+
+    # network_rule_collections = {
+    #   group1 = {
+    #     name     = "network_rule_collection1"
+    #     priority = 400
+    #     action   = "Deny"
+    #     rules = {
+    #       rule1 = {
+    #         name                  = "network_rule_collection1_rule1"
+    #         protocols             = ["TCP", "UDP"]
+    #         source_addresses      = ["10.0.0.1"]
+    #         destination_addresses = ["192.168.1.1", "192.168.1.2"]
+    #         destination_ports     = ["80", "1000-2000"]
+    #       }
+    #     }
+    #   }
+    # }
+
+    nat_rule_collections = {
+      group1 = {
+        name     = "nat_rule_collection1"
+        priority = 300
+        action   = "Dnat"
+        rules = {
+          rule1 = {
+            name             = "nat_rule_collection1_rule1"
+            protocols        = ["TCP"]
+            source_addresses = ["*"]
+            # destination_address = "192.168.1.1"
+            destination_address_public_ip_key = "firewall_re1"
+            destination_ports                 = ["443"]
+            translated_address                = "100.1.0.74" # TODO: Add private ip of internet app gw
+            translated_port                   = "443"
+          }
+          rule2 = { # azure voting app validation - demoapp1.internet.caflabs.com
+            name             = "nat_rule_collection1_rule2"
+            protocols        = ["TCP"]
+            source_addresses = ["*"] # internet all ip addresses
+            # destination_address = "192.168.1.1"
+            destination_address_public_ip_key = "firewall_re1"
+            destination_ports                 = ["80"]
+            translated_address                = "100.1.0.74" # TODO: Add private ip of internet app gw
+            translated_port                   = "8080"
+          }        
+        }
+      }     
+    }
+  }
+}

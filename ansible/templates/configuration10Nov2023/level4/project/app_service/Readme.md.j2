@@ -1,0 +1,30 @@
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/app_service \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_app_service.tfstate \
+-a plan
+
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/app_service \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_app_service.tfstate \
+-a apply
+
+# ** IMPORTANT - TODO 
+# Create Private Endpoint for linux_function_app through Azure Portal manually to aisubnet
+# Disabled access from any network except private endpoint
+
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/app_service \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_app_service.tfstate \
+-a destroy
+
+
+

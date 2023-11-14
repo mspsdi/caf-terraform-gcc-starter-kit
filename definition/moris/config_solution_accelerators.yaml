@@ -1,0 +1,50 @@
+---
+configuration:
+  agency_code: 
+  project_code: uatmoris
+  cidr_ingress_egress_zone_subnet_ingress_internet: 
+  cidr_ingress_egress_zone_subnet_ingress_agw_internet: 
+  cidr_ingress_egress_zone_subnet_egress_internet: 
+  cidr_ingress_egress_zone_subnet_egress_mgmt_internet:
+  cidr_ingress_egress_zone_subnet_ingress_intranet: 
+  cidr_ingress_egress_zone_subnet_ingress_agw_intranet: 
+  cidr_ingress_egress_zone_subnet_egress_intranet: 
+  cidr_ingress_egress_zone_subnet_egress_mgmt_intranet: 
+  cidr_internet_zone_subnet_app: 100.2.0.0/25 # dummy value
+  cidr_internet_zone_subnet_data: 100.2.0.128/27 # dummy value
+  cidr_management_zone_subnet_infra: 
+  cidr_management_zone_subnet_security: 
+  cidr_management_zone_subnet_bastion:
+  cidr_devops_zone_subnet_runner: 
+  cidr_devops_zone_subnet_gateway: 
+# solution_accelerators - value is "1" or "0" : 1 = yes, 0 = no     
+solution_accelerators:
+  ingress_egress_zone:
+    firewall: 0 
+    agw: 0 
+    firewall_egress: 0 
+  ingress_egress_zone_intranet:
+    firewall: 0 
+    agw: 0 
+    firewall_egress: 0 
+  internet_zone: 
+    app: 
+      app_aks: 1
+      app_acr: 1    
+    data: 
+      data_cosmosdb: 1   
+      data_mssql: 1   
+      data_storage_account: 1       
+  management_zone: 
+    bastion: 0
+    tooling_server: 0  
+    monitoring: 1    
+    recovery_services_vault: 1 
+    ampls: 1   
+    application_insights: 0 # wip
+    automation: 0          # wip                      
+  devops_zone: 
+    vm_runner: 0
+                   
+               
+           

@@ -1,0 +1,24 @@
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level3 \
+-var-folder /tf/caf/gcc_starter/landingzone/configuration/level3/ingress_intranet/apim \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_apim_intranet.tfstate \
+-a plan
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level3 \
+-var-folder /tf/caf/gcc_starter/landingzone/configuration/level3/ingress_intranet/apim \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_apim_intranet.tfstate \
+-a apply
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level3 \
+-var-folder /tf/caf/gcc_starter/landingzone/configuration/level3/ingress_intranet/apim \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_apim_intranet.tfstate \
+-a destroy
+
+
+

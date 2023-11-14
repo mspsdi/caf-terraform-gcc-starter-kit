@@ -1,0 +1,102 @@
+
+# TODO: add in diagnostic setting
+# to install vs code and docker desktop
+# Virtual machines size = "Standard_D8s_v3"
+# install docker desktop
+# download zip file for visual studio code - no installation
+# start vs code, install dev containers
+# download sample labs caf solution
+# if hit error starting containers, close vs code and re-open
+virtual_machines = {
+
+  # Configuration to deploy a bastion host windows virtual machine
+  win_vm1 = {
+    resource_group_key = "vm_windows_tooling_re1"
+    provision_vm_agent = true
+    # when boot_diagnostics_storage_account_key is empty string "", boot diagnostics will be put on azure managed storage
+    # when boot_diagnostics_storage_account_key is a non-empty string, it needs to point to the key of a user managed storage defined in diagnostic_storage_accounts
+    # if boot_diagnostics_storage_account_key is not defined, but global_settings.resource_defaults.virtual_machines.use_azmanaged_storage_for_boot_diagnostics is true, boot diagnostics will be put on azure managed storage
+
+    os_type = "windows"
+
+    # the auto-generated ssh key in keyvault secret. Secret name being {VM name}-ssh-public and {VM name}-ssh-private
+    keyvault_key = "kv1_vm"
+
+    # Define the number of networking cards to attach the virtual machine
+    networking_interfaces = {
+      nic0 = {
+        # Value of the keys from networking.tfvars
+        #vnet_key                = "vnet_region1"
+        #subnet_key              = "example"
+        # management infra subnet        
+        subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}/subnets/{{prefix}}-snet-infra-management"
+        name                    = "0"
+        enable_ip_forwarding    = false
+        internal_dns_name_label = "nic0"
+        # public_ip_address_key   = "example_vm_pip1_rg1"
+      }
+    }
+
+    # virtual_machine_extensions = {
+    #   custom_script = {
+    #     #fileuris            = ["https://somelocation/container/script.ps1"]
+    #     # can define fileuris directly or use fileuri_sa_ reference keys and lz_key:
+    #     fileuri_sa_key   = "sa1"
+    #     fileuri_sa_path  = "files/helloworld.ps1"
+    #     commandtoexecute = "PowerShell -file helloworld.ps1"
+    #     # managed_identity_id = optional to define managed identity principal_id directly
+    #     identity_type        = "UserAssigned" #optional to use managed_identity for download from location specified in fileuri, UserAssigned or SystemAssigned.
+    #     managed_identity_key = "user_mi"
+    #     #lz_key               = "other_lz" optional for managed identity defined in other lz
+    #   }
+    # }
+    virtual_machine_settings = {
+      windows = {
+        name = "win1"
+        size = "Standard_D8s_v3" # "standard_d2_v2" # D4sv3   Standard_D8s_v3
+
+        # TODO: pull from blob storage to c:\wip, execute this script file projectcode-custom-data.ps1
+        #custom_data - Users can either reference a local file path or a block of code as seen below.
+        # custom_data                     = "scripts/cloud-init/install-rover-tools.config"
+        custom_data = <<CUSTOM_DATA
+#!/bin/bash
+echo "Execute your super awesome commands here!"
+CUSTOM_DATA
+
+        admin_username = "adminuser"
+        # Spot VM to save money
+        #priority        = "Spot"
+        #eviction_policy = "Deallocate"
+
+        # Value of the nic keys to attach the VM. The first one in the list is the default nic
+        network_interface_keys = ["nic0"]
+
+        os_disk = {
+          name                 = "windows_vm1-os"
+          caching              = "ReadWrite"
+          storage_account_type = "Standard_LRS"
+          managed_disk_type    = "StandardSSD_LRS"
+          disk_size_gb         = "128"
+          create_option        = "FromImage"
+        }
+
+        # TODO; use source_image_id = "????"
+        # source_image_id - (Optional) The ID of the Image which this Virtual Machine should be created from. Changing this forces a new resource to be created. Possible Image ID types include Image IDs, Shared Image IDs, Shared Image Version IDs, Community Gallery Image IDs, Community Gallery Image Version IDs, Shared Gallery Image IDs and Shared Gallery Image Version IDs.
+        # e.g. source_image_id       = "/sharedGalleries/9bd05406-c85b-4e5d-9b66-c8920883291a-PREVIEWCOMPUTEIMAGEGALLERY/images/ubuntu-22.04/versions/latest"
+
+
+        source_image_reference = {
+          publisher = "MicrosoftWindowsServer"
+          offer     = "WindowsServer"
+          sku       = "2019-Datacenter"
+          version   = "latest"
+        }
+        identity = {
+          type                  = "UserAssigned"
+          managed_identity_keys = ["user_mi"]
+        }
+      }
+    }
+  }
+
+}

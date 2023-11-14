@@ -1,0 +1,15 @@
+managed_identities = {
+  shared_kv_mi = {
+    name               = "shared-kv-mi"
+    resource_group_key = "kv_rg_re1"
+
+    tags = { 
+      purpose = "{{zone_code}} keyvault managed identity" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"          
+    } 
+
+  }
+}

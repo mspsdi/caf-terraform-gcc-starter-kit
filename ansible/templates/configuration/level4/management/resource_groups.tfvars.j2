@@ -1,0 +1,38 @@
+resource_groups = {
+  bastion_rg_re1 = {
+    name = "mgmt-bastion-host-re1"           
+    region = "region1"    
+    tags = { 
+      purpose = "management bastion resource group" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"           
+    }    
+  }
+
+  vm_windows_tooling_re1 = {
+    name = "mgmt-vm-windows-tooling-re1"
+    region = "region1"      
+    tags = { 
+      purpose = "internet vm tooling server resource group" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"            
+    }    
+  }  
+
+  mgmt_ops_re1 = {
+    name = "mgmt-ops-re1"
+    region = "region1"      
+    tags = { 
+      purpose = "mgmt ops resource group" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"            
+    }    
+  } 
+
+}

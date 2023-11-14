@@ -1,0 +1,73 @@
+private_dns = {
+  # after create, must grant to managed identity in role mapping
+  aks_dns_re1 = {
+    name               = "privatelink.southeastasia.azmk8s.io"
+    resource_group_key = "aks_re1"
+
+    # vnet link is created after vnet is crated.
+{% if gcc_platform | trim == '1' %}
+    vnet_links = {
+      aks_internet_vnet_link = {
+        name               = "aks-app-internet-vnet"
+        registration_enabled = true
+        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+      }    
+    }
+{% else %}
+    vnet_links = {
+      aks_internet_vnet_link = {
+        name               = "aks-app-internet-vnet"
+        # registration_enabled = true
+        vnet_key = "vnet_spoke_internet_re1"
+        # virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+      }    
+    }
+{% endif %}   
+
+    tags = { 
+      purpose = "internet azmk8s private dns" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"          
+    } 
+
+  }
+
+  acr_dns_re1 = {
+    name               = "privatelink.azurecr.io" # must be this name 0 do not change
+    resource_group_key = "aks_re1"
+
+    # vnet link is created after vnet is crated.
+
+{% if gcc_platform | trim == '1' %}
+    vnet_links = {
+      acr_internet_vnet_link = {
+        name               = "acr-app-internet-vnet"
+        registration_enabled = true
+        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+      }    
+    }
+{% else %}
+    vnet_links = {
+      acr_internet_vnet_link = {
+        name               = "acr-app-internet-vnet"
+        # registration_enabled = true
+        vnet_key = "vnet_spoke_internet_re1"
+        # virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+      }    
+    }
+{% endif %}     
+
+    tags = { 
+      purpose = "acr private dns" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"         
+    }      
+    
+  }
+
+
+}

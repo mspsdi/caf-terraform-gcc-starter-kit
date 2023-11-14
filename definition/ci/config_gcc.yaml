@@ -1,0 +1,18 @@
+---
+configuration_gcc:
+  subscription_id: 6f035180-4066-42f0-b0fa-5fbc1ae67500 # 6f035180-4066-42f0-b0fa-5fbc1ae67500 # 
+  spn_name: gcci-spn-landing-zone-001 # dummy value TODO: configure how this spn is being used?
+  # GCC 2.0 compartment information 
+  resource_group_name:	gcci-platform
+  log_analytics_workspace_resource_group_name:	gcci-agency-law
+  log_analytics_workspace_name:	gcci-agency-workspace
+  # virtual network - leave empty if there is no such virtual network   
+  ingress_egress_vnet_name_ingress_internet: UAT-InternetIngressVnet
+  ingress_egress_vnet_name_egress_internet: UAT-InternetEgressVnet
+  ingress_egress_vnet_name_ingress_intranet: UAT-IntranetIngressVnet
+  ingress_egress_vnet_name_egress_intranet: UAT-IntranetEgressVnet
+  internet_vnet_name:   # dummy value
+  management_vnet_name: UAT-ManagementVnet
+  devops_vnet_name: 	UAT-DevOpsVnet
+
+             

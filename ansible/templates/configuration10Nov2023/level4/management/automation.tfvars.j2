@@ -1,0 +1,54 @@
+{% if management_automation | trim == '1' %}
+automations = {
+  automation_account = {
+    name               = "automation-ops"
+    sku                = "Basic"
+    resource_group_key = "mgmt_ops_re1"
+    
+    public_network_access_enabled = false
+
+    tags = { 
+      purpose = "management automations" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"          
+    }     
+
+
+    private_endpoints = {
+      # Require enforce_private_link_endpoint_network_policies set to true on the subnet
+      pep_automation = {
+        name               = "pep-automation"
+        resource_group_key = "mgmt_ops_re1"
+        subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}/subnets/{{prefix}}-snet-infra-management"
+        private_service_connection = {
+          name                 = "psc-automation"
+          is_manual_connection = false
+          subresource_names    = ["DSCAndHybridWorker"]
+        }
+
+        private_dns = {
+          keys = ["privatelink_agentsvc"]
+          lz_key = "shared_services"
+        }
+      }
+    }
+  }
+}
+
+automation_log_analytics_links = {
+  linked_law = {
+    workspace_id           = "/subscriptions/{{subscription_id}}/resourceGroups/{{log_analytics_workspace_resource_group_name}}/providers/Microsoft.OperationalInsights/workspaces/{{log_analytics_workspace_name}}",
+    automation_account_key = "automation_account"
+    resource_group_name    = "{{log_analytics_workspace_resource_group_name}}"
+  }
+}
+{% endif %}  
+
+
+{% if management_automation | trim != '1' %}
+#------------------------------------------------------
+# this page is leave blank intentionally
+#------------------------------------------------------
+{% endif %}  

@@ -1,0 +1,32 @@
+
+virtual_subnets = {
+
+  # begin devops zone
+  devops_runner_subnet = {
+    name    = "runner-devops"
+    cidr    = ["{{cidr_devops_zone_subnet_runner}}"]  # 16 ips
+    nsg_key = "runner_nsg"
+    service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]   
+    delegation = {
+      name               = "container_groups"
+      service_delegation = "Microsoft.ContainerInstance/containerGroups" # Microsoft.Web/serverFarms"
+      actions            = ["Microsoft.Network/virtualNetworks/subnets/action"]
+    }  
+    # service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]
+    enforce_private_link_endpoint_network_policies = "true"         
+    vnet = {
+      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}"
+    }      
+  }  
+  GatewaySubnet = {
+    name    = "GatewaySubnet"
+    cidr    = ["{{cidr_devops_zone_subnet_gateway}}"]  # 16 ips
+    # nsg_key = "empty_nsg"
+    service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]   
+    enforce_private_link_endpoint_network_policies = "true"         
+    vnet = {
+      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}"
+    }      
+  }    
+  # end devops zone
+}

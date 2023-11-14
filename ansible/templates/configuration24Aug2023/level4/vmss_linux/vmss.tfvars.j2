@@ -1,0 +1,138 @@
+virtual_machine_scale_sets = {
+  vmss1 = {
+    resource_group_key                   = "linux_vmss_rg"
+    os_type                              = "linux"
+    lz_key                               = "shared_services"    
+    keyvault_key                         = "shared_kv1_re1"
+    boot_diagnostics_storage_account_key = "bootdiag1_re1"    
+
+    vmss_settings = {
+      linux = {
+        name                            = "linux_vmss1"
+        computer_name_prefix            = "lnx"
+        sku                             = "Standard_F2"
+        instances                       = 1
+        admin_username                  = "adminuser"
+        disable_password_authentication = true
+        provision_vm_agent              = true
+        # update 26 Sep 2022
+        # comment priority and eviction_policy
+        # priority        = "Spot"
+        # eviction_policy = "Deallocate"
+        ultra_ssd_enabled               = false # required if planning to use UltraSSD_LRS
+
+        upgrade_mode = "Manual" # Automatic / Rolling / Manual
+
+        # rolling_upgrade_policy = {
+        #   # Only for upgrade mode = "Automatic / Rolling "
+        #   max_batch_instance_percent = 20
+        #   max_unhealthy_instance_percent = 20
+        #   max_unhealthy_upgraded_instance_percent = 20
+        #   pause_time_between_batches = ""
+        # }
+        # automatic_os_upgrade_policy = {
+        #   # Only for upgrade mode = "Automatic"
+        #   disable_automatic_rollback = false
+        #   enable_automatic_os_upgrade = true
+        # }
+
+
+        os_disk = {
+          caching              = "ReadWrite"
+          storage_account_type = "Standard_LRS"
+          disk_size_gb         = 128
+          # disk_encryption_set_key = ""
+          # lz_key = ""
+        }
+
+        identity = {
+          # type = "SystemAssigned"
+          type                  = "UserAssigned"
+          managed_identity_keys = ["vmss_msi"]
+
+          remote = {
+            lz_key_name = {
+              managed_identity_keys = []
+            }
+          }
+        }
+
+        # custom_image_id = ""
+
+        source_image_reference = {
+          publisher = "Canonical"
+          offer     = "UbuntuServer"
+          sku       = "18.04-LTS"
+          version   = "latest"
+        }
+
+        # plan = {
+        #   name      = ""
+        #   publisher = ""
+        #   product   = ""
+        # }
+
+      }
+    }
+
+    network_interfaces = {
+      # option to assign each nic to different LB/ App GW
+
+      nic0 = {
+
+        name       = "0"
+        primary    = true
+        # vnet_key   = "vnet1" # ????
+        # subnet_key = "subnet1" # ????
+        # subnet_id = ""
+        subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-gut-{{zone_code}}",
+
+        # modify the following to handling multiple lbs, appgw, asg
+
+        # load_balancers = {
+        #   lb1 = {
+        #     lb_key = ""
+        #     lz_key = ""
+        #   }
+        # }
+
+#        appgw_backend_pools = {
+#          appgw1 = {
+#            appgw_key = "agw1"
+#            # lz_key = ""
+#            pool_names = ["myapp"]
+#          }
+#        }
+
+        application_security_groups = {
+          asg1 = {
+            asg_key = "app_sg1"
+            # lz_key = ""
+          }
+        }
+
+        enable_accelerated_networking = false
+        enable_ip_forwarding          = false
+        internal_dns_name_label       = "nic0"
+      }
+    }
+
+
+    data_disks = {
+      data1 = {
+        caching                   = "None"  # None / ReadOnly / ReadWrite
+        create_option             = "Empty" # Empty / FromImage (only if source image includes data disks)
+        disk_size_gb              = "10"
+        lun                       = 1
+        storage_account_type      = "Standard_LRS" # UltraSSD_LRS only possible when > additional_capabilities { ultra_ssd_enabled = true }
+        disk_iops_read_write      = 100            # only for UltraSSD Disks
+        disk_mbps_read_write      = 100            # only for UltraSSD Disks
+        write_accelerator_enabled = false          # true requires Premium_LRS and caching = "None"
+        # disk_encryption_set_key = "set1"
+        # lz_key = "" # lz_key for disk_encryption_set_key if remote
+      }
+    }
+
+  }
+
+}

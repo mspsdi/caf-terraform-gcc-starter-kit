@@ -1,0 +1,19 @@
+storage_accounts = {
+  fa_sa1 = {
+    name               = "funappsa1" # do not have underscore or desh characters
+    resource_group_key = "fa_rg_re1"
+    region             = "region1"
+
+    account_kind             = "StorageV2"
+    account_tier             = "Standard"
+    account_replication_type = "LRS"
+
+    containers = {
+      dev = {
+        name = "random"
+      }
+    }
+
+  }
+}
+

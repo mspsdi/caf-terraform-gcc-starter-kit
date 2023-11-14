@@ -1,0 +1,13 @@
+resource_groups = {
+  redis_rg_re1 = {
+    name = "redis-re1"           
+    region = "region1"    
+    tags = { 
+      purpose = "{{zone_code}} redis resource group" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"          
+    }         
+  }
+}

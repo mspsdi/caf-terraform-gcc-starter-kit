@@ -1,0 +1,29 @@
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/mssql \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_mssql.tfstate \
+-a plan
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/mssql \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_mssql.tfstate \
+-a apply
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/mssql \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_mssql.tfstate \
+-a destroy
+
+
+
+
+
+
+# apim nsg
+https://docs.microsoft.com/en-us/azure/api-management/api-management-using-with-vnet?tabs=stv2

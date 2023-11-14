@@ -1,0 +1,114 @@
+mssql_servers = {
+  mssql_server_re1 = {
+    name                = "mssql-server"
+    region              = "region1"
+    resource_group_key  = "mssql_rg_re1"
+    administrator_login = "sqladminuser01"
+    secret_name         = "{{project_code}}-sql-mssql-server-password"
+
+    keyvault = {
+      key    = "sql_kv_re1"
+      # lz_key = "shared_services"
+    }
+
+    system_msi                    = true
+    
+    # # ** IMPORTANT ** a user assigned identity or a service principal must be used when using a custom private dns zone
+    # identity = {
+    #   type                 = "UserAssigned"
+    #   lz_key          = "shared_services" # if DNS keys is deployed in remote landingzone    
+    #   managed_identity_keys = ["aks_usermsi","mssql_usermsi"]
+    # }     
+    
+    public_network_access_enabled = false
+    minimum_tls_version           = "1.2"
+
+    tags = { 
+      purpose = "{{zone_code}} mssql server" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"         
+    } 
+    
+    private_endpoints = {
+      private-link-sql = {
+        name = "pep-mssql-server"
+        
+
+{% if gcc_platform | trim == '1' %}
+        subnet_id          = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-db-internet"
+{% else %}
+        vnet_key = "vnet_spoke_internet_re1"
+        subnet_key = "db_internet_subnet"
+        lz_key = "networking_spoke_internet"    
+        # subnet_id          = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-db-internet"
+{% endif %}
+
+        resource_group_key = "mssql_rg_re1"
+
+        private_service_connection = {
+          name                 = "psc-sql"
+          is_manual_connection = false
+          subresource_names    = ["sqlServer"]
+        }
+
+        private_dns = {
+          zone_group_name = "default"          
+          lz_key          = "networking_spoke_internet" # if DNS keys is deployed in remote landingzone
+          keys   = ["db_dns_re1"]
+        }
+      }
+    }
+
+  }
+}
+
+mssql_databases = {
+  sqldb1 = {
+    resource_group_key = "mssql_rg_re1"
+    mssql_server_key   = "mssql_server_re1"
+    elastic_pool_key   = "ep1"
+    name               = "sqldb1"
+
+    diagnostic_profiles = {
+      central_logs_region = {
+        definition_key   = "mssql_db"
+        destination_type = "log_analytics"
+        destination_key  = "central_logs"
+        lz_key = "shared_services" # TODO: is this required?
+      }
+    }
+
+    tags = { 
+      purpose = "{{zone_code}} mssql database" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"          
+    } 
+
+  }
+  
+}
+
+mssql_elastic_pools = {
+  ep1 = {
+    resource_group_key = "mssql_rg_re1"
+    mssql_server_key   = "mssql_server_re1"
+    name               = "ep1"
+    max_size_gb        = 756
+
+    sku = {
+      name     = "GP_Gen5"
+      tier     = "GeneralPurpose"
+      family   = "Gen5"
+      capacity = 4
+    }
+
+    per_database_settings = {
+      min_capacity = 0.25
+      max_capacity = 4
+    }
+  }
+}

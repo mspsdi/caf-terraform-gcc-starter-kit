@@ -1,0 +1,116 @@
+# Application security groups
+application_security_groups = {
+  app_sg2 = {
+    resource_group_key = "windows_vmss_rg"
+    name               = "app_sg2"
+
+  }
+}
+
+virtual_machine_scale_sets = {
+
+  windows_vmss = {
+    resource_group_key                   = "windows_vmss_rg"
+    os_type                              = "windows"
+    lz_key                               = "shared_services"    
+    keyvault_key                         = "shared_kv1_re1"
+    boot_diagnostics_storage_account_key = "bootdiag1_re1"   
+
+    vmss_settings = {
+      windows = {
+        name                            = "win"
+        computer_name_prefix            = "win"
+        sku                             = "Standard_F2"
+        instances                       = 1
+        admin_username                  = "adminuser"
+        disable_password_authentication = true
+        # update 26 Sep 2022
+        # comment priority and eviction_policy
+        # priority        = "Spot"
+        # eviction_policy = "Deallocate"
+
+        upgrade_mode = "Manual" # Automatic / Rolling / Manual
+
+        # rolling_upgrade_policy = {
+        #   # Only for upgrade mode = "Automatic / Rolling "
+        #   max_batch_instance_percent = 20
+        #   max_unhealthy_instance_percent = 20
+        #   max_unhealthy_upgraded_instance_percent = 20
+        #   pause_time_between_batches = ""
+        # }
+        # automatic_os_upgrade_policy = {
+        #   # Only for upgrade mode = "Automatic"
+        #   disable_automatic_rollback = false
+        #   enable_automatic_os_upgrade = true
+        # }
+
+        os_disk = {
+          caching              = "ReadWrite"
+          storage_account_type = "Standard_LRS"
+          disk_size_gb         = 128
+        }
+
+        identity = {
+          type                  = "SystemAssigned"
+          managed_identity_keys = []
+        }
+
+        source_image_reference = {
+          publisher = "MicrosoftWindowsServer"
+          offer     = "WindowsServer"
+          sku       = "2016-Datacenter"
+          version   = "latest"
+        }
+
+      }
+    }
+
+    network_interfaces = {
+      nic0 = {
+        # Value of the keys from networking.tfvars
+        name       = "0"
+        primary    = true
+        # vnet_key   = "vnet1"
+        # subnet_key = "subnet1"
+        subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-gut-{{zone_code}}",
+
+
+#        appgw_backend_pools = {
+#          appgw1 = {
+#            appgw_key = "agw1"
+#            # lz_key = ""
+#            pool_names = ["myapp2"]
+#          }
+#        }
+
+        application_security_groups = {
+          asg2 = {
+            asg_key = "app_sg2"
+            # lz_key = ""
+          }
+        }
+
+        enable_accelerated_networking = false
+        enable_ip_forwarding          = false
+        internal_dns_name_label       = "nic0"
+      }
+    }
+    ultra_ssd_enabled = false # required if planning to use UltraSSD_LRS
+
+    data_disks = {
+      data1 = {
+        caching                   = "None"  # None / ReadOnly / ReadWrite
+        create_option             = "Empty" # Empty / FromImage (only if source image includes data disks)
+        disk_size_gb              = "10"
+        lun                       = 1
+        storage_account_type      = "Standard_LRS" # UltraSSD_LRS only possible when > additional_capabilities { ultra_ssd_enabled = true }
+        disk_iops_read_write      = 100            # only for UltraSSD Disks
+        disk_mbps_read_write      = 100            # only for UltraSSD Disks
+        write_accelerator_enabled = false          # true requires Premium_LRS and caching = "None"
+        # disk_encryption_set_key = "set1"
+        # lz_key = "" # lz_key for disk_encryption_set_key if remote
+      }
+    }
+
+  }
+}

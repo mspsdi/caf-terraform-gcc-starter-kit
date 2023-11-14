@@ -1,0 +1,34 @@
+{% if management_ampls | trim == '1' %}  
+monitor_private_link_scope = {
+  ampls = {
+    name               = "ampls-management-infra"
+    resource_group_key = "ops_rg_re1"
+
+    private_endpoints = {
+      # Require enforce_private_link_endpoint_network_policies set to true on the subnet
+      pep_ampls = {
+        name = "pep-ampls"
+        resource_group_key = "ops_rg_re1"
+        subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}/subnets/{{prefix}}-snet-infra-management"
+        private_service_connection = {
+          name                 = "psc-ampls"
+          is_manual_connection = false
+          subresource_names    = ["azuremonitor"]
+        }
+        private_dns = {
+          keys = ["monitor_dns_re1", "oms_dns_re1", "ods_dns_re1", "agentsvc_dns_re1"]
+        }
+      }
+    }
+
+    tags = { 
+      purpose = "management ampls" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"           
+    } 
+
+  }
+}
+

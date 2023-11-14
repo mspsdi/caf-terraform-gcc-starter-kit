@@ -1,0 +1,25 @@
+
+private_dns = {
+  dns1 = {
+    name               = "project.{{ingress_intranet_dns_zone}}"
+    resource_group_key = "networking_spoke_re1"
+
+    records = {
+      a_records = {
+        ingress = {
+          name    = "aks"
+          ttl     = 3600
+          records = ["{{ingress_internet_aks_ip}}"] # TODO: set the ingress controller private ip address
+        }
+      }
+    }
+
+    vnet_links = {
+      app_internet_vnet_link = {
+        name               = "app-internet-vnet"
+        registration_enabled = true
+        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+      }    
+    }
+  }
+}

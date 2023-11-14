@@ -1,0 +1,13 @@
+resource_groups = {
+  cognitiveservices_rg_re1 = {
+    name = "cognitiveservices-re1"           
+    region = "region1"    
+    tags = { 
+      purpose = "{{zone_code}} mssql resource group" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"          
+    }     
+  }
+}

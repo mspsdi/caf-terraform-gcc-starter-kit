@@ -1,0 +1,139 @@
+application_gateway_applications = {
+  delux_app = {
+
+    application_gateway_key = "agw_ez"
+    name                    = "delux-uat-app"
+
+    listeners = {
+      public_ssl = {
+        name                           = "delux-nonprod-443"
+        front_end_ip_configuration_key = "public"
+        front_end_port_key             = "443"
+        host_name                      = "delux-nonprod.htx.gov.sg"
+        request_routing_rule_key       = "default"
+        keyvault_certificate = {
+          certificate_name = "delux-nonprod"
+          keyvault_id      = "/subscriptions/8e4f33ee-02bc-4d4b-9ad6-8e8612deebec/resourceGroups/rg-n-adlx-u-shared-services/providers/Microsoft.KeyVault/vaults/svc-kvm-u-adlx-u3mt-mgmt"
+        }
+      }
+      
+      
+    }
+
+    request_routing_rules = {
+      default = {
+        rule_type = "Basic"
+        priority  = 100
+      }
+    }
+
+    rewrite_rule_sets = {
+      rrs1 = {
+        name = "HTTP_Header_Rewrite_Rules"
+        rewrite_rules = {
+          rr1 = {
+            name                 = "Content-Security-Policy"
+            rule_sequence        = "100"
+            response_header_configurations = {
+              csp_header = {
+                header_name  = "Content-Security-Policy"
+                header_value = "default-src 'self' https://*.dcube.cloud/; script-src 'self' https://cdn.jsdelivr.net 'sha256-j7OoGArf6XW6YY4cAyS3riSSvrJRqpSi1fOF9vQ5SrI=' blob: https//*.dcube.cloud; connect-src 'self' https://developers.onemap.sg https://*dcube.cloud; font-src 'self' https://fonts.gstatic.com data: https://assets.dcube.cloud/fonts/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://assets.dcube.cloud/;"
+              }
+            }
+          }
+          rr2 = {
+            name                 = "X-Frame-Options"
+            rule_sequence        = "100"
+            response_header_configurations = {
+             x_frame_header = {
+                header_name  = "X-Frame-Options"
+                header_value = "SAMEORIGIN"
+              }
+            }
+          }
+          rr3 = {
+            name                 = "X-Content-Type-Options"
+            rule_sequence        = "100"
+            response_header_configurations = {
+              x_content_header = {
+                header_name  = "X-Content-Type-Options"
+                header_value = "nosniff"
+              }
+            }
+          }
+          rr4 = {
+            name                 = "Referrer-Policy"
+            rule_sequence        = "100"
+            response_header_configurations = {
+              ref_policy_header = {
+                header_name  = "Referrer-Policy"
+                header_value = "strict-origin-when-cross-origin"
+              }
+            }
+          }
+          rr5 = {
+            name                 = "X-Permitted-Cross-Domain-Policies"
+            rule_sequence        = "100"
+            response_header_configurations = {
+              x_domain_policy_header = {
+                header_name  = "X-Permitted-Cross-Domain-Policies"
+                header_value = "none"
+              }
+            }
+          }
+          rr6 = {
+            name                 = "Strict-Transport-Security"
+            rule_sequence        = "100"
+            response_header_configurations = {
+              hsts_header = {
+                header_name  = "Strict-Transport-Security"
+                header_value = "max-age=31536000"
+              }
+            }
+          }
+        }
+      }
+    }
+
+
+    backend_http_setting = {
+      port                                = 443
+      protocol                            = "Https"
+      pick_host_name_from_backend_address = false
+      probe_key                           = "backend_hp"
+   }
+
+    # backend_pool = {
+    #  ip_addresses = [
+    #    "100.73.15.200"
+    #  ]
+    #}
+
+    # set to aks lb
+    backend_pools = {
+      app1_bep = {
+        name  = "app1-bep"
+        fqdns = ["{{ingress_intranet_aks_fqdn}}.{{ingress_intranet_dns_zone}}"] #  ["aks.intranet.caflabs.com"] # TODO: set to the aks fqdn - set private dns "caflabs.com" A record "aks" ipaddress "{{ingress_internet_aks_ip}}"
+        # ip_addresses = ["{{ingress_internet_aks_ip}}"] # aks internal lb ingress controller ip address
+      }          
+    }    
+
+    probes = {
+      backend_hp = {
+        name                = "backend-hp"
+        protocol            = "Https" # Http or Https
+        host                = "{{ingress_intranet_aks_fqdn}}.{{ingress_intranet_dns_zone}}"
+        path                = "/"
+        interval            = "30"
+        timeout             = "30"
+        unhealthy_threshold = "3"
+        match = {
+          status_code = ["200-399", "400-499"]
+        }
+
+      }
+    }
+
+  }
+}
+

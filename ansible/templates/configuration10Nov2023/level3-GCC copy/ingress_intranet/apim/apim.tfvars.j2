@@ -1,0 +1,62 @@
+#
+# Reference Example: 
+# /tf/caf/landingzones/aztfmod/examples/apim/115-api_management_private_virtual_network
+# /tf/caf/landingzones/aztfmod/examples/apim/110-api_management_diagnostic
+#
+api_management = {
+  integration_apim_re1 = {
+    name                 = "integration-re1"
+    resource_group_key = "apim_rg_re1"
+    publisher_name       = "My Company"
+    publisher_email      = "company@terraform.io"
+    sku_name             = "Developer_1" # to switch to premium for production
+    virtual_network_type = "Internal"
+    virtual_network_configuration = {
+      subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_intranet}}/subnets/{{prefix}}-snet-ingress-apim"
+    }
+
+    identity = {
+      type = "UserAssigned"
+      managed_identity_keys = ["apim_msi"] # local managed identities
+
+      # # remote managed identities
+      # remote = { # Use that block to reference a remote user MSI
+      #   "shared_services" = {
+      #     managed_identity_keys = [
+      #       "apim_internet_msi"
+      #     ]
+      #   }
+      # }
+    
+    }   
+
+    #TODO: add diagnostic_profiles
+    # not working here
+    # diagnostic_profiles = {
+    #  operations = {
+    #    definition_key   = "apim"
+    #    destination_type = "log_analytics"
+    #    destination_key  = "central_logs"
+    #  }
+    # }    
+
+    diagnostic_profiles = {
+      central_logs_region1 = {
+        definition_key   = "apim"
+        destination_type = "log_analytics"
+        destination_key  = "central_logs"
+        lz_key = "shared_services" # TODO: is this required?
+      }
+    }
+
+
+    tags = { 
+      purpose = "{{zone_code}} apim" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"          
+    }  
+  }
+}
+

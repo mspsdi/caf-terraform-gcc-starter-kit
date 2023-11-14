@@ -1,0 +1,95 @@
+/*
+For me, it's solved too, by first the addition of a public IP:
+
+resource "azurerm_public_ip" "apim" {
+  name                 = "apim-ip"
+  location             = var.location
+  resource_group_name  = var.resource_group_name
+  domain_name_label    = local.apim_name
+  allocation_method    = "Static"
+  sku                  = "Standard"
+  ddos_protection_mode = "Enabled"
+  tags                 = var.tags
+}
+and then linking that public ip with my APIM
+
+resource "azurerm_api_management" "apim" {
+  name                          = local.apim_name
+  location                      = var.location
+  resource_group_name           = var.resource_group_name
+  virtual_network_type          = "External"
+
+  [...]
+
+  public_ip_address_id          = azurerm_public_ip.apim.id
+
+  virtual_network_configuration {
+    subnet_id = var.subnet_id
+  }
+}
+
+*/
+
+# apim stv2 or stv2.1 will required a public ip
+api_management = {
+  integration_apim_re1 = {
+    name                 = "integration-re1"
+    resource_group_key = "apim_rg_re1"
+    publisher_name       = "My Company"
+    publisher_email      = "company@terraform.io"
+    sku_name             = "Developer_1"
+    
+    identity = {
+      type = "UserAssigned"
+
+      managed_identity_keys = ["apim_msi"] # local managed identities
+
+      # # remote managed identities
+      # remote = { # Use that block to reference a remote user MSI
+      #   "shared_services" = {
+      #     managed_identity_keys = [
+      #       "apim_internet_msi"
+      #     ]
+      #   }
+      # }
+    
+    }    
+    virtual_network_type = "Internal"
+    virtual_network_configuration = {
+
+
+{% if gcc_platform | trim == '1' %}
+      subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-it-{{zone_code}}"
+{% else %}
+      vnet_key = "vnet_spoke_internet_re1"
+      subnet_key = "it_internet_subnet"
+      lz_key = "networking_spoke_internet"    
+      # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-it-internet"
+{% endif %}
+      # vnet_key = "vnet_spoke_internet_re1"
+      # subnet_key = "it_internet_subnet"
+      # lz_key = "networking_spoke_internet"  
+      # subnet_id = "/subscriptions/6f035180-4066-42f0-b0fa-5fbc1ae67500/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-internet/subnets/esdso-snet-it-internet"
+
+    }
+
+    #TODO: add diagnostic_profiles
+    # not working here
+    #diagnostic_profiles = {
+    #  operations = {
+    #    definition_key   = "apim"
+    #    destination_type = "log_analytics"
+    #    destination_key  = "central_logs"
+    #  }
+    #}    
+
+    tags = { 
+      purpose = "{{zone_code}} apim" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"          
+    }  
+  }
+}
+

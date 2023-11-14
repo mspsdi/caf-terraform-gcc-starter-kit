@@ -1,0 +1,33 @@
+## Pre-requisites
+
+login account must be the owner of the subscription when creating the launchpad
+purge all deleted key vaults before apply the launchpad
+
+## Deployment
+
+```bash
+rover -lz /tf/caf/landingzones/caf_launchpad \
+  -launchpad \
+  -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level0/launchpad \
+  -skip-permission-check \
+  -env {{caf_environment}} \
+  -a plan
+```
+
+```bash
+rover -lz /tf/caf/landingzones/caf_launchpad \
+  -launchpad \
+  -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level0/launchpad \
+  -skip-permission-check \
+  -env {{caf_environment}} \
+  -a apply
+```  
+
+```bash
+rover -lz /tf/caf/landingzones/caf_launchpad \
+  -launchpad \
+  -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level0/launchpad \
+  -skip-permission-check \
+  -env {{caf_environment}} \
+  -a destroy
+``` 

@@ -1,0 +1,16 @@
+
+keyvaults = {
+  postgresql_kv_re1 = {
+    name               = "postgresqlre1"
+    resource_group_key = "security_rg_re1"
+    sku_name           = "standard"
+    creation_policies = {
+      logged_in_user = {
+        secret_permissions = ["Set", "Get", "List", "Delete", "Purge"]
+      }
+    }
+  }
+}
+
+
+

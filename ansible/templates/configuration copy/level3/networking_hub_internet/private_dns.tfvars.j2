@@ -1,0 +1,30 @@
+
+private_dns = {
+  dns1 = {
+    name               = "{{ingress_internet_dns_zone}}"
+    resource_group_key = "networking_hub_internet_re1"
+
+    records = {
+      a_records = {
+        aks = {
+          name    = "{{ingress_internet_aks_fqdn}}" # e.g. aks-demoapp1
+          ttl     = 3600
+          records = ["{{ingress_internet_aks_ip}}"] # TODO: set the aks internet private ip address
+        }
+        ingress = {
+          name    = "{{ingress_internet_agw_fqdn}}" # e.g. demoapp1
+          ttl     = 3600
+          records = ["{{ingress_internet_agw_ip}}"] # TODO: set the agw internet private ip address
+        }        
+      }                 
+    }
+
+    vnet_links = {
+      app_internet_vnet_link = {
+        name               = "ingress-internet-vnet"
+        registration_enabled = true
+        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
+      }    
+    }
+  }
+}

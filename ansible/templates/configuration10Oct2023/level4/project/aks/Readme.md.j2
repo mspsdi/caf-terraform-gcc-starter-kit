@@ -1,0 +1,35 @@
+
+# estimate time for aks: < 15 minutes.
+<!-- module.solution.module.aks_clusters["cluster_re1"].azurerm_kubernetes_cluster.aks: Still creating... [9m10s elapsed]
+module.solution.module.aks_clusters["cluster_re1"].azurerm_kubernetes_cluster.aks: Creation complete after 9m13s [id=/subscriptions/{{subscription_id}}/resourceGroups/ignite-rg-aks-re1/providers/Microsoft.ContainerService/managedClusters/ignite-aks-cluster-re1] -->
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/aks \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_aks.tfstate \
+-a plan
+
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/aks \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_aks.tfstate \
+-a apply
+
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/aks \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_aks.tfstate \
+-a destroy
+
+
+
+
+
+
+
+# apim nsg
+https://docs.microsoft.com/en-us/azure/api-management/api-management-using-with-vnet?tabs=stv2

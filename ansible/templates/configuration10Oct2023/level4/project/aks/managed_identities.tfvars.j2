@@ -1,0 +1,14 @@
+managed_identities = {
+  aks_usermsi = {
+    name               = "aks-usermsi" 
+    resource_group_key = "aks_re1"
+
+    tags = { 
+      purpose = "{{zone_code}} aks managed identity" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"          
+    }  
+  }
+}

@@ -1,0 +1,21 @@
+public_ip_addresses = {
+  # standard v2 needs 1 public ip
+  agw_pip1_re1 = {
+    name                    = "aks-pip1"
+    resource_group_key      = "aks_re1"
+    sku                     = "Standard"
+    allocation_method       = "Static"
+    ip_version              = "IPv4"
+    zones                   = ["1"]
+    idle_timeout_in_minutes = "4"
+
+    tags = { 
+      purpose = "{{zone_code}} aks public ip address" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"          
+    } 
+  }
+}
+

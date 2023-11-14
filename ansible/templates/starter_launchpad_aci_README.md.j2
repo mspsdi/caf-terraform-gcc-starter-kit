@@ -1,0 +1,196 @@
+=======================================================
+# Create container group with system-managed identity
+========================================================
+
+=======================================================
+# image: aztfmod/rover-agent:1.4.6-2307.0508-gitlab
+# aztfmod/rover:1.5.2-2307.0508
+========================================================
+
+az group create --name ignite-rg-launchpad --location southeastasia
+
+RG_ID=$(az group show --name ignite-rg-launchpad --query id --output tsv)
+
+
+# az subscription show --name sandpit-htx-Trials-CEP-Staging --query id --output tsv
+
+az group create --name ignite-rg-launchpad --location southeastasia
+
+RG_ID="/subscriptions/xxxxxxxx-4066-42f0-b0fa-xxxxxxxxxxxx"
+
+az container create \
+  --name aci-rovercontainer \
+  --resource-group ignite-rg-launchpad \
+  --image aztfmod/rover-agent:1.4.6-2307.0508-gitlab  \
+  --vnet vnet-aci \
+  --vnet-address-prefix 192.200.1.96/27 \
+  --subnet snet-aci  \
+  --subnet-address-prefix 192.200.1.96/28 \
+  --assign-identity --scope $RG_ID \
+  --cpu 4 \
+  --memory 16 \
+  --command-line '"/bin/sh" "-c" "while sleep 1000; do :; done"'
+
+
+# TODO: manually grant OWNER right to aci-rovercontainer managed identity
+# copy and replace the automation-Identity-object-id
+# TODO: to test if the below command work
+az RoleAssignment \
+    -ObjectId 46b05031-eb48-4e48-b40a-684f9309a981 \
+    -Scope "/subscriptions/xxxxxxxx-4066-42f0-b0fa-xxxxxxxxxxxx" \
+    -RoleDefinitionName "Owner"
+
+# OR   --command-line "tail -f /dev/null"
+
+az container show \
+  --resource-group ignite-rg-launchpad \
+  --name aci-rovercontainer
+
+
+SP_ID=$(az container show \
+  --resource-group ignite-rg-launchpad \
+  --name aci-rovercontainer \
+  --query identity.principalId --out tsv)
+
+az container exec \
+  --resource-group ignite-rg-launchpad \
+  --name aci-rovercontainer \
+  --exec-command "/bin/bash"
+
+az container exec \
+  --resource-group ignite-rg-launchpad \
+  --name aci-rovercontainer \
+  --exec-command "/bin/zsh"
+
+az login --identity
+
+
+
+open azure portal, grant OWNER right to container system managed identity "aci-rovercontainer"
+
+# prepare the rover containers
+
+git clone https://github.com/thiamsoontan/caf-gcc-starter-kit-ignite
+
+# unzip file.zip -d destination_folder
+# unzip /tf/caf/lab/caf-gcc-starter-kit-ignite.zip -d /tf/caf/caf-terraform-gcc-starter-kit
+# cd caf-terraform-gcc-starter-kit/caf-terraform-gcc-starter-kit
+# mv /tf/caf/caf-gcc-starter-kit-ignite/gcc_starter /tf/caf
+
+mv /tf/caf/caf-gcc-starter-kit-ignite/patches /tf/caf
+mv /tf/caf/caf-gcc-starter-kit-ignite/.devcontainer /tf/caf
+mv /tf/caf/caf-gcc-starter-kit-ignite/ansible /tf/caf
+
+sudo chmod -R -f 777 /tf/caf/.devcontainer/setup.sh
+cd /tf/caf/.devcontainer
+./setup.sh
+cd /tf/caf
+sudo chmod -R -f 777 /tf/rover/functions.sh 
+cp /tf/caf/patches/rover/functions.sh /tf/rover/functions.sh
+sudo chmod -R -f 777 /tf/caf/caf-gcc-starter-kit-ignite/ansible
+
+
+# manually/patch add computerName="aci-rovercontainer" to line 673 to use container instance "aci-rovercontainer"
+# vi /tf/rover/functions.sh
+
+
+# add a # to line 674
+# sed '673{s/^/#/;s/^##//}' /tf/rover/functions.sh # not working
+# add computerName="aci-rovercontainer" to line 674
+# sed -i '673icomputerName="aci-rovercontainer"' /tf/rover/functions.sh # not working
+
+# Error: Tenant shouldn't be specified for managed identity account
+# the below command solve the error "Error: Tenant shouldn't be specified for managed identity account"
+
+# ** IMPORTANT - set ARM_USE_MSI = true everytime you bring up the zsh terminal
+export ARM_USE_MSI=true
+
+# export ARM_SUBSCRIPTION_ID=xxxxxxxx-4066-42f0-b0fa-xxxxxxxxxxxx
+# export ARM_TENANT_ID=xxxxxx-ffda-45c1-adc5-xxxxxxxxxxxx
+
+
+<!-- 
+
+line 674 modiy to the below:
+                    computerName="aci-rovercontainer"
+
+                if [ -z ${MSI_ID} ]; then
+                    computerName="aci-rovercontainer"
+                    # $(az rest --method get --headers Metadata=true --url http://169.254.169.254/metadata/instance?api-version=2020-09-01 | jq -r .compute.name)
+                    az resource list -n ${computerName}
+                    principalId=$(az resource list -n ${computerName} --query [*].identity.principalId --out tsv)
+                    echo " - logged in Azure with System Assigned Identity - computer name - ${computerName}"
+                    export TF_VAR_logged_user_objectId=${principalId}
+                    export ARM_TENANT_ID=$(az account show --only-show-errors | jq -r .tenantId)
+                else
+                    echo " - logged in Azure with System Assigned Identity - ${MSI_ID}"
+                    az identity show --ids ${MSI_ID}
+                    export TF_VAR_logged_user_objectId=$(az identity show --ids ${MSI_ID} --query principalId -o tsv --only-show-errors 2>/dev/null)
+                    export ARM_TENANT_ID=$(az identity show --ids ${MSI_ID} --query tenantId -o tsv --only-show-errors 2>/dev/null)
+                fi
+  -->
+
+
+
+
+<!-- 
+
+# setup.sh commands
+sudo chmod 666 /var/run/docker.sock || true
+sudo cp -R /tmp/.ssh-localhost/* ~/.ssh
+sudo chown -R $(whoami):$(whoami) ~ || true ?>/dev/null
+sudo chmod 400 ~/.ssh/*
+
+git config --global core.editor vim
+pre-commit install
+pre-commit autoupdate
+
+git config --global --add safe.directory /tf/caf
+git config --global --add safe.directory /tf/caf/landingzones
+git config --global --add safe.directory /tf/caf/landingzones/aztfmod
+git config --global --add safe.directory /tf/caf/aztfmod
+
+git config pull.rebase false 
+
+  # git clone --branch int-5.6.0 https://github.com/Azure/caf-terraform-landingzones.git /tf/caf/landingzones
+  # clone latest caf terraform landingzones - 5.69
+  git clone https://github.com/Azure/caf-terraform-landingzones.git /tf/caf/landingzones
+  sudo chmod +x /tf/caf/landingzones/templates/**/*.sh
+  # git clone aztfmod (if required)
+    # clone latest version of aztfmod
+    git clone https://github.com/aztfmod/terraform-azurerm-caf.git /tf/caf/landingzones/aztfmod 
+    cd /tf/caf/landingzones/aztfmod 
+    # checkout version 5.7.0-preview0
+    git checkout 5.7.0-preview0
+    # patch to use local copy of aztfmod
+    cp /tf/caf/patches/caf_launchpad/landingzone.tf /tf/caf/landingzones/caf_launchpad/landingzone.tf
+    cp /tf/caf/patches/caf_solution/landingzone.tf /tf/caf/landingzones/caf_solution/landingzone.tf
+    cp /tf/caf/patches/caf_launchpad/main.tf /tf/caf/landingzones/caf_launchpad/main.tf
+    cp /tf/caf/patches/caf_solution/main.tf /tf/caf/landingzones/caf_solution/main.tf
+    # patch logic app code no response
+    cp /tf/caf/patches/caf_solution/local.logic_app.tf /tf/caf/landingzones/caf_solution/local.logic_app.tf  
+    # optional: fixed and patch azure bastion, container group, sql server
+    cp /tf/caf/patches/bastion/bastion_service.tf /tf/caf/landingzones/aztfmod/bastion_service.tf
+    cp /tf/caf/patches/container_group/container_group.tf /tf/caf/landingzones/aztfmod/modules/compute/container_group/container_group.tf
+    cp /tf/caf/patches/mssqlserver/private_endpoints.tf /tf/caf/landingzones/aztfmod/modules/databases/mssql_server/private_endpoints.tf
+    # Patches 5: application_gateway_application
+    cp /tf/caf/patches/application_gateway_application/scripts/set_resource.sh /tf/caf/landingzones/aztfmod/modules/networking/application_gateway_application/scripts/set_resource.sh
+    cd /tf/caf/
+    # note: /tf/caf/landingzones/aztfmod/main.tf show the version of the azurerm
+
+ -->
+
+
+
+
+az network vnet subnet create --address-prefix 10.1.255.0/27 --name GatewaySubnet --resource-group TestRG1 --vnet-name VNet1
+
+az network local-gateway create --gateway-ip-address 23.99.221.164 --name Site2 --resource-group TestRG1 --local-address-prefixes 10.0.0.0/24 20.0.0.0/24
+
+az network public-ip create --name VNet1GWIP --resource-group TestRG1 --allocation-method Static --sku Standard
+
+az network vnet-gateway create --name VNet1GW --public-ip-address VNet1GWIP --resource-group TestRG1 --vnet VNet1 --gateway-type Vpn --vpn-type RouteBased --sku VpnGw1 --no-wait
+
+az network public-ip list --resource-group TestRG1 --output table
+
+az network vpn-connection show --name <connection-name> --resource-group <resource-group-name>

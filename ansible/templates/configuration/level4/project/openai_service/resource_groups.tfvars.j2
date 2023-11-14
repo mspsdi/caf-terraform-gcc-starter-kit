@@ -1,0 +1,26 @@
+resource_groups = {
+  openai_rg_re1 = {
+    name = "openai-re1"           
+    region = "region2" # eastus    
+    tags = { 
+      purpose = "internet openai resource group" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"        
+    }     
+  }
+
+  openai_pep_rg_re1 = {
+    name = "openai-pep-re1"           
+    region = "region1" # southeastasia    
+    tags = { 
+      purpose = "{{zone_code}} openai pep resource group" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"          
+    }    
+  }
+
+}

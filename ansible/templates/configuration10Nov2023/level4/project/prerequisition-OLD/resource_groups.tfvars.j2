@@ -1,0 +1,12 @@
+resource_groups = {
+  prerequisition_re1 = {
+    name = "prerequisition-re1" 
+    tags = { 
+      purpose = "{{zone_code}} aks resource group" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"          
+    } 
+  }
+} 
