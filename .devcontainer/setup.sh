@@ -112,7 +112,8 @@ if [ ! -d /tf/caf/landingzones ]; then
     cd /tf/caf/
     # note: /tf/caf/landingzones/aztfmod/main.tf show the version of the azurerm
 
-    # Patches 0: fixed dial tcp: lookup xxx.xxx.xxx.xxx: no such host - ** IMPORTANT: applicable for non MS Network
+    # Patches 0: fixed dial tcp: lookup xxx.xxx.xxx.xxx: no such host
+    # is this required for non MS office network
     sudo chmod -R -f 777 /etc/resolv.conf 
     cp /tf/caf/patches/etc/resolv.conf /etc/resolv.conf
 
