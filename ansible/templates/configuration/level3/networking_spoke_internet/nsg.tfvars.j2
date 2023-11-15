@@ -530,7 +530,7 @@ network_security_group_definition = {
 {% endif %}  
 
 
-
+{% if internet_app_aks | trim == '1' %}
 
   # AKS
   # The following FQDN / application rules are required:
@@ -1224,6 +1224,7 @@ network_security_group_definition = {
       # },               
     ]
   }
+{% endif %}  
 
   db_nsg = {
     version            = 1

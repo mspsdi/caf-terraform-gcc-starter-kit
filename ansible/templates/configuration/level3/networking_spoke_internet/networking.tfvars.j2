@@ -28,6 +28,7 @@ vnets = {
     subnets = {
 
       # private segment
+{% if internet_app_aks | trim == '1' %}      
       # aks, private endpoint to app service etc...
       app_internet_subnet = {
         name    = "app-internet"
@@ -40,7 +41,9 @@ vnets = {
         #   id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-internet"
         # }    
       }  
+{% endif %}   
 
+{% if internet_data_mssql | trim == '1' or internet_data_storage_account | trim == '1' %}
       # mssql, storage account etc...
       db_internet_subnet = {
         name    = "db-internet"
@@ -52,24 +55,11 @@ vnets = {
         #   id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-internet"
         # }
       }  
+{% endif %}  
 
       # websubnet, service_subnet, chatgptsubnet, aisubnet,  applicaitongatewaysubnet
 
-{% if internet_app_app_service | trim == '1' %}
-
-      # it_subnet1 = {
-      #   name    = "it"
-      #   cidr    = ["172.0.5.0/24"]
-      #   nsg_key = "it_nsg"
-      #   service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]
-      #   enforce_private_link_endpoint_network_policies = "true"    
-      #   vnet = {
-      #     id = "/subscriptions/e22a351f-db36-4a02-9793-0f2189d5f3ab/resourceGroups/s01-rg-agency-vnets/providers/Microsoft.Network/virtualNetworks/s01-vnet-spoke-internet-re1"
-      #     # lz_key = ""
-      #     # key = "vnet1"
-      #   }
-      # } 
-
+{% if internet_app_apim | trim == '1' %}
       # apim subnet
       it_internet_subnet = {
         name    = "it-internet"

@@ -219,32 +219,77 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 # Project
 ===============================
 
-3.3. sql server
-
+{% if internet_data_mssql | trim == '1' %}
+* sql server
+```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/mssql \
 -env {{caf_environment}} \
 -tfstate solution_accelerators_mssql.tfstate \
 -a apply
+```
+{% endif %}
 
-3.4. cosmo db
+{% if internet_data_storage_account | trim == '1' %}
+* storage account
+```bash
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/caf_terraform_starter_osscuat_uat/landingzone/configuration/level4/project/storage_account \
+-env uat \
+-tfstate solution_accelerators_storage_account.tfstate \
+-a apply
+```
+{% endif %}
 
+{% if internet_app_keyvault | trim == '1' %}
+* key vault
+```bash
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/caf_terraform_starter_osscuat_uat/landingzone/configuration/level4/project/keyvault \
+-env uat \
+-tfstate solution_accelerators_keyvault.tfstate \
+-a apply
+```
+{% endif %}
+
+{% if internet_app_app_service | trim == '1' %}
+* app_service
+```bash
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/caf_terraform_starter_osscuat_uat/landingzone/configuration/level4/project/app_service \
+-env uat \
+-tfstate solution_accelerators_app_service.tfstate \
+-a apply
+```
+{% endif %}
+
+{% if internet_data_cosmosdb | trim == '1' %}
+* cosmo db
+```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/cosmosdb \
 -env {{caf_environment}} \
 -tfstate solution_accelerators_cosmosdb.tfstate \
 -a apply
+```
+{% endif %}
 
-3.5 aks and acr
-
+{% if internet_app_aks | trim == '1' %}
+* aks and acr
+```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/aks \
 -env {{caf_environment}} \
 -tfstate solution_accelerators_aks.tfstate \
 -a apply
+```
+{% endif %}
 
 
 =================================================================================
