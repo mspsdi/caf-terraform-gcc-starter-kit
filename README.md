@@ -185,10 +185,21 @@ Before you can start running the project, below are tools that you will need to 
 
 Recommend Internet CIDR Range: 100.64.0.0/10
 
+#### Login to Azure
+```bash
+az login --tenant {{tenant id}} # azure tenant id
+
+az account set --subscription xxxxxxxx-xxxxxx-xxxx-xxxx-xxxxxxxxxxxx # subscription id
+```
+Or
+```bash
+rover login
+
+az account set --subscription xxxxxxxx-xxxxxx-xxxx-xxxx-xxxxxxxxxxxx # subscription id
+```
 
 
 #### A. Ignite - code generator
-
 
 #### A1. edit the below configuration files
 
@@ -414,7 +425,37 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -a apply
 ```
 
-3.4. cosmo db
+3.4. storage account
+```bash
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/caf_terraform_starter_osscuat_uat/landingzone/configuration/level4/project/storage_account \
+-env uat \
+-tfstate solution_accelerators_storage_account.tfstate \
+-a apply
+```
+
+3.5. key vault
+```bash
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/caf_terraform_starter_osscuat_uat/landingzone/configuration/level4/project/keyvault \
+-env uat \
+-tfstate solution_accelerators_keyvault.tfstate \
+-a apply
+```
+
+3.6. app_service
+```bash
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/caf_terraform_starter_osscuat_uat/landingzone/configuration/level4/project/app_service \
+-env uat \
+-tfstate solution_accelerators_app_service.tfstate \
+-a apply
+```
+
+3.7. cosmo db
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
@@ -423,7 +464,8 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -tfstate solution_accelerators_cosmosdb.tfstate \
 -a apply
 ```
-3.5 aks and acr
+
+3.8 aks and acr
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
