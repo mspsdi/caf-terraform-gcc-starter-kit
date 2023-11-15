@@ -391,7 +391,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 
 ##### DevOps, Management Zone
 
-3.1. Management bastion host and tooling server
+* Management bastion host and tooling server
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
@@ -402,7 +402,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -a apply
 ```
 
-3.2. devops runner vm or container instances
+* devops runner vm or container instances
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
@@ -415,7 +415,8 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 
 ##### Project
 
-3.3. sql server
+{% if internet_data_mssql | trim == '1' %}
+* sql server
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
@@ -424,8 +425,10 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -tfstate solution_accelerators_mssql.tfstate \
 -a apply
 ```
+{% endif %}
 
-3.4. storage account
+{% if internet_data_storage_account | trim == '1' %}
+* storage account
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
@@ -434,8 +437,10 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -tfstate solution_accelerators_storage_account.tfstate \
 -a apply
 ```
+{% endif %}
 
-3.5. key vault
+{% if internet_app_keyvault | trim == '1' %}
+* key vault
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
@@ -444,8 +449,10 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -tfstate solution_accelerators_keyvault.tfstate \
 -a apply
 ```
+{% endif %}
 
-3.6. app_service
+{% if internet_app_app_service | trim == '1' %}
+* app_service
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
@@ -454,8 +461,10 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -tfstate solution_accelerators_app_service.tfstate \
 -a apply
 ```
+{% endif %}
 
-3.7. cosmo db
+{% if internet_data_cosmosdb | trim == '1' %}
+* cosmo db
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
@@ -464,8 +473,10 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -tfstate solution_accelerators_cosmosdb.tfstate \
 -a apply
 ```
+{% endif %}
 
-3.8 aks and acr
+{% if internet_app_aks | trim == '1' %}
+* aks and acr
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
@@ -474,6 +485,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -tfstate solution_accelerators_aks.tfstate \
 -a apply
 ```
+{% endif %}
 
 
 #### 4. Testing
@@ -509,7 +521,7 @@ This project is licensed under the [MIT license](#LICENSE.md).
 
 ## Troubleshooting Tips
 
-ERROR: dial tcp: lookup management.azure.com on 127.0.0.11:53: no such host
+ERROR: dial tcp: lookup management.azure.com on 127.0.0.11:53: no such host<br/>
 Resolution: re-run the rover apply command
 
 
