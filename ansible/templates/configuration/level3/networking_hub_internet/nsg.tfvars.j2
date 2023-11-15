@@ -277,6 +277,7 @@ network_security_group_definition = {
       
     # end management outbound   
     # begin web outbound
+{% if internet_app_aks | trim == '1' %}        
       # outbound https 443 web "{{cidr_ingress_egress_zone_subnet_ingress_agw_internet}}" > app "{{cidr_internet_zone_subnet_app}}"
       {
         name                       = "out-communication-allow-443-app"
@@ -288,7 +289,7 @@ network_security_group_definition = {
         destination_port_range     = "443"
         source_address_prefix      = "{{cidr_ingress_egress_zone_subnet_ingress_agw_internet}}"
         destination_address_prefix = "{{cidr_internet_zone_subnet_app}}"
-      },
+      }, 
       # outbound http 8080 web "{{cidr_ingress_egress_zone_subnet_ingress_agw_internet}}" > app "{{cidr_internet_zone_subnet_app}}"
       {
         name                       = "out-communication-allow-8080-app"
@@ -300,7 +301,7 @@ network_security_group_definition = {
         destination_port_range     = "8080"
         source_address_prefix      = "{{cidr_ingress_egress_zone_subnet_ingress_agw_internet}}"
         destination_address_prefix = "{{cidr_internet_zone_subnet_app}}"
-      }, 
+      },     
       # outbound http 80-82 web "{{cidr_ingress_egress_zone_subnet_ingress_agw_internet}}" > app "{{cidr_internet_zone_subnet_app}}"
       {
         name                       = "out-communication-allow-80-app"
@@ -313,6 +314,45 @@ network_security_group_definition = {
         source_address_prefix      = "{{cidr_ingress_egress_zone_subnet_ingress_agw_internet}}"
         destination_address_prefix = "{{cidr_internet_zone_subnet_app}}"
       }, 
+{% endif %}       
+{% if internet_app_app_service | trim == '1' %}        
+      # outbound https 443 web "{{cidr_ingress_egress_zone_subnet_ingress_agw_internet}}" > app "{{cidr_internet_zone_subnet_app}}"
+      {
+        name                       = "out-communication-allow-443-app"
+        priority                   = "200"
+        direction                  = "Outbound"
+        access                     = "Allow"
+        protocol                   = "tcp"
+        source_port_range          = "*"
+        destination_port_range     = "443"
+        source_address_prefix      = "{{cidr_ingress_egress_zone_subnet_ingress_agw_internet}}"
+        destination_address_prefix = "{{cidr_internet_zone_subnet_web}}"
+      }, 
+      # outbound http 8080 web "{{cidr_ingress_egress_zone_subnet_ingress_agw_internet}}" > app "{{cidr_internet_zone_subnet_app}}"
+      {
+        name                       = "out-communication-allow-8080-app"
+        priority                   = "210"
+        direction                  = "Outbound"
+        access                     = "Allow"
+        protocol                   = "tcp"
+        source_port_range          = "*"
+        destination_port_range     = "8080"
+        source_address_prefix      = "{{cidr_ingress_egress_zone_subnet_ingress_agw_internet}}"
+        destination_address_prefix = "{{cidr_internet_zone_subnet_web}}"
+      },     
+      # outbound http 80-82 web "{{cidr_ingress_egress_zone_subnet_ingress_agw_internet}}" > app "{{cidr_internet_zone_subnet_app}}"
+      {
+        name                       = "out-communication-allow-80-app"
+        priority                   = "220"
+        direction                  = "Outbound"
+        access                     = "Allow"
+        protocol                   = "tcp"
+        source_port_range          = "*"
+        destination_port_range     = "80-82"
+        source_address_prefix      = "{{cidr_ingress_egress_zone_subnet_ingress_agw_internet}}"
+        destination_address_prefix = "{{cidr_internet_zone_subnet_web}}"
+      }, 
+{% endif %}       
       # custom deny all outbound - only valid if private preview is enabled      
       # {
       #   name                       = "custom-deny-all-outbound"
