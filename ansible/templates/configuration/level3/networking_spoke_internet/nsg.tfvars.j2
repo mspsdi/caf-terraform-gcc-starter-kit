@@ -655,7 +655,8 @@ network_security_group_definition = {
       #   source_address_prefix      = "{{cidr_internet_zone_subnet_app}}"
       #   destination_address_prefix = "172.16.5.0/24"
       # },  
-      # do not change
+      # do not change 
+{% if internet_app_aks | trim == '1' %}          
       # inbound https 443 management infra "{{cidr_management_zone_subnet_infra}}" > app "{{cidr_internet_zone_subnet_app}}"          
       {
         name                       = "Inbound-HTTPS-managemet"
@@ -693,9 +694,9 @@ network_security_group_definition = {
         destination_port_range     = "22"
         source_address_prefix      = "{{cidr_management_zone_subnet_bastion}}"
         destination_address_prefix = "{{cidr_internet_zone_subnet_app}}"
-      }, 
+      },       
     # end management inbound      
-    # begin ingress inbound             
+    # begin ingress inbound                  
       # inbound https 443 internet agw web "{{cidr_ingress_egress_zone_subnet_ingress_agw_internet}}" > app "{{cidr_internet_zone_subnet_app}}"      
       {
         name                       = "Inbound-HTTPS-web"
@@ -732,7 +733,7 @@ network_security_group_definition = {
         source_address_prefix      = "{{cidr_ingress_egress_zone_subnet_ingress_agw_internet}}"
         destination_address_prefix = "{{cidr_internet_zone_subnet_app}}"
       }, 
-
+{% endif %}          
 {% if ingress_egress_vnet_name_ingress_intranet_cidr | trim != 'None' %}
       # inbound https 443 intranet agw web "{{cidr_ingress_egress_zone_subnet_ingress_agw_intranet}}" > app "{{cidr_internet_zone_subnet_app}}"      
       {
@@ -1318,6 +1319,7 @@ network_security_group_definition = {
         destination_address_prefix = "{{cidr_internet_zone_subnet_data}}"
       },           
     # end management inbound   
+{% if internet_app_aks | trim == '1' %}        
       # inbound mssql 1433 app "{{cidr_internet_zone_subnet_app}}" > db "{{cidr_internet_zone_subnet_data}}"         
       {
         name                       = "Inbound-MSSQL-app"
@@ -1353,7 +1355,8 @@ network_security_group_definition = {
         destination_port_range     = "6380-6383"
         source_address_prefix      = "{{cidr_internet_zone_subnet_app}}"
         destination_address_prefix = "{{cidr_internet_zone_subnet_data}}"
-      },            
+      },  
+{% endif %}                   
       {
         name                       = "Inbound-MSSQL"
         priority                   = "230"
@@ -1440,34 +1443,7 @@ network_security_group_definition = {
       }
     }     
     nsg = [
-    # begin management inbound   
-
-      # do not change            
-      # inbound ssh 22 management bastion "{{cidr_management_zone_subnet_bastion}}" > it "{{cidr_internet_zone_subnet_web}}"          
-      {
-        name                       = "Inbound-SSH-management"
-        priority                   = "100"
-        direction                  = "Inbound"
-        access                     = "Allow"
-        protocol                   = "tcp"
-        source_port_range          = "*"
-        destination_port_range     = "22"
-        source_address_prefix      = "{{cidr_management_zone_subnet_bastion}}"
-        destination_address_prefix = "{{cidr_internet_zone_subnet_it}}"
-      }, 
-      # inbound ssh 22 management bastion "{{cidr_management_zone_subnet_bastion}}" > it "{{cidr_internet_zone_subnet_it}}"      
-      {
-        name                       = "Inbound-HTTPS-management"
-        priority                   = "110"
-        direction                  = "Inbound"
-        access                     = "Allow"
-        protocol                   = "tcp"
-        source_port_range          = "*"
-        destination_port_range     = "433"
-        source_address_prefix      = "{{cidr_management_zone_subnet_bastion}}"
-        destination_address_prefix = "{{cidr_internet_zone_subnet_it}}"
-      },         
-    # end management inbound             
+    # begin management inbound          
       {
         name                       = "Inbound-APIM"
         priority                   = "220"

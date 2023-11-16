@@ -606,7 +606,7 @@
         loop: "{{egress_internet_firewall_files_to_process.files}}"    
       # end creating tfvars files
 
-      when: ingress_egress_firewall_egress| trim == '1'
+      when: ingress_egress_firewall_egress| trim == '1' and gcc_platform | trim == '1'
       become: true
       ignore_errors: yes
       # end block          
@@ -654,7 +654,7 @@
         loop: "{{ingress_internet_firewall_files_to_process.files}}"    
       # end creating tfvars files
 
-      when: ingress_egress_firewall | trim == '1'
+      when: ingress_egress_firewall | trim == '1'  and gcc_platform | trim == '1'
       become: true
       ignore_errors: yes
       # end block          
@@ -831,7 +831,7 @@
         loop: "{{egress_intranet_firewall_files_to_process.files}}"    
       # end creating tfvars files
 
-      when: ingress_egress_firewall_egress_intranet | trim == '1'
+      when: ingress_egress_firewall_egress_intranet | trim == '1' and gcc_platform | trim == '1'
       become: true
       ignore_errors: yes
       # end block          
@@ -879,7 +879,7 @@
         loop: "{{ingress_intranet_firewall_files_to_process.files}}"    
       # end creating tfvars files
 
-      when: ingress_egress_firewall_intranet | trim == '1'
+      when: ingress_egress_firewall_intranet | trim == '1'  and gcc_platform | trim == '1'
       become: true
       ignore_errors: yes
       # end block          

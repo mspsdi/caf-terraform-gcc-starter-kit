@@ -52,7 +52,7 @@ rover -lz /tf/caf/landingzones/caf_launchpad \
   -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level0/launchpad \
   -env {{caf_environment}} \
   -skip-permission-check \
-  -a plan
+  -a apply
 
 ================================================================================
 # 2. level 3 - networking
@@ -67,7 +67,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
   -env {{caf_environment}} \
   -skip-permission-check \
   -tfstate shared_services.tfstate \
-  -a plan
+  -a apply
 
 2.2. level 3 - management - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_management
 
@@ -77,7 +77,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -parallelism 30 \
 -env {{caf_environment}} \
 -tfstate networking_spoke_management.tfstate \
--a plan
+-a apply
 
 2.3. level 3 - devops - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_devops
 
@@ -87,7 +87,7 @@ rover -lz /tf/caf/landingzones/caf_solution \
 -parallelism 30 \
 -env {{caf_environment}} \
 -tfstate networking_spoke_devops.tfstate \
--a plan
+-a apply
 
 2.4. level 3 - hub internet - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_hub_internet
 
@@ -96,7 +96,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_hub_internet \
 -env {{caf_environment}} \
 -tfstate networking_hub_internet.tfstate \
--a plan
+-a apply
 
 2.5. level 3 - hub intranet - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_hub_intranet
 
@@ -105,7 +105,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_hub_intranet \
 -env {{caf_environment}} \
 -tfstate networking_hub_intranet.tfstate \
--a plan
+-a apply
 
 2.6. level 3 - spoke project - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_internet
 
@@ -114,7 +114,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_internet \
 -env {{caf_environment}} \
 -tfstate networking_spoke_internet.tfstate \
--a plan
+-a apply
 
 2.7. level 3 - vnet peering - /tf/caf/ansible/templates/configuration/level3/networking_vnet_peering
 
@@ -124,7 +124,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -parallelism 30 \
 -env {{caf_environment}} \
 -tfstate networking_vnet_peering.tfstate \
--a plan
+-a apply
 
 # firewall, application gateway
 ===============================

@@ -2,13 +2,13 @@ azurerm_firewalls = {
   # ingress firewall
   fw_re1 = {
     name               = "egress-internet"
+{% if gcc_platform | trim == '1' %}    
     resource_group_key = "networking_firewall_egress_internet_re1"
+
     # add the resource group name to resolve the issue of subnet rg different from firewall rg
     # TODO: subnet resource group name - input as variable for code generation
     # ** firewall MUST be in the same resource group as VNet and Subnet AzureFirewallSubnet
 
-
-{% if gcc_platform | trim == '1' %}
     resource_group_name = "{{resource_group_name}}" # the resource group name of the subnet    
 
     subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_internet}}/subnets/AzureFirewallSubnet"
@@ -22,12 +22,27 @@ azurerm_firewalls = {
       }
     }
 {% else %}
-    resource_group_name = "{{prefix}}-rg-networking-hub-internet-re1 " # the resource group name of the subnet  
-
-    vnet_key = "vnet_hub_internet_egress_re1"
-    subnet_key = "AzureFirewallSubnet"
-    lz_key = "networking_hub_internet"    
+    # resource_group_name = "{{prefix}}-rg-networking-hub-internet-re1" # the resource group name of the subnet  
+    # lz_key = "networking_hub_internet"
+    # resource_group_key = "networking_hub_internet_re1" # same resource group as vnet - "networking_firewall_egress_internet_re1"
+    # resource_group = {
+    #   lz_key = "networking_hub_internet"
+    #   key = "networking_hub_internet_re1" # same resource group as vnet - "networking_firewall_egress_internet_re1"
+    # }
+    # vnet_key = "vnet_hub_internet_egress_re1"
+    # subnet_key = "AzureFirewallSubnet"
+    # lz_key = "networking_hub_internet"    
     # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_internet}}/subnets/AzureFirewallSubnet"
+
+    resource_group = {
+      lz_key = "networking_hub_internet"
+      key = "networking_hub_internet_re1" # same resource group as vnet - "networking_firewall_egress_internet_re1"
+    }
+
+    # resource_group_name = "{{resource_group_name}}" # the resource group name of the subnet        
+    vnet_key = "vnet_hub_internet_egress_re1"
+    lz_key = "networking_hub_internet"        
+
     sku_tier = "Premium"
     firewall_policy_key = "policy1"    
     public_ips = {
@@ -35,7 +50,7 @@ azurerm_firewalls = {
         name = "public-ip"
         public_ip_key = "firewall_re1"
         vnet_key = "vnet_hub_internet_egress_re1"
-        subnet_key = "AzureFirewallSubnet"
+        subnet_key = "AzureFirewallSubnet_egress"
         lz_key = "networking_hub_internet"
         # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_internet}}/subnets/AzureFirewallSubnet"
       }
@@ -59,7 +74,7 @@ azurerm_firewalls = {
         name = "management-ip"
         public_ip_key = "firewall_mgmt_re1"
         vnet_key = "vnet_hub_internet_egress_re1"
-        subnet_key = "AzureFirewallManagementSubnet"
+        subnet_key = "AzureFirewallManagementSubnet_egress"
         lz_key = "networking_hub_internet"
         #  subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_internet}}/subnets/AzureFirewallManagementSubnet"
       }

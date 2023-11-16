@@ -523,5 +523,19 @@ This project is licensed under the [MIT license](#LICENSE.md).
 
 ERROR: dial tcp: lookup management.azure.com on 127.0.0.11:53: no such host<br/>
 Resolution: re-run the rover apply command
+edit /etc/resolv.conf - Add the dns settings "8.8.8.8" from your host machine at the top of resolv.conf
+# nameserver 127.0.0.11
+nameserver 8.8.8.8
+options ndots:0
+
+ERROR: server misbehaving <br/>
+Resolution: edit /etc/resolv.conf - Add the dns settings "8.8.8.8" from your host machine at the top of resolv.conf
+# nameserver 127.0.0.11
+nameserver 8.8.8.8
+options ndots:0
+
+ERROR: Terraform plan return code: 1
+Error 1 on or near line 57: Error running terraform plan; exiting with status 1
+Resolution: re-run the rover apply command
 
 

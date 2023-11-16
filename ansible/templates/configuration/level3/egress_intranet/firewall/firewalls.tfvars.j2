@@ -24,7 +24,7 @@ azurerm_firewalls = {
     resource_group_name = "{{prefix}}-rg-networking-hub-intranet-re1 " # the resource group name of the subnet  
 
     vnet_key = "vnet_hub_intranet_egress_re1"
-    subnet_key = "AzureFirewallSubnet"
+    subnet_key = "AzureFirewallSubnet_egress"
     lz_key = "networking_hub_intranet"    
     # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_intranet}}/subnets/AzureFirewallSubnet"
     sku_tier = "Premium"
@@ -57,7 +57,7 @@ azurerm_firewalls = {
         name = "management-ip"
         public_ip_key = "firewall_mgmt_re1"
         vnet_key = "vnet_hub_intranet_egress_re1"
-        subnet_key = "AzureFirewallManagementSubnet"
+        subnet_key = "AzureFirewallManagementSubnet_egress"
         lz_key = "networking_hub_intranet"
         #  subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_intranet}}/subnets/AzureFirewallManagementSubnet"
       }

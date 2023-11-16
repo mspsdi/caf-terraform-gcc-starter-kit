@@ -1,0 +1,564 @@
+
+{% if gcc_platform | trim == '0' %}
+# reference: https://learn.microsoft.com/en-us/azure/aks/limit-egress-traffic
+
+azurerm_firewall_policies = {
+  # for ingress firewall
+  egress_policy = {
+    name               = "firewall-policy-egress-internet"
+    resource_group_key = "networking_hub_internet_re1"
+    region             = "region1"
+    sku                = "Basic" # "Premium"
+    
+    # # Required if you want to use Network rules with FQDNs
+    # dns = {
+    #   proxy_enabled = true
+    # }
+
+    # threat_intelligence_mode = "Alert"
+
+    #   threat_intelligence_allowlist = {
+    #     ip_addresses = []
+    #     fqdns        = []
+    #   }
+
+    # intrusion_detection = {
+    #   mode                = "Alert"
+    #     signature_overrides = {
+    #       id    = ""
+    #       state = ""
+    #     }
+    #     traffic_bypass      = {
+    #       name                  = ""
+    #       protocol              = ""
+    #       description           = ""
+    #       destination_addresses = ""
+    #       destination_ip_groups = ""
+    #       destination_ports     = ""
+    #       source_addresses      = ""
+    #       source_ip_groups      = ""
+    #     }
+    # }
+  }
+
+  # for ingress firewall
+  # TODO: Add support for TLS inspection
+  # TODO: SSL Encryption and Decryption
+
+# resource "azurerm_firewall_policy" "example" {
+#   name                = "example"
+#   resource_group_name = "example"
+#   location            = "West Europe"
+#   identity {
+#       type = "UserAssigned"
+#       user_assigned_identity_ids = [azurerm_user_assigned_identity.test.id]
+#   }
+#   sku="Premium"
+#   tls_certificate{
+#       key_vault_secret_id = azurerm_key_vault_secret.Certificate.id//<id of the keyvault Secret where CA is stored>
+#       name = //<name of the certificate stored in the keyvault>
+#   }
+#   intrusion_detection {
+#       mode="Alert"
+#       signature_overrides {
+#           id = "sigOverrideParam1 id (2024897)" 
+#           state = "Deny" 
+#       }
+#       signature_overrides {
+#           id = "sigOverrideParam2 id (2024898)"
+#           state = "Alert"
+#       }
+#       traffic_bypass {
+#           name = "SecretBypass"
+#           protocol ="TCP"
+#           source_addresses = ["*"]
+#           destination_addresses =["1.1.1.1"]
+#           destination_ports = ["80"]
+#       }
+#   }
+# }
+
+  ingress_policy = {
+    name               = "firewall-policy-ingress-internet"
+    resource_group_key = "networking_hub_internet_re1"
+    region             = "region1"
+    sku                = "Premium"
+
+    # tls_inspection = {}
+    # tls_inspection = {
+    #   mode = "InspectAll"
+    #   # mode = "DoNotInspect"
+    #   # mode = "InspectOutbound"
+    #   # mode = "InspectInbound"
+    #   managed_identity_key = "networking_hub_internet_re1"
+    #   ssl_certificates = {
+    #     cert1 = {
+    #       name = "cert1"
+    #       data = "base64 encoded certificate"
+    #     }
+    #   }
+    # }
+
+    # # Required if you want to use Network rules with FQDNs
+    # dns = {
+    #   proxy_enabled = true
+    # }
+
+    threat_intelligence_mode = "Alert"
+
+    #   threat_intelligence_allowlist = {
+    #     ip_addresses = []
+    #     fqdns        = []
+    #   }
+
+    intrusion_detection = {
+      mode                = "Alert"
+    #     signature_overrides = {
+    #       id    = ""
+    #       state = ""
+    #     }
+    #     traffic_bypass      = {
+    #       name                  = ""
+    #       protocol              = ""
+    #       description           = ""
+    #       destination_addresses = ""
+    #       destination_ip_groups = ""
+    #       destination_ports     = ""
+    #       source_addresses      = ""
+    #       source_ip_groups      = ""
+    #     }
+    }
+  }
+
+}
+
+azurerm_firewall_policy_rule_collection_groups = {
+
+  ingress_group = {
+    #firewall_policy_id = "Azure Resource ID"
+    firewall_policy_key = "ingress_policy"
+    name                = "ingress-fwpolicy-rcg"
+    priority            = 500
+
+
+    # application_rule_collection
+    # agw-internet
+    # *
+    # Http:80
+    # demoapp11.caflabs.com
+    # Allow
+
+    application_rule_collections = {
+      rule1 = { # this may not be required.
+        name     = "app-rule-collection1"
+        priority = 500
+        action   = "Allow"
+        rules = {
+          rule1 = {
+            name = "agw-rule1"
+            protocols = {
+              http = {
+                type = "Http"
+                port = 80
+              }          
+              https = {
+                type = "Https"
+                port = 443
+              }
+              http8080 = {
+                type = "Http"
+                port = 8080
+              }              
+            }
+            source_addresses  = ["*"]
+
+            # ingress_internet_aks_fqdn: aks-demoapp1 # dummy value  
+            # ingress_intranet_aks_fqdn: # dummy value    
+            # ingress_internet_agw_fqdn: demoapp1 # dummy value demoapp1.internet.caflabs.com 
+            # ingress_intranet_agw_fqdn:  # dummy value demoapp1.intranet.caflabs.com    
+            # ingress_internet_dns_zone: internet.dso.gov.sg # dummy value demoapp1.internet.caflabs.com 
+                        
+            destination_fqdns = ["staffclaims-uat.dso.org.sg"] # ["demoapp1.internet.caflabs.com"] # TODO: change to your applicaiton fdqn
+          }
+        }
+      }
+    }
+
+    # network_rule_collections = {
+    #   ingress_group = {
+    #     name     = "network_rule_collection1"
+    #     priority = 400
+    #     action   = "Deny"
+    #     rules = {
+    #       rule1 = {
+    #         name                  = "network_rule_collection1_rule1"
+    #         protocols             = ["TCP", "UDP"]
+    #         source_addresses      = ["10.0.0.1"]
+    #         destination_addresses = ["192.168.1.1", "192.168.1.2"]
+    #         destination_ports     = ["80", "1000-2000"]
+    #       }
+    #     }
+    #   }
+    # }
+
+    nat_rule_collections = {
+      ingress_group = {
+        name     = "nat_rule_collection1"
+        priority = 300
+        action   = "Dnat"
+        rules = {
+             
+          rule1 = {
+            name             = "nat_rule_collection1_rule1"
+            protocols        = ["TCP"]
+            source_addresses = ["*"]
+            # destination_address = "192.168.1.1"
+            destination_address_public_ip_key = "ingress_firewall_re1" # "firewall_re1"
+            destination_ports                 = ["443"]
+            translated_address                = "{{ingress_internet_agw_ip}}" # TODO: Add private ip of internet app gw
+            translated_port                   = "443"
+          }
+            
+             
+          rule2 = { # azure voting app validation - demoapp1.internet.caflabs.com
+            name             = "nat_rule_collection1_rule2"
+            protocols        = ["TCP"]
+            source_addresses = ["*"] # internet all ip addresses
+            # destination_address = "192.168.1.1"
+            destination_address_public_ip_key = "ingress_firewall_re1" # "firewall_re1"
+            destination_ports                 = ["80"]
+            translated_address                = "{{ingress_internet_agw_ip}}" # TODO: Add private ip of internet app gw
+            translated_port                   = "8080"
+          }  
+                  
+        }
+      }     
+    }
+  }
+
+  egress_group = {
+    firewall_policy_key = "egress_policy"
+    name                = "egress-fwpolicy-rcg"
+    priority            = 500
+
+    # The application rule covers all needed FQDNs accessible through TCP port 443 and port 80.
+    application_rule_collections = {
+      rule1 = { # dummy example
+        name     = "app_rule_collection1"
+        priority = 500
+        action   = "Deny"
+        rules = {
+          rule1 = {
+            name = "app_rule_collection1_rule1"
+            protocols = {
+              1 = {
+                type = "Http"
+                port = 80
+              }
+              2 = {
+                type = "Https"
+                port = 443
+              }
+            }
+            source_addresses  = ["10.0.0.1"]
+            destination_fqdns = ["*.microsoft.com"]
+          }
+        }
+      }
+      aks = {
+        name     = "app-rule-collection1-aks"
+        priority = 600
+        action   = "Allow"
+        rules = {
+          aks = {
+            name = "app-rule-collection1-aks"
+            protocols = {
+              1 = {
+                type = "Http"
+                port = 80
+              }
+              2 = {
+                type = "Https"
+                port = 443
+              }
+            }
+            # source_addresses  = ["10.0.0.1"]
+            source_ip_groups_keys = [
+              "aks_ip_group1"
+            ]            
+            # destination_fqdns = ["*.microsoft.com"]
+            destination_fqdn_tags = [ 
+              "AzureKubernetesService"
+            ]           
+          }
+        }
+      }        
+      packages = {
+        name     = "packages"
+        action   = "Allow"
+        priority = 110
+        rules = {
+          ubuntu = {
+            name = "ubuntu"
+            # source_addresses = [
+            #   "*",
+            # ]
+            source_ip_groups_keys = [
+              "aks_ip_group1"
+            ]
+            destination_fqdns = [
+              "security.ubuntu.com",
+              "azure.archive.ubuntu.com",
+              "archive.ubuntu.com",
+              "changelogs.ubuntu.com",
+            ]
+            protocols = {
+              https = {
+                port = "443"
+                type = "Https"
+              }
+              http = {
+                port = "80"
+                type = "Http"
+              }
+            }
+          },
+          docker = {
+            name = "docker"
+            # source_addresses = [
+            #   "*",
+            # ]
+            source_ip_groups_keys = [
+              "aks_ip_group1"
+            ]
+            destination_fqdns = [
+              "download.docker.com", # Docker
+              "*.docker.io",         # Docker images
+              "*.docker.com"         # Docker registry
+            ]
+            protocols = {
+              http = {
+                port = "443"
+                type = "Https"
+              }
+            }
+          },
+          tools = {
+            name = "tools"
+            # source_addresses = [
+            #   "*",
+            # ]
+            source_ip_groups_keys = [
+              "aks_ip_group1"
+            ]
+            destination_fqdns = [
+              "packages.microsoft.com",
+              "azurecliprod.blob.core.windows.net", # Azure cli
+              "packages.cloud.google.com",          # kubectl
+              "apt.kubernetes.io",                  # Ubuntu packages for kubectl
+              "*.snapcraft.io",                     # snap to install kubectl
+            ]
+            protocols = {
+              http = {
+                port = "443"
+                type = "Https"
+              }
+            }
+          },
+          github = {
+            name = "github"
+            # source_addresses = [
+            #   "*",
+            # ]
+            source_ip_groups_keys = [
+              "aks_ip_group1"
+            ]
+            destination_fqdns = [
+              "api.github.com",
+              "ghcr.io",
+              "*.ghcr.io",
+              "github.com",
+              "*.githubusercontent.com",
+              "charts.bitnami.com"
+            ]
+            protocols = {
+              http = {
+                port = "443"
+                type = "Https"
+              }
+            }
+          },
+          mcr = {
+            name = "mcr"
+            # source_addresses = [
+            #   "*",
+            # ]
+
+            source_ip_groups_keys = [
+              "aks_ip_group1"
+            ]
+
+            destination_fqdns = [
+              "*.data.mcr.microsoft.com",
+            ]
+            protocols = {
+              http = {
+                port = "443"
+                type = "Https"
+              }
+            }
+          },
+        }
+      }  
+
+    }
+
+
+# This section covers three network rules and an application rule you can use to configure on your firewall. You may need to adapt these rules based on your deployment.
+
+# The first network rule allows access to port 9000 via TCP.
+# The second network rule allows access to port 1194 and 123 via UDP. If you're deploying to Microsoft Azure operated by 21Vianet, see the [Azure operated by 21Vianet required network rules](./outbound-rules-control-egress.md#microsoft-azure-operated by-21vianet-required-network-rules). Both these rules will only allow traffic destined to the Azure Region CIDR in this article, which is East US.
+# The third network rule opens port 123 to ntp.ubuntu.com FQDN via UDP. Adding an FQDN as a network rule is one of the specific features of Azure Firewall, so you'll need to adapt it when using your own options.
+# The application rule covers all needed FQDNs accessible through TCP port 443 and port 80.
+
+    network_rule_collections = {
+      egress_group = { # dummy example
+        name     = "network_rule_collection1"
+        priority = 400
+        action   = "Deny"
+        rules = {
+          rule1 = {
+            name                  = "network_rule_collection1_rule1"
+            protocols             = ["TCP", "UDP"]
+            source_addresses      = ["10.0.0.1"]
+            destination_addresses = ["192.168.1.1", "192.168.1.2"]
+            destination_ports     = ["80", "1000-2000"]
+          }
+        }
+      }
+
+      aks = { # aks > firewall > internet (ip address/cidr or service tag)
+        name     = "aks"
+        action   = "Allow"
+        priority = 150
+        rules = {
+          ntp = {
+            name = "ntp"
+            # source_addresses = [
+            #   "*",
+            # ]
+            source_ip_groups_keys = [
+              "aks_ip_group1"
+            ]
+            destination_ports = [
+              "123",
+            ]
+            destination_addresses = [
+              "*"
+            ]
+            protocols = [
+              "UDP",
+            ]
+          },
+          monitor = {
+            name = "monitor"
+            # source_addresses = [
+            #   "*",
+            # ]
+            source_ip_groups_keys = [
+              "aks_ip_group1"
+            ]
+            destination_ports = [
+              "443",
+            ]
+            destination_addresses = [
+              "AzureMonitor"
+            ]
+            protocols = [
+              "TCP",
+            ]
+          },
+          apiservertcp = {
+            name = "apiservertcp"
+            # source_addresses = [
+            #   "*",
+            # ]
+            source_ip_groups_keys = [
+              "aks_ip_group1"
+            ]
+            destination_ports = [
+              "443", "9000", "22"
+            ]
+            destination_addresses = [
+              "AzureCloud"
+            ]
+            protocols = [
+              "TCP",
+            ]
+          },
+          apiserverudp = {
+            name = "apiserverudp"
+            # source_addresses = [
+            #   "*",
+            # ]
+            source_ip_groups_keys = [
+              "aks_ip_group1"
+            ]
+            destination_ports = [
+              "1194"
+            ]
+            destination_addresses = [
+              "AzureCloud"
+            ]
+            protocols = [
+              "UDP",
+            ]
+          },
+        }
+      }          
+    }
+
+    # network_rule_collections = {
+    #   egress_group = {
+    #     name     = "network_rule_collection1"
+    #     priority = 400
+    #     action   = "Deny"
+    #     rules = {
+    #       rule1 = {
+    #         name                  = "network_rule_collection1_rule1"
+    #         protocols             = ["TCP", "UDP"]
+    #         source_addresses      = ["10.0.0.1"]
+    #         destination_addresses = ["192.168.1.1", "192.168.1.2"]
+    #         destination_ports     = ["80", "1000-2000"]
+    #       }
+    #     }
+    #   }
+    # }
+
+    # nat_rule_collections = {
+    #   egress_group = {
+    #     name     = "nat_rule_collection1"
+    #     priority = 300
+    #     action   = "Dnat"
+    #     rules = {
+    #       rule1 = {
+    #         name             = "nat_rule_collection1_rule1"
+    #         protocols        = ["TCP"]
+    #         source_addresses = ["*"]
+    #         # destination_address = "192.168.1.1"
+    #         destination_address_public_ip_key = "firewall_re1"
+    #         destination_ports                 = ["443"]
+    #         translated_address                = "100.1.0.4" # TODO: Add private ip of app gw
+    #         translated_port                   = "443"
+    #       }
+    #     }
+    #   }
+    # }
+  }
+}
+{% else %}
+#------------------------------------------------------
+# this page is leave blank intentionally
+#------------------------------------------------------
+{% endif %}
+

@@ -1,4 +1,14 @@
 diagnostics_definition = {
+  network_security_group = { # <- this is the definition_key
+    name = "operational_logs_and_metrics"
+    categories = {
+      log = [
+        # ["Category name",  "Diagnostics Enabled(true/false)", "Retention Enabled(true/false)", Retention_period]
+        ["NetworkSecurityGroupEvent", true, false, 14],
+        ["NetworkSecurityGroupRuleCounter", true, false, 14],
+      ]
+    }
+  }  
   firewall = {
     name = "operational_logs_and_metrics"
     categories = {
