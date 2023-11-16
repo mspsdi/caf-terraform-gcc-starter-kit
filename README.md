@@ -31,10 +31,6 @@ caf terraform accelerator kit for public sector
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<!--
-HTX and Microsoft have joined forces to create a Cloud-Based Evidence Platform that can help the Singapore Police Force (SPF) with their investigations. The platform, called Cloud Evidence Platform, is designed to gather open-source intelligence (OSINT) data that is relevant to a crime and transform it into admissible evidence that can support the SPF in investigation and in court. The platform leverages Microsoft's Azure cloud services and artificial intelligence capabilities to collect, analyze, and present OSINT data from various sources, such as social media, online forums, news articles, and public databases. The platform also ensures the integrity, security, and privacy of the data, as well as its compliance with legal and ethical standards. The Cloud Evidence Platform is expected to enhance the efficiency, effectiveness, and accuracy of the SPF's investigations, as well as to reduce the workload and risks for the investigators.
--->
-
 The purpose of the "AZURE GCC Acceleration Kit" is to facilitate the workload setup in AZURE environment. This will be achieved in a two-step layered approach.  
 <p align="center">
     <img src="docs/overall-workflow-1.png"/>
@@ -98,9 +94,6 @@ DevOps Compartment
 
 ### Built With
 
-<!-- Cloud Evidence Platform (CEP) runs on Microsoft Azure and is built on top of React and NodeJS. It relies on Azure SQL Database and Azure Storage for storage, Azure Communication Services to dispatch e-mails and is deployed on Azure App Service and Azure Function. Optionally, CEP can also talk to Government-hosted systems - SingPass/CorpPass/MyInfo to retrieve form-filler identities, and E-mail servers hosted in Government Data Centres.
--->
-
 - CAF Terraform
 - CAF Rover
 - Terraform
@@ -121,29 +114,10 @@ This section aims to give the reader an overview of GCC Starter architecture
 ### Frontend
 
 WIP
-<!--
-The frontend of the Cloud Evidence Platform is built using React, a popular JavaScript library for creating user interfaces. React enables the frontend to be fast, responsive, and modular, as well as supporting features such as routing, authentication, and state management. Below is the screenshot from CEP.
-
-<p align="center">
-  <img src="docs/Frontend.png">
-</p>
 
 ### Backend
 
-The Cloud Evidence Platform (CEP) API consists of three distinct functions that handle different aspects of the CEP workflow. 
-
-* The Authentication function verifies the identity and authorization of the users and clients that access the CEP system. 
-* The Case Management function manages the creation, update, retrieval and deletion of cases and their associated data. 
-* The Job Processing function executes the tasks and rules that are defined for each case and communicates with the CEP Backend.
-
-| API Name | Description |
-|:--------------:|----------------------|
-| Web API | XXXXX |
-| Authentication API | XXXXXX |
-| URL Export API | XXXXXX |
-| Add Case API | XXXXXX |
-| Process Job API | XXXXXX |
--->
+WIP
 
 <!-- GETTING STARTED -->
 ## Getting Started
