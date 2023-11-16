@@ -22,7 +22,11 @@ vnets = {
       app_internet_subnet = {
         name    = "app-internet"
         cidr    = ["{{cidr_internet_zone_subnet_app}}"] # ["100.2.0.0/27"]
+        {% if internet_app_aks | trim == '1' %}      
         nsg_key = "app_nsg"
+        {% else %}
+        nsg_key = "web_nsg"
+        {% endif %}   
         # route_table_key = "default_to_firewall_re1"    # enable this if route_tables is used
         enforce_private_link_endpoint_network_policies = "true"    
         service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]
