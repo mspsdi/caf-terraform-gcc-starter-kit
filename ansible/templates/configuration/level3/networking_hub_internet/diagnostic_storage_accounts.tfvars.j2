@@ -28,4 +28,12 @@ diagnostics_destinations = {
       }
     }
   }
+  # Storage keys must reference the azure region name
+  log_analytics = {  # <- this is destination type
+    central_logs = { # <- this is destination key
+      # TODO: update the log_analytics_resource_id if using random code for name
+      log_analytics_resource_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{prefix}}-rg-ops-re1/providers/Microsoft.OperationalInsights/workspaces/{{prefix}}-log-agency-law"
+      log_analytics_destination_type = "Dedicated"
+    }
+  }  
 }
