@@ -78,7 +78,7 @@ azurerm_firewalls = {
     # vnet_key = "vnet_hub_internet_egress_re1"
     # subnet_key = "AzureFirewallSubnet"
     # lz_key = "networking_hub_internet"    
-    # subnet_id = "/subscriptions/e22a351f-db36-4a02-9793-0f2189d5f3ab/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-egress-internet/subnets/AzureFirewallSubnet"
+    # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-egress-internet/subnets/AzureFirewallSubnet"
     sku_tier = "Premium"
     firewall_policy_key = "egress_policy"    
 
@@ -104,7 +104,7 @@ azurerm_firewalls = {
         #   # try(ip_configuration.value.lz_key, null) == null ? 
         #   # var.virtual_networks[var.client_config.landingzone_key][ip_configuration.value.vnet_key].subnets[ip_configuration.value.subnet_key].id : 
         #   # var.virtual_networks[ip_configuration.value.lz_key][ip_configuration.value.vnet_key].subnets[ip_configuration.value.subnet_key].id : null
-        #   # subnet_id = "/subscriptions/e22a351f-db36-4a02-9793-0f2189d5f3ab/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-egress-internet/subnets/AzureFirewallSubnet"
+        #   # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-egress-internet/subnets/AzureFirewallSubnet"
         # }
 
       }
@@ -120,7 +120,7 @@ azurerm_firewalls = {
         vnet_key = "vnet_hub_internet_egress_re1"
         subnet_key = "AzureFirewallMangementSubnet_egress" # "AzureFirewallManagementSubnet"
         # lz_key = "networking_hub_internet"
-        #  subnet_id = "/subscriptions/e22a351f-db36-4a02-9793-0f2189d5f3ab/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-egress-internet/subnets/AzureFirewallManagementSubnet"
+        #  subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-egress-internet/subnets/AzureFirewallManagementSubnet"
       }
     }    
   
@@ -160,7 +160,7 @@ azurerm_firewalls = {
     vnet_key = "vnet_hub_internet_ingress_re1"
     # subnet_key = "AzureFirewallSubnet"
     # lz_key = "networking_hub_internet"    
-    # subnet_id = "/subscriptions/e22a351f-db36-4a02-9793-0f2189d5f3ab/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-ingress-internet/subnets/AzureFirewallSubnet"
+    # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-ingress-internet/subnets/AzureFirewallSubnet"
     sku_tier = "Premium"
     firewall_policy_key = "ingress_policy"    
     public_ips = {
@@ -170,7 +170,7 @@ azurerm_firewalls = {
         vnet_key = "vnet_hub_internet_ingress_re1"
         subnet_key = "AzureFirewallSubnet"
         # lz_key = "networking_hub_internet"
-        # subnet_id = "/subscriptions/e22a351f-db36-4a02-9793-0f2189d5f3ab/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-ingress-internet/subnets/AzureFirewallSubnet"
+        # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-ingress-internet/subnets/AzureFirewallSubnet"
       }
     }
   
@@ -181,7 +181,7 @@ azurerm_firewalls = {
     #  management_ip_configuration = {
     #    name = "management-ip"
     #    public_ip_key = "firewall_pip2_re1"
-    #    subnet_id = "/subscriptions/e22a351f-db36-4a02-9793-0f2189d5f3ab/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-ingress-internet/subnets/AzureFirewallManagementSubnet"
+    #    subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-ingress-internet/subnets/AzureFirewallManagementSubnet"
     #  }
     #}    
 

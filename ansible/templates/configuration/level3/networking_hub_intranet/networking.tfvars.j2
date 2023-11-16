@@ -29,7 +29,7 @@ vnets = {
         cidr    = ["{{cidr_ingress_egress_zone_subnet_ingress_intranet}}"] # ["10.2.0.0/26"] # 64 ips
         service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]    
         # vnet = {
-        #   id = "/subscriptions/6f035180-4066-42f0-b0fa-5fbc1ae67500/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-ingress-intranet"
+        #   id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-ingress-intranet"
 
         # }      
       } 
@@ -39,7 +39,7 @@ vnets = {
         nsg_key = "web_nsg"    
         service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]    
         # vnet = {
-        #   id = "/subscriptions/6f035180-4066-42f0-b0fa-5fbc1ae67500/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-ingress-intranet"
+        #   id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-ingress-intranet"
 
         # }      
       }   
@@ -67,7 +67,7 @@ vnets = {
         cidr    =["{{cidr_ingress_egress_zone_subnet_egress_intranet}}"] # ["10.2.1.0/26"]   # 64 ips
         service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]    
         # vnet = {
-        #   id = "/subscriptions/6f035180-4066-42f0-b0fa-5fbc1ae67500/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-egress-intranet"
+        #   id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-egress-intranet"
 
         # }      
       }  
@@ -76,7 +76,7 @@ vnets = {
         cidr    = ["{{cidr_ingress_egress_zone_subnet_egress_mgmt_intranet}}"] # ["10.2.1.64/26"]   # 64 ips
         service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]    
         # vnet = {
-        #   id = "/subscriptions/6f035180-4066-42f0-b0fa-5fbc1ae67500/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-egress-intranet"
+        #   id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-egress-intranet"
 
         # }      
       }   

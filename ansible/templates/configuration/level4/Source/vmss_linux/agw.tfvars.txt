@@ -27,7 +27,7 @@ application_gateways = {
     name               = "app_gateway_example"
     # vnet_key           = "vnet1"
     # subnet_key         = "subnet2"
-    subnet_id = "/subscriptions/e22a351f-db36-4a02-9793-0f2189d5f3ab/resourceGroups/ignite-rg-gcc-dev-re1-pgv/providers/Microsoft.Network/virtualNetworks/ignite-vnet-gcc-dev-re1-twe/subnets/ignite-snet-web-internet_subnet1-nty",
+    subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/ignite-rg-gcc-dev-re1-pgv/providers/Microsoft.Network/virtualNetworks/ignite-vnet-gcc-dev-re1-twe/subnets/ignite-snet-web-internet_subnet1-nty",
 
     sku_name           = "WAF_v2"
     sku_tier           = "WAF_v2"
@@ -49,7 +49,7 @@ application_gateways = {
         name                          = "private"
         #vnet_key                      = "vnet1"
         #subnet_key                    = "subnet2"
-        subnet_id = "/subscriptions/e22a351f-db36-4a02-9793-0f2189d5f3ab/resourceGroups/ignite-rg-gcc-dev-re1-pgv/providers/Microsoft.Network/virtualNetworks/ignite-vnet-gcc-dev-re1-twe/subnets/ignite-snet-web-internet_subnet1-nty",
+        subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/ignite-rg-gcc-dev-re1-pgv/providers/Microsoft.Network/virtualNetworks/ignite-vnet-gcc-dev-re1-twe/subnets/ignite-snet-web-internet_subnet1-nty",
 
         subnet_cidr_index             = 0 # It is possible to have more than one cidr block per subnet
         private_ip_offset             = 4 # e.g. cidrhost(10.10.0.0/25,4) = 10.10.0.4 => AGW private IP address

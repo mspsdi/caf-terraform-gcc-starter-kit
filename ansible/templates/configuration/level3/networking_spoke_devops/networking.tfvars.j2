@@ -29,7 +29,7 @@ vnets = {
         # service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]
         enforce_private_link_endpoint_network_policies = "true"         
         # vnet = {
-        #   id = "/subscriptions/6f035180-4066-42f0-b0fa-5fbc1ae67500/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-devops"
+        #   id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-devops"
         # }      
       }  
       GatewaySubnet = {
@@ -39,7 +39,7 @@ vnets = {
         service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]   
         enforce_private_link_endpoint_network_policies = "true"         
         # vnet = {
-        #   id = "/subscriptions/6f035180-4066-42f0-b0fa-5fbc1ae67500/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-devops"
+        #   id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-devops"
         # }      
       }    
       # end devops zone

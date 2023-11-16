@@ -70,7 +70,7 @@ virtual_machine_scale_sets = {
         primary    = true
         # vnet_key   = "vnet1"
         # subnet_key = "subnet1"
-        subnet_id = "/subscriptions/e22a351f-db36-4a02-9793-0f2189d5f3ab/resourceGroups/ignite-rg-gcc-dev-re1-pgv/providers/Microsoft.Network/virtualNetworks/ignite-vnet-gcc-dev-re1-twe/subnets/ignite-snet-web-internet_subnet1-nty",
+        subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/ignite-rg-gcc-dev-re1-pgv/providers/Microsoft.Network/virtualNetworks/ignite-vnet-gcc-dev-re1-twe/subnets/ignite-snet-web-internet_subnet1-nty",
 
 
         appgw_backend_pools = {

@@ -529,7 +529,7 @@ diagnostics_definition = {
 # }
 
 # # gcc is using govtech law, this is for non gcc
-# # resource id: /subscriptions/6f035180-4066-42f0-b0fa-5fbc1ae67500/resourceGroups/esdso-rg-ops-re1/providers/Microsoft.OperationalInsights/workspaces/esdso-log-agency-law
+# # resource id: /subscriptions/{{subscription_id}}/resourceGroups/esdso-rg-ops-re1/providers/Microsoft.OperationalInsights/workspaces/esdso-log-agency-law
 diagnostic_log_analytics = {
   central_logs_region1 = {
     region             = "region1"
