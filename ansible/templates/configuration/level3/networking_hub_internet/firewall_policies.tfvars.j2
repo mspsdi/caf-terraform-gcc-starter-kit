@@ -127,7 +127,7 @@ azurerm_firewall_policy_rule_collection_groups = {
             }
             source_addresses  = ["*"]
         
-            destination_fqdns = ["staffclaims-uat.dso.org.sg"] # ["demoapp1.internet.caflabs.com"] # TODO: change to your applicaiton fdqn
+            destination_fqdns = ["{{ingress_internet_agw_fqdn}}.{{ingress_internet_dns_zone}}"]  # ["demoapp1.internet.caflabs.com"] # TODO: change to your applicaiton fdqn
           }
         }
       }
