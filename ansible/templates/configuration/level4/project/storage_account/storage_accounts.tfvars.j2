@@ -35,7 +35,7 @@ storage_accounts = {
         subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-ai-internet"
 {% else %}
         vnet_key = "vnet_spoke_internet_re1"
-        subnet_key = "ai_internet_subnet"
+        subnet_key = "db_internet_subnet"
         lz_key = "networking_spoke_internet"    
         # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-ai-internet"
 {% endif %}

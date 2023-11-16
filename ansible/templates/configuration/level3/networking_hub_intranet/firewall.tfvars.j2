@@ -63,27 +63,12 @@ azurerm_firewalls = {
   # egress firewall
   fw_re1 = {
     name  = "egress-intranet"
-    resource_group_key = "networking_hub_intranet_re1" # same resource group as vnet - "networking_hub_intranet_re1"
+    resource_group_key = "networking_hub_intranet_re1" # same resource group as vnet 
     vnet_key = "vnet_hub_intranet_egress_re1"
+    # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-egress-intranet/subnets/AzureFirewallSubnet"
 
-    # lz_key = "networking_hub_intranet"
-    # resource_group_key = "networking_hub_intranet_re1" # same resource group as vnet - "networking_hub_intranet_re1"
-    # add the resource group name to resolve the issue of subnet rg different from firewall rg
-    # TODO: subnet resource group name - input as variable for code generation
-    # ** firewall MUST be in the same resource group as VNet and Subnet AzureFirewallSubnet
-
-    # deploy in the same resource group as vnet
-    # resource_group_name = "osscuat-rg-networking-hub-intranet-re1-jpf" # this value need to be hardcoded???? the resource group name of the subnet  
-
-    # vnet_key = "vnet_hub_intranet_egress_re1"
-    # subnet_key = "AzureFirewallSubnet"
-    # lz_key = "networking_hub_intranet"    
-    # subnet_id = "/subscriptions/e22a351f-db36-4a02-9793-0f2189d5f3ab/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-egress-intranet/subnets/AzureFirewallSubnet"
     sku_tier = "Premium"
     firewall_policy_key = "egress_policy"    
-
-    # public_ip_address_id = can(ip_configuration.value.public_ip_id) ? ip_configuration.value.public_ip_id : 
-    # var.public_ip_addresses[try(ip_configuration.value.lz_key, var.client_config.landingzone_key)][ip_configuration.value.public_ip_key].id
 
     public_ips = {
       ip1 = {
@@ -92,21 +77,7 @@ azurerm_firewalls = {
         vnet_key = "vnet_hub_intranet_egress_re1"
         subnet_key = "AzureFirewallSubnet_egress" # "AzureFirewallSubnet"
         # lz_key = "networking_hub_intranet"
-
-        # ip_configuration = {
-        #   public_ip_key = "firewall_re1"
-        #   vnet_key = "vnet_hub_intranet_egress_re1"
-        #   subnet_key = "AzureFirewallSubnet"
-        #   lz_key = "networking_hub_intranet"
-
-        #   # subnet_id            = try(ip_configuration.value.subnet_id, null) != null ? 
-        #   # ip_configuration.value.subnet_id : try(ip_configuration.value.subnet_key, null) != null ? 
-        #   # try(ip_configuration.value.lz_key, null) == null ? 
-        #   # var.virtual_networks[var.client_config.landingzone_key][ip_configuration.value.vnet_key].subnets[ip_configuration.value.subnet_key].id : 
-        #   # var.virtual_networks[ip_configuration.value.lz_key][ip_configuration.value.vnet_key].subnets[ip_configuration.value.subnet_key].id : null
-        #   # subnet_id = "/subscriptions/e22a351f-db36-4a02-9793-0f2189d5f3ab/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-egress-intranet/subnets/AzureFirewallSubnet"
-        # }
-
+        # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-egress-intranet/subnets/AzureFirewallSubnet"
       }
     }
   
@@ -120,7 +91,7 @@ azurerm_firewalls = {
         vnet_key = "vnet_hub_intranet_egress_re1"
         subnet_key = "AzureFirewallMangementSubnet_egress" # "AzureFirewallManagementSubnet"
         # lz_key = "networking_hub_intranet"
-        #  subnet_id = "/subscriptions/e22a351f-db36-4a02-9793-0f2189d5f3ab/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-egress-intranet/subnets/AzureFirewallManagementSubnet"
+        #  subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-egress-intranet/subnets/AzureFirewallManagementSubnet"
       }
     }    
   
@@ -154,13 +125,11 @@ azurerm_firewalls = {
     # add the resource group name to resolve the issue of subnet rg different from firewall rg
     # TODO: subnet resource group name - input as variable for code generation
     # ** firewall MUST be in the same resource group as VNet and Subnet AzureFirewallSubnet
-
     # resource_group_name = "osscuat-rg-networking-hub-intranet-re1 " # the resource group name of the subnet  
 
     vnet_key = "vnet_hub_intranet_ingress_re1"
-    # subnet_key = "AzureFirewallSubnet"
-    # lz_key = "networking_hub_intranet"    
-    # subnet_id = "/subscriptions/e22a351f-db36-4a02-9793-0f2189d5f3ab/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-ingress-intranet/subnets/AzureFirewallSubnet"
+    # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-ingress-intranet/subnets/AzureFirewallSubnet"
+
     sku_tier = "Premium"
     firewall_policy_key = "ingress_policy"    
     public_ips = {
@@ -170,7 +139,7 @@ azurerm_firewalls = {
         vnet_key = "vnet_hub_intranet_ingress_re1"
         subnet_key = "AzureFirewallSubnet"
         # lz_key = "networking_hub_intranet"
-        # subnet_id = "/subscriptions/e22a351f-db36-4a02-9793-0f2189d5f3ab/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-ingress-intranet/subnets/AzureFirewallSubnet"
+        # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-ingress-intranet/subnets/AzureFirewallSubnet"
       }
     }
   
@@ -181,7 +150,7 @@ azurerm_firewalls = {
     #  management_ip_configuration = {
     #    name = "management-ip"
     #    public_ip_key = "firewall_pip2_re1"
-    #    subnet_id = "/subscriptions/e22a351f-db36-4a02-9793-0f2189d5f3ab/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-ingress-intranet/subnets/AzureFirewallManagementSubnet"
+    #    subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-ingress-intranet/subnets/AzureFirewallManagementSubnet"
     #  }
     #}    
 

@@ -41,43 +41,6 @@ azurerm_firewall_policies = {
     # }
   }
 
-  # for ingress firewall
-  # TODO: Add support for TLS inspection
-  # TODO: SSL Encryption and Decryption
-
-# resource "azurerm_firewall_policy" "example" {
-#   name                = "example"
-#   resource_group_name = "example"
-#   location            = "West Europe"
-#   identity {
-#       type = "UserAssigned"
-#       user_assigned_identity_ids = [azurerm_user_assigned_identity.test.id]
-#   }
-#   sku="Premium"
-#   tls_certificate{
-#       key_vault_secret_id = azurerm_key_vault_secret.Certificate.id//<id of the keyvault Secret where CA is stored>
-#       name = //<name of the certificate stored in the keyvault>
-#   }
-#   intrusion_detection {
-#       mode="Alert"
-#       signature_overrides {
-#           id = "sigOverrideParam1 id (2024897)" 
-#           state = "Deny" 
-#       }
-#       signature_overrides {
-#           id = "sigOverrideParam2 id (2024898)"
-#           state = "Alert"
-#       }
-#       traffic_bypass {
-#           name = "SecretBypass"
-#           protocol ="TCP"
-#           source_addresses = ["*"]
-#           destination_addresses =["1.1.1.1"]
-#           destination_ports = ["80"]
-#       }
-#   }
-# }
-
   ingress_policy = {
     name               = "firewall-policy-ingress-intranet"
     resource_group_key = "networking_hub_intranet_re1"
@@ -172,12 +135,6 @@ azurerm_firewall_policy_rule_collection_groups = {
             }
             source_addresses  = ["*"]
 
-            # ingress_internet_aks_fqdn: aks-demoapp1 # dummy value  
-            # ingress_intranet_aks_fqdn: # dummy value    
-            # ingress_internet_agw_fqdn: demoapp1 # dummy value demoapp1.internet.caflabs.com 
-            # ingress_intranet_agw_fqdn:  # dummy value demoapp1.intranet.caflabs.com    
-            # ingress_internet_dns_zone: internet.dso.gov.sg # dummy value demoapp1.internet.caflabs.com 
-                        
             destination_fqdns = ["staffclaims-uat.dso.org.sg"] # ["demoapp1.intranet.caflabs.com"] # TODO: change to your applicaiton fdqn
           }
         }

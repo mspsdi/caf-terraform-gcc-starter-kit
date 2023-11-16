@@ -108,40 +108,6 @@ app_services = {
       type = "SystemAssigned"
     }
 
-    /*
-    settings = {
-      enabled                 = true
-      client_affinity_enabled = false
-      client_cert_enabled     = false
-      https_only              = false
-
-      site_config = {
-        number_of_workers        = 2
-        default_documents        = ["main.aspx"]
-        always_on                = true
-        dotnet_framework_version = "v4.0" # expected site_config.0.dotnet_framework_version to be one of ["v2.0" "v4.0" "v5.0" "v6.0"]
-        app_command_line         = null         ///sbin/myserver -b 0.0.0.0
-        ftps_state               = "AllAllowed" //AllAllowed, FtpsOnly and Disabled
-        http2_enabled            = false
-
-      }
-
-      app_settings = {
-        "Example" = "Extend",
-        "LZ"      = "CAF"
-      }
-
-      tags = {
-        Department = "IT"
-      }
-    }
-
-    app_settings = {
-      "WEBSITE_NODE_DEFAULT_VERSION" = "6.9.1"
-    }
-
-    */
-
     settings = {
       enabled = true
 
@@ -167,26 +133,6 @@ app_services = {
         zone = "{{zone_code}}"
         tier = "{{tier_code}}"        
       } 
-
-      /*
-      # Azure Blob storage is not supported in Windows apps
-      storage_account = [
-        {
-          name        = "blobmount1"
-          type        = "AzureBlob"
-          account_key = "sa1"
-          share_name  = "sc1"
-          mount_path  = "/mnt/sc1"
-        },
-        # {
-        #   name        = "sharemount1"
-        #   type        = "AzureFiles"
-        #   account_key = "sa2"
-        #   share_name  = "fs1"
-        #   mount_path  = "/mnt/fs1"
-        # }
-      ] 
-      */
 
       backup = {
         name                = "webapp_backup"
@@ -429,71 +375,6 @@ monitor_autoscale_settings = {
   }
 }
 
-
-# vnets = {
-#   spoke = {
-#     resource_group_key = "spoke"
-#     region             = "region1"
-#     vnet = {
-#       name          = "spoke"
-#       address_space = ["10.1.0.0/24"]
-#     }
-#     specialsubnets = {}
-#     subnets = {
-#       app = {
-#         name = "app"
-#         cidr = ["10.1.0.0/28"]
-#         delegation = {
-#           name               = "serverFarms"
-#           service_delegation = "Microsoft.Web/serverFarms"
-#           actions = [
-#             "Microsoft.Network/virtualNetworks/subnets/action"
-#           ]
-#         }
-#       }
-#     }
-
-#   }
-
-# }
-
-# network_security_group_definition = {
-#   # This entry is applied to all subnets with no NSG defined
-#   empty_nsg = {
-#   }
-# }
-
-
-/*
-app_service_plans = {
-  asp1 = {
-    resource_group_key = "rg1"
-    name               = "asp-simple"
-
-    maximum_elastic_worker_count = 5
-
-    sku = {
-      tier = "Standard"
-      size = "S1"
-      # per_site_scaling   = true
-    }
-  }
-}
-
-app_services = {
-  webapp1 = {
-    resource_group_key   = "rg1"
-    name                 = "webapp-simple-autoscale"
-    app_service_plan_key = "asp1"
-
-    settings = {
-      enabled = true
-    }
-  }
-}
-*/
-
-
 # # unable to use the one in shared service remote lz - create locally
 # # For diagnostic settings
 # diagnostics_definition = {
@@ -529,7 +410,7 @@ app_services = {
 # # }
 
 # # # gcc is using govtech law, this is for non gcc
-# # # resource id: /subscriptions/6f035180-4066-42f0-b0fa-5fbc1ae67500/resourceGroups/esdso-rg-ops-re1/providers/Microsoft.OperationalInsights/workspaces/esdso-log-agency-law
+# # # resource id: /subscriptions/{{subscription_id}}/resourceGroups/esdso-rg-ops-re1/providers/Microsoft.OperationalInsights/workspaces/esdso-log-agency-law
 # diagnostic_log_analytics = {
 #   central_logs_region1 = {
 #     region             = "region1"
