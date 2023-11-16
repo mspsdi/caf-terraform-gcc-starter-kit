@@ -32,7 +32,9 @@ caf terraform accelerator kit for public sector
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-The purpose of the "AZURE GCC Acceleration Kit" is to facilitate the workload setup in AZURE environment. This will be achieved in a two-step layered approach.  
+The purpose of the "AZURE GCC Acceleration Kit" is to facilitate the workload setup in AZURE environment. This will be achieved in a two-step layered approach. 
+This starter kit is based on "Cloud Adoption Framework Landing zones for Terraform". More details you can find [here](https://aztfmod.github.io/documentation/docs/intro)
+
 <p align="center">
     <img src="docs/overall-workflow-1.png"/>
 </p>
