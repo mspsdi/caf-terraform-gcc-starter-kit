@@ -14,21 +14,10 @@ vnets = {
       address_space = ["{{internet_vnet_name_cidr}}"] # ["100.2.0.0/24"]
     }
 
-
-  # cidr_internet_zone_subnet_app: 	100.2.0.0/27
-  # cidr_internet_zone_subnet_data: 	100.2.0.32/27
-  # cidr_internet_zone_subnet_web: 	100.2.0.64/27
-  # cidr_internet_zone_subnet_service: 	100.2.0.96/27
-  # cidr_internet_zone_subnet_chatgpt: 	100.2.0.128/27
-  # cidr_internet_zone_subnet_ai: 	100.2.0.160/27
-  # cidr_internet_zone_subnet_applicationgateway: 	100.2.0.192/27
-  # cidr_internet_zone_subnet_linux_function_app: 100.2.0.224/27
-  # cidr_internet_zone_subnet_app_service: 100.2.0.64/27
-
     subnets = {
 
       # private segment
-{% if internet_app_aks | trim == '1' %}      
+{% if internet_app_aks | trim == '1' or internet_app_app_service | trim == '1' %}      
       # aks, private endpoint to app service etc...
       app_internet_subnet = {
         name    = "app-internet"
