@@ -402,8 +402,8 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
--var-folder /tf/caf/caf_terraform_starter_osscuat_uat/landingzone/configuration/level4/project/storage_account \
--env uat \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/storage_account \
+-env {{caf_environment}} \
 -tfstate solution_accelerators_storage_account.tfstate \
 -a apply
 ```
@@ -412,8 +412,8 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
--var-folder /tf/caf/caf_terraform_starter_osscuat_uat/landingzone/configuration/level4/project/keyvault \
--env uat \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/keyvault \
+-env {{caf_environment}} \
 -tfstate solution_accelerators_keyvault.tfstate \
 -a apply
 ```
@@ -422,8 +422,18 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
--var-folder /tf/caf/caf_terraform_starter_osscuat_uat/landingzone/configuration/level4/project/app_service \
--env uat \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/container_instance \
+-parallelism 30 \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_container_instance.tfstate \
+-a apply
+```
+* logic_app
+```bash
+rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/app_service \
+-env {{caf_environment}} \
 -tfstate solution_accelerators_app_service.tfstate \
 -a apply
 ```
