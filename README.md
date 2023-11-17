@@ -76,7 +76,8 @@ Project compartment
 - [x] Azure Container Registry + private endpoint
 - [x] APIM stsv2 vnet injection
 - [x] App Service + vnet injection + private endpoint
-- [x] Container Instance 
+- [x] Logic App + vnet injection + private endpoint
+- [x] Container Instance + vnet injection
 - [x] Open AI Service + private endpoint
 - [x] Cognitive Search Service + private endpoint
 - [x] Cosmos DB + private endpoint
