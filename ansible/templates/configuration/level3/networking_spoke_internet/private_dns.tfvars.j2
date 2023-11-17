@@ -1,10 +1,8 @@
 private_dns = {
 
-
-
-{% if internet_app_app_service | trim == '1' %}
-  app_service_dns_re1 = {
-    name               = "privatelink.southeastasia.azmk8s.io"
+{% if internet_app_app_service | trim == '1' or internet_app_linux_function_app | trim == '1' or internet_app_logic_app | trim == '1' %}
+  azurewebsites_dns_re1 = {
+    name               = "privatelink.azurewebsites.net"
     resource_group_key = "networking_spoke_internet_re1"
 {% if gcc_platform | trim == '1' %}   
     # vnet link is created after vnet is crated.
@@ -481,61 +479,6 @@ private_dns = {
 {% endif %}    
   # end ampls dns
 
-{% if internet_app_linux_function_app | trim == '1' %}
-  # begin functionapps
-  fa_dns_re1 = {
-    name               = "privatelink.azurewebsites.net" # must be this name - do not change
-    resource_group_key = "networking_spoke_internet_re1"
-
-{% if gcc_platform | trim == '1' %}
-    vnet_links = {
-      functionapps_internet_vnet_link = {
-        name                 = "functionapps-internet-vnet"
-        registration_enabled = false
-        virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      }
-      functionapps_management_vnet_link = {
-        name                 = "functionapps-management-vnet"
-        registration_enabled = false
-        virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-      }
-    }
-
-{% else %}
-    vnet_links = {
-      functionapps_internet_vnet_link = {
-        name               = "functionapps-app-internet-vnet"
-        # registration_enabled = false # a virtual network can only link to one private dns zone with registration enabled
-        vnet_key = "vnet_spoke_internet_re1"
-        # lz_key = "networking_spoke_internet"    
-        #          virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      }  
-
-      functionapps_management_vnet_link = {
-        name                 = "functionapps-management-vnet"
-        # registration_enabled = false
-        vnet_key = "vnet_hub_management_re1"
-        lz_key = "networking_spoke_management"        
-        # virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-      }      
-
-    }
-{% endif %}  
-
-
-
-    tags = { 
-      purpose = "{{zone_code}} linux function app private dns" 
-      project-code = "{{project_code}}" 
-      env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"          
-    } 
-
-  }
-  # end functionapps
-{% endif %}  
-
 
 {% if internet_app_keyvault | trim == '1' %}
   # begin keyvault
@@ -801,9 +744,8 @@ private_dns = {
   # end redis.cache
 {% endif %}  
 
-
   project_dns1 = {
-    name               = "project.{{ingress_intranet_dns_zone}}"
+    name               = "project.{{ingress_internet_dns_zone}}"
     resource_group_key = "networking_spoke_internet_re1"
 
     records = {

@@ -1,0 +1,72 @@
+# unable to use the one in shared service remote lz - create locally
+# For diagnostic settings
+diagnostics_definition = {
+  azure_container_registry = {
+    name = "acr_logs_and_metrics"
+    categories = {
+      log = [
+        # ["Category name",  "Diagnostics Enabled(true/false)", "Retention Enabled(true/false)", Retention_period]
+        ["ContainerRegistryRepositoryEvents", true, false, 7],
+        ["ContainerRegistryLoginEvents", true, false, 7],
+      ]
+      metric = [
+        #["Category name",  "Diagnostics Enabled(true/false)", "Retention Enabled(true/false)", Retention_period]
+        ["AllMetrics", true, false, 7],
+      ]
+    }
+  }
+  
+
+# Kubernetes Cluster Autoscaler
+# Kubernetes Controller Manager
+# Kubernetes Scheduler
+# Kubernetes Audit
+# guard
+# Kubernetes API Server
+# Kubernetes Audit Admin Logs
+# Kubernetes Cloud Controller Manager
+# csi-azuredisk-controller
+# csi-azurefile-controller
+# csi-snapshot-controller
+
+  azure_kubernetes_cluster = {
+    name = "aks_logs_and_metrics"
+    categories = {
+      log = [
+        # ["Category name",  "Diagnostics Enabled(true/false)", "Retention Enabled(true/false)", Retention_period]
+        ["kube-apiserver", true, false, 7],
+        ["kube-audit", true, false, 0],
+        ["kube-audit-admin", true, false, 7],
+        ["kube-controller-manager", true, false, 7],
+        ["kube-scheduler", true, false, 0],
+        ["cluster-autoscaler", true, false, 7],
+        ["guard", true, false, 7],
+        # Category 'kube-cloud-controller-manager' is not supported.
+        # ["Kubernetes-cloud-controller-manager", true, false, 7],        
+        ["csi-azuredisk-controller", true, false, 7],        
+        ["csi-azurefile-controller", true, false, 7],        
+        ["csi-snapshot-controller", true, false, 7],        
+      ]
+      metric = [
+        #["Category name",  "Diagnostics Enabled(true/false)", "Retention Enabled(true/false)", Retention_period]
+        ["AllMetrics", true, false, 7],
+      ]
+    }
+  }
+}
+
+diagnostics_destinations = {
+  # Storage keys must reference the azure region name
+  log_analytics = {   # <- this is destination type
+    central_logs = {  # <- this is destination key
+      # TODO: update the log_analytics_resource_id if using random code for name
+{% if gcc_platform | trim == '1' %}      
+      log_analytics_resource_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{log_analytics_workspace_resource_group_name}}/providers/Microsoft.OperationalInsights/workspaces/{{log_analytics_workspace_name}}",
+{% else %}
+      # TODO: update the log_analytics_resource_id if using random code for name
+      log_analytics_resource_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{prefix}}-rg-ops-re1/providers/Microsoft.OperationalInsights/workspaces/{{prefix}}-log-agency-law"
+{% endif %}
+      log_analytics_destination_type = "Dedicated"
+    }
+  }
+}

@@ -426,7 +426,7 @@ private_dns = {
 
 {% if internet_app_linux_function_app | trim == '1' %}
   # begin functionapps
-  fa_dns_re1 = {
+  azurewebsites_dns_re1 = {
     name               = "privatelink.azurewebsites.net" # must be this name - do not change
     resource_group_key = "networking_private_dns_rg_re1"
 

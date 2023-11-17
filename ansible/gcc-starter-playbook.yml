@@ -153,6 +153,7 @@
       cidr_internet_zone_subnet_applicationgateway: "{{configuration.cidr_internet_zone_subnet_applicationgateway | trim}}" 
       cidr_internet_zone_subnet_linux_function_app: "{{configuration.cidr_internet_zone_subnet_linux_function_app | trim}}" 
       cidr_internet_zone_subnet_it: "{{configuration.cidr_internet_zone_subnet_it| trim}}" 
+      cidr_internet_zone_subnet_logic_app: "{{configuration.cidr_internet_zone_subnet_logic_app| trim}}" 
 
       cidr_intranet_zone_subnet_app: "{{configuration.cidr_intranet_zone_subnet_app | trim}}" 
       cidr_intranet_zone_subnet_data: "{{configuration.cidr_intranet_zone_subnet_data | trim}}" 
@@ -189,6 +190,7 @@
       internet_app_container_instance: "{{solution_accelerators.internet_zone.app.app_container_instance | trim}}" 
       internet_app_keyvault: "{{solution_accelerators.internet_zone.app.app_keyvault | trim}}" 
       internet_app_apim: "{{solution_accelerators.internet_zone.app.app_apim | trim}}" 
+      internet_app_logic_app: "{{solution_accelerators.internet_zone.app.app_logic_app | trim}}" 
 
       internet_data_cosmosdb: "{{solution_accelerators.internet_zone.data.data_cosmosdb | trim}}" 
       internet_data_mssql: "{{solution_accelerators.internet_zone.data.data_mssql | trim}}" 
@@ -1780,6 +1782,54 @@
       ignore_errors: no
       # end block   
 # end level4 internet/apim
+
+# level4 internet/logic_app 
+    - name: internet zone logic_app
+      # beign block
+      block:
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_internet}}"
+          tier_code: "{{tier_app}}"   
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/logic_app/"
+          templates_path: "{{templates_folder}}/configuration/level4/project/logic_app/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: logic_app_files_to_process
+
+      - name: copy logic_app
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{logic_app_files_to_process.files}}"     
+      # end creating tfvars files
+
+      when: internet_app_logic_app | trim == '1'  or internet_app_logic_app | trim == 'yes'
+      become: true
+      ignore_errors: no
+      # end block   
+# end level4 internet/logic_app
 
 # ----------------------------
 # end internet level4

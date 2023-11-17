@@ -1,0 +1,47 @@
+# unable to use the one in shared service remote lz - create locally
+# For diagnostic settings
+diagnostics_definition = {
+  mssql_db = {
+    name = "mssql_db_logs_and_metrics"
+
+    categories = {
+      log = [
+        #["Category name",  "Diagnostics Enabled(true/false)", "Retention Enabled(true/false)", Retention_period]
+        ["AutomaticTuning", true, false, 7],
+        ["Blocks", true, false, 7],
+        ["DatabaseWaitStatistics", true, false, 7],
+        ["Deadlocks", true, false, 7],
+        ["DevOpsOperationsAudit", true, false, 7],
+        ["QueryStoreRuntimeStatistics", true, false, 7],
+        ["QueryStoreWaitStatistics", true, false, 7],
+        ["SQLInsights", true, false, 7],
+        ["SQLSecurityAuditEvents", true, false, 7],
+        ["Timeouts", true, false, 7],
+        ["Errors", true, false, 7],
+
+      ]
+      metric = [
+        #["Category name",  "Diagnostics Enabled(true/false)", "Retention Enabled(true/false)", Retention_period]
+        ["Basic", true, false, 7],
+        ["InstanceAndAppAdvanced", true, false, 7],
+        ["WorkloadManagement", true, false, 7],
+      ]
+    }
+  }
+}
+
+diagnostics_destinations = {
+  # Storage keys must reference the azure region name
+  log_analytics = {   # <- this is destination type
+    central_logs = {  # <- this is destination key
+      # TODO: update the log_analytics_resource_id if using random code for name
+{% if gcc_platform | trim == '1' %}      
+      log_analytics_resource_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{log_analytics_workspace_resource_group_name}}/providers/Microsoft.OperationalInsights/workspaces/{{log_analytics_workspace_name}}",
+{% else %}
+      # TODO: update the log_analytics_resource_id if using random code for name
+      log_analytics_resource_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{prefix}}-rg-ops-re1/providers/Microsoft.OperationalInsights/workspaces/{{prefix}}-log-agency-law"
+{% endif %}
+      log_analytics_destination_type = "Dedicated"
+    }
+  }
+}

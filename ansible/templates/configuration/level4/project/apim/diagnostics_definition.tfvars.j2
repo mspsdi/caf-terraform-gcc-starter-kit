@@ -1,0 +1,29 @@
+# unable to use the one in shared service remote lz - create locally
+# For diagnostic settings
+diagnostics_definition = {
+  apim = {
+    name = "apim_logs_and_metrics"
+    categories = {
+      metric = [
+        #["Category name",  "Diagnostics Enabled(true/false)", "Retention Enabled(true/false)", Retention_period]
+        ["AllMetrics", true, false, 7],
+      ]
+    }
+  } 
+}
+
+diagnostics_destinations = {
+  # Storage keys must reference the azure region name
+  log_analytics = {   # <- this is destination type
+    central_logs = {  # <- this is destination key
+      # TODO: update the log_analytics_resource_id if using random code for name
+{% if gcc_platform | trim == '1' %}      
+      log_analytics_resource_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{log_analytics_workspace_resource_group_name}}/providers/Microsoft.OperationalInsights/workspaces/{{log_analytics_workspace_name}}",
+{% else %}
+      # TODO: update the log_analytics_resource_id if using random code for name
+      log_analytics_resource_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{prefix}}-rg-ops-re1/providers/Microsoft.OperationalInsights/workspaces/{{prefix}}-log-agency-law"
+{% endif %}
+      log_analytics_destination_type = "Dedicated"
+    }
+  }
+}
