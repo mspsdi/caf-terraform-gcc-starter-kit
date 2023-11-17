@@ -90,6 +90,11 @@ if [ ! -d /tf/caf/landingzones ]; then
     # Patches 7: fixed apim stsv2.1 add public ip and module for public ip.
     cp /tf/caf/patches/api_management/module.tf /tf/caf/landingzones/aztfmod/modules/apim/api_management/module.tf
 
+    # Patches 8: # fixed bool required for base_tags, diagnostics settings
+    cp /tf/caf/patches/logic_app/logic_app.tf /tf/caf/landingzones/aztfmod/logic_app.tf
+    cp /tf/caf/patches/logic_app/standard/diagnostic.tf /tf/caf/landingzones/aztfmod/modules/logic_app/standard/diagnostic.tf
+    cp /tf/caf/patches/logic_app/standard/variables.tf /tf/caf/landingzones/aztfmod/modules/logic_app/standard/variables.tf
+
     # ----------------- OLD PATCHES before Oct 2023 -----------------------------------------------------------------------------  
     # cp /tf/caf/patches/caf_launchpad/main.tf /tf/caf/landingzones/caf_launchpad/main.tf
     # cp /tf/caf/patches/caf_solution/main.tf /tf/caf/landingzones/caf_solution/main.tf
