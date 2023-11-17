@@ -107,7 +107,7 @@ DevOps Compartment
 
 ### Architecture
 
-This section aims to give the reader an overview of GCC Starter architecture
+This section aims to give the reader an overview of CAF Terraform GCC Starter Kit Reference Architecture
 <!-- , relative to external systems and in terms of how the codebase is organised. -->
 
 #### Overview Architecture
