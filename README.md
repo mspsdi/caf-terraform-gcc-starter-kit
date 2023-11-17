@@ -143,21 +143,6 @@ git clone https://github.com/mspsdi/caf-terraform-gcc-starter-kit
 * Add a zsh terminal from VS Code
 * Follow the steps in README.md file
 
-<!--
-Before you can start running the project, below are tools that you will need to install in your development computers.
-
-* Install [Python](https://www.python.org/downloads/), [Node.js](https://nodejs.org/en/download/), [Git](https://git-scm.com/downloads), [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) and [Azure Function CLI](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=macos%2Cisolated-process%2Cnode-v4%2Cpython-v2%2Chttp-trigger%2Ccontainer-apps&pivots=programming-language-csharp)
-
-* Setup 
-    * a [Microsoft Azure Account](https://azure.microsoft.com/en-us/) to build, manage, and monitor your cloud applications and manage your account and billing through the Azure portal.
-
-* Good understanding of Storyboard. 
-  - As the Cloud Evidence Platform follows a DevOps lifecycle, I develop based on project backlog.
-
-* Good Knowledge on [Azure Fundamentals](https://docs.microsoft.com/en-us/azure/?product=featured).
-
--->
-
 ### Deployment
 
 Recommend Internet CIDR Range: 100.64.0.0/10
@@ -210,7 +195,7 @@ go to /tf/caf/{{gcc_starter_project_folder}}/gcc-dev-env/README.md
 
 #### 1. level 0 - launchpad
 
-1.1. launchpad - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level0/launchpad
+* launchpad - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level0/launchpad
 ```bash
 rover -lz /tf/caf/landingzones/caf_launchpad \
   -launchpad \
@@ -223,7 +208,7 @@ rover -lz /tf/caf/landingzones/caf_launchpad \
 #### 2. level 3 - networking
 
 
-2.1. level 3 - shared services - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/shared_services
+* level 3 - shared services - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/shared_services
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
   -level level3 \
@@ -235,7 +220,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
   -a plan
 ```
 
-2.2. level 3 - management - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_management
+* level 3 - management - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_management
 ```
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
@@ -246,7 +231,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -a plan
 ```
 
-2.3. level 3 - devops - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_devops
+* level 3 - devops - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_devops
 ```bash
 rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
@@ -257,7 +242,7 @@ rover -lz /tf/caf/landingzones/caf_solution \
 -a plan
 ```
 
-2.4. level 3 - hub internet - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_hub_internet
+* level 3 - hub internet - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_hub_internet
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
@@ -267,7 +252,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -a plan
 ```
 
-2.5. level 3 - hub intranet - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_hub_intranet
+* level 3 - hub intranet - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_hub_intranet
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
@@ -277,7 +262,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -a plan
 ```
 
-2.6. level 3 - spoke project - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_internet
+* level 3 - spoke project - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_internet
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
@@ -287,7 +272,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -a plan
 ```
 
-2.7. level 3 - vnet peering - /tf/caf/ansible/templates/configuration/level3/networking_vnet_peering
+* level 3 - vnet peering - /tf/caf/ansible/templates/configuration/level3/networking_vnet_peering
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
@@ -300,7 +285,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 
 #### firewall, application gateway
 
-2.8. egress firewall internet
+* egress firewall internet
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
@@ -311,7 +296,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -a apply
 ```
 
-2.9. egress firewall intranet
+* egress firewall intranet
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
@@ -322,7 +307,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -a apply
 ```
 
-2.10. agw internet
+* agw internet
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
@@ -332,7 +317,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -a apply
 ```
 
-2.11. agw intranet
+* agw intranet
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
@@ -342,7 +327,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -a apply
 ```
 
-2.12. ingress firewall internet
+* ingress firewall internet
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
@@ -353,7 +338,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -a apply
 ```
 
-2.13. ingress firewall intranet
+* ingress firewall intranet
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
@@ -392,7 +377,6 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 
 ##### Project
 
-{% if internet_data_mssql | trim == '1' %}
 * sql server
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
@@ -402,9 +386,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -tfstate solution_accelerators_mssql.tfstate \
 -a apply
 ```
-{% endif %}
 
-{% if internet_data_storage_account | trim == '1' %}
 * storage account
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
@@ -414,9 +396,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -tfstate solution_accelerators_storage_account.tfstate \
 -a apply
 ```
-{% endif %}
 
-{% if internet_app_keyvault | trim == '1' %}
 * key vault
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
@@ -426,9 +406,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -tfstate solution_accelerators_keyvault.tfstate \
 -a apply
 ```
-{% endif %}
 
-{% if internet_app_app_service | trim == '1' %}
 * app_service
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
@@ -438,9 +416,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -tfstate solution_accelerators_app_service.tfstate \
 -a apply
 ```
-{% endif %}
 
-{% if internet_data_cosmosdb | trim == '1' %}
 * cosmo db
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
@@ -450,9 +426,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -tfstate solution_accelerators_cosmosdb.tfstate \
 -a apply
 ```
-{% endif %}
 
-{% if internet_app_aks | trim == '1' %}
 * aks and acr
 ```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
@@ -462,8 +436,6 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -tfstate solution_accelerators_aks.tfstate \
 -a apply
 ```
-{% endif %}
-
 
 #### 4. Testing
 
@@ -483,8 +455,6 @@ Goto keyvault {{project_code}}-kv-mssql secrets to retrieve your sql server admi
 #### develop
 
 The develop branch is for testing and staging of all new features, fixes and tests. 
-<!-- When the develop branch is stable and functional in the Azure staging-environment `func azure functionapp publish cep-xxx-staging-fx`, we publish the Functions project into Azure for production `func azure functionapp publish cep-xxx-prod-fx`.
--->
 
 <!-- VERSIONING -->
 ## Versioning
