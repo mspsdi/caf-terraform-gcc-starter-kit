@@ -147,7 +147,15 @@ git clone https://github.com/mspsdi/caf-terraform-gcc-starter-kit
 
 ### Deployment
 
-Recommend Internet CIDR Range: 100.64.0.0/10
+<!-- Recommend Internet CIDR Range: 100.64.0.0/10 -->
+#### Recommend VNET CIDR Range:
+Internet Ingress VNET (Internet): 100.x.x.x/24 (256)
+Internet egress VNET (Internet): 100.x.x.x/24 (256)
+Intranet ingress VNET (Intranet): 10.x.x.x/25 (128)
+Intranet egress VNET (Intranet): 10.x.x.x/25 (128)
+Project VNET (Internet): 100.x.x.x/24 (256)
+Management VNET (Internet): 100.x.x.x/24 (256)
+DevOps VNET (AgencyManaged): 192.x.x.x/24 (256)
 
 #### Login to Azure
 ```bash
