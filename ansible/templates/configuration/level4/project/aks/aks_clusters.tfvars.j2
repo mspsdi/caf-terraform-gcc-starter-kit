@@ -23,7 +23,7 @@ aks_clusters = {
     # ** IMPORTANT ** a user assigned identity or a service principal must be used when using a custom private dns zone
     identity = {
       type                 = "UserAssigned"
-      lz_key          = "shared_services" # if DNS keys is deployed in remote landingzone    
+      # lz_key          = "shared_services" # if DNS keys is deployed in remote landingzone    
       managed_identity_key = "aks_usermsi"
     }    
 

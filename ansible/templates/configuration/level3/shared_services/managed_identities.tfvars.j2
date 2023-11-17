@@ -1,0 +1,16 @@
+{% if internet_app_aks | trim == '1' %}  
+managed_identities = {
+  aks_usermsi = {
+    name               = "aks-usermsi" 
+    resource_group_key = "ops_rg_re1"
+
+    tags = { 
+      purpose = "internet aks managed identity" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"           
+    }  
+  }
+}
+{% endif %}  

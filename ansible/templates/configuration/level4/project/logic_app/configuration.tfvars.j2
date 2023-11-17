@@ -1,6 +1,6 @@
 storage_accounts = {
   sa1 = {
-    name                     = "staccexample"
+    name                     = "staccsa1"
     resource_group_key       = "logic_app_rg_re1"
     account_tier             = "Standard"
     account_replication_type = "LRS"
@@ -9,7 +9,7 @@ storage_accounts = {
 
 app_service_plans = {
   asp1 = {
-    name               = "appserviceplan1"
+    name               = "asp1"
     resource_group_key = "logic_app_rg_re1"
     kind               = "elastic"
 
@@ -22,7 +22,7 @@ app_service_plans = {
 
 logic_app_standard = {
   las1 = {
-    name                 = "logic_app1"
+    name                 = "las1"
     resource_group_key   = "logic_app_rg_re1"
     app_service_plan_key = "asp1"
     storage_account_key  = "sa1"
@@ -38,6 +38,11 @@ logic_app_standard = {
       # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-logic-app-internet"
 {% endif %}      
     }
+
+    # identity = {
+    #   type = "SystemAssigned, UserAssigned"
+    #   managed_identity_key = "logic_app_usermsi"
+    # }
 
     app_settings = {
       "FUNCTIONS_WORKER_RUNTIME"     = "node",
