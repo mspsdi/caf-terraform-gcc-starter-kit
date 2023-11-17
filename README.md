@@ -25,7 +25,7 @@ caf terraform accelerator kit for public sector
   * [Backend](#backend)
 * [Getting Started](#getting-started)
   * [Prerequisites](#prerequisites)
-  * [Prerequisites](#deployment)
+  * [Deployment](#deployment)
   * [Branch](#branch)
 * [Versioning](#versioning)
 * [License](#license)
