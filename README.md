@@ -4,8 +4,9 @@ caf terraform accelerator kit for public sector
 
 
 <!-- BADGES -->
+<!--
 <img src="https://forthebadge.com/images/badges/made-with-javascript.svg" height="30">
-
+-->
 <br />
 
 <!-- PROJECT LOGO -->
