@@ -74,7 +74,7 @@ Intranet Ingress
 Project compartment
 - [x] AKS private cluster
 - [x] Azure Container Registry + private endpoint
-- [x] APIM stsv2 vnet injection
+- [x] APIM stsv2 + vnet injection
 - [x] App Service + vnet injection + private endpoint
 - [x] Logic App + vnet injection + private endpoint
 - [x] Container Instance + vnet injection
