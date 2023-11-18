@@ -1,4 +1,5 @@
-## aks configuration
+## aks
+### configuration
 * private cluster
 * private endpoint to aks api
 * private dns
