@@ -11,7 +11,7 @@ caf terraform accelerator kit for public sector
 
 <!-- PROJECT LOGO -->
 <p align="center">
-    <img src="docs/gcc-starter-kit-icon.png" height="180" width="180"/>
+    <img src="docs/caf-terraform-starter-kit-icon.png" height="180" width="180"/>
 </p>
 
 <!-- TABLE OF CONTENTS -->
@@ -74,10 +74,10 @@ Intranet Ingress
 Project compartment
 - [x] AKS private cluster
 - [x] Azure Container Registry + private endpoint
-- [x] APIM stsv2 + vnet injection
-- [x] App Service + vnet injection + private endpoint
-- [x] Logic App + vnet injection + private endpoint
-- [x] Container Instance + vnet injection
+- [x] APIM stsv2 + vnet integration
+- [x] App Service + vnet integration + private endpoint
+- [x] Logic App + vnet integration + private endpoint
+- [x] Container Instance + vnet integration
 - [x] Open AI Service + private endpoint
 - [x] Cognitive Search Service + private endpoint
 - [x] Cosmos DB + private endpoint
