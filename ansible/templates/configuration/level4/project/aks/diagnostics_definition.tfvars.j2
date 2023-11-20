@@ -1,5 +1,3 @@
-# unable to use the one in shared service remote lz - create locally
-# For diagnostic settings
 diagnostics_definition = {
   azure_container_registry = {
     name = "acr_logs_and_metrics"
@@ -16,19 +14,6 @@ diagnostics_definition = {
     }
   }
   
-
-# Kubernetes Cluster Autoscaler
-# Kubernetes Controller Manager
-# Kubernetes Scheduler
-# Kubernetes Audit
-# guard
-# Kubernetes API Server
-# Kubernetes Audit Admin Logs
-# Kubernetes Cloud Controller Manager
-# csi-azuredisk-controller
-# csi-azurefile-controller
-# csi-snapshot-controller
-
   azure_kubernetes_cluster = {
     name = "aks_logs_and_metrics"
     categories = {
@@ -41,8 +26,7 @@ diagnostics_definition = {
         ["kube-scheduler", true, false, 0],
         ["cluster-autoscaler", true, false, 7],
         ["guard", true, false, 7],
-        # Category 'kube-cloud-controller-manager' is not supported.
-        # ["Kubernetes-cloud-controller-manager", true, false, 7],        
+        ["cloud-controller-manager", true, false, 7],        
         ["csi-azuredisk-controller", true, false, 7],        
         ["csi-azurefile-controller", true, false, 7],        
         ["csi-snapshot-controller", true, false, 7],        

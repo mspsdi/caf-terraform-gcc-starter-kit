@@ -1,7 +1,33 @@
 
-# estimate time for aks: < 15 minutes.
+# 1. estimate time for aks: < 15 minutes.
 <!-- module.solution.module.aks_clusters["cluster_re1"].azurerm_kubernetes_cluster.aks: Still creating... [9m10s elapsed]
 module.solution.module.aks_clusters["cluster_re1"].azurerm_kubernetes_cluster.aks: Creation complete after 9m13s [id=/subscriptions/{{subscription_id}}/resourceGroups/ignite-rg-aks-re1/providers/Microsoft.ContainerService/managedClusters/ignite-aks-cluster-re1] -->
+
+
+# 2 Important *** - to deploy internal load balancer
+# Must grant permission "reader and network contributor" OR "contributor" to "xxxxx-msi-aks-usermsi" (user assigned) and "aks-cluster-re1" (system assigned) to 
+# 1, not required - ignite_rg_aks_re1 resoruce group 
+# 2. ignite-snet-app-internet vnet resource
+# ERROR encounter
+# does not have authorization to perform when deploy a container to AKS, unable to create the internal LB
+#  action 'Microsoft.Network/virtualNetworks/subnets/read' over scope
+#  '/subscriptions/xxxxxxxx-4066-42f0-b0fa-xxxxxxxxxxxx/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-internet/subnets/escep-snet-app-internet'
+
+# 3. Important *** Private DNS Zone - Service principal or user-assigned identity must be given permission to read and write to custom private dns zone
+# ERROR: Message="Service principal or user-assigned identity must be given permission to read and write to custom private dns zone /subscriptions/6f035180-4066-42f0-b0fa-5fbc1ae67500/resourceGroups/osscuat-rg-networking-spoke-internet-re1-ojx/providers/Microsoft.Network/privateDnsZones/privatelink.southeastasia.azmk8s.io. Check access result not allowed for action Microsoft.Network/privateDnsZones/read."
+# aks_user has no right to access private dns zone
+# use azure cli to create this private dns zone for aks
+#   
+# To make the registration of the A record in the Private DNS Zone work, in addition to linking the Private DNS Zone to the virtual network, the managed identity needs the following roles (at least):
+# Private DNS Zone Contributor role on the Private DNS Zone
+# Network Contributor role on the virtual network used by AKS
+
+# 4: Managed Identity must be within this lz.
+# do not use lz_key = "shared_services" for managed identity
+
+# 5 managed identity (shared services) and private dns (internet project vnet)
+
+# 6: Important *** TODO: vnet link of management vnet to private dns
 
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
@@ -17,6 +43,13 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -env {{caf_environment}} \
 -tfstate solution_accelerators_aks.tfstate \
 -a apply
+
+# azure cli to add private dns
+az aks update --name "{{project_code}}-rg-aks-re1" \
+              --resource-group "{{project_code}}-rg-shared-services-re1" \ 
+              --private-dns-zone "/subscriptions/{{subscription_id}}/resourceGroups/{{project_code}}-rg-shared-services-re1/providers/Microsoft.Network/privateDnsZones/privatelink.southeastasia.azmk8s.io"
+
+
 
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \

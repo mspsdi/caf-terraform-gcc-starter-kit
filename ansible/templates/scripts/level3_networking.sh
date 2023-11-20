@@ -17,8 +17,3 @@ az network nsg rule delete -g {{project_code}}-rg-networking-spoke-internet-re1 
 az network nsg rule delete -g {{project_code}}-rg-networking-spoke-internet-re1 --nsg-name {{project_code}}-nsg-app -n DenyAllOutboundRule
 ```
 
-# 4. grant reader, network contributor to virtual network
-
-az role assignment create --assignee "55555555-5555-5555-5555-555555555555" \
---role "Storage Blob Data Contributor" \
---scope "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/Example-Storage-rg/providers/Microsoft.Storage/storageAccounts/storage12345"
