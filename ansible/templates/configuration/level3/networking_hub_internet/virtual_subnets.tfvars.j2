@@ -33,7 +33,7 @@ virtual_subnets = {
     # lz_key = "networking_vnets"
     # vnet_key = "vnet_hub_egress_re1"              
     vnet = {
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
+      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_internet}}"
     }      
   }  
   AzureFirewallMangementSubnet_egress = {
@@ -43,7 +43,7 @@ virtual_subnets = {
     # lz_key = "networking_vnets"
     # vnet_key = "vnet_hub_egress_re1"              
     vnet = {
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
+      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_internet}}"
     }       
   }   
   # end egress zone  

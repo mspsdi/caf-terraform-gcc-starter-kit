@@ -106,13 +106,13 @@ azurerm_firewalls = {
       tier = "{{tier_code}}"              
     } 
 
-    # diagnostic_profiles = {
-    #   central_logs_region = {
-    #     definition_key   = "firewall"
-    #     destination_type = "log_analytics"
-    #     destination_key  = "central_logs"
-    #   }
-    # }
+    diagnostic_profiles = {
+      central_logs_region = {
+        definition_key   = "firewall"
+        destination_type = "log_analytics"
+        destination_key  = "central_logs"
+      }
+    }
 
 
   }
@@ -163,13 +163,13 @@ azurerm_firewalls = {
       tier = "{{tier_code}}"        
     }      
 
-    # diagnostic_profiles = {
-    #   central_logs_region = {
-    #     definition_key   = "firewall"
-    #     destination_type = "log_analytics"
-    #     destination_key  = "central_logs"
-    #   }
-    # }
+    diagnostic_profiles = {
+      central_logs_region = {
+        definition_key   = "firewall"
+        destination_type = "log_analytics"
+        destination_key  = "central_logs"
+      }
+    }
   }
 
 }

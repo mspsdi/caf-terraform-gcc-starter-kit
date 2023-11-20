@@ -290,7 +290,7 @@ network_security_group_definition = {
       # outbound http 8080 web "{{cidr_ingress_egress_zone_subnet_ingress_agw_intranet}}" > app "{{cidr_internet_zone_subnet_app}}"
       {
         name                       = "out-communication-allow-8080-app"
-        priority                   = "210"
+        priority                   = "211"
         direction                  = "Outbound"
         access                     = "Allow"
         protocol                   = "tcp"
@@ -302,7 +302,7 @@ network_security_group_definition = {
       # outbound http 80-82 web "{{cidr_ingress_egress_zone_subnet_ingress_agw_intranet}}" > app "{{cidr_internet_zone_subnet_app}}"
       {
         name                       = "out-communication-allow-80-app"
-        priority                   = "220"
+        priority                   = "221"
         direction                  = "Outbound"
         access                     = "Allow"
         protocol                   = "tcp"
@@ -315,8 +315,8 @@ network_security_group_definition = {
 {% if internet_app_app_service | trim == '1' %}   
       # outbound https 443 web "{{cidr_ingress_egress_zone_subnet_ingress_agw_intranet}}" > app "{{cidr_internet_zone_subnet_app}}"
       {
-        name                       = "out-communication-allow-443-app"
-        priority                   = "200"
+        name                       = "out-communication-allow-443-app-1"
+        priority                   = "201"
         direction                  = "Outbound"
         access                     = "Allow"
         protocol                   = "tcp"
@@ -327,8 +327,8 @@ network_security_group_definition = {
       },
       # outbound http 8080 web "{{cidr_ingress_egress_zone_subnet_ingress_agw_intranet}}" > app "{{cidr_internet_zone_subnet_app}}"
       {
-        name                       = "out-communication-allow-8080-app"
-        priority                   = "210"
+        name                       = "out-communication-allow-8080-app-1"
+        priority                   = "212"
         direction                  = "Outbound"
         access                     = "Allow"
         protocol                   = "tcp"
@@ -339,8 +339,8 @@ network_security_group_definition = {
       }, 
       # outbound http 80-82 web "{{cidr_ingress_egress_zone_subnet_ingress_agw_intranet}}" > app "{{cidr_internet_zone_subnet_app}}"
       {
-        name                       = "out-communication-allow-80-app"
-        priority                   = "220"
+        name                       = "out-communication-allow-80-app-1"
+        priority                   = "222"
         direction                  = "Outbound"
         access                     = "Allow"
         protocol                   = "tcp"
