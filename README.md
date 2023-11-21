@@ -11,7 +11,7 @@ caf terraform accelerator kit for public sector
 
 <!-- PROJECT LOGO -->
 <p align="center">
-    <img src="docs/OIP-gcc-starter-kit-logo.png" height="180" width="180"/>
+    <img src="docs/gcc-starter-kit-logo.png" height="180" width="180"/>
 </p>
 
 <!-- TABLE OF CONTENTS -->
