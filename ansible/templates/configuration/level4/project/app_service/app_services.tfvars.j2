@@ -32,18 +32,16 @@ app_services = {
     application_insight_key = "app_insights1"
 
     # outbound access - vnet ingration: vnet_spoke_internet_re1 - outbound subnet: web_internet_subnet 
-    vnet_integration = {
-
 {% if gcc_platform | trim == '1' %}
-      subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-web-internet"
+    subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-web-internet"
 {% else %}
+    vnet_integration = {
       vnet_key = "vnet_spoke_internet_re1"
       subnet_key = "web_internet_subnet"
       lz_key = "networking_spoke_internet"    
       # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-web-internet"
-{% endif %}
-
     }
+{% endif %}
 
     diagnostic_profiles = {
       central_logs_region = {
@@ -237,18 +235,16 @@ app_services = {
     application_insight_key = "app_insights1"
 
     # outbound access - vnet ingration: vnet_spoke_internet_re1 - outbound subnet: web_internet_subnet 
-    vnet_integration = {
-
 {% if gcc_platform | trim == '1' %}
-      subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-web-internet"
+    subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-web-internet"
 {% else %}
+    vnet_integration = {
       vnet_key = "vnet_spoke_internet_re1"
       subnet_key = "web_internet_subnet"
       lz_key = "networking_spoke_internet"    
       # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-web-internet"
-{% endif %}
-
     }
+{% endif %}
 
     diagnostic_profiles = {
       central_logs_region = {
