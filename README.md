@@ -77,6 +77,7 @@ Project compartment
 - [x] APIM stsv2 + vnet integration
 - [x] App Service + vnet integration + private endpoint
 - [x] Logic App + vnet integration + private endpoint
+- [x] Linux Function App + vnet integration + private endpoint
 - [x] Container Instance + vnet integration
 - [x] Open AI Service + private endpoint
 - [x] Cognitive Search Service + private endpoint
