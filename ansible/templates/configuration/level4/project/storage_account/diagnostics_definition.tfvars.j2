@@ -2,15 +2,26 @@ diagnostics_definition = {
   storage_account = {
     name = "operational_logs_and_metrics"
     categories = {
+      metric = [
+        #["Category name",  "Diagnostics Enabled(true/false)", "Retention Enabled(true/false)", Retention_period]
+        ["Transaction", true, false, 0],
+        ["Capacity", true, false, 0],
+      ]
+    }
+  }  
+  storage_blob = {
+    name = "operational_logs_and_metrics"
+    categories = {
       log = [
         # ["Category name",  "Diagnostics Enabled(true/false)", "Retention Enabled(true/false)", Retention_period]
-        ["StorageRead", true, false, 7],
-        ["StorageWrite", true, false, 7],
-        ["StorageDelete", true, false, 7],                     
+        ["StorageRead", true, false, 14],
+        ["StorageWrite", true, false, 14],
+        ["StorageDelete", true, false, 14]
       ]
       metric = [
         #["Category name",  "Diagnostics Enabled(true/false)", "Retention Enabled(true/false)", Retention_period]
-        ["Transaction", true, false, 7],
+        ["Transaction", true, false, 0],
+        ["Capacity", true, false, 0],
       ]
     }
   }

@@ -19,7 +19,6 @@ storage_accounts = {
     #   managed_identity_key = ["blob_usermsi"]
     # }     
 
-
     containers = {
       dev = {
         name = "random"
@@ -29,8 +28,6 @@ storage_accounts = {
     private_endpoints = {
       private-link-storage-account = {
         name = "sa1-pep"
-
-
 {% if gcc_platform | trim == '1' %}
         subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-db-internet"
 {% else %}
@@ -39,8 +36,6 @@ storage_accounts = {
         lz_key = "networking_spoke_internet"    
         # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-db-internet"
 {% endif %}
-
-
         resource_group_key = "storage_accounts_re1"
 
         private_service_connection = {
@@ -64,7 +59,14 @@ storage_accounts = {
         definition_key   = "storage_account"
         destination_type = "log_analytics"
         destination_key  = "central_logs"
-        # lz_key = "shared_services" # TODO: is this required?
+      }
+    }
+
+    diagnostic_profiles_blob = {
+      central_logs_region1 = {
+        definition_key   = "storage_blob"
+        destination_type = "log_analytics"
+        destination_key  = "central_logs"
       }
     }
 
@@ -74,10 +76,9 @@ storage_accounts = {
       env = "{{caf_environment}}" 
       zone = "{{zone_code}}"
       tier = "{{tier_code}}"   
-    }      
-
+    }  
+        
   } 
-
 }
 
 
