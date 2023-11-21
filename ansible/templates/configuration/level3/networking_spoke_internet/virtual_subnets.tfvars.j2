@@ -2,6 +2,7 @@
 {% if gcc_platform | trim == '1' %}
 virtual_subnets = {
   # private segment
+{% if internet_app_aks | trim == '1' or internet_app_app_service | trim == '1' %}        
   app_internet_subnet = {
     name    = "app-internet"
     cidr    = ["{{cidr_internet_zone_subnet_app}}"]
@@ -15,6 +16,8 @@ virtual_subnets = {
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
     }    
   }  
+{% endif %}   
+{% if internet_data_mssql | trim == '1' or internet_data_storage_account | trim == '1' %}  
   db_internet_subnet = {
     name    = "db-internet"
     cidr    = ["{{cidr_internet_zone_subnet_data}}"]
@@ -27,9 +30,9 @@ virtual_subnets = {
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
     } 
   }  
-
+{% endif %}  
   # # websubnet, service_subnet, chatgptsubnet, aisubnet,  applicaitongatewaysubnet
-
+{% if internet_app_app_service | trim == '1' %}
   web_internet_subnet = {
     name    = "web-internet"
     cidr    = ["{{cidr_internet_zone_subnet_web}}"]
@@ -40,7 +43,9 @@ virtual_subnets = {
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
     }
   }  
-
+{% endif %}  
+  # always created
+  # private endpoint for keyvault, acr etc ...  
   service_internet_subnet = {
     name    = "service-internet"
     cidr    = ["{{cidr_internet_zone_subnet_service}}"]
@@ -51,7 +56,7 @@ virtual_subnets = {
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
     }
   } 
-
+{% if internet_app_container_instance | trim == '1' %}
   chatgpt_internet_subnet = {
     name    = "chatgpt-internet"
     cidr    = ["{{cidr_internet_zone_subnet_chatgpt}}"]
@@ -67,7 +72,8 @@ virtual_subnets = {
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
     }
   } 
-
+{% endif %}    
+{% if internet_app_openai | trim == '1' or internet_app_search_service | trim == '1' %}
   ai_internet_subnet = {
     name    = "ai-internet"
     cidr    = ["{{cidr_internet_zone_subnet_ai}}"]
@@ -78,7 +84,8 @@ virtual_subnets = {
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
     }
   }   
-
+{% endif %}    
+{% if internet_app_agw | trim == '1' %}
   applicaitongateway_internet_subnet = {
     name    = "applicationgateway-internet"
     cidr    = ["{{cidr_internet_zone_subnet_applicationgateway}}"]
@@ -89,7 +96,9 @@ virtual_subnets = {
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
     }
   }  
-
+{% endif %}    
+{% if internet_app_linux_function_app | trim == '1' %}
+  # delegated subnet linux function app
   functionapps_internet_subnet = {
     name    = "function-apps-internet"
     cidr    = ["{{cidr_internet_zone_subnet_linux_function_app}}"] # ["100.2.0.224/27"]
@@ -106,7 +115,26 @@ virtual_subnets = {
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
     }
   }
+{% endif %}    
 
+{% if internet_app_logic_app | trim == '1' %}
+  logic_app_internet_subnet = {
+    name    = "logic-app-internet"
+    cidr    = ["{{cidr_internet_zone_subnet_logic_app}}"] # ["100.2.0.224/27"]
+    nsg_key = "functionapps_nsg"
+    service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]
+    enforce_private_link_endpoint_network_policies = "true"  
+    delegation = {
+      name               = "functions"
+      service_delegation = "Microsoft.Web/serverFarms"
+      actions            = ["Microsoft.Network/virtualNetworks/subnets/action"]
+    }        
+    vnet = {
+      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+    }
+  }        
+{% endif %}    
+{% if internet_app_apim | trim == '1' %}
   it_internet_subnet = {
     name    = "it-internet"
     cidr    = ["{{cidr_internet_zone_subnet_it}}"]
@@ -117,7 +145,7 @@ virtual_subnets = {
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
     }
   }  
-  
+{% endif %}     
   # end private segment
 }
 {% else %}
