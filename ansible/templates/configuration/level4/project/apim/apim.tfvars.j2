@@ -1,35 +1,3 @@
-/*
-For me, it's solved too, by first the addition of a public IP:
-
-resource "azurerm_public_ip" "apim" {
-  name                 = "apim-ip"
-  location             = var.location
-  resource_group_name  = var.resource_group_name
-  domain_name_label    = local.apim_name
-  allocation_method    = "Static"
-  sku                  = "Standard"
-  ddos_protection_mode = "Enabled"
-  tags                 = var.tags
-}
-and then linking that public ip with my APIM
-
-resource "azurerm_api_management" "apim" {
-  name                          = local.apim_name
-  location                      = var.location
-  resource_group_name           = var.resource_group_name
-  virtual_network_type          = "External"
-
-  [...]
-
-  public_ip_address_id          = azurerm_public_ip.apim.id
-
-  virtual_network_configuration {
-    subnet_id = var.subnet_id
-  }
-}
-
-*/
-
 # apim stv2 or stv2.1 will required a public ip
 api_management = {
   integration_apim_re1 = {
@@ -79,7 +47,7 @@ api_management = {
         definition_key   = "apim"
         destination_type = "log_analytics"
         destination_key  = "central_logs"
-        lz_key = "shared_services" # TODO: is this required?
+        # lz_key = "shared_services" # TODO: is this required?
       }
     }   
 

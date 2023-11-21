@@ -384,20 +384,20 @@ diagnostics_definition = {
 {% endif %}   
 
 {% if internet_data_storage_account | trim == '1' %}
-  # container group
   storage_account = {
     name = "operational_logs_and_metrics"
     categories = {
       log = [
         # ["Category name",  "Diagnostics Enabled(true/false)", "Retention Enabled(true/false)", Retention_period]
-        ["AuditEvent", true, false, 7],
+        ["StorageRead", true, false, 7],
+        ["StorageWrite", true, false, 7],
+        ["StorageDelete", true, false, 7],                     
       ]
       metric = [
         #["Category name",  "Diagnostics Enabled(true/false)", "Retention Enabled(true/false)", Retention_period]
-        ["AllMetrics", true, false, 7],
+        ["Transaction", true, false, 7],
       ]
     }
-
   }
 {% endif %}   
 
