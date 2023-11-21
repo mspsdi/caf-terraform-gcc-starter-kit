@@ -4,30 +4,31 @@
 configuration:
   agency_code: 
   project_code: ignite # replace with your project code
-  cidr_ingress_egress_zone_subnet_ingress_internet: 	100.1.0.0/26 
-  cidr_ingress_egress_zone_subnet_ingress_agw_internet: 	100.1.0.64/26 
-  cidr_ingress_egress_zone_subnet_egress_internet: 	100.1.1.0/26   
-  cidr_ingress_egress_zone_subnet_egress_mgmt_internet: 	100.1.1.64/26  
-  cidr_ingress_egress_zone_subnet_ingress_intranet: 	
-  cidr_ingress_egress_zone_subnet_ingress_agw_intranet: 	
-  cidr_ingress_egress_zone_subnet_egress_intranet: 	
-  cidr_ingress_egress_zone_subnet_egress_mgmt_intranet: 	
-  cidr_internet_zone_subnet_app: 	100.2.0.0/27
-  cidr_internet_zone_subnet_data: 	100.2.0.32/27
+  cidr_ingress_egress_zone_subnet_ingress_internet: 100.127.0.0/25 # (128) 100.1.0.0/26 
+  cidr_ingress_egress_zone_subnet_ingress_agw_internet: 100.127.0.128/25 # (128) 100.1.0.64/26 
+  cidr_ingress_egress_zone_subnet_egress_internet: 100.127.1.0/25 # (128) 100.1.1.0/26   
+  cidr_ingress_egress_zone_subnet_egress_mgmt_internet: 100.127.1.128/25 # (128) 100.1.1.64/26
+  cidr_ingress_egress_zone_subnet_ingress_intranet: 	# leave blank if not used
+  cidr_ingress_egress_zone_subnet_ingress_agw_intranet: 	# leave blank if not used
+  cidr_ingress_egress_zone_subnet_egress_intranet: 	# leave blank if not used
+  cidr_ingress_egress_zone_subnet_egress_mgmt_intranet: 	# leave blank if not used
+  cidr_internet_zone_subnet_app: 	100.64.0.192/26 # (64) 100.2.0.0/27 - aks - leave blank if not used 
+  cidr_internet_zone_subnet_data: 100.64.0.128/26 # (64) 100.2.0.32/27 - sql server, storage account
 
-  cidr_internet_zone_subnet_web: 	100.2.0.64/27 # app service
-  cidr_internet_zone_subnet_service: 	100.2.0.96/27 # make sure no overlay cidr
-  cidr_internet_zone_subnet_chatgpt: 	100.2.0.128/27 # make sure no overlay cidr
-  cidr_internet_zone_subnet_ai: 	100.2.0.160/27 # make sure no overlay cidr
-  cidr_internet_zone_subnet_applicationgateway: 	100.2.0.192/27 # make sure no overlay cidr
-  cidr_internet_zone_subnet_linux_function_app: 100.2.0.224/27 # make sure no overlay cidr
-  cidr_internet_zone_subnet_it:  100.2.0.224/27 # make sure no overlay cidr
+  cidr_internet_zone_subnet_web:  100.64.0.0/26  # (64) 100.2.0.64/27 - app service
+  cidr_internet_zone_subnet_service: 100.64.0.64/26  # (64) 100.2.0.64/27 # make sure no overlay cidr - keyvault
+  cidr_internet_zone_subnet_chatgpt: 100.64.1.64/26 # 100.2.0.128/27 # make sure no overlay cidr - chatgpt container instance
+  cidr_internet_zone_subnet_ai: # 100.2.0.160/27 # make sure no overlay cidr - open ai
+  cidr_internet_zone_subnet_applicationgateway: # 100.2.0.192/27 # make sure no overlay cidr - agw
+  cidr_internet_zone_subnet_linux_function_app: # 100.2.0.224/27 # make sure no overlay cidr - functionapp
+  cidr_internet_zone_subnet_it: # 100.2.0.224/27 # make sure no overlay cidr - apim
+  cidr_internet_zone_subnet_logic_app: 100.64.1.0/26 # 100.2.0.224/27 # make sure no overlay cidr - logic app  
   
-  cidr_management_zone_subnet_infra: 	100.3.0.0/26
-  cidr_management_zone_subnet_security: 	100.3.0.64/26
-  cidr_management_zone_subnet_bastion: 	100.3.0.128/26
-  cidr_devops_zone_subnet_runner: 	100.4.0.16/28
-  cidr_devops_zone_subnet_gateway: 	100.4.0.0/28
+  cidr_management_zone_subnet_infra: 100.127.3.0/26 # (64) 100.3.0.0/26
+  cidr_management_zone_subnet_security: 100.127.3.64/26 # (64) 100.3.0.64/26
+  cidr_management_zone_subnet_bastion: 100.127.3.128/26 # (64) 100.3.0.128/26
+  cidr_devops_zone_subnet_runner: 100.127.4.16/28 # (16) 100.4.0.16/28
+  cidr_devops_zone_subnet_gateway: 100.127.4.0/28 # (16) 100.4.0.0/28
 # solution_accelerators - value is "1" or "0" : 1 = yes, 0 = no     
 solution_accelerators:
   ingress_egress_zone:
@@ -41,8 +42,8 @@ solution_accelerators:
   internet_zone: 
     app: 
       # app subnet         
-      app_aks: 0
-      app_app_service: 1    
+      app_aks: 1
+      app_app_service: 0    # app service node-20-lts
       app_cognitive_service: 0 
       # chatgpt subnet
       app_container_instance: 0                                   
@@ -57,18 +58,19 @@ solution_accelerators:
       app_search_service: 0     
       app_openai: 0 
       # it_subnet
-      app_apim: 1       
+      app_apim: 0    
+      app_logic_app: 0             
     data: 
       data_cosmosdb: 0   
       data_mssql: 1   
-      data_storage_account: 0    
+      data_storage_account: 1    
       data_redis_cache: 0            
   management_zone: 
     bastion: 1
     tooling_server: 1   
     monitoring: 1    
-    recovery_services_vault: 1 
-    ampls: 1   
+    recovery_services_vault: 0 
+    ampls: 0   
     application_insights: 0 # wip
     automation: 0          # wip
   devops_zone: 

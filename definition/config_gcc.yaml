@@ -1,6 +1,6 @@
 ---
 configuration_gcc:
-  gcc_platform: 0 # 1: gcc platform or 0: non-gcc platform
+  gcc_platform: 1 # 1: gcc platform or 0: non-gcc platform
   platform_name: caf_terraform_starter 
   subscription_id: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx 
   spn_name: gcci-spn-landing-zone-001 # dummy value - reserve for future use
@@ -9,21 +9,21 @@ configuration_gcc:
   log_analytics_workspace_resource_group_name:	gcci-agency-law  # do not change
   log_analytics_workspace_name:	gcci-agency-workspace  # do not change
   # virtual network - leave empty if there is no such virtual network   
-  ingress_egress_vnet_name_ingress_internet: gcci-vnet-ingress-internet 
-  ingress_egress_vnet_name_egress_internet: gcci-vnet-egress-internet
-  ingress_egress_vnet_name_ingress_intranet:
-  ingress_egress_vnet_name_egress_intranet:
-  internet_vnet_name: gcci-vnet-internet
-  management_vnet_name: gcci-vnet-management
-  devops_vnet_name: gcci-vnet-devops 
+  ingress_egress_vnet_name_ingress_internet: gcci-vnet-ingress-internet   # do not change
+  ingress_egress_vnet_name_egress_internet: gcci-vnet-egress-internet  # do not change
+  ingress_egress_vnet_name_ingress_intranet: # empty - gcci-vnet-ingress-intranet  # do not change
+  ingress_egress_vnet_name_egress_intranet: # empty - gcci-vnet-egress-intranet  # do not change
+  internet_vnet_name: gcci-vnet-internet   # do not change
+  management_vnet_name: gcci-vnet-management   # do not change
+  devops_vnet_name: gcci-vnet-devops   # do not change
   # **Optional - Non GCC
-  ingress_egress_vnet_name_ingress_internet_cidr: 100.1.0.0/24
-  ingress_egress_vnet_name_egress_internet_cidr: 100.1.1.0/24
+  ingress_egress_vnet_name_ingress_internet_cidr: 100.127.0.0/24 # 100.1.0.0/24
+  ingress_egress_vnet_name_egress_internet_cidr: 100.127.1.0/24 # 100.1.1.0/24
   ingress_egress_vnet_name_ingress_intranet_cidr: # 10.2.0.0/25
   ingress_egress_vnet_name_egress_intranet_cidr: # 10.2.1.0/25
-  internet_vnet_name_cidr: 100.2.0.0/24 # project vnet
-  management_vnet_name_cidr: 100.3.0.0/24
-  devops_vnet_name_cidr: 100.4.0.0/24 
+  internet_vnet_name_cidr: 100.64.0.0/23 # 100.2.0.0/24
+  management_vnet_name_cidr: 100.127.3.0/24 # 100.3.0.0/24
+  devops_vnet_name_cidr: 100.127.4.0/24 # 100.4.0.0/24 
 
   
 
