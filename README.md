@@ -96,7 +96,8 @@ DevOps Compartment
 
 ### Work In Progress
 
-- [ ] Acceleration Kit UI 
+- [ ] Acceleration Kit UI
+- [ ] Test modules for pre-configured solution accelerators
 - [ ] Integration with GitHub
 - [ ] One Click deployment
 
