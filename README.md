@@ -492,6 +492,11 @@ We follow [semantic versioning](https://semver.org/) for all of our builds.
 
 This project is licensed under the [MIT license](#LICENSE.md).
 
+## Reference
+
+The design of this acceleration kit is model again the aks_secure_baseline as below: <br/>
+https://github.com/Azure/caf-terraform-landingzones-accelerator/tree/starter/enterprise_scale/construction_sets/aks/online/aks_secure_baseline
+
 ## Troubleshooting Tips
 
 ERROR: dial tcp: lookup management.azure.com on 127.0.0.11:53: no such host<br/>
