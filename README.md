@@ -174,7 +174,7 @@ rover login
 
 az account set --subscription xxxxxxxx-xxxxxx-xxxx-xxxx-xxxxxxxxxxxx # subscription id
 ```
-
+** IMPORTANT: you must have "OWNER" right to the subscription.
 
 #### A. Ignite - code generator
 
