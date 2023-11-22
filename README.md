@@ -102,6 +102,7 @@ DevOps Compartment
 
 ### Work In Progress
 
+- [ ] Import gcci_platform and gcci-agency-law resource group, VNET(s) and gcci-agency-workspace log analytic workspace into level3 networking state file
 - [ ] Acceleration Kit UI
 - [ ] Test modules for pre-configured solution accelerators
 - [ ] Integration with GitHub
