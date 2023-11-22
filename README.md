@@ -35,6 +35,10 @@ caf terraform accelerator kit for public sector
 ## About The Project
 
 The “AZURE GCC Acceleration Kit” is designed to streamline the workload setup process in the AZURE environment. This kit provides a project-based, preconfigured landing zone and Azure resources in GCC 2.0 subscription. You can choose from a library of pre-configured Azure resources that cater to your specific project requirements.
+
+* Easy Setup with Standard Rules:
+Break down and save the setup details into smaller parts so that setting up a complex system becomes quicker and more straightforward.
+
 This will be achieved in a two-step layered approach. 
 This starter kit is based on "Cloud Adoption Framework Landing zones for Terraform". More details you can find [here](https://aztfmod.github.io/documentation/docs/intro)
 
