@@ -1,6 +1,6 @@
 
 # caf-terraform-gcc-starter-kit
-caf terraform accelerator kit for public sector
+caf terraform accelerator kit for GCC 2.0
 
 
 <!-- BADGES -->
