@@ -38,6 +38,8 @@ The “AZURE GCC Acceleration Kit” is designed to streamline the workload setu
 
 * Easy Setup with Standard Rules:
 Break down and save the setup details into smaller parts so that setting up a complex system becomes quicker and more straightforward.
+* Leveraging pre-configured solution accelerators: deploys using configuration files and ensure compliance with policy and best practices.
+* Secured Connectivity: Ensuring the secure interconnection of all project workloads.
 
 This will be achieved in a two-step layered approach. 
 This starter kit is based on "Cloud Adoption Framework Landing zones for Terraform". More details you can find [here](https://aztfmod.github.io/documentation/docs/intro)
