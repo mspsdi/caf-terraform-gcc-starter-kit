@@ -44,6 +44,9 @@ if [ ! -d /tf/caf/landingzones ]; then
 
     # Patches 2:  fixed container group subnet_ids 
     cp /tf/caf/patches/container_group/container_group.tf /tf/caf/landingzones/aztfmod/modules/compute/container_group/container_group.tf
+    cp /tf/caf/patches/container_group/variables.tf /tf/caf/landingzones/aztfmod/modules/compute/container_group/variables.tf
+    cp /tf/caf/patches/container_group/compute_container_groups.tf /tf/caf/landingzones/aztfmod/compute_container_groups.tf
+
 
     # Patches 3:  firewall policy tls inspection
     cp /tf/caf/patches/firewall_policies/firewall_policy.tf /tf/caf/landingzones/aztfmod/modules/networking/firewall_policies/firewall_policy.tf
@@ -95,6 +98,52 @@ if [ ! -d /tf/caf/landingzones ]; then
     cp /tf/caf/patches/logic_app/standard/diagnostic.tf /tf/caf/landingzones/aztfmod/modules/logic_app/standard/diagnostic.tf
     cp /tf/caf/patches/logic_app/standard/variables.tf /tf/caf/landingzones/aztfmod/modules/logic_app/standard/variables.tf
     cp /tf/caf/patches/logic_app/standard/module.tf /tf/caf/landingzones/aztfmod/modules/logic_app/standard/module.tf
+
+
+    # Patches 9: virtual_subnet_key
+    # aztfmod
+    cp /tf/caf/patches/virtual_subnets/aztfmod/api_management.tf /tf/caf/landingzones/aztfmod/api_management.tf                   
+    cp /tf/caf/patches/virtual_subnets/aztfmod/app_services.tf /tf/caf/landingzones/aztfmod/app_services.tf            
+    cp /tf/caf/patches/virtual_subnets/aztfmod/cosmos_db.tf /tf/caf/landingzones/aztfmod/cosmos_db.tf        
+    cp /tf/caf/patches/virtual_subnets/aztfmod/redis_caches.tf /tf/caf/landingzones/aztfmod/cosmos_db.tf 
+    cp /tf/caf/patches/virtual_subnets/aztfmod/application_gateway_platforms.tf  /tf/caf/landingzones/aztfmod/application_gateway_platforms.tf  
+    cp /tf/caf/patches/virtual_subnets/aztfmod/compute_aks_clusters.tf  /tf/caf/landingzones/aztfmod/compute_aks_clusters.tf  
+    cp /tf/caf/patches/virtual_subnets/aztfmod/compute_container_registry.tf  /tf/caf/landingzones/aztfmod/compute_container_registry.tf          
+    cp /tf/caf/patches/virtual_subnets/aztfmod/mssql_servers.tf /tf/caf/landingzones/aztfmod/mssql_servers.tf
+
+                
+    # aks       
+    /tf/caf/patches/virtual_subnets/aks/aks.tf  /tf/caf/landingzones/aztfmod/modules/compute/aks/aks.tf
+    /tf/caf/patches/virtual_subnets/aks/private_endpoint.tf  /tf/caf/landingzones/aztfmod/modules/compute/aks/private_endpoint.tf 
+    /tf/caf/patches/virtual_subnets/aks/variables.tf /tf/caf/landingzones/aztfmod/modules/compute/aks/variables.tf
+
+    cp /tf/caf/patches/virtual_subnets/api_management/module.tf /tf/caf/landingzones/aztfmod/modules/apim/api_management/module.tf  
+    cp /tf/caf/patches/virtual_subnets/api_management/variables.tf /tf/caf/landingzones/aztfmod/modules/apim/api_management/variables.tf
+
+    # app_services
+    cp /tf/caf/patches/virtual_subnets/app_services/private_endpoint.tf /tf/caf/landingzones/aztfmod/modules/webapps/appservice/private_endpoint.tf 
+    cp /tf/caf/patches/virtual_subnets/app_services/variables.tf /tf/caf/landingzones/aztfmod/modules/webapps/appservice/variables.tf
+
+    # application_gateway_platforms
+    cp /tf/caf/patches/virtual_subnets/application_gateway_platforms/locals.networking.tf /tf/caf/landingzones/aztfmod/modules/networking/application_gateway_platform/locals.networking.tf  
+    cp /tf/caf/patches/virtual_subnets/application_gateway_platforms/variable.tf /tf/caf/landingzones/aztfmod/modules/networking/application_gateway_platform/variable.tf
+
+    # container_registry
+    cp /tf/caf/patches/virtual_subnets/container_registry/private_endpoint.tf /tf/caf/landingzones/aztfmod/modules/compute/container_registry/private_endpoint.tf 
+    cp /tf/caf/patches/virtual_subnets/container_registry/variables.tf /tf/caf/landingzones/aztfmod/modules/compute/container_registry/variables.tf
+
+    # cosmos
+    cp /tf/caf/patches/virtual_subnets/cosmos_db/private_endpoints.tf /tf/caf/landingzones/aztfmod/modules/databases/cosmos_dbs/private_endpoints.tf 
+    cp /tf/caf/patches/virtual_subnets/cosmos_db/variables.tf  /tf/caf/landingzones/aztfmod/modules/databases/cosmos_dbs/variables.tf
+
+    # mssql_server
+    cp /tf/caf/patches/virtual_subnets/mssql_server/private_endpoints.tf /tf/caf/landingzones/aztfmod/modules/databases/mssql_server/private_endpoints.tf 
+    cp /tf/caf/patches/virtual_subnets/mssql_server/variables.tf /tf/caf/landingzones/aztfmod/modules/databases/mssql_server/variables.tf
+
+    # redis_caches
+    cp /tf/caf/patches/virtual_subnets/redis_caches/private_endpoints.tf  /tf/caf/landingzones/aztfmod/modules/redis_cache/private_endpoints.tf 
+    cp /tf/caf/patches/virtual_subnets/redis_caches/variables.tf /tf/caf/landingzones/aztfmod/modules/redis_cache/variables.tf
+
 
     # ----------------- OLD PATCHES before Oct 2023 -----------------------------------------------------------------------------  
     # cp /tf/caf/patches/caf_launchpad/main.tf /tf/caf/landingzones/caf_launchpad/main.tf

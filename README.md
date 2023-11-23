@@ -1,6 +1,6 @@
 
 # caf-terraform-gcc-starter-kit
-caf terraform accelerator kit for public sector
+caf terraform accelerator kit for GCC 2.0
 
 
 <!-- BADGES -->
@@ -34,7 +34,14 @@ caf terraform accelerator kit for public sector
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-The purpose of the "AZURE GCC Acceleration Kit" is to facilitate the workload setup in AZURE environment. This will be achieved in a two-step layered approach. 
+The “AZURE GCC Acceleration Kit” is designed to streamline the workload setup process in the AZURE environment. This kit provides a project-based, preconfigured landing zone and Azure resources in GCC 2.0 subscription. You can choose from a library of pre-configured Azure resources that cater to your specific project requirements.
+
+* Easy Setup with Standard Rules:
+Break down and save the setup details into smaller parts so that setting up a complex system becomes quicker and more straightforward.
+* Leveraging pre-configured solution accelerators: deploys using configuration files and ensure compliance with policy and best practices.
+* Secured Connectivity: Ensuring the secure interconnection of all project workloads.
+
+This will be achieved in a two-step layered approach. 
 This starter kit is based on "Cloud Adoption Framework Landing zones for Terraform". More details you can find [here](https://aztfmod.github.io/documentation/docs/intro)
 
 <p align="center">
@@ -95,7 +102,9 @@ DevOps Compartment
 
 ### Work In Progress
 
-- [ ] Acceleration Kit UI 
+- [ ] Import gcci_platform and gcci-agency-law resource group, VNET(s) and gcci-agency-workspace log analytic workspace into level3 networking state file
+- [ ] Acceleration Kit UI
+- [ ] Test modules for pre-configured solution accelerators
 - [ ] Integration with GitHub
 - [ ] One Click deployment
 
@@ -490,6 +499,11 @@ We follow [semantic versioning](https://semver.org/) for all of our builds.
 ## License
 
 This project is licensed under the [MIT license](#LICENSE.md).
+
+## Reference
+
+The design of this acceleration kit is model again the aks_secure_baseline as below: <br/>
+https://github.com/Azure/caf-terraform-landingzones-accelerator/tree/starter/enterprise_scale/construction_sets/aks/online/aks_secure_baseline
 
 ## Troubleshooting Tips
 
