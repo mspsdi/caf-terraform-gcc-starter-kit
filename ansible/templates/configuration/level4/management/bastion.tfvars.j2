@@ -12,12 +12,12 @@ bastion_hosts = {
 
 {% if gcc_platform | trim == '1' %}
 
-    {% if gcc_platform_import | trim == '0' %}
+{% if gcc_platform_import | trim == '0' %}
     subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}/subnets/AzureBastionSubnet"
-    {% else %}
+{% else %}
     lz_key = "networking_spoke_management"
     viritual_subnet_key = "AzureBastionSubnet"
-    {% endif %}    
+{% endif %}    
 
 
 {% else %}
