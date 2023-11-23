@@ -20,7 +20,16 @@ virtual_machines = {
 
 {% if gcc_platform | trim == '1' %}
         # TODO: add subnet_id
+
+
+{% if gcc_platform_import | trim == '0' %}
         resource_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-app-internet"
+{% else %}
+        lz_key = "networking_spoke_internet"
+        virtual_subnet_key = "app_internet_subnet"
+{% endif %} 
+
+
 {% else %}
         vnet_key = "vnet_spoke_internet_re1"
         subnet_key = "app_internet_subnet"

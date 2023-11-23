@@ -14,11 +14,14 @@ virtual_subnets = {
     }  
     # service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]
     enforce_private_link_endpoint_network_policies = "true"         
-    # lz_key = "networking_vnets"
-    # vnet_key = "vnet_spoke_devops_re1"            
     vnet = {
+{% if gcc_platform_import | trim == '0' %}
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}"
-    }      
+{% else %}
+      lz_key = "networking_vnets"
+      key = "vnet_spoke_devops_re1"              
+{% endif %}
+    } 
   }  
   GatewaySubnet = {
     name    = "GatewaySubnet"
@@ -26,11 +29,14 @@ virtual_subnets = {
     # nsg_key = "empty_nsg"
     service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]   
     enforce_private_link_endpoint_network_policies = "true"       
-    # lz_key = "networking_vnets"
-    # vnet_key = "vnet_spoke_devops_re1"            
     vnet = {
+{% if gcc_platform_import | trim == '0' %}
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}"
-    }      
+{% else %}
+      lz_key = "networking_vnets"
+      key = "vnet_spoke_devops_re1"              
+{% endif %}
+    }    
   }    
   # end devops zone
 }

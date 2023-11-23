@@ -1,4 +1,3 @@
-
 {% if gcc_platform | trim == '1' %}
 virtual_subnets = {
   # private segment
@@ -10,11 +9,14 @@ virtual_subnets = {
     # route_table_key = "default_to_firewall_re1"    # enable this if route_tables is used
     enforce_private_link_endpoint_network_policies = "true"    
     service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]
-    # lz_key = "networking_vnets"
-    # vnet_key = "vnet_spoke_internet_re1"          
     vnet = {
+{% if gcc_platform_import | trim == '0' %}
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-    }    
+{% else %}
+      lz_key = "networking_vnets"
+      key = "vnet_spoke_internet_re1"              
+{% endif %}
+    } 
   }  
 {% endif %}   
 {% if internet_data_mssql | trim == '1' or internet_data_storage_account | trim == '1' %}  
@@ -24,10 +26,13 @@ virtual_subnets = {
     nsg_key = "db_nsg"
     service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]
     enforce_private_link_endpoint_network_policies = "true"   
-    # lz_key = "networking_vnets"
-    # vnet_key = "vnet_spoke_internet_re1"          
     vnet = {
+{% if gcc_platform_import | trim == '0' %}
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+{% else %}
+      lz_key = "networking_vnets"
+      key = "vnet_spoke_internet_re1"              
+{% endif %}
     } 
   }  
 {% endif %}  
@@ -39,9 +44,19 @@ virtual_subnets = {
     nsg_key = "web_nsg"
     service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]
     enforce_private_link_endpoint_network_policies = "true"   
+    delegation = {
+      name               = "webapp"
+      service_delegation = "Microsoft.Web/serverFarms"
+      actions            = ["Microsoft.Network/virtualNetworks/subnets/action"]
+    }       
     vnet = {
+{% if gcc_platform_import | trim == '0' %}
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-    }
+{% else %}
+      lz_key = "networking_vnets"
+      key = "vnet_spoke_internet_re1"              
+{% endif %}
+    } 
   }  
 {% endif %}  
   # always created
@@ -53,8 +68,13 @@ virtual_subnets = {
     service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]
     enforce_private_link_endpoint_network_policies = "true"   
     vnet = {
+{% if gcc_platform_import | trim == '0' %}
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-    }
+{% else %}
+      lz_key = "networking_vnets"
+      key = "vnet_spoke_internet_re1"              
+{% endif %}
+    } 
   } 
 {% if internet_app_container_instance | trim == '1' %}
   chatgpt_internet_subnet = {
@@ -69,8 +89,13 @@ virtual_subnets = {
       actions            = ["Microsoft.Network/virtualNetworks/subnets/action"]
     }      
     vnet = {
+{% if gcc_platform_import | trim == '0' %}
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-    }
+{% else %}
+      lz_key = "networking_vnets"
+      key = "vnet_spoke_internet_re1"              
+{% endif %}
+    } 
   } 
 {% endif %}    
 {% if internet_app_openai | trim == '1' or internet_app_search_service | trim == '1' %}
@@ -81,8 +106,13 @@ virtual_subnets = {
     service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]
     enforce_private_link_endpoint_network_policies = "true"   
     vnet = {
+{% if gcc_platform_import | trim == '0' %}
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-    }
+{% else %}
+      lz_key = "networking_vnets"
+      key = "vnet_spoke_internet_re1"              
+{% endif %}
+    } 
   }   
 {% endif %}    
 {% if internet_app_agw | trim == '1' %}
@@ -93,8 +123,13 @@ virtual_subnets = {
     service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]
     enforce_private_link_endpoint_network_policies = "true"   
     vnet = {
+{% if gcc_platform_import | trim == '0' %}
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-    }
+{% else %}
+      lz_key = "networking_vnets"
+      key = "vnet_spoke_internet_re1"              
+{% endif %}
+    } 
   }  
 {% endif %}    
 {% if internet_app_linux_function_app | trim == '1' %}
@@ -112,8 +147,13 @@ virtual_subnets = {
       actions            = ["Microsoft.Network/virtualNetworks/subnets/action"]
     }    
     vnet = {
+{% if gcc_platform_import | trim == '0' %}
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-    }
+{% else %}
+      lz_key = "networking_vnets"
+      key = "vnet_spoke_internet_re1"              
+{% endif %}
+    } 
   }
 {% endif %}    
 
@@ -130,8 +170,13 @@ virtual_subnets = {
       actions            = ["Microsoft.Network/virtualNetworks/subnets/action"]
     }        
     vnet = {
+{% if gcc_platform_import | trim == '0' %}
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-    }
+{% else %}
+      lz_key = "networking_vnets"
+      key = "vnet_spoke_internet_re1"              
+{% endif %}
+    } 
   }        
 {% endif %}    
 {% if internet_app_apim | trim == '1' %}
@@ -142,8 +187,13 @@ virtual_subnets = {
     service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]
     enforce_private_link_endpoint_network_policies = "true"    
     vnet = {
+{% if gcc_platform_import | trim == '0' %}
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-    }
+{% else %}
+      lz_key = "networking_vnets"
+      key = "vnet_spoke_internet_re1"              
+{% endif %}
+    } 
   }  
 {% endif %}     
   # end private segment

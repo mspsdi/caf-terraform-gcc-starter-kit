@@ -24,7 +24,12 @@ private_dns = {
       ingress_intranet_vnet_link = {
         name               = "ingress-intranet-vnet"
         registration_enabled = true
+    {% if gcc_platform_import | trim == '0' %}
         virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_intranet}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_hub_intranet_ingress_re1"              
+    {% endif %}      
       }    
     }
 {% else %}

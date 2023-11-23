@@ -11,29 +11,30 @@ azurerm_firewalls = {
 
     resource_group_name = "{{resource_group_name}}" # the resource group name of the subnet    
 
+{% if gcc_platform_import | trim == '0' %}
     subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_internet}}/subnets/AzureFirewallSubnet"
+{% else %}
+    lz_key = "networking_hub_internet"
+    virtual_subnet_key = "AzureFirewallSubnet"        
+{% endif %} 
+
     sku_tier = "Basic"
     firewall_policy_key = "policy1"    
     public_ips = {
       ip_configuration = {
         name = "public-ip"
         public_ip_key = "firewall_re1"
+
+{% if gcc_platform_import | trim == '0' %}
         subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_internet}}/subnets/AzureFirewallSubnet"
+{% else %}
+        lz_key = "networking_hub_internet"
+        virtual_subnet_key = "AzureFirewallSubnet"        
+{% endif %} 
+
       }
     }
 {% else %}
-    # resource_group_name = "{{prefix}}-rg-networking-hub-internet-re1" # the resource group name of the subnet  
-    # lz_key = "networking_hub_internet"
-    # resource_group_key = "networking_hub_internet_re1" # same resource group as vnet - "networking_firewall_egress_internet_re1"
-    # resource_group = {
-    #   lz_key = "networking_hub_internet"
-    #   key = "networking_hub_internet_re1" # same resource group as vnet - "networking_firewall_egress_internet_re1"
-    # }
-    # vnet_key = "vnet_hub_internet_egress_re1"
-    # subnet_key = "AzureFirewallSubnet"
-    # lz_key = "networking_hub_internet"    
-    # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_internet}}/subnets/AzureFirewallSubnet"
-
     resource_group = {
       lz_key = "networking_hub_internet"
       key = "networking_hub_internet_re1" # same resource group as vnet - "networking_firewall_egress_internet_re1"
@@ -64,7 +65,14 @@ azurerm_firewalls = {
       management_ip_configuration = {
         name = "management-ip"
         public_ip_key = "firewall_mgmt_re1"
+
+{% if gcc_platform_import | trim == '0' %}
         subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_internet}}/subnets/AzureFirewallManagementSubnet"
+{% else %}
+        lz_key = "networking_hub_internet"
+        virtual_subnet_key = "AzureFirewallManagementSubnet_egress"        
+{% endif %} 
+
       }
     }    
 {% else %}
@@ -82,7 +90,7 @@ azurerm_firewalls = {
 {% endif %}  
 
 
-    # 27 Sep 2022 - add diagnostic_profiles and tags
+    # add diagnostic_profiles and tags
     tags = { 
       purpose = "ingress networking spoke resource group" # replace with purpose
       project-code = "{{project_code}}" 

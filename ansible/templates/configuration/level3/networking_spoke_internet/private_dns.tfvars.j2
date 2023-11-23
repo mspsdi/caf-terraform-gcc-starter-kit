@@ -10,12 +10,25 @@ private_dns = {
       app_service_internet_vnet_link = {
         name               = "app-service-internet-vnet"
         registration_enabled = false # a virtual network can only link to one private dns zone with registration enabled
+
+    {% if gcc_platform_import | trim == '0' %}
         virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_spoke_internet_re1"              
+    {% endif %}
+
+
       }   
       app_service_management_vnet_link = {
         name                 = "app-service-management-vnet"
         registration_enabled = false
+    {% if gcc_platform_import | trim == '0' %}
         virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_hub_management_re1"              
+    {% endif %}
       }
       # app_service_devops_vnet_link = {
       #   name                 = "app-service-devops-vnet"
@@ -64,13 +77,22 @@ private_dns = {
       aks_internet_vnet_link = {
         name               = "aks-internet-vnet"
         registration_enabled = false # a virtual network can only link to one private dns zone with registration enabled
+    {% if gcc_platform_import | trim == '0' %}
         virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_spoke_internet_re1"              
+    {% endif %}
       }   
       aks_management_vnet_link = {
         name                 = "aks-management-vnet"
         registration_enabled = false
+    {% if gcc_platform_import | trim == '0' %}
         virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-      }
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_hub_management_re1"              
+    {% endif %}      }
       # aks_devops_vnet_link = {
       #   name                 = "aks-devops-vnet"
       #   registration_enabled = false
@@ -118,12 +140,22 @@ private_dns = {
       acr_internet_vnet_link = {
         name               = "acr-app-internet-vnet"
         registration_enabled = false # a virtual network can only link to one private dns zone with registration enabled
+    {% if gcc_platform_import | trim == '0' %}
         virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_spoke_internet_re1"              
+    {% endif %}
       }  
       acr_management_vnet_link = {
         name                 = "acr-management-vnet"
         registration_enabled = false
+    {% if gcc_platform_import | trim == '0' %}
         virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_hub_management_re1"              
+    {% endif %}
       }                     
     }
 {% else %}
@@ -165,12 +197,22 @@ private_dns = {
       db_internet_vnet_link = {
         name                 = "db-internet-vnet"
         registration_enabled = false
-        virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+    {% if gcc_platform_import | trim == '0' %}
+        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_spoke_internet_re1"              
+    {% endif %}
       }
       db_management_vnet_link = {
         name                 = "db-management-vnet"
         registration_enabled = false
+    {% if gcc_platform_import | trim == '0' %}
         virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_hub_management_re1"              
+    {% endif %}
       }
     }
 {% else %}
@@ -213,11 +255,21 @@ private_dns = {
       cosmos_internet_vnet_link = {
         name = "cosmos-vnet-link"
         registration_enabled = false        
+    {% if gcc_platform_import | trim == '0' %}
         virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_spoke_internet_re1"              
+    {% endif %}
       }
       cosmos_management_vnet_link = {
         name               = "cosmos-vent-link-mgmt"
-        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+    {% if gcc_platform_import | trim == '0' %}
+        virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_hub_management_re1"              
+    {% endif %}
       }      
     }
 {% else %}
@@ -264,11 +316,21 @@ private_dns = {
     vnet_links = {
       backup_internet_vnet_link = {
         name               = "backup-vent-link-project"
+    {% if gcc_platform_import | trim == '0' %}
         virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_spoke_internet_re1"              
+    {% endif %}
       }
       backup_management_vnet_link = {
         name               = "backup-vent-link-mgmt"
-        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+    {% if gcc_platform_import | trim == '0' %}
+        virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_hub_management_re1"              
+    {% endif %}
       }
     }
 {% else %}
@@ -310,11 +372,21 @@ private_dns = {
     vnet_links = {
       monitor_internet_vnet_link = {
         name               = "monitor-vent-link-project"
+    {% if gcc_platform_import | trim == '0' %}
         virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_spoke_internet_re1"              
+    {% endif %}
       }
       monitor_management_vnet_link = {
         name               = "monitor-vent-link-mgmt"
-        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+    {% if gcc_platform_import | trim == '0' %}
+        virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_hub_management_re1"              
+    {% endif %}
       }
 {% else %}
     vnet_links = {
@@ -352,11 +424,21 @@ private_dns = {
     vnet_links = {
       oms_internet_vnet_link = {
         name               = "oms-vent-link-project"
+    {% if gcc_platform_import | trim == '0' %}
         virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_spoke_internet_re1"              
+    {% endif %}
       }
       oms_management_vnet_link = {
         name               = "oms-vent-link-mgmt"
-        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+    {% if gcc_platform_import | trim == '0' %}
+        virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_hub_management_re1"              
+    {% endif %}
       }
     }
 {% else %}
@@ -395,11 +477,21 @@ private_dns = {
     vnet_links = {
       ods_internet_vnet_link = {
         name               = "ods-vent-link-project"
+    {% if gcc_platform_import | trim == '0' %}
         virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_spoke_internet_re1"              
+    {% endif %}
       }
       ods_management_vnet_link = {
         name               = "ods-vent-link-mgmt"
-        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+    {% if gcc_platform_import | trim == '0' %}
+        virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_hub_management_re1"              
+    {% endif %}
       }
     }
 {% else %}
@@ -439,11 +531,21 @@ private_dns = {
     vnet_links = {
       agentsvc_internet_vnet_link = {
         name               = "agentsvc-vent-link-project"
+    {% if gcc_platform_import | trim == '0' %}
         virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_spoke_internet_re1"              
+    {% endif %}
       }
       agentsvc_management_vnet_link = {
         name               = "agentsvc-vent-link-mgmt"
-        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+    {% if gcc_platform_import | trim == '0' %}
+        virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_hub_management_re1"              
+    {% endif %}
       }
     }
 {% else %}
@@ -494,7 +596,12 @@ private_dns = {
       kv_internet_vnet_link = {
         name                 = "kv-app-internet-vnet"
         registration_enabled = false
-        virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+    {% if gcc_platform_import | trim == '0' %}
+        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_spoke_internet_re1"              
+    {% endif %}
       }              
     }
 {% else %}
@@ -535,12 +642,22 @@ private_dns = {
       openai_internet_vnet_link = {
         name                 = "openai-internet-vnet"
         registration_enabled = false
-        virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+    {% if gcc_platform_import | trim == '0' %}
+        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_spoke_internet_re1"              
+    {% endif %}
       }
       openai_management_vnet_link = {
         name                 = "openai-management-vnet"
         registration_enabled = false
+    {% if gcc_platform_import | trim == '0' %}
         virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_hub_management_re1"              
+    {% endif %}
       }
     }
 
@@ -589,12 +706,22 @@ private_dns = {
       search_service_internet_vnet_link = {
         name                 = "search-service-internet-vnet"
         registration_enabled = false
-        virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+    {% if gcc_platform_import | trim == '0' %}
+        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_spoke_internet_re1"              
+    {% endif %}
       }
       search_service_management_vnet_link = {
         name                 = "search-service-management-vnet"
         registration_enabled = false
+    {% if gcc_platform_import | trim == '0' %}
         virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_hub_management_re1"              
+    {% endif %}
       }
     }
 
@@ -645,12 +772,22 @@ private_dns = {
       sa_internet_vnet_link = {
         name                 = "sa-internet-vnet"
         registration_enabled = false
-        virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+    {% if gcc_platform_import | trim == '0' %}
+        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_spoke_internet_re1"              
+    {% endif %}
       }
       sa_management_vnet_link = {
         name                 = "sa-management-vnet"
         registration_enabled = false
+    {% if gcc_platform_import | trim == '0' %}
         virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_hub_management_re1"              
+    {% endif %}
       }
     }
 
@@ -701,12 +838,22 @@ private_dns = {
       redis_cache_internet_vnet_link = {
         name                 = "redis_cache-internet-vnet"
         registration_enabled = false
-        virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+    {% if gcc_platform_import | trim == '0' %}
+        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_spoke_internet_re1"              
+    {% endif %}
       }
       redis_cache_management_vnet_link = {
         name                 = "redis_cache-management-vnet"
         registration_enabled = false
+    {% if gcc_platform_import | trim == '0' %}
         virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_hub_management_re1"              
+    {% endif %}
       }
     }
 
@@ -763,7 +910,12 @@ private_dns = {
       project_internet_vnet_link = {
         name               = "project-internet-vnet"
         registration_enabled = true
+    {% if gcc_platform_import | trim == '0' %}
         virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+    {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_spoke_internet_re1"              
+    {% endif %}
       }    
     }
 {% else %}

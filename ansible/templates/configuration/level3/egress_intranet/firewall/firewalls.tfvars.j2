@@ -10,14 +10,28 @@ azurerm_firewalls = {
 {% if gcc_platform | trim == '1' %}
     resource_group_name = "{{resource_group_name}}" # the resource group name of the subnet    
 
+
+{% if gcc_platform_import | trim == '0' %}
     subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_intranet}}/subnets/AzureFirewallSubnet"
+{% else %}
+    lz_key = "networking_hub_intranet"
+    virtual_subnet_key = "AzureFirewallSubnet_egress"        
+{% endif %} 
+
     sku_tier = "Basic"
     firewall_policy_key = "policy1"    
     public_ips = {
       ip_configuration = {
         name = "public-ip"
         public_ip_key = "firewall_re1"
+
+{% if gcc_platform_import | trim == '0' %}
         subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_intranet}}/subnets/AzureFirewallSubnet"
+{% else %}
+        lz_key = "networking_hub_intranet"
+        virtual_subnet_key = "AzureFirewallSubnet_egress"        
+{% endif %} 
+
       }
     }
 {% else %}
@@ -47,7 +61,14 @@ azurerm_firewalls = {
       management_ip_configuration = {
         name = "management-ip"
         public_ip_key = "firewall_mgmt_re1"
+
+{% if gcc_platform_import | trim == '0' %}
         subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_intranet}}/subnets/AzureFirewallManagementSubnet"
+{% else %}
+        lz_key = "networking_hub_intranet"
+        virtual_subnet_key = "AzureFirewallManagementSubnet_egress"        
+{% endif %} 
+
       }
     }    
 {% else %}
@@ -66,7 +87,7 @@ azurerm_firewalls = {
 
    
 
-    # 27 Sep 2022 - add diagnostic_profiles and tags
+    # add diagnostic_profiles and tags
     tags = { 
       purpose = "ingress networking spoke resource group" # replace with purpose
       project-code = "{{project_code}}" 

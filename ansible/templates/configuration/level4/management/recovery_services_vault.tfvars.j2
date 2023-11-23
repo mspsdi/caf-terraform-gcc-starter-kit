@@ -36,7 +36,15 @@ recovery_vaults = {
         name               = "pep-rsv"
 
 {% if gcc_platform | trim == '1' %}
+
+        {% if gcc_platform_import | trim == '0' %}
         subnet_id         = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}/subnets/{{prefix}}-snet-infra-management"
+        {% else %}
+        lz_key = "networking_vnets"
+        vnet_key = "vnet_hub_management_re1"   
+        subnet_key = "management_infra_subnet"
+        {% endif %}   
+
 {% else %}
         vnet_key = "vnet_hub_management_re1"
         subnet_key = "management_infra_subnet"

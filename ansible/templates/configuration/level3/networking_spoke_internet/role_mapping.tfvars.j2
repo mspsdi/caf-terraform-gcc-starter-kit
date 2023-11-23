@@ -91,7 +91,7 @@ role_mapping = {
 
 {% if internet_app_linux_function_app | trim == '1' %}
 #fa_dns_re1
-      fa_dns_re1 = {
+      azurewebsites_dns_re1 = {
         "Private DNS Zone Contributor" = {
           managed_identities = {
             keys = ["fa_usermsi"]

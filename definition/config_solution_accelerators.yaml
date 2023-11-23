@@ -3,7 +3,7 @@
 ---
 configuration:
   agency_code: 
-  project_code: ignite # replace with your project code
+  project_code: ignitexxx # replace with your project code
   cidr_ingress_egress_zone_subnet_ingress_internet: 100.127.0.0/25 # (128) 100.1.0.0/26 
   cidr_ingress_egress_zone_subnet_ingress_agw_internet: 100.127.0.128/25 # (128) 100.1.0.64/26 
   cidr_ingress_egress_zone_subnet_egress_internet: 100.127.1.0/25 # (128) 100.1.1.0/26   
@@ -20,7 +20,7 @@ configuration:
   cidr_internet_zone_subnet_chatgpt: 100.64.1.64/26 # 100.2.0.128/27 # make sure no overlay cidr - chatgpt container instance
   cidr_internet_zone_subnet_ai: # 100.2.0.160/27 # make sure no overlay cidr - open ai
   cidr_internet_zone_subnet_applicationgateway: # 100.2.0.192/27 # make sure no overlay cidr - agw
-  cidr_internet_zone_subnet_linux_function_app: # 100.2.0.224/27 # make sure no overlay cidr - functionapp
+  cidr_internet_zone_subnet_linux_function_app: 100.64.1.128/26 # 100.2.0.224/27 # make sure no overlay cidr - functionapp
   cidr_internet_zone_subnet_it: # 100.2.0.224/27 # make sure no overlay cidr - apim
   cidr_internet_zone_subnet_logic_app: 100.64.1.0/26 # 100.2.0.224/27 # make sure no overlay cidr - logic app  
   

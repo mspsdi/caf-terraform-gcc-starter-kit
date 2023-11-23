@@ -1,3 +1,13 @@
+
+# run a command
+ls -l /etc/
+if [ $? -eq 0 ]; then
+    echo "Command succeeded"
+else
+    echo "Command failed"
+fi
+
+
 # starter kit launchpad setup
 # 1. Create container group with system-managed identity
 

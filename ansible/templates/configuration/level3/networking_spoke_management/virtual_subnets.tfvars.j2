@@ -8,11 +8,14 @@ virtual_subnets = {
     cidr    = ["{{cidr_management_zone_subnet_infra}}"] # 64 ips 
     nsg_key = "jumpbox"
     service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]
-    # lz_key = "networking_vnets"
-    # vnet_key = "vnet_hub_management_re1"      
     vnet = {
+{% if gcc_platform_import | trim == '0' %}
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-    }      
+{% else %}
+      lz_key = "networking_vnets"
+      key = "vnet_hub_management_re1"              
+{% endif %}
+    } 
   } 
 
   management_security_subnet = {
@@ -20,11 +23,14 @@ virtual_subnets = {
     cidr    = ["{{cidr_management_zone_subnet_security}}"] # 64 ips 
     nsg_key = "jumpbox"
     service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]    
-    # lz_key = "networking_vnets"
-    # vnet_key = "vnet_hub_management_re1"      
     vnet = {
+{% if gcc_platform_import | trim == '0' %}
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-    }      
+{% else %}
+      lz_key = "networking_vnets"
+      key = "vnet_hub_management_re1"              
+{% endif %}
+    }       
   }  
 
   AzureBastionSubnet = {
@@ -32,11 +38,14 @@ virtual_subnets = {
     cidr    = ["{{cidr_management_zone_subnet_bastion}}"] # 64 ips
     nsg_key = "azure_bastion_nsg"
     service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]    
-    # lz_key = "networking_vnets"
-    # vnet_key = "vnet_hub_management_re1"      
     vnet = {
+{% if gcc_platform_import | trim == '0' %}
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-    }      
+{% else %}
+      lz_key = "networking_vnets"
+      key = "vnet_hub_management_re1"              
+{% endif %}
+    }     
   }  
   # end management zone
 }

@@ -24,7 +24,15 @@ search_services = {
         name               = "search-service-pep"
         resource_group_key = "search_service_rg_re1"
 {% if gcc_platform | trim == '1' %}
+
+{% if gcc_platform_import | trim == '0' %}
         subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-ai-internet"
+{% else %}
+        lz_key = "networking_spoke_internet"
+        virtual_subnet_key = "ai_internet_subnet"
+{% endif %} 
+
+
 {% else %}
         vnet_key = "vnet_spoke_internet_re1"
         subnet_key = "ai_internet_subnet"

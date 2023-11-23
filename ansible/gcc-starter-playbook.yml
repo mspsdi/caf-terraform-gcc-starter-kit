@@ -97,7 +97,10 @@
 
       # gcc central managed configuration
       gcc_platform: "{{configuration_gcc.gcc_platform | trim}}"          
+      gcc_platform_import: "{{configuration_gcc.gcc_platform_import | trim}}"          
+      tenant_id: "{{configuration_gcc.tenant_id | trim}}" 
       subscription_id: "{{configuration_gcc.subscription_id | trim}}" 
+      workspace_id: "{{configuration_gcc.workspace_id | trim}}" 
       resource_group_name: "{{configuration_gcc.resource_group_name | trim}}" 
       log_analytics_workspace_resource_group_name: "{{configuration_gcc.log_analytics_workspace_resource_group_name | trim}}" 
       log_analytics_workspace_name: "{{configuration_gcc.log_analytics_workspace_name | trim}}" 

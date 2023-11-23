@@ -21,6 +21,8 @@ module "container_groups" {
     # TODO: combined_resources.networking
     networking         = local.combined_objects_networking
   }
+  # TODO: virtual_subnets
+  virtual_subnets   = local.combined_objects_virtual_subnets   
 }
 
 module "network_profiles" {

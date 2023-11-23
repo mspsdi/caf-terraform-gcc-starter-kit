@@ -18,7 +18,21 @@ container_groups = {
     network = {
       subnets = {
         subnet1 = {
+        {% if gcc_platform_import | trim == '0' %}
+
+        {% if gcc_platform_import | trim == '0' %}
           subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}/subnets/{{prefix}}-snet-runner-devops"
+        {% else %}
+          lz_key = "networking_spoke_devops"
+          virtual_subnet_key = "devops_runner_subnet"        
+        {% endif %}      
+
+
+        {% else %}
+          lz_key = "networking_vnets"
+          vnet_key = "vnet_spoke_devops_re1"   
+          subnet_key = "devops_runner_subnet"
+        {% endif %}          
         }
       }
     }

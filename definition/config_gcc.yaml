@@ -1,8 +1,11 @@
 ---
 configuration_gcc:
-  gcc_platform: 1 # 1: gcc platform or 0: non-gcc platform
+  gcc_platform: 1 # 1 # 1: gcc platform or 0: non-gcc platform
+  gcc_platform_import: 1 # 1 # 1: to import gcci-platform rg, vents, law or 0: not importing
   platform_name: caf_terraform_starter 
-  subscription_id: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx 
+  tenant_id: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx
+  subscription_id: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx
+  workspace_id: ca2e37fc-07f3-4cf8-800f-35e900cfdec6 # law workspace id
   spn_name: gcci-spn-landing-zone-001 # dummy value - reserve for future use
   # GCC 2.0 compartment information 
   resource_group_name:	gcci-platform # do not change

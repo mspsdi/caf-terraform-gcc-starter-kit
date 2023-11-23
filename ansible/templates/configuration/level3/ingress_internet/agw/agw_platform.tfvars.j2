@@ -13,7 +13,15 @@ application_gateway_platforms = {
     resource_group_key = "agw_ingress_internet_re1"
     name               = "ingress-reverse-proxy"
 {% if gcc_platform | trim == '1' %}    
+
+
+{% if gcc_platform_import | trim == '0' %}
     subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}/subnets/{{prefix}}-snet-ingress-agw"
+{% else %}
+    lz_key = "networking_hub_internet"
+    virtual_subnet_key = "ApplicationGatewaySubnet"        
+{% endif %} 
+
 {% else %}
     vnet_key = "vnet_hub_internet_ingress_re1"
     subnet_key = "ApplicationGatewaySubnet"
@@ -52,7 +60,14 @@ application_gateway_platforms = {
       private = {
         name                          = "private"
 {% if gcc_platform | trim == '1' %}    
+
+{% if gcc_platform_import | trim == '0' %}
         subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}/subnets/{{prefix}}-snet-ingress-agw"
+{% else %}
+        lz_key = "networking_hub_internet"
+        virtual_subnet_key = "ApplicationGatewaySubnet"        
+{% endif %} 
+
 {% else %}
         vnet_key = "vnet_hub_internet_ingress_re1"
         subnet_key = "ApplicationGatewaySubnet"
@@ -108,7 +123,6 @@ application_gateway_platforms = {
       }
     }
 
-    # TODO: debug the diagnostic_profiles - this is working 10 Aug 2023
     # you can setup up to 5 key
     diagnostic_profiles = {
       central_logs_region1 = {

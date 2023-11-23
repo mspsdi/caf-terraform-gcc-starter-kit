@@ -15,7 +15,11 @@ landingzone = {
     networking_spoke_management = {
       level   = "lower"
       tfstate = "networking_spoke_management.tfstate"       
-    }    
+    }       
+    networking_vnets = {
+      level   = "lower"
+      tfstate = "networking_vnets.tfstate" # set to referenced landingzone tfstate name      
+    } 
   }
 }
 

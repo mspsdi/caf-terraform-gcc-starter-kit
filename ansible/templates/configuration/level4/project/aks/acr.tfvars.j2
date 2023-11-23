@@ -13,7 +13,15 @@ azure_container_registries = {
         resource_group_key = "aks_re1"
 
 {% if gcc_platform | trim == '1' %}
+
+{% if gcc_platform_import | trim == '0' %}
         subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-app-internet"
+{% else %}
+        lz_key = "networking_spoke_internet"
+        virtual_subnet_key = "app_internet_subnet"
+{% endif %} 
+
+
 {% else %}
         vnet_key = "vnet_spoke_internet_re1"
         subnet_key = "app_internet_subnet"
@@ -27,10 +35,6 @@ azure_container_registries = {
           subresource_names    = ["registry"]
         }
         
-        # private_dns = {
-        #   lz_key = "level3_sharedservices"
-        #   keys   = ["acr_dns_re1"]
-        # }
         private_dns = {
           # zone_group_name = "acr_rg_re1" # TODO: is this the resource group name?        
           lz_key = "networking_spoke_internet" # if DNS keys is deployed in another landingzone
@@ -69,7 +73,7 @@ azure_container_registries = {
         definition_key   = "azure_container_registry"
         destination_type = "log_analytics"
         destination_key  = "central_logs"
-        lz_key = "shared_services"
+        # lz_key = "shared_services"
       }
     }
 

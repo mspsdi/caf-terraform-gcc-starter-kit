@@ -23,7 +23,15 @@ keyvaults = {
 
 
 {% if gcc_platform | trim == '1' %}
+
+{% if gcc_platform_import | trim == '0' %}
         subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-service-internet"
+{% else %}
+        lz_key = "networking_spoke_internet"
+        subnet_key = "service_internet_subnet"
+{% endif %} 
+
+
 {% else %}
         vnet_key = "vnet_spoke_internet_re1"
         subnet_key = "service_internet_subnet"

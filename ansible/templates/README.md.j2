@@ -32,7 +32,7 @@ cd /tf/caf
 =================================================================================
 
 ================================================================================
-# Preparation - GCC simulator environment ** OPTIONAL
+# i. Preparation - GCC simulator environment ** OPTIONAL
 ================================================================================
 
 OPTIONAL - create development environment (only for your own test environment)
@@ -40,6 +40,12 @@ go to /tf/caf/{{gcc_starter_project_folder}}/gcc-dev-env/README.md
 
 # ** IMPORTANT - set ARM_USE_MSI = true everytime you bring up the zsh terminal if using agent to execute rover commands
 # export ARM_USE_MSI=true
+
+================================================================================
+# ii. Preparation - Import gcci-platform rg, vnets, law into level3 blob storage state file
+================================================================================
+
+** IMPORTANT: copy /tf/caf/caf_terraform_starter_osscuat_sandpit/landingzone/configuration/level3/shared_services/networking_vnets.tfstate to level3 blob storage networking_vnets.tfstate
 
 ================================================================================
 # 1. level 0 - launchpad
@@ -54,9 +60,20 @@ rover -lz /tf/caf/landingzones/caf_launchpad \
   -skip-permission-check \
   -a apply
 
+1.2 Import terraform state for gcci-platform resources
+
+** IMPORTANT:
+Upload caf terraform state file to level3 storage account: {{prefix}}-rg-launchpad-level3
+/tf/caf/{{gcc_starter_project_folder}}_{{prefix}}_{{caf_environment}}/landingzone/configuration/level3/shared_services/networking_vnets.tfstate
+
+E.g.
+az storage blob upload --account-name <storage-account> --container-name <container> --name myFile.txt --file myFile.txt --auth-mode login
+
+
 ================================================================================
 # 2. level 3 - networking
 =================================================================================
+
 
 2.1. level 3 - shared services - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/shared_services
 
