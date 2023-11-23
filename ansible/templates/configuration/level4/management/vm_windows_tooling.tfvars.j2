@@ -34,8 +34,9 @@ virtual_machines = {
 {% if gcc_platform_import | trim == '0' %}
         subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}/subnets/{{prefix}}-snet-infra-management"
 {% else %}
+        # vm is using "subnet_key" for virtual subnet key
         lz_key = "networking_spoke_management"
-        virtual_subnet_key = "management_infra_subnet"        
+        subnet_key = "management_infra_subnet"      
 {% endif %}    
 
 {% else %}

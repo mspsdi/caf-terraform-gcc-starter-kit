@@ -19,7 +19,6 @@ container_groups = {
 
 {% if gcc_platform | trim == '1' %}
 
-
 {% if gcc_platform_import | trim == '0' %}
           subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-chatgpt-internet"
 {% else %}
