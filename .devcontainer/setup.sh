@@ -105,7 +105,7 @@ if [ ! -d /tf/caf/landingzones ]; then
     cp /tf/caf/patches/virtual_subnets/aztfmod/api_management.tf /tf/caf/landingzones/aztfmod/api_management.tf                   
     cp /tf/caf/patches/virtual_subnets/aztfmod/app_services.tf /tf/caf/landingzones/aztfmod/app_services.tf            
     cp /tf/caf/patches/virtual_subnets/aztfmod/cosmos_db.tf /tf/caf/landingzones/aztfmod/cosmos_db.tf        
-    cp /tf/caf/patches/virtual_subnets/aztfmod/redis_caches.tf /tf/caf/landingzones/aztfmod/cosmos_db.tf 
+    cp /tf/caf/patches/virtual_subnets/aztfmod/redis_caches.tf /tf/caf/landingzones/aztfmod/redis_caches.tf 
     cp /tf/caf/patches/virtual_subnets/aztfmod/application_gateway_platforms.tf  /tf/caf/landingzones/aztfmod/application_gateway_platforms.tf  
     cp /tf/caf/patches/virtual_subnets/aztfmod/compute_aks_clusters.tf  /tf/caf/landingzones/aztfmod/compute_aks_clusters.tf  
     cp /tf/caf/patches/virtual_subnets/aztfmod/compute_container_registry.tf  /tf/caf/landingzones/aztfmod/compute_container_registry.tf          
@@ -113,10 +113,11 @@ if [ ! -d /tf/caf/landingzones ]; then
 
                 
     # aks       
-    /tf/caf/patches/virtual_subnets/aks/aks.tf  /tf/caf/landingzones/aztfmod/modules/compute/aks/aks.tf
-    /tf/caf/patches/virtual_subnets/aks/private_endpoint.tf  /tf/caf/landingzones/aztfmod/modules/compute/aks/private_endpoint.tf 
-    /tf/caf/patches/virtual_subnets/aks/variables.tf /tf/caf/landingzones/aztfmod/modules/compute/aks/variables.tf
+    cp /tf/caf/patches/virtual_subnets/aks/aks.tf  /tf/caf/landingzones/aztfmod/modules/compute/aks/aks.tf
+    cp /tf/caf/patches/virtual_subnets/aks/private_endpoint.tf  /tf/caf/landingzones/aztfmod/modules/compute/aks/private_endpoint.tf 
+    cp /tf/caf/patches/virtual_subnets/aks/variables.tf /tf/caf/landingzones/aztfmod/modules/compute/aks/variables.tf
 
+    # api management
     cp /tf/caf/patches/virtual_subnets/api_management/module.tf /tf/caf/landingzones/aztfmod/modules/apim/api_management/module.tf  
     cp /tf/caf/patches/virtual_subnets/api_management/variables.tf /tf/caf/landingzones/aztfmod/modules/apim/api_management/variables.tf
 
