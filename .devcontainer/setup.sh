@@ -98,6 +98,7 @@ if [ ! -d /tf/caf/landingzones ]; then
     cp /tf/caf/patches/logic_app/standard/diagnostic.tf /tf/caf/landingzones/aztfmod/modules/logic_app/standard/diagnostic.tf
     cp /tf/caf/patches/logic_app/standard/variables.tf /tf/caf/landingzones/aztfmod/modules/logic_app/standard/variables.tf
     cp /tf/caf/patches/logic_app/standard/module.tf /tf/caf/landingzones/aztfmod/modules/logic_app/standard/module.tf
+    cp /tf/caf/patches/logic_app/standard/main.tf /tf/caf/landingzones/aztfmod/modules/logic_app/standard/main.tf
 
 
     # Patches 9: virtual_subnet_key
