@@ -24,8 +24,8 @@ git config pull.rebase false
 
 if [ ! -d /tf/caf/landingzones ]; then
   # git clone --branch int-5.6.0 https://github.com/Azure/caf-terraform-landingzones.git /tf/caf/landingzones
-  # clone latest caf terraform landingzones - 5.75
-  git clone https://github.com/Azure/caf-terraform-landingzones.git /tf/caf/landingzones
+  # clone latest caf terraform landingzones - 5.76
+  git --branch int-5.76.0 clone https://github.com/Azure/caf-terraform-landingzones.git /tf/caf/landingzones
   sudo chmod +x /tf/caf/landingzones/templates/**/*.sh
   # git clone aztfmod (if required)
   if [ ! -d /tf/caf/landingzones/aztfmod ]; then
