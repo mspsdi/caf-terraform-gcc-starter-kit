@@ -34,7 +34,6 @@ cognitive_services_account = {
       pe1 = {
         name               = "openai-pep"
         resource_group_key = "openai_rg_re1"
-
 {% if gcc_platform | trim == '1' %}
 
 {% if gcc_platform_import | trim == '0' %}
@@ -50,7 +49,6 @@ cognitive_services_account = {
         lz_key = "networking_spoke_internet"    
         # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-ai-internet"
 {% endif %}
-
 
         private_service_connection = {
           name                 = "openai-psc"

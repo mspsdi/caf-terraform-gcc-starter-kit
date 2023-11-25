@@ -10,7 +10,6 @@ linux_function_apps = {
     storage_account_key  = "fa_sa1"
     
     settings = {
-
 {% if gcc_platform | trim == '1' %}
 
 {% if gcc_platform_import | trim == '0' %}
@@ -67,7 +66,6 @@ linux_function_apps = {
         virtual_subnet_key = "app_internet_subnet"
 {% endif %} 
 
-
 {% else %}
         vnet_key = "vnet_spoke_internet_re1"
         subnet_key = "app_internet_subnet"
@@ -99,14 +97,11 @@ linux_function_apps = {
       tier = "{{tier_code}}"          
     } 
 
-    # # TODO: debug the diagnostic_profiles - this is working 10 Aug 2023
-    # # you can setup up to 5 key
     diagnostic_profiles = {
       central_logs_region1 = {
         definition_key   = "functionapp"
         destination_type = "log_analytics"
         destination_key  = "central_logs"
-        # lz_key = "shared_services" # TODO: is this required?
       }
     }       
 

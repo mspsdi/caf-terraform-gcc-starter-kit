@@ -1,15 +1,8 @@
-# 28 Sep 2022 - thiamsoon
-# remarks: add in "subnet_id" attribute to accept "subnet_id" variable
-# file: /tf/caf/landingzones/aztfmod/bastion_service.tf
-# line 40
-#     subnet_id            = can(each.value.subnet_id) ? each.value.subnet_id : local.combined_objects_networking[try(each.value.vnet.lz_key, local.client_config.landingzone_key)][try(each.value.vnet.vnet_key, each.value.vnet_key)].subnets[try(each.value.vnet.subnet_key, each.value.subnet_key)].id
-
 bastion_hosts = {
   bastion_hub_re1 = {
     name               = "bastion-host"
     region             = "region1"
     resource_group_key = "bastion_rg_re1"
-
 {% if gcc_platform | trim == '1' %}
 
 {% if gcc_platform_import | trim == '0' %}
@@ -19,7 +12,6 @@ bastion_hosts = {
     virtual_subnet_key = "AzureBastionSubnet"
 {% endif %}    
 
-
 {% else %}
     vnet = {
       vnet_key = "vnet_hub_management_re1"
@@ -27,7 +19,6 @@ bastion_hosts = {
       lz_key = "networking_spoke_management"    
     }
 {% endif %}
-
     public_ip_key      = "bastion_host_pip_re1"
 
     tags = { 

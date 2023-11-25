@@ -1,19 +1,11 @@
-#
-# Reference Example: /tf/caf/landingzones/aztfmod/examples/app_gateway/301-agw-v1
-#
 # 1. There is public IP which is not use.
 # You can deploy Application Gateway with Public IP and Private IP. All you need to do is to create the listener with the private Frontend IP and leave the Public IP as such without a listener.
 # Since Public IP is not attached with any of the listener, no one will be able to access your site from intranet via Public IP of your Application Gateway.
-
-# 1. agw must deploy inside s01-rg-aks-nodes-re1 or 
-# 2. grant permission ingressapplicationgateway-s01-aks-cluster-re1 and s01-msi-aks-usermsi to s01-rg-aks-re1 resource group
-#
 application_gateway_platforms = {
   agw1 = {
     resource_group_key = "agw_internet_re1"
     name               = "openai-load-balancer"
 {% if gcc_platform | trim == '1' %}
-
 
 {% if gcc_platform_import | trim == '0' %}
     subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-applicationgateway-internet"
@@ -43,7 +35,11 @@ application_gateway_platforms = {
       key = "agw_wp_re1" 
     }
 
+{% if caf_environment | trim == 'prd' %}
+    zones        = ["1", "2", "3"]
+{% else %}
     zones        = ["1"]  # ["1", "2", "3"]
+{% endif %}  
     enable_http2 = true
 
     identity = {
@@ -59,9 +55,15 @@ application_gateway_platforms = {
       }
       private = {
         name                          = "private"
-
 {% if gcc_platform | trim == '1' %}
+
+{% if gcc_platform_import | trim == '0' %}
         subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-applicationgateway-internet"
+{% else %}
+        lz_key = "networking_spoke_internet"
+        virtual_subnet_key = "applicaitongateway_internet_subnet"
+{% endif %} 
+
 {% else %}
         vnet_key = "vnet_spoke_internet_re1"
         subnet_key = "applicaitongateway_internet_subnet"
@@ -116,14 +118,12 @@ application_gateway_platforms = {
       }
     }
 
-    # TODO: debug the diagnostic_profiles - this is working 10 Aug 2023
     # you can setup up to 5 key
     diagnostic_profiles = {
       central_logs_region1 = {
         definition_key   = "application_gateway"
         destination_type = "log_analytics"
         destination_key  = "central_logs"
-        # lz_key = "shared_services" # TODO: is this required?
       }
     }
 

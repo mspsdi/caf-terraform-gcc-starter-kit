@@ -1,12 +1,3 @@
-
-# TODO: add in diagnostic setting
-# to install vs code and docker desktop
-# Virtual machines size = "Standard_D8s_v3"
-# install docker desktop
-# download zip file for visual studio code - no installation
-# start vs code, install dev containers
-# download sample labs caf solution
-# if hit error starting containers, close vs code and re-open
 virtual_machines = {
 
   # Configuration to deploy a bastion host windows virtual machine
@@ -45,9 +36,6 @@ virtual_machines = {
         lz_key = "networking_spoke_management"    
         #    subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-management/subnets/escep-snet-infra-management"
 {% endif %}          
-
-
-
         name                    = "0"
         enable_ip_forwarding    = false
         internal_dns_name_label = "nic0"
@@ -98,7 +86,8 @@ CUSTOM_DATA
           create_option        = "FromImage"
         }
 
-        # TODO; use source_image_id = "????"
+        # ** IMPORTANT
+        # if gcc, use source_image_id = "????"
         # source_image_id - (Optional) The ID of the Image which this Virtual Machine should be created from. Changing this forces a new resource to be created. Possible Image ID types include Image IDs, Shared Image IDs, Shared Image Version IDs, Community Gallery Image IDs, Community Gallery Image Version IDs, Shared Gallery Image IDs and Shared Gallery Image Version IDs.
         # e.g. source_image_id       = "/sharedGalleries/9bd05406-c85b-4e5d-9b66-c8920883291a-PREVIEWCOMPUTEIMAGEGALLERY/images/ubuntu-22.04/versions/latest"
         # format: source_image_id = "/subscriptions/subscriptio_name/resourceGroups/RG_NAME/providers/Microsoft.Compute/images/image_name"

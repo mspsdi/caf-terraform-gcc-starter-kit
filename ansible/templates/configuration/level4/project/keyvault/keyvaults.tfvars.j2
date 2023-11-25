@@ -20,8 +20,6 @@ keyvaults = {
         name               = "shared-kv-pep"
         resource_group_key = "kv_rg_re1"
 
-
-
 {% if gcc_platform | trim == '1' %}
 
 {% if gcc_platform_import | trim == '0' %}
@@ -31,14 +29,12 @@ keyvaults = {
         subnet_key = "service_internet_subnet"
 {% endif %} 
 
-
 {% else %}
         vnet_key = "vnet_spoke_internet_re1"
         subnet_key = "service_internet_subnet"
         lz_key = "networking_spoke_internet"    
         # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-service-internet"
 {% endif %}
-
 
         private_service_connection = {
           name                 = "shared-kv-psc"
@@ -54,7 +50,7 @@ keyvaults = {
         }
       }
     }   
-    # 27 Sep 2022 - add in diagnostic_profiles and tags
+
     diagnostic_profiles = {
       operations = {
         definition_key   = "keyvault"
@@ -70,7 +66,6 @@ keyvaults = {
       zone = "{{zone_code}}"
       tier = "{{tier_code}}"          
     } 
-
 
   }
 }

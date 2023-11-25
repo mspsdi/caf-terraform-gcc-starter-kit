@@ -1,5 +1,3 @@
-# TODO: with private endpoint
-
 cosmos_dbs = {
   cosmosdb_account_re1 = {
     name                      = "cosmosdb_acc"
@@ -32,7 +30,7 @@ cosmos_dbs = {
     identity = {
       type                 = "UserAssigned"
       lz_key          = "shared_services" # if DNS keys is deployed in remote landingzone    
-      managed_identity_keys = ["aks_usermsi","cosmos_usermsi"]
+      managed_identity_keys = ["aks_usermsi","cosmos_usermsi"] # TODO: why aks_usermsi???
     } 
 
     # Optional - private endpoint
@@ -57,7 +55,6 @@ cosmos_dbs = {
         lz_key = "networking_spoke_internet"    
         # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-db-internet"
 {% endif %}
-
 
         private_service_connection = {
           name                 = "cosmos-private-link"

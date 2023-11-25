@@ -1,5 +1,4 @@
-
-# rover runner: aztfmod/rover:1.5.2-2307.0508
+# use the below command to sleep infinity - to avoid termination of container
 # command override
 # [ "/bin/bash", "-c", "echo hello; sleep 100000; sleep infinity"]
 # image  = "aztfmod/rover:1.5.2-2307.0508" # "ubuntu"
@@ -16,7 +15,6 @@ container_groups = {
     network = {
       subnets = {
         subnet1 = {
-
 {% if gcc_platform | trim == '1' %}
 
 {% if gcc_platform_import | trim == '0' %}
@@ -32,7 +30,6 @@ container_groups = {
           lz_key = "networking_spoke_internet"    
           # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-chatgpt-internet"
 {% endif %}
-
         }
       }
     }

@@ -1,6 +1,3 @@
-#
-# Reference Example: aztfmod/examples/compute/container_registry/200-acr-private-link
-#container_instance
 azure_container_registries = {
   acr1 = {
     name               = "ci-acr"
@@ -30,8 +27,6 @@ azure_container_registries = {
         lz_key = "networking_spoke_internet"    
         # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-service-internet"
 {% endif %}  
-
-
         private_service_connection = {
           name                 = "acr-private-link"
           is_manual_connection = false
@@ -42,14 +37,12 @@ azure_container_registries = {
           zone_group_name = "acr_rg_re1" # TODO: is this the resource group name?        
           lz_key          = "networking_spoke_internet" # if DNS keys is deployed in remote landingzone
           keys = ["acr_dns_re1"]            
-        }
-       
+        }      
       }
 
       tooling_host_acr_pep = {
         name               = "tooling-acr"
         resource_group_key = "acr_rg_re1"
-
 {% if gcc_platform | trim == '1' %}
 
 {% if gcc_platform_import | trim == '0' %}
@@ -66,7 +59,6 @@ azure_container_registries = {
         lz_key = "networking_spoke_management"    
         # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}/subnets/{{prefix}}-snet-infra-management"
 {% endif %}
-
         private_service_connection = {
           name                 = "tooling-acr"
           is_manual_connection = false
@@ -86,7 +78,6 @@ azure_container_registries = {
         definition_key   = "azure_container_registry"
         destination_type = "log_analytics"
         destination_key  = "central_logs"
-        # lz_key = "shared_services"
       }
     }
 

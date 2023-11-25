@@ -16,11 +16,8 @@ virtual_machines = {
     networking_interfaces = {
       nic0 = {    
         # cannot be deployed to agw subnet  
-        # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}/subnets/{{prefix}}-snet-ingress-test"
 
 {% if gcc_platform | trim == '1' %}
-        # TODO: add subnet_id
-
 
 {% if gcc_platform_import | trim == '0' %}
         resource_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-app-internet"
@@ -30,7 +27,6 @@ virtual_machines = {
         subnet_key = "app_internet_subnet"     
         # virtual_subnet_key = "app_internet_subnet"
 {% endif %} 
-
 
 {% else %}
         vnet_key = "vnet_spoke_internet_re1"

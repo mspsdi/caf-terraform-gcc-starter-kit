@@ -9,7 +9,6 @@ api_management = {
     
     identity = {
       type = "UserAssigned"
-
       managed_identity_keys = ["apim_msi"] # local managed identities
 
       # # remote managed identities
@@ -24,8 +23,6 @@ api_management = {
     }    
     virtual_network_type = "Internal"
     virtual_network_configuration = {
-
-
 {% if gcc_platform | trim == '1' %}
 
 {% if gcc_platform_import | trim == '0' %}
@@ -45,7 +42,6 @@ api_management = {
       # subnet_key = "it_internet_subnet"
       # lz_key = "networking_spoke_internet"  
       # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-internet/subnets/esdso-snet-it-internet"
-
     }
 
     # # you can setup up to 5 key
@@ -54,7 +50,6 @@ api_management = {
         definition_key   = "apim"
         destination_type = "log_analytics"
         destination_key  = "central_logs"
-        # lz_key = "shared_services" # TODO: is this required?
       }
     }   
 
