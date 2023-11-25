@@ -61,6 +61,8 @@ aztfmod/azurecaf: 1.2.0 <br/>
 
 Version: 0.1-1.6.0-5.76-3.80 (0.1-[rover version]-[caf terraform version]-[azurerm version])
 
+Note: do not use azurerm version 3.82.
+
 ### Features
 
 
