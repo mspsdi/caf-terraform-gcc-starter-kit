@@ -24,17 +24,17 @@ git config pull.rebase false
 
 if [ ! -d /tf/caf/landingzones ]; then
   # git clone --branch int-5.6.0 https://github.com/Azure/caf-terraform-landingzones.git /tf/caf/landingzones
-  # clone latest caf terraform landingzones - 5.76
+  # clone latest caf terraform landingzones - 5.7.6
   git clone https://github.com/Azure/caf-terraform-landingzones.git /tf/caf/landingzones
   sudo chmod +x /tf/caf/landingzones/templates/**/*.sh
   # git clone aztfmod (if required)
   if [ ! -d /tf/caf/landingzones/aztfmod ]; then
-    # clone latest version of aztfmod 5.75
-    git clone https://github.com/aztfmod/terraform-azurerm-caf.git /tf/caf/landingzones/aztfmod 
+    # clone latest version of aztfmod 5.7.6
+    git clone --branch 5.7.6 https://github.com/aztfmod/terraform-azurerm-caf.git /tf/caf/landingzones/aztfmod 
     cd /tf/caf/landingzones/aztfmod 
     # checkout version 5.7.6
-    # git checkout engine-2.9
-    git checkout 5.7.6
+    # git checkout 5.7.6
+
     # patch to use local copy of aztfmod, always use latest copy of azurerm - remove version at line 6 at main.tf
     cp /tf/caf/patches/caf_launchpad/landingzone.tf /tf/caf/landingzones/caf_launchpad/landingzone.tf
     cp /tf/caf/patches/caf_solution/landingzone.tf /tf/caf/landingzones/caf_solution/landingzone.tf
