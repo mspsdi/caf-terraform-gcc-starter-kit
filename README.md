@@ -53,10 +53,10 @@ This starter kit is based on "Cloud Adoption Framework Landing zones for Terrafo
 </p>
 
 
-### Tested - 15 Nov 2023
+### Tested - 27 Nov 2023
 CAF Rover: version rover:1.6.0-rc1-2310.0211 <br/>
 Azurerm: version 3.80 <br/>
-CAF Terraform: version 5.76 <br/>
+CAF Terraform: version 5.77 <br/>
 aztfmod/azurecaf: 1.2.0 <br/>
 
 Version: 0.1-1.6.0-5.76-3.80 (0.1-[rover version]-[caf terraform version]-[azurerm version])
