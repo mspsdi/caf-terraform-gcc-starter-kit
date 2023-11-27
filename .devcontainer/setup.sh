@@ -30,39 +30,31 @@ if [ ! -d /tf/caf/landingzones ]; then
   # git clone aztfmod (if required)
   if [ ! -d /tf/caf/landingzones/aztfmod ]; then
     # clone latest version of aztfmod 5.7.6
-    git clone --branch 5.7.6 https://github.com/aztfmod/terraform-azurerm-caf.git /tf/caf/landingzones/aztfmod 
+    git clone --branch 5.7.7 https://github.com/aztfmod/terraform-azurerm-caf.git /tf/caf/landingzones/aztfmod 
     cd /tf/caf/landingzones/aztfmod 
     # checkout version 5.7.6
     # git checkout 5.7.6
 
+    # ----------------- PATCHES for terraform-azurerm-caf 5.7.7 (01 Dec 2023) -----------------------------------------------------------------------------  
     # patch to use local copy of aztfmod, always use latest copy of azurerm - remove version at line 6 at main.tf
-    cp /tf/caf/patches/caf_launchpad/landingzone.tf /tf/caf/landingzones/caf_launchpad/landingzone.tf
-    cp /tf/caf/patches/caf_solution/landingzone.tf /tf/caf/landingzones/caf_solution/landingzone.tf
-    cp /tf/caf/patches/aztfmod/main.tf /tf/caf/landingzones/aztfmod/main.tf 
+    
+    cp /tf/caf/patches/caf_launchpad/landingzone.tf /tf/caf/landingzones/caf_launchpad/landingzone.tf # required
+    cp /tf/caf/patches/caf_solution/landingzone.tf /tf/caf/landingzones/caf_solution/landingzone.tf # required
+    cp /tf/caf/patches/aztfmod/main.tf /tf/caf/landingzones/aztfmod/main.tf  # required
 
     # Patches 1: resolve diagnostic days retention issue - remove and comment "days    = log.value[3]" at line 38 and "days    = metric.value[3]" at line 54
-    cp /tf/caf/patches/diagnostics/module.tf /tf/caf/landingzones/aztfmod/modules/diagnostics/module.tf
+    cp /tf/caf/patches/diagnostics/module.tf /tf/caf/landingzones/aztfmod/modules/diagnostics/module.tf # required
 
-    # Patches 2:  fixed container group subnet_ids 
-    cp /tf/caf/patches/container_group/container_group.tf /tf/caf/landingzones/aztfmod/modules/compute/container_group/container_group.tf
-    cp /tf/caf/patches/container_group/variables.tf /tf/caf/landingzones/aztfmod/modules/compute/container_group/variables.tf
-    cp /tf/caf/patches/container_group/compute_container_groups.tf /tf/caf/landingzones/aztfmod/compute_container_groups.tf
+    # Patches 2:  fixed container group subnet_ids / local_combined.networking missing from local resources
+    cp /tf/caf/patches/container_group/container_group.tf /tf/caf/landingzones/aztfmod/modules/compute/container_group/container_group.tf # required
+    cp /tf/caf/patches/container_group/variables.tf /tf/caf/landingzones/aztfmod/modules/compute/container_group/variables.tf # required
+    cp /tf/caf/patches/container_group/compute_container_groups.tf /tf/caf/landingzones/aztfmod/compute_container_groups.tf # required
 
 
     # Patches 3:  firewall policy tls inspection
-    cp /tf/caf/patches/firewall_policies/firewall_policy.tf /tf/caf/landingzones/aztfmod/modules/networking/firewall_policies/firewall_policy.tf
+    cp /tf/caf/patches/firewall_policies/firewall_policy.tf /tf/caf/landingzones/aztfmod/modules/networking/firewall_policies/firewall_policy.tf # required
 
-    # Patches 4:  azure bastion host subnet id
-    cp /tf/caf/patches/bastion/bastion_service.tf /tf/caf/landingzones/aztfmod/bastion_service.tf
-    
-    # Patches 5: var local_combined.networking missing from local resources
-    cp /tf/caf/patches/container_group/compute_container_groups.tf /tf/caf/landingzones/aztfmod/compute_container_groups.tf
-
-    # Patches ?: apim platform version stv2 - stv2 requirement - public_ip_address_id
-    # cp /tf/caf/patches/apim/module.tf /tf/caf/landingzones/aztfmod/modules/apim/api_management/module.tf
-    # cp /tf/caf/patches/apim/variables.tf /tf/caf/landingzones/aztfmod/modules/apim/api_management/variables.tf
-
-    # Patches 6: new modules: functionapps: linux function apps, OpenAI: cognitive_service_account, cognitive_deployments, search_services
+    # Patches 4: new modules: functionapps: linux function apps, OpenAI: cognitive_service_account, cognitive_deployments, search_services
     # module folder - linux function app
 
     mkdir  /tf/caf/landingzones/aztfmod/modules/webapps/linux_function_app
@@ -87,14 +79,12 @@ if [ ! -d /tf/caf/landingzones ]; then
     cp /tf/caf/patches/openai-and-linux-function-apps/aztfmod/cognitive_search_services.tf /tf/caf/landingzones/aztfmod/cognitive_search_services.tf
     cp /tf/caf/patches/openai-and-linux-function-apps/aztfmod/cognitive_service.tf  /tf/caf/landingzones/aztfmod/cognitive_service.tf
 
+    # the below needs to review carefully
     cp /tf/caf/patches/openai-and-linux-function-apps/aztfmod/locals.tf /tf/caf/landingzones/aztfmod/locals.tf
     cp /tf/caf/patches/openai-and-linux-function-apps/aztfmod/locals.combined_objects.tf /tf/caf/landingzones/aztfmod/locals.combined_objects.tf
     cp /tf/caf/patches/openai-and-linux-function-apps/aztfmod/local.remote_objects.tf /tf/caf/landingzones/aztfmod/local.remote_objects.tf
 
-    # Patches 7: fixed apim stsv2.1 add public ip and module for public ip.
-    cp /tf/caf/patches/api_management/module.tf /tf/caf/landingzones/aztfmod/modules/apim/api_management/module.tf
-
-    # Patches 8: # fixed bool required for base_tags, diagnostics settings, fixed vnet integration
+    # Patches 5: # logic app - fixed bool required for base_tags, diagnostics settings, fixed vnet integration
     cp /tf/caf/patches/logic_app/logic_app.tf /tf/caf/landingzones/aztfmod/logic_app.tf
     cp /tf/caf/patches/logic_app/standard/diagnostic.tf /tf/caf/landingzones/aztfmod/modules/logic_app/standard/diagnostic.tf
     cp /tf/caf/patches/logic_app/standard/variables.tf /tf/caf/landingzones/aztfmod/modules/logic_app/standard/variables.tf
@@ -102,7 +92,7 @@ if [ ! -d /tf/caf/landingzones ]; then
     cp /tf/caf/patches/logic_app/standard/main.tf /tf/caf/landingzones/aztfmod/modules/logic_app/standard/main.tf
 
 
-    # Patches 9: virtual_subnet_key
+    # Patches 6: virtual_subnet_key
     # aztfmod
     cp /tf/caf/patches/virtual_subnets/aztfmod/api_management.tf /tf/caf/landingzones/aztfmod/api_management.tf                   
     cp /tf/caf/patches/virtual_subnets/aztfmod/app_services.tf /tf/caf/landingzones/aztfmod/app_services.tf            
