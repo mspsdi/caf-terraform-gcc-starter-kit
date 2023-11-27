@@ -59,7 +59,7 @@ caf rover: version rover:1.6.0-rc1-2310.0211 <br/>
 [terraform-azurerm-caf](https://github.com/aztfmod/terraform-azurerm-caf): version 5.7.7 <br/>
 aztfmod/azurecaf: 1.2.0 <br/>
 
-Version: 0.1-1.6.0-5.76-3.80 (0.1-[rover version]-[caf terraform version]-[azurerm version])
+Version: 0.1-1.6.0-5.77-3.80 (0.1-[rover version]-[caf terraform version]-[azurerm version])
 
 Note: do not use azurerm version 3.82.
 
