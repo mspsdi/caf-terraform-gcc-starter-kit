@@ -137,27 +137,11 @@ if [ ! -d /tf/caf/landingzones ]; then
     cp /tf/caf/patches/virtual_subnets/redis_caches/private_endpoints.tf  /tf/caf/landingzones/aztfmod/modules/redis_cache/private_endpoints.tf 
     cp /tf/caf/patches/virtual_subnets/redis_caches/variables.tf /tf/caf/landingzones/aztfmod/modules/redis_cache/variables.tf
 
+    # Patches 7: azurerm 3.82 api_management_gateway_api fixed Error An argument named "update" is not expected here.
+    cp /tf/caf/patches/api_management_gateway_api/module.tf /tf/caf/landingzones/aztfmod/modules/apim/api_management_gateway_api/module.tf
 
-    # ----------------- OLD PATCHES before Oct 2023 -----------------------------------------------------------------------------  
-    # cp /tf/caf/patches/caf_launchpad/main.tf /tf/caf/landingzones/caf_launchpad/main.tf
-    # cp /tf/caf/patches/caf_solution/main.tf /tf/caf/landingzones/caf_solution/main.tf
-    # patch logic app code no response
-    # fixed cp /tf/caf/patches/caf_solution/local.logic_app.tf /tf/caf/landingzones/caf_solution/local.logic_app.tf  
-    # optional: fixed and patch azure bastion, container group, sql server
-    # fixed - cp /tf/caf/patches/bastion/bastion_service.tf /tf/caf/landingzones/aztfmod/bastion_service.tf
-    #>> cp /tf/caf/patches/container_group/container_group.tf /tf/caf/landingzones/aztfmod/modules/compute/container_group/container_group.tf
-    # fixed - cp /tf/caf/patches/mssqlserver/private_endpoints.tf /tf/caf/landingzones/aztfmod/modules/databases/mssql_server/private_endpoints.tf
-    # Patches 5: application_gateway_application
-    # fixed - to test cp /tf/caf/patches/application_gateway_application/scripts/set_resource.sh /tf/caf/landingzones/aztfmod/modules/networking/application_gateway_application/scripts/set_resource.sh
-    # manually execute the below steps in agent
-    # cp /tf/caf/patches/rover/functions.sh /tf/rover/functions.sh
-    # Patches 6: firewall policies - add tls_certificate at line 39
-    #>> cp /tf/caf/patches/firewall_policies/firewall_policy.tf /tf/caf/landingzones/aztfmod/modules/networking/firewall_policies/firewall_policy.tf
-    # Patches 7: resolve diagnostic days retention issue - remove and comment "days    = log.value[3]" at line 38 and "days    = metric.value[3]" at line 54
-    #>> cp /tf/caf/patches/diagnostics/module.tf /tf/caf/landingzones/aztfmod/modules/diagnostics/module.tf
-    # Patches 8: The given value is not suitable for module. bool required. base_tags = true # local.tags
-    # fixed cp /tf/caf/patches/recovery_vault/private_endpoints.tf /tf/caf/landingzones/aztfmod/modules/recovery_vault/private_endpoints.tf
     cd /tf/caf/
+
     # note: /tf/caf/landingzones/aztfmod/main.tf show the version of the azurerm
 
     # Patches 0: fixed dial tcp: lookup xxx.xxx.xxx.xxx: no such host
