@@ -77,6 +77,9 @@ mssql_databases = {
     mssql_server_key   = "mssql_server_re1"
     elastic_pool_key   = "ep1"
     name               = "sqldb1"
+    # to avoid update due to "geo_backup_enabled = true -> false"
+    # geo_backup_enabled is only applicable for DataWarehouse SKUs (DW*). This setting is ignored for all other SKUs.
+    geo_backup_enabled = true # since it is ignore caf terraform is default is false
 
     diagnostic_profiles = {
       central_logs_region = {
