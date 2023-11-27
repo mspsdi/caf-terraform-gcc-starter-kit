@@ -15,12 +15,20 @@ keyvaults = {
       tier = "{{tier_code}}"          
     }    
 
-    creation_policies = {
-      logged_in_user = {
-        secret_permissions = ["Set", "Get", "List", "Delete", "Purge", "Recover"]
-      }
-    }
+    # creation_policies = {
+    #   logged_in_user = {
+    #     secret_permissions = ["Set", "Get", "List", "Delete", "Purge", "Recover"]
+    #   }
+    # }
   }
 
 }
 
+keyvault_access_policies = {
+  kv1_vm = {
+    logged_in_user = {
+      certificate_permissions = ["Get"]
+      secret_permissions = ["Set", "Get", "List", "Delete", "Purge", "Recover"]
+    }
+  }
+}
