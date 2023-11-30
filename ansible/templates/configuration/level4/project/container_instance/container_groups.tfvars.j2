@@ -103,15 +103,15 @@ container_groups = {
       }
     } 
 
-    # you can setup up to 5 key
-    diagnostic_profiles = {
-      central_logs_region1 = {
-        definition_key   = "container_group"
-        destination_type = "log_analytics"
-        destination_key  = "central_logs"
-        # lz_key = "shared_services"
-      }
-    }
+    # container group does not have diagnostic settings
+    # # you can setup up to 5 key
+    # diagnostic_profiles = {
+    #   central_logs_region1 = {
+    #     definition_key   = "container_group"
+    #     destination_type = "log_analytics"
+    #     destination_key  = "central_logs"
+    #   }
+    # }
     
     tags = { 
       purpose = "container groups" 
