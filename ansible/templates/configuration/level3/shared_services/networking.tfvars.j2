@@ -1,8 +1,6 @@
 {% if gcc_platform | trim == '1' %}
-#------------------------------------------------------
-# this page is leave blank intentionally
-#------------------------------------------------------
-{% else %}
+
+{% if gcc_platform_import | trim == '0' %}
 # begin vnets
 vnets = {
 
@@ -88,5 +86,101 @@ diagnostic_log_analytics = {
   }
 }
 # end log analytics
+{% else %}
+#------------------------------------------------------
+# this page is leave blank intentionally
+#------------------------------------------------------
+{% endif %}
+
+{% else %}
+
+{% if gcc_platform_import | trim == '0' %}
+# begin vnets
+vnets = {
+
+  # project vnet - internet zone
+  vnet_spoke_internet_re1 = { 
+    resource_group_key = "networking_re1"
+    region             = "region1"
+    vnet = {
+      name          = "spoke-internet-re1"
+      address_space = ["{{internet_vnet_name_cidr}}"] # ["100.2.0.0/24"]
+    } 
+  }
+
+  # management vnet
+  vnet_hub_management_re1 = { 
+    resource_group_key = "networking_re1"
+    region             = "region1"
+    vnet = {
+      name          = "spoke-management-re1"
+      address_space = ["{{management_vnet_name_cidr}}"] # ["100.3.0.0/24"]
+    }  
+  }
+
+  # devops vnet
+  vnet_spoke_devops_re1 = { 
+    resource_group_key = "networking_re1"
+    region             = "region1"
+    vnet = {
+      name          = "spoke-devops-re1"
+      address_space = ["{{devops_vnet_name_cidr}}"] # ["100.4.0.0/24"]
+    }
+  }
+
+  # hub ingress internet
+  vnet_hub_internet_ingress_re1 = { 
+    resource_group_key = "networking_re1"
+    region             = "region1"
+    vnet = {
+      name          = "hub-internet-ingress-re1"
+      address_space = ["{{ingress_egress_vnet_name_ingress_internet_cidr}}"] # ["100.1.0.0/24"]
+    }
+  }
+
+  # hub egress internet
+  vnet_hub_internet_egress_re1 = { 
+    resource_group_key = "networking_re1"
+    region             = "region1"
+    vnet = {
+      name          = "hub-internet-egress-re1"
+      address_space = ["{{ingress_egress_vnet_name_egress_internet_cidr}}"] # ["100.1.1.0/24"]
+    }
+  }
+
+  # hub ingress intranet
+  vnet_hub_intranet_ingress_re1 = { 
+    resource_group_key = "networking_re1"
+    region             = "region1"
+    vnet = {
+      name          = "hub-intranet-ingress-re1"
+      address_space = ["{{ingress_egress_vnet_name_ingress_intranet_cidr}}"] # ["10.2.0.0/25"]
+    }
+  }
+
+  # hub egress intranet
+  vnet_hub_intranet_egress_re1 = { 
+    resource_group_key = "networking_re1"
+    region             = "region1"
+    vnet = {
+      name          = "hub-intranet-egress-re1"
+      address_space = ["{{ingress_egress_vnet_name_egress_intranet_cidr}}"] #["10.2.1.0/25"]
+    }
+  }
+} 
+# end vnets
+
+# begin log analytics
+# gcc is using govtech law, this is for non gcc
+diagnostic_log_analytics = {
+  central_logs_region1 = {
+    region             = "region1"
+    name               = "agency-workspace" # law resource name: {{prefix}}-log-agency-law
+    resource_group_key = "law_re1"
+  }
+}
+# end log analytics
+{% endif %}
+
 {% endif %}
 
