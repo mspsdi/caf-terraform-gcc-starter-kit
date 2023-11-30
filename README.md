@@ -34,6 +34,8 @@ caf terraform accelerator kit for GCC 2.0
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+Version 0.1.0 plan release date: 09 Dec 2023
+
 The “AZURE GCC Acceleration Kit” is designed to streamline the workload setup process in the AZURE environment. This kit provides a project-based, preconfigured landing zone and Azure resources in GCC 2.0 subscription. You can choose from a library of pre-configured Azure resources that cater to your specific project requirements.
 
 * Easy Setup with Standard Rules:
