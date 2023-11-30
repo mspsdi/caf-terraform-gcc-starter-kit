@@ -152,7 +152,7 @@ In order to start deploying your environments with CAF landing zones, you need a
 #### Git Clone the Repo
 Download the repo in a zip file only.
 
-** IMPORTANT - error occured when do a git clone
+** IMPORTANT - if error occured when do a git clone, download via zip file
 ```bash
 git clone https://github.com/mspsdi/caf-terraform-gcc-starter-kit
 ```
