@@ -246,8 +246,26 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
   -a plan
 ```
 
-* level 3 - management - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_management
+* level 3 - networking_vnet - Import terraform state for gcci-platform resources - for GCC environment only.
+
+** IMPORTANT:
+Upload caf terraform state file to level3 storage account: {{prefix}}-rg-launchpad-level3
+/tf/caf/{{gcc_starter_project_folder}}_{{prefix}}_{{caf_environment}}/landingzone/configuration/level3/shared_services/networking_vnets.tfstate
+E.g.
+az storage blob upload --account-name <storage-account> --container-name <container> --name myFile.txt --file myFile.txt --auth-mode login
+
+```bash
+az storage blob upload \
+--account-name "osscuatstlevel3dxd" \
+--container-name "tfstate" \
+--name networking_vnets.tfstate \
+--file "/tf/caf/{{gcc_starter_project_folder}}_{{prefix}}_{{caf_environment}}/landingzone/configuration/level3/shared_services/networking_vnets.tfstate" \
+--auth-mode login
 ```
+
+
+* level 3 - management - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_management
+```bash
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_management \
