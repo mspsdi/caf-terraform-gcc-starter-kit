@@ -152,7 +152,7 @@ In order to start deploying your environments with CAF landing zones, you need a
 #### Git Clone the Repo
 Download the repo in a zip file only.
 
-** IMPORTANT - error occured when do a git clone
+** IMPORTANT - if error occured when do a git clone, download via zip file
 ```bash
 git clone https://github.com/mspsdi/caf-terraform-gcc-starter-kit
 ```
@@ -214,7 +214,6 @@ To continue, goto README.md file
 
 ##### Preparation - GCC simulator environment ** OPTIONAL
 
-
 OPTIONAL - create development environment (only for your own test environment)
 go to /tf/caf/{{gcc_starter_project_folder}}/gcc-dev-env/README.md
 
@@ -233,6 +232,9 @@ rover -lz /tf/caf/landingzones/caf_launchpad \
 
 #### 2. level 3 - networking
 
+##### shared services
+
+###### execute the below steps if import terraform state set to "0" 
 
 * level 3 - shared services - /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/shared_services
 ```bash
@@ -246,11 +248,11 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
   -a plan
 ```
 
-* level 3 - networking_vnet - Import terraform state for gcci-platform resources - for GCC environment only.
+###### execute the below steps if import terraform state set to "1" 
 
-** IMPORTANT:
-Upload caf terraform state file to level3 storage account: {{prefix}}-rg-launchpad-level3
-/tf/caf/{{gcc_starter_project_folder}}_{{prefix}}_{{caf_environment}}/landingzone/configuration/level3/shared_services/networking_vnets.tfstate
+* level 3 - networking_vnet - Import terraform state for gcci-platform resources - for GCC environment only.
+* IMPORTANT: Upload caf terraform state file to level3 storage account: {{prefix}}-rg-launchpad-level3
+/tf/caf/{{gcc_starter_project_folder}}_{{prefix}}_{{caf_environment}}/landingzone/configuration/level3/shared_services/shared_services.tfstate
 E.g.
 az storage blob upload --account-name <storage-account> --container-name <container> --name myFile.txt --file myFile.txt --auth-mode login
 
@@ -259,7 +261,7 @@ az storage blob upload \
 --account-name "osscuatstlevel3dxd" \
 --container-name "tfstate" \
 --name networking_vnets.tfstate \
---file "/tf/caf/{{gcc_starter_project_folder}}_{{prefix}}_{{caf_environment}}/landingzone/configuration/level3/shared_services/networking_vnets.tfstate" \
+--file "/tf/caf/{{gcc_starter_project_folder}}_{{prefix}}_{{caf_environment}}/landingzone/configuration/level3/shared_services/shared_services.tfstate" \
 --auth-mode login
 ```
 
