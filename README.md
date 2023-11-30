@@ -199,7 +199,7 @@ az account set --subscription xxxxxxxx-xxxxxx-xxxx-xxxx-xxxxxxxxxxxx # subscript
 
 #### check prefix and subscription id
 
-#### A2. execute rover ignite to generate the caf terraform tfvars file
+#### A2. execute rover ignite to generate the terraform configuration files
 ```bash
 cd /tf/caf/ansible
 rover ignite --playbook /tf/caf/ansible/gcc-starter-playbook.yml
