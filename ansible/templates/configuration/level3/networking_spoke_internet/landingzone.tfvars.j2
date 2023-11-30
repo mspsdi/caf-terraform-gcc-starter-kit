@@ -1,6 +1,6 @@
 landingzone = {
   backend_type        = "azurerm"
-  global_settings_key = "launchpad"
+  global_settings_key = "shared_services"
   level               = "level3"
   key                 = "networking_spoke_internet" 
   tfstates = {
@@ -15,18 +15,6 @@ landingzone = {
     networking_spoke_management = { # vnet link for private dns
       level   = "current"
       tfstate = "networking_spoke_management.tfstate" # set to referenced landingzone tfstate name      
-    }   
-    networking_vnets = {
-      level   = "current"
-      tfstate = "networking_vnets.tfstate" # set to referenced landingzone tfstate name      
-    }           
-    # networking_firewall_egress_internet = {
-    #   level   = "current"
-    #   tfstate = "networking_firewall_egress_internet.tfstate" # set to referenced landingzone tfstate name      
-    # } 
-    # networking_firewall_egress_intranet = {
-    #   level   = "current"
-    #   tfstate = "networking_firewall_egress_intranet.tfstate" # set to referenced landingzone tfstate name      
-    # } 
+    }            
   }
 }

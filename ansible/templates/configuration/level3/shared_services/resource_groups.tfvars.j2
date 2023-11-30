@@ -10,4 +10,25 @@ resource_groups = {
       tier = "{{tier_code}}"        
     }   
   }
+  # Default to var.global_settings.default_region. You can overwrite it by setting the attribute region = "region2"
+  networking_re1 = {
+    name   = "gcci-platform"
+    tags = { 
+      purpose = "gcci-platform resource group" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"           
+    }  
+  }
+  law_re1 = {
+    name   = "gcci-agency-law"
+    tags = { 
+      purpose = "gcci-agency-law resource group" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"        
+    }  
+  }  
 }

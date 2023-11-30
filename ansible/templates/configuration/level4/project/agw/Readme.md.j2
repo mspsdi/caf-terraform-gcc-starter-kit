@@ -1,5 +1,5 @@
 
-rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/agw \
 -env {{caf_environment}} \
@@ -7,14 +7,14 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -a plan
 
 
-rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/agw \
 -env {{caf_environment}} \
 -tfstate solution_accelerators_agw.tfstate \
 -a apply
 
-rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/agw \
 -env {{caf_environment}} \

@@ -1,5 +1,5 @@
 
-rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/egress_intranet/firewall \
 -parallelism 30 \
@@ -8,7 +8,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -a plan
 
 
-rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/egress_intranet/firewall \
 -parallelism 30 \
@@ -16,7 +16,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -tfstate networking_firewall_egress_intranet.tfstate \
 -a apply
 
-rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/egress_intranet/firewall \
 -parallelism 30 \

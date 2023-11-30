@@ -8,12 +8,14 @@ vnet_peerings = {
   vnet_internet_re1_TO_vnet_hub_internet_ingress_re1 = {
     name = "vnet_internet_re1_TO_vnet_hub_internet_ingress_re1"
     from = {
-      {% if gcc_platform | trim != '1' %}
+{% if gcc_platform | trim != '1' %}
       vnet_key = "vnet_spoke_internet_re1"
       lz_key = "networking_spoke_internet"           
-      {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      {% endif %}     
+{% else %}
+      vnet_key = "vnet_spoke_internet_re1"
+      lz_key = "shared_services"         
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+{% endif %}     
     }
     to = {
       output_key = "vnets"
@@ -21,7 +23,9 @@ vnet_peerings = {
       lz_key     = "networking_hub_internet"
       vnet_key   = "vnet_hub_internet_ingress_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
+      lz_key = "shared_services"   
+      vnet_key   = "vnet_hub_internet_ingress_re1"      
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
       {% endif %}    
     }
     allow_virtual_network_access = true
@@ -38,7 +42,9 @@ vnet_peerings = {
       lz_key = "networking_hub_internet"
       vnet_key = "vnet_hub_internet_ingress_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
+      lz_key = "shared_services"  
+      vnet_key = "vnet_hub_internet_ingress_re1"      
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
       {% endif %}    
 
     }
@@ -47,7 +53,9 @@ vnet_peerings = {
       vnet_key = "vnet_spoke_internet_re1"
       lz_key = "networking_spoke_internet"           
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+      vnet_key = "vnet_spoke_internet_re1"
+      lz_key = "shared_services"         
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
       {% endif %}     
     }
     allow_virtual_network_access = true
@@ -64,7 +72,9 @@ vnet_peerings = {
       vnet_key = "vnet_spoke_internet_re1"
       lz_key = "networking_spoke_internet"           
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+      vnet_key = "vnet_spoke_internet_re1"
+      lz_key = "shared_services"               
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
       {% endif %}     
     }
     to = {
@@ -73,7 +83,9 @@ vnet_peerings = {
       lz_key     = "networking_hub_internet"
       vnet_key   = "vnet_hub_internet_egress_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
+      lz_key = "shared_services"  
+      vnet_key   = "vnet_hub_internet_egress_re1"      
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
       {% endif %}    
     }
     allow_virtual_network_access = true
@@ -90,7 +102,9 @@ vnet_peerings = {
       lz_key = "networking_hub_internet"
       vnet_key = "vnet_hub_internet_egress_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
+      lz_key = "shared_services"  
+      vnet_key = "vnet_hub_internet_egress_re1"      
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
       {% endif %}    
 
     }
@@ -99,7 +113,9 @@ vnet_peerings = {
       vnet_key = "vnet_spoke_internet_re1"
       lz_key = "networking_spoke_internet"           
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+      vnet_key = "vnet_spoke_internet_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
       {% endif %}     
     }
     allow_virtual_network_access = true
@@ -117,7 +133,9 @@ vnet_peerings = {
       lz_key     = "networking_spoke_management"         
       vnet_key = "vnet_hub_management_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+      vnet_key = "vnet_hub_management_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
       {% endif %}    
     }
     to = {
@@ -126,7 +144,9 @@ vnet_peerings = {
       lz_key     = "networking_hub_internet"
       vnet_key   = "vnet_hub_internet_ingress_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
+      vnet_key   = "vnet_hub_internet_ingress_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
       {% endif %}    
     }
     allow_virtual_network_access = true
@@ -143,7 +163,9 @@ vnet_peerings = {
       lz_key     = "networking_hub_internet"
       vnet_key   = "vnet_hub_internet_ingress_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
+      vnet_key   = "vnet_hub_internet_ingress_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
       {% endif %}    
     }
     to = {
@@ -151,7 +173,9 @@ vnet_peerings = {
       lz_key     = "networking_spoke_management"      
       vnet_key = "vnet_hub_management_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+      vnet_key = "vnet_hub_management_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
       {% endif %}    
     }
     allow_virtual_network_access = true
@@ -169,7 +193,9 @@ vnet_peerings = {
       lz_key     = "networking_spoke_management"         
       vnet_key = "vnet_hub_management_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+      vnet_key = "vnet_hub_management_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
       {% endif %}    
     }
     to = {
@@ -178,7 +204,9 @@ vnet_peerings = {
       lz_key     = "networking_hub_internet"
       vnet_key   = "vnet_hub_internet_egress_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
+      vnet_key   = "vnet_hub_internet_egress_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
       {% endif %}    
     }
     allow_virtual_network_access = true
@@ -195,7 +223,9 @@ vnet_peerings = {
       lz_key     = "networking_hub_internet"
       vnet_key   = "vnet_hub_internet_egress_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
+      vnet_key   = "vnet_hub_internet_egress_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
       {% endif %}    
     }
     to = {
@@ -203,7 +233,9 @@ vnet_peerings = {
       lz_key     = "networking_spoke_management"      
       vnet_key = "vnet_hub_management_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+      vnet_key = "vnet_hub_management_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
       {% endif %}    
     }
     allow_virtual_network_access = true
@@ -223,7 +255,9 @@ vnet_peerings = {
       lz_key     = "networking_spoke_management"          
       vnet_key = "vnet_hub_management_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+      vnet_key = "vnet_hub_management_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
       {% endif %}    
     }
     to = {
@@ -232,7 +266,9 @@ vnet_peerings = {
       lz_key     = "networking_spoke_internet"
       vnet_key   = "vnet_spoke_internet_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+      vnet_key   = "vnet_spoke_internet_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
       {% endif %}          
     }
     allow_virtual_network_access = true
@@ -249,7 +285,9 @@ vnet_peerings = {
       lz_key     = "networking_spoke_internet"
       vnet_key   = "vnet_spoke_internet_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+      vnet_key   = "vnet_spoke_internet_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
       {% endif %}    
     }
     to = {
@@ -257,7 +295,9 @@ vnet_peerings = {
       lz_key     = "networking_spoke_management"          
       vnet_key = "vnet_hub_management_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+      vnet_key = "vnet_hub_management_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
       {% endif %}    
     }
     allow_virtual_network_access = true
@@ -274,7 +314,9 @@ vnet_peerings = {
       lz_key     = "networking_spoke_management"          
       vnet_key = "vnet_hub_management_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+      vnet_key = "vnet_hub_management_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
       {% endif %}    
     }
     to = {
@@ -283,7 +325,9 @@ vnet_peerings = {
       lz_key     = "networking_spoke_devops"    
       vnet_key   = "vnet_spoke_devops_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}"
+      lz_key     = "networking_spoke_devops"    
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}"
       {% endif %}    
     }
     allow_virtual_network_access = true
@@ -300,7 +344,9 @@ vnet_peerings = {
       lz_key     = "networking_spoke_devops"    
       vnet_key   = "vnet_spoke_devops_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}"
+      vnet_key   = "vnet_spoke_devops_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}"
       {% endif %}    
     }
     to = {
@@ -308,7 +354,9 @@ vnet_peerings = {
       lz_key     = "networking_spoke_management"          
       vnet_key = "vnet_hub_management_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+      vnet_key = "vnet_hub_management_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
       {% endif %}    
     }
     allow_virtual_network_access = true
@@ -326,7 +374,9 @@ vnet_peerings = {
       lz_key     = "networking_spoke_devops"          
       vnet_key = "vnet_spoke_devops_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}"
+      vnet_key = "vnet_spoke_devops_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}"
       {% endif %}    
     }
     to = {
@@ -335,7 +385,9 @@ vnet_peerings = {
       lz_key     = "networking_spoke_internet"
       vnet_key   = "vnet_spoke_internet_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+      vnet_key   = "vnet_spoke_internet_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
       {% endif %}    
     }
     allow_virtual_network_access = true
@@ -352,7 +404,9 @@ vnet_peerings = {
       lz_key     = "networking_spoke_internet"
       vnet_key   = "vnet_spoke_internet_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+      vnet_key   = "vnet_spoke_internet_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
       {% endif %}    
     }
     to = {
@@ -360,7 +414,9 @@ vnet_peerings = {
       lz_key     = "networking_spoke_devops"      
       vnet_key = "vnet_spoke_devops_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}"
+      vnet_key = "vnet_spoke_devops_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}"
       {% endif %}    
     }
     allow_virtual_network_access = true
@@ -382,7 +438,9 @@ vnet_peerings = {
       vnet_key = "vnet_spoke_internet_re1"
       lz_key = "networking_spoke_internet"           
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+      vnet_key = "vnet_spoke_internet_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
       {% endif %}     
     }
     to = {
@@ -391,7 +449,9 @@ vnet_peerings = {
       lz_key     = "networking_hub_intranet"
       vnet_key   = "vnet_hub_intranet_ingress_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_intranet}}"
+      vnet_key   = "vnet_hub_intranet_ingress_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_intranet}}"
       {% endif %}    
     }
     allow_virtual_network_access = true
@@ -408,7 +468,9 @@ vnet_peerings = {
       lz_key = "networking_hub_intranet"
       vnet_key = "vnet_hub_intranet_ingress_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_intranet}}"
+      vnet_key = "vnet_hub_intranet_ingress_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_intranet}}"
       {% endif %}    
 
     }
@@ -417,7 +479,8 @@ vnet_peerings = {
       vnet_key = "vnet_spoke_internet_re1"
       lz_key = "networking_spoke_internet"           
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
       {% endif %}     
     }
     allow_virtual_network_access = true
@@ -434,7 +497,9 @@ vnet_peerings = {
       lz_key     = "networking_spoke_management"         
       vnet_key = "vnet_hub_management_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+      vnet_key = "vnet_hub_management_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
       {% endif %}    
     }
     to = {
@@ -443,7 +508,9 @@ vnet_peerings = {
       lz_key     = "networking_hub_intranet"
       vnet_key   = "vnet_hub_intranet_ingress_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_intranet}}"
+      vnet_key   = "vnet_hub_intranet_ingress_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_intranet}}"
       {% endif %}    
     }
     allow_virtual_network_access = true
@@ -460,7 +527,9 @@ vnet_peerings = {
       lz_key     = "networking_hub_intranet"
       vnet_key   = "vnet_hub_intranet_ingress_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_intranet}}"
+      vnet_key   = "vnet_hub_intranet_ingress_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_intranet}}"
       {% endif %}    
     }
     to = {
@@ -468,7 +537,9 @@ vnet_peerings = {
       lz_key     = "networking_spoke_management"      
       vnet_key = "vnet_hub_management_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+      vnet_key = "vnet_hub_management_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
       {% endif %}    
     }
     allow_virtual_network_access = true
@@ -488,7 +559,9 @@ vnet_peerings = {
       vnet_key = "vnet_spoke_internet_re1"
       lz_key = "networking_spoke_internet"           
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+      vnet_key = "vnet_spoke_internet_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
       {% endif %}     
     }
     to = {
@@ -497,7 +570,9 @@ vnet_peerings = {
       lz_key     = "networking_hub_internet"
       vnet_key   = "vnet_hub_intranet_egress_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
+      vnet_key   = "vnet_hub_intranet_egress_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
       {% endif %}    
     }
     allow_virtual_network_access = true
@@ -514,7 +589,9 @@ vnet_peerings = {
       lz_key = "networking_hub_internet"
       vnet_key = "vnet_hub_intranet_egress_re1"
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
+      vnet_key = "vnet_hub_intranet_egress_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
       {% endif %}    
 
     }
@@ -523,7 +600,9 @@ vnet_peerings = {
       vnet_key = "vnet_spoke_internet_re1"
       lz_key = "networking_spoke_internet"           
       {% else %}
-      id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+      vnet_key = "vnet_spoke_internet_re1"
+      lz_key = "shared_services"        
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
       {% endif %}     
     }
     allow_virtual_network_access = true
@@ -535,104 +614,5 @@ vnet_peerings = {
 {% endif %}    
 
 
-  # # intranet vnet to management vnet
-  # vnet_hub_management_re1_TO_vnet_intranet_re1 = {
-  #   name = "vnet_hub_management_re1_TO_vnet_intranet_re1"
-  #   from = {
-  #     vnet_key = "vnet_hub_management_re1"
-  #   }
-  #   to = {
-  #     lz_key     = "dev_env"
-  #     output_key = "vnets"
-  #     vnet_key   = "vnet_spoke_intranet_re1"
-  #   }
-  #   allow_virtual_network_access = true
-  #   allow_forwarded_traffic      = false
-  #   allow_gateway_transit        = false
-  #   use_remote_gateways          = false
-  # }
-
-  # vnet_intranet_re1_TO_vnet_hub_management_re1 = {
-  #   name = "vnet_intranet_re1_TO_vnet_hub_management_re1"
-  #   from = {
-  #     lz_key     = "dev_env"
-  #     output_key = "vnets"
-  #     vnet_key   = "vnet_spoke_intranet_re1"
-  #   }
-  #   to = {
-  #     vnet_key = "vnet_hub_management_re1"
-  #   }
-  #   allow_virtual_network_access = true
-  #   allow_forwarded_traffic      = true
-  #   allow_gateway_transit        = true
-  #   use_remote_gateways          = false
-  # }
-
-  # # intranet vnet to devops vnet
-  # vnet_spoke_devops_re1_TO_vnet_intranet_re1 = {
-  #   name = "vnet_spoke_devops_re1_TO_vnet_intranet_re1"
-  #   from = {
-  #     vnet_key = "vnet_spoke_devops_re1"
-  #   }
-  #   to = {
-  #     lz_key     = "dev_env"
-  #     output_key = "vnets"
-  #     vnet_key   = "vnet_spoke_intranet_re1"
-  #   }
-  #   allow_virtual_network_access = true
-  #   allow_forwarded_traffic      = false
-  #   allow_gateway_transit        = false
-  #   use_remote_gateways          = false
-  # }
-
-  # vnet_intranet_re1_TO_vnet_spoke_devops_re1 = {
-  #   name = "vnet_intranet_re1_TO_vnet_spoke_devops_re1"
-  #   from = {
-  #     lz_key     = "dev_env"
-  #     output_key = "vnets"
-  #     vnet_key   = "vnet_spoke_intranet_re1"
-  #   }
-  #   to = {
-  #     vnet_key = "vnet_spoke_devops_re1"
-  #   }
-  #   allow_virtual_network_access = true
-  #   allow_forwarded_traffic      = true
-  #   allow_gateway_transit        = true
-  #   use_remote_gateways          = false
-  # }  
-
-
-  # # intranet vnet to internet vnet
-  # vnet_internet_re1_TO_vnet_intranet_re1 = {
-  #   name = "vnet_internet_re1_TO_vnet_intranet_re1"
-  #   from = {
-  #     vnet_key = "vnet_spoke_internet_re1"
-  #   }
-  #   to = {
-  #     lz_key     = "dev_env"
-  #     output_key = "vnets"
-  #     vnet_key   = "vnet_spoke_intranet_re1"
-  #   }
-  #   allow_virtual_network_access = true
-  #   allow_forwarded_traffic      = false
-  #   allow_gateway_transit        = false
-  #   use_remote_gateways          = false
-  # }
-
-  # vnet_intranet_re1_TO_vnet_internet_re1 = {
-  #   name = "vnet_intranet_re1_TO_vnet_internet_re1"
-  #   from = {
-  #     lz_key     = "dev_env"
-  #     output_key = "vnets"
-  #     vnet_key   = "vnet_spoke_intranet_re1"
-  #   }
-  #   to = {
-  #     vnet_key = "vnet_spoke_internet_re1"
-  #   }
-  #   allow_virtual_network_access = true
-  #   allow_forwarded_traffic      = true
-  #   allow_gateway_transit        = true
-  #   use_remote_gateways          = false
-  # }    
 
 }

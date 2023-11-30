@@ -29,7 +29,7 @@ module.solution.module.aks_clusters["cluster_re1"].azurerm_kubernetes_cluster.ak
 
 # 6: Important *** TODO: vnet link of management vnet to private dns
 
-rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/aks \
 -env {{caf_environment}} \
@@ -37,7 +37,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -a plan
 
 
-rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/aks \
 -env {{caf_environment}} \
@@ -51,7 +51,7 @@ az aks update --name "{{project_code}}-rg-aks-re1" \
 
 
 
-rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/aks \
 -env {{caf_environment}} \

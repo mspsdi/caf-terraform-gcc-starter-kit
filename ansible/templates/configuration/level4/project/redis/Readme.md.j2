@@ -2,7 +2,7 @@
 # allow only via SSL
 # SSL Port 6380
 
-rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/redis \
 -parallelism 30 \
@@ -10,7 +10,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -tfstate solution_accelerators_redis.tfstate \
 -a plan
 
-rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/redis \
 -parallelism 30 \
@@ -18,7 +18,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -tfstate solution_accelerators_redis.tfstate \
 -a apply
 
-rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/redis \
 -parallelism 30 \

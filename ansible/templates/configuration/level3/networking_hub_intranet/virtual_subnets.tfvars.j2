@@ -10,7 +10,7 @@ virtual_subnets = {
     {% if gcc_platform_import | trim == '0' %}
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_intranet}}"
     {% else %}
-      lz_key = "networking_vnets"
+      lz_key = "shared_services"
       key = "vnet_hub_intranet_ingress_re1"              
     {% endif %}
     } 
@@ -24,7 +24,7 @@ virtual_subnets = {
     {% if gcc_platform_import | trim == '0' %}
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_intranet}}"
     {% else %}
-      lz_key = "networking_vnets"
+      lz_key = "shared_services"
       key = "vnet_hub_intranet_ingress_re1"              
     {% endif %}
     }     
@@ -40,7 +40,7 @@ virtual_subnets = {
     {% if gcc_platform_import | trim == '0' %}
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_intranet}}"
     {% else %}
-      lz_key = "networking_vnets"
+      lz_key = "shared_services"
       key = "vnet_hub_intranet_egress_re1"              
     {% endif %}
     } 
@@ -53,7 +53,7 @@ virtual_subnets = {
     {% if gcc_platform_import | trim == '0' %}
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_intranet}}"
     {% else %}
-      lz_key = "networking_vnets"
+      lz_key = "shared_services"
       key = "vnet_hub_intranet_egress_re1"              
     {% endif %}
     }      

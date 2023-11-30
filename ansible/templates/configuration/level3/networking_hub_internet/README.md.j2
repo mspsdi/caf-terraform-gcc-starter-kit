@@ -1,6 +1,6 @@
 
 
-rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_hub_internet \
 -env {{caf_environment}} \
@@ -8,14 +8,14 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -a plan
 
 
-rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_hub_internet \
 -env {{caf_environment}} \
 -tfstate networking_hub_internet.tfstate \
 -a apply
 
-rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_hub_internet \
 -env {{caf_environment}} \

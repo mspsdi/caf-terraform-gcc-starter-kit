@@ -4,7 +4,7 @@
 # =================================================
 
 
-rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_private_dns \
 -env {{caf_environment}} \
@@ -12,14 +12,14 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -tfstate networking_private_dns.tfstate \
 -a plan
 
-rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_private_dns \
 -env {{caf_environment}} \
 -tfstate networking_private_dns.tfstate \
 -a apply
 
-rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_private_dns \
 -env {{caf_environment}} \

@@ -1,6 +1,6 @@
 landingzone = {
   backend_type        = "azurerm"
-  global_settings_key = "launchpad"
+  global_settings_key = "shared_services"
   level               = "level3"
   key                 = "vnet_peering"
   tfstates = {
@@ -8,6 +8,10 @@ landingzone = {
       level   = "lower"
       tfstate = "level0_launchpad.tfstate"
     }
+    shared_services = {
+      level   = "current"
+      tfstate = "shared_services.tfstate" # set to referenced landingzone tfstate name      
+    }     
     networking_spoke_devops = {
       level   = "current"
       tfstate = "networking_spoke_devops.tfstate" # set to referenced landingzone tfstate name      

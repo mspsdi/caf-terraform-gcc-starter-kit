@@ -27,7 +27,7 @@ private_dns = {
 {% if gcc_platform_import | trim == '0' %}
         virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
 {% else %}
-        lz_key = "networking_vnets"
+        lz_key = "shared_services"
         vnet_key = "vnet_hub_internet_ingress_re1"              
 {% endif %}
       

@@ -1,6 +1,6 @@
 landingzone = {
   backend_type        = "azurerm"
-  global_settings_key = "launchpad"
+  global_settings_key = "shared_services"
   level               = "level4"
   key                 = "aks" 
   tfstates = {
@@ -15,10 +15,6 @@ landingzone = {
     networking_spoke_management = {
       level   = "lower"
       tfstate = "networking_spoke_management.tfstate"       
-    }       
-    networking_vnets = {
-      level   = "lower"
-      tfstate = "networking_vnets.tfstate" # set to referenced landingzone tfstate name      
-    }     
+    }         
   }
 }

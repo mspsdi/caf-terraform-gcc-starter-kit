@@ -2,7 +2,7 @@ landingzone = {
   backend_type        = "azurerm"
   level               = "level4"
   key                 = "cosmodb"      
-  global_settings_key = "launchpad" 
+  global_settings_key = "shared_services" 
   tfstates = {
     shared_services = {
       level   = "lower"
@@ -11,10 +11,6 @@ landingzone = {
     networking_spoke_internet = {
       level   = "lower"
       tfstate = "networking_spoke_internet.tfstate"       
-    }     
-    networking_vnets = {
-      level   = "lower"
-      tfstate = "networking_vnets.tfstate" # set to referenced landingzone tfstate name      
-    }    
+    }      
   }
 }

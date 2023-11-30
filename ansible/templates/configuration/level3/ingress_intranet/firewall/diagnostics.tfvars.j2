@@ -33,8 +33,7 @@ diagnostics_destinations = {
   # Storage keys must reference the azure region name
   log_analytics = {  # <- this is destination type
     central_logs = { # <- this is destination key
-      # hange to your subscription id law
-      log_analytics_resource_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{log_analytics_workspace_resource_group_name}}/providers/Microsoft.OperationalInsights/workspaces/{{log_analytics_workspace_name}}",
+      log_analytics_key = "central_logs_region1"
       log_analytics_destination_type = "Dedicated"
     }
   }

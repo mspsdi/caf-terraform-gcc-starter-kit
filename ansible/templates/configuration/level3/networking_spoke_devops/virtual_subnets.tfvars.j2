@@ -18,7 +18,7 @@ virtual_subnets = {
 {% if gcc_platform_import | trim == '0' %}
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}"
 {% else %}
-      lz_key = "networking_vnets"
+      lz_key = "shared_services"
       key = "vnet_spoke_devops_re1"              
 {% endif %}
     } 
@@ -33,7 +33,7 @@ virtual_subnets = {
 {% if gcc_platform_import | trim == '0' %}
       id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}"
 {% else %}
-      lz_key = "networking_vnets"
+      lz_key = "shared_services"
       key = "vnet_spoke_devops_re1"              
 {% endif %}
     }    

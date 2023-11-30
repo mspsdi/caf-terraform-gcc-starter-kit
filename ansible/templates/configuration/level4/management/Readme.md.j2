@@ -17,7 +17,7 @@
 
 # ----------------------------------------------------------------------------------------
 
-rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/management \
 -parallelism 30 \
@@ -25,7 +25,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -tfstate solution_accelerators_management.tfstate \
 -a plan
 
-rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/management \
 -parallelism 30 \
@@ -33,7 +33,7 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -tfstate solution_accelerators_management.tfstate \
 -a apply
 
-rover -lz rover -lz /tf/caf/landingzones/caf_solution \
+rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/management \
 -parallelism 30 \
