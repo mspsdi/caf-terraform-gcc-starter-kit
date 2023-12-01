@@ -127,13 +127,7 @@ azurerm_firewall_policy_rule_collection_groups = {
               }              
             }
             source_addresses  = ["*"]
-
-            # ingress_internet_aks_fqdn: aks-demoapp1 # dummy value  
-            # ingress_intranet_aks_fqdn: # dummy value    
-            # ingress_internet_agw_fqdn: demoapp1 # dummy value demoapp1.internet.caflabs.com 
-            # ingress_intranet_agw_fqdn:  # dummy value demoapp1.intranet.caflabs.com    
-            # ingress_internet_dns_zone: internet.dso.gov.sg # dummy value demoapp1.internet.caflabs.com 
-                        
+           
             destination_fqdns = ["{{ingress_internet_agw_fqdn}}.{{ingress_internet_dns_zone}}"] # ["demoapp1.internet.caflabs.com"] # TODO: change to your applicaiton fdqn
           }
         }

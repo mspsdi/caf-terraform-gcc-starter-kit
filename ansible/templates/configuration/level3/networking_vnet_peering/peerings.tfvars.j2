@@ -8,25 +8,17 @@ vnet_peerings = {
   vnet_internet_re1_TO_vnet_hub_internet_ingress_re1 = {
     name = "vnet_internet_re1_TO_vnet_hub_internet_ingress_re1"
     from = {
-{% if gcc_platform | trim != '1' %}
-      vnet_key = "vnet_spoke_internet_re1"
-      lz_key = "networking_spoke_internet"           
-{% else %}
       vnet_key = "vnet_spoke_internet_re1"
       lz_key = "shared_services"         
-      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-{% endif %}     
+      # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"   
     }
     to = {
       output_key = "vnets"
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_hub_internet"
-      vnet_key   = "vnet_hub_internet_ingress_re1"
-      {% else %}
+
       lz_key = "shared_services"   
       vnet_key   = "vnet_hub_internet_ingress_re1"      
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
-      {% endif %}    
+
     }
     allow_virtual_network_access = true
     allow_forwarded_traffic      = false
@@ -38,25 +30,19 @@ vnet_peerings = {
     name = "vnet_hub_internet_ingress_re1_TO_vnet_internet_re1"
     from = {
       output_key = "vnets"
-      {% if gcc_platform | trim != '1' %}
-      lz_key = "networking_hub_internet"
-      vnet_key = "vnet_hub_internet_ingress_re1"
-      {% else %}
+
       lz_key = "shared_services"  
       vnet_key = "vnet_hub_internet_ingress_re1"      
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
-      {% endif %}    
+
 
     }
     to = {
-      {% if gcc_platform | trim != '1' %}
-      vnet_key = "vnet_spoke_internet_re1"
-      lz_key = "networking_spoke_internet"           
-      {% else %}
+
       vnet_key = "vnet_spoke_internet_re1"
       lz_key = "shared_services"         
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      {% endif %}     
+   
     }
     allow_virtual_network_access = true
     allow_forwarded_traffic      = true
@@ -68,25 +54,19 @@ vnet_peerings = {
   vnet_internet_re1_TO_vnet_hub_internet_egress_re1 = {
     name = "vnet_internet_re1_TO_vnet_hub_internet_egress_re1"
     from = {
-      {% if gcc_platform | trim != '1' %}
-      vnet_key = "vnet_spoke_internet_re1"
-      lz_key = "networking_spoke_internet"           
-      {% else %}
+
       vnet_key = "vnet_spoke_internet_re1"
       lz_key = "shared_services"               
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      {% endif %}     
+  
     }
     to = {
       output_key = "vnets"
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_hub_internet"
-      vnet_key   = "vnet_hub_internet_egress_re1"
-      {% else %}
+
       lz_key = "shared_services"  
       vnet_key   = "vnet_hub_internet_egress_re1"      
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
-      {% endif %}    
+
     }
     allow_virtual_network_access = true
     allow_forwarded_traffic      = false
@@ -98,25 +78,19 @@ vnet_peerings = {
     name = "vnet_hub_internet_egress_re1_TO_vnet_internet_re1"
     from = {
       output_key = "vnets"
-      {% if gcc_platform | trim != '1' %}
-      lz_key = "networking_hub_internet"
-      vnet_key = "vnet_hub_internet_egress_re1"
-      {% else %}
+
       lz_key = "shared_services"  
       vnet_key = "vnet_hub_internet_egress_re1"      
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
-      {% endif %}    
+
 
     }
     to = {
-      {% if gcc_platform | trim != '1' %}
-      vnet_key = "vnet_spoke_internet_re1"
-      lz_key = "networking_spoke_internet"           
-      {% else %}
+
       vnet_key = "vnet_spoke_internet_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      {% endif %}     
+
     }
     allow_virtual_network_access = true
     allow_forwarded_traffic      = true
@@ -129,25 +103,19 @@ vnet_peerings = {
   vnet_hub_management_re1_TO_vnet_hub_internet_ingress_re1 = {
     name = "vnet_hub_management_re1_TO_vnet_hub_internet_ingress_re1"
     from = {
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_spoke_management"         
-      vnet_key = "vnet_hub_management_re1"
-      {% else %}
+
       vnet_key = "vnet_hub_management_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-      {% endif %}    
+ 
     }
     to = {
       output_key = "vnets"
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_hub_internet"
-      vnet_key   = "vnet_hub_internet_ingress_re1"
-      {% else %}
+
       vnet_key   = "vnet_hub_internet_ingress_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
-      {% endif %}    
+
     }
     allow_virtual_network_access = true
     allow_forwarded_traffic      = false
@@ -159,24 +127,18 @@ vnet_peerings = {
     name = "vnet_hub_internet_ingress_re1_TO_vnet_management_re1"
     from = {
       output_key = "vnets"
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_hub_internet"
-      vnet_key   = "vnet_hub_internet_ingress_re1"
-      {% else %}
+
       vnet_key   = "vnet_hub_internet_ingress_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
-      {% endif %}    
+ 
     }
     to = {
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_spoke_management"      
-      vnet_key = "vnet_hub_management_re1"
-      {% else %}
+
       vnet_key = "vnet_hub_management_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-      {% endif %}    
+
     }
     allow_virtual_network_access = true
     allow_forwarded_traffic      = true
@@ -189,25 +151,19 @@ vnet_peerings = {
   vnet_hub_management_re1_TO_vnet_hub_internet_egress_re1 = {
     name = "vnet_hub_management_re1_TO_vnet_hub_internet_egress_re1"
     from = {
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_spoke_management"         
-      vnet_key = "vnet_hub_management_re1"
-      {% else %}
+
       vnet_key = "vnet_hub_management_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-      {% endif %}    
+  
     }
     to = {
       output_key = "vnets"
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_hub_internet"
-      vnet_key   = "vnet_hub_internet_egress_re1"
-      {% else %}
+
       vnet_key   = "vnet_hub_internet_egress_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
-      {% endif %}    
+
     }
     allow_virtual_network_access = true
     allow_forwarded_traffic      = false
@@ -219,24 +175,18 @@ vnet_peerings = {
     name = "vnet_hub_internet_egress_re1_TO_vnet_management_re1"
     from = {
       output_key = "vnets"
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_hub_internet"
-      vnet_key   = "vnet_hub_internet_egress_re1"
-      {% else %}
+
       vnet_key   = "vnet_hub_internet_egress_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
-      {% endif %}    
+  
     }
     to = {
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_spoke_management"      
-      vnet_key = "vnet_hub_management_re1"
-      {% else %}
+
       vnet_key = "vnet_hub_management_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-      {% endif %}    
+
     }
     allow_virtual_network_access = true
     allow_forwarded_traffic      = true
@@ -251,25 +201,19 @@ vnet_peerings = {
   vnet_hub_management_re1_TO_vnet_internet_re1 = {
     name = "vnet_hub_management_re1_TO_vnet_internet_re1"
     from = {
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_spoke_management"          
-      vnet_key = "vnet_hub_management_re1"
-      {% else %}
+
       vnet_key = "vnet_hub_management_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-      {% endif %}    
+ 
     }
     to = {
       output_key = "vnets"
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_spoke_internet"
-      vnet_key   = "vnet_spoke_internet_re1"
-      {% else %}
+
       vnet_key   = "vnet_spoke_internet_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      {% endif %}          
+      
     }
     allow_virtual_network_access = true
     allow_forwarded_traffic      = false
@@ -281,24 +225,18 @@ vnet_peerings = {
     name = "vnet_internet_re1_TO_vnet_hub_management_re1"
     from = {
       output_key = "vnets"
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_spoke_internet"
-      vnet_key   = "vnet_spoke_internet_re1"
-      {% else %}
+
       vnet_key   = "vnet_spoke_internet_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      {% endif %}    
+
     }
     to = {
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_spoke_management"          
-      vnet_key = "vnet_hub_management_re1"
-      {% else %}
+
       vnet_key = "vnet_hub_management_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-      {% endif %}    
+
     }
     allow_virtual_network_access = true
     allow_forwarded_traffic      = true
@@ -310,25 +248,19 @@ vnet_peerings = {
   vnet_hub_management_re1_TO_vnet_spoke_devops_re1 = {
     name = "vnet_hub_management_re1_TO_vnet_spoke_devops_re1"
     from = {
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_spoke_management"          
-      vnet_key = "vnet_hub_management_re1"
-      {% else %}
+
       vnet_key = "vnet_hub_management_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-      {% endif %}    
+ 
     }
     to = {
       output_key = "vnets"
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_spoke_devops"    
-      vnet_key   = "vnet_spoke_devops_re1"
-      {% else %}
+
       lz_key     = "networking_spoke_devops"    
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}"
-      {% endif %}    
+
     }
     allow_virtual_network_access = true
     allow_forwarded_traffic      = false
@@ -340,24 +272,18 @@ vnet_peerings = {
     name = "vnet_spoke_devops_re1_TO_vnet_hub_management_re1"
     from = {
       output_key = "vnets"
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_spoke_devops"    
-      vnet_key   = "vnet_spoke_devops_re1"
-      {% else %}
+
       vnet_key   = "vnet_spoke_devops_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}"
-      {% endif %}    
+  
     }
     to = {
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_spoke_management"          
-      vnet_key = "vnet_hub_management_re1"
-      {% else %}
+
       vnet_key = "vnet_hub_management_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-      {% endif %}    
+
     }
     allow_virtual_network_access = true
     allow_forwarded_traffic      = true
@@ -370,25 +296,19 @@ vnet_peerings = {
   vnet_spoke_devops_re1_TO_vnet_internet_re1 = {
     name = "vnet_spoke_devops_re1_TO_vnet_internet_re1"
     from = {
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_spoke_devops"          
-      vnet_key = "vnet_spoke_devops_re1"
-      {% else %}
+
       vnet_key = "vnet_spoke_devops_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}"
-      {% endif %}    
+  
     }
     to = {
       output_key = "vnets"
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_spoke_internet"
-      vnet_key   = "vnet_spoke_internet_re1"
-      {% else %}
+
       vnet_key   = "vnet_spoke_internet_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      {% endif %}    
+ 
     }
     allow_virtual_network_access = true
     allow_forwarded_traffic      = false
@@ -400,24 +320,18 @@ vnet_peerings = {
     name = "vnet_internet_re1_TO_vnet_spoke_devops_re1"
     from = {
       output_key = "vnets"
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_spoke_internet"
-      vnet_key   = "vnet_spoke_internet_re1"
-      {% else %}
+
       vnet_key   = "vnet_spoke_internet_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      {% endif %}    
+
     }
     to = {
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_spoke_devops"      
-      vnet_key = "vnet_spoke_devops_re1"
-      {% else %}
+
       vnet_key = "vnet_spoke_devops_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}"
-      {% endif %}    
+
     }
     allow_virtual_network_access = true
     allow_forwarded_traffic      = true
@@ -434,25 +348,19 @@ vnet_peerings = {
   vnet_internet_re1_TO_vnet_hub_intranet_ingress_re1 = {
     name = "vnet_internet_re1_TO_vnet_hub_intranet_ingress_re1"
     from = {
-      {% if gcc_platform | trim != '1' %}
-      vnet_key = "vnet_spoke_internet_re1"
-      lz_key = "networking_spoke_internet"           
-      {% else %}
+
       vnet_key = "vnet_spoke_internet_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      {% endif %}     
+  
     }
     to = {
       output_key = "vnets"
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_hub_intranet"
-      vnet_key   = "vnet_hub_intranet_ingress_re1"
-      {% else %}
+
       vnet_key   = "vnet_hub_intranet_ingress_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_intranet}}"
-      {% endif %}    
+  
     }
     allow_virtual_network_access = true
     allow_forwarded_traffic      = false
@@ -464,24 +372,17 @@ vnet_peerings = {
     name = "vnet_hub_intranet_ingress_re1_TO_vnet_internet_re1"
     from = {
       output_key = "vnets"
-      {% if gcc_platform | trim != '1' %}
-      lz_key = "networking_hub_intranet"
-      vnet_key = "vnet_hub_intranet_ingress_re1"
-      {% else %}
+
       vnet_key = "vnet_hub_intranet_ingress_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_intranet}}"
-      {% endif %}    
+ 
 
     }
     to = {
-      {% if gcc_platform | trim != '1' %}
-      vnet_key = "vnet_spoke_internet_re1"
-      lz_key = "networking_spoke_internet"           
-      {% else %}
       lz_key = "shared_services"        
+      vnet_key = "vnet_spoke_internet_re1"
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      {% endif %}     
     }
     allow_virtual_network_access = true
     allow_forwarded_traffic      = true
@@ -493,25 +394,19 @@ vnet_peerings = {
   vnet_hub_management_re1_TO_vnet_hub_intranet_ingress_re1 = {
     name = "vnet_hub_management_re1_TO_vnet_hub_intranet_ingress_re1"
     from = {
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_spoke_management"         
-      vnet_key = "vnet_hub_management_re1"
-      {% else %}
+
       vnet_key = "vnet_hub_management_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-      {% endif %}    
+
     }
     to = {
       output_key = "vnets"
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_hub_intranet"
-      vnet_key   = "vnet_hub_intranet_ingress_re1"
-      {% else %}
+
       vnet_key   = "vnet_hub_intranet_ingress_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_intranet}}"
-      {% endif %}    
+ 
     }
     allow_virtual_network_access = true
     allow_forwarded_traffic      = false
@@ -523,24 +418,18 @@ vnet_peerings = {
     name = "vnet_hub_intranet_ingress_re1_TO_vnet_management_re1"
     from = {
       output_key = "vnets"
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_hub_intranet"
-      vnet_key   = "vnet_hub_intranet_ingress_re1"
-      {% else %}
+
       vnet_key   = "vnet_hub_intranet_ingress_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_intranet}}"
-      {% endif %}    
+ 
     }
     to = {
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_spoke_management"      
-      vnet_key = "vnet_hub_management_re1"
-      {% else %}
+
       vnet_key = "vnet_hub_management_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-      {% endif %}    
+
     }
     allow_virtual_network_access = true
     allow_forwarded_traffic      = true
@@ -555,25 +444,19 @@ vnet_peerings = {
   vnet_internet_re1_TO_vnet_hub_intranet_egress_re1 = {
     name = "vnet_internet_re1_TO_vnet_hub_intranet_egress_re1"
     from = {
-      {% if gcc_platform | trim != '1' %}
-      vnet_key = "vnet_spoke_internet_re1"
-      lz_key = "networking_spoke_internet"           
-      {% else %}
+
       vnet_key = "vnet_spoke_internet_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      {% endif %}     
+   
     }
     to = {
       output_key = "vnets"
-      {% if gcc_platform | trim != '1' %}
-      lz_key     = "networking_hub_internet"
-      vnet_key   = "vnet_hub_intranet_egress_re1"
-      {% else %}
+
       vnet_key   = "vnet_hub_intranet_egress_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
-      {% endif %}    
+ 
     }
     allow_virtual_network_access = true
     allow_forwarded_traffic      = false
@@ -585,25 +468,19 @@ vnet_peerings = {
     name = "vnet_hub_intranet_egress_re1_TO_vnet_internet_re1"
     from = {
       output_key = "vnets"
-      {% if gcc_platform | trim != '1' %}
-      lz_key = "networking_hub_internet"
-      vnet_key = "vnet_hub_intranet_egress_re1"
-      {% else %}
+
       vnet_key = "vnet_hub_intranet_egress_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}"
-      {% endif %}    
+
 
     }
     to = {
-      {% if gcc_platform | trim != '1' %}
-      vnet_key = "vnet_spoke_internet_re1"
-      lz_key = "networking_spoke_internet"           
-      {% else %}
+
       vnet_key = "vnet_spoke_internet_re1"
       lz_key = "shared_services"        
       # id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      {% endif %}     
+ 
     }
     allow_virtual_network_access = true
     allow_forwarded_traffic      = true

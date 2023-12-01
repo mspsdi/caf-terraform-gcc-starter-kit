@@ -44,21 +44,12 @@ azurerm_redis_caches = {
         name               = "redis-re1"
         resource_group_key = "redis_rg_re1"
 
-{% if gcc_platform | trim == '1' %}
-
 {% if gcc_platform_import | trim == '0' %}
         subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-db-internet"
 {% else %}
         lz_key = "networking_spoke_internet"
         virtual_subnet_key = "db_internet_subnet"
 {% endif %} 
-
-{% else %}
-        vnet_key = "vnet_spoke_internet_re1"
-        subnet_key = "db_internet_subnet"
-        lz_key = "networking_spoke_internet"    
-        # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-db-internet"
-{% endif %}
 
         private_service_connection = {
           name                 = "redis"

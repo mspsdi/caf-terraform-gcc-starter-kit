@@ -20,7 +20,6 @@ virtual_machines = {
         #vnet_key                = "vnet_region1"
         #subnet_key              = "example"
         # management infra subnet        
-{% if gcc_platform | trim == '1' %}
 
 {% if gcc_platform_import | trim == '0' %}
         subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}/subnets/{{prefix}}-snet-infra-management"
@@ -29,13 +28,7 @@ virtual_machines = {
         lz_key = "networking_spoke_management"
         subnet_key = "management_infra_subnet"      
 {% endif %}    
-
-{% else %}
-        vnet_key = "vnet_hub_management_re1"
-        subnet_key = "management_infra_subnet"
-        lz_key = "networking_spoke_management"    
-        #    subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-management/subnets/escep-snet-infra-management"
-{% endif %}          
+       
         name                    = "0"
         enable_ip_forwarding    = false
         internal_dns_name_label = "nic0"

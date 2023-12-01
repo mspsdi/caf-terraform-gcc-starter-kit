@@ -3,7 +3,7 @@ bastion_hosts = {
     name               = "bastion-host"
     region             = "region1"
     resource_group_key = "bastion_rg_re1"
-{% if gcc_platform | trim == '1' %}
+
 
 {% if gcc_platform_import | trim == '0' %}
     subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}/subnets/AzureBastionSubnet"
@@ -12,13 +12,7 @@ bastion_hosts = {
     virtual_subnet_key = "AzureBastionSubnet"
 {% endif %}    
 
-{% else %}
-    vnet = {
-      vnet_key = "vnet_hub_management_re1"
-      subnet_key = "AzureBastionSubnet"
-      lz_key = "networking_spoke_management"    
-    }
-{% endif %}
+
     public_ip_key      = "bastion_host_pip_re1"
 
     tags = { 

@@ -6,54 +6,20 @@ azurerm_firewalls = {
     # add the resource group name to resolve the issue of subnet rg different from firewall rg
     # TODO: subnet resource group name - input as variable for code generation
     # ** firewall MUST be in the same resource group as VNet and Subnet AzureFirewallSubnet
-{% if gcc_platform | trim == '1' %}
-    resource_group_name = "{{resource_group_name}}" # the resource group name of the subnet  
 
+    sku_tier = "Premium"
+    firewall_policy_key = "policy1"    
 {% if gcc_platform_import | trim == '0' %}
+    resource_group_name = "{{resource_group_name}}" # the resource group name of the subnet    
     subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_intranet}}/subnets/AzureFirewallSubnet"
 {% else %}
+    resource_group_name = "{{prefix}}-rg-gcci-platform"  # the resource group name of the subnet - TODO: replace random characters
+
+    ## direct subnet_id reference
     lz_key = "networking_hub_intranet"
     virtual_subnet_key = "AzureFirewallSubnet"        
-{% endif %}   
-
-    sku_tier = "Premium"
-    firewall_policy_key = "policy1"    
-    public_ips = {
-      ip_configuration = {
-        name = "public-ip"
-        public_ip_key = "firewall_re1"
-{% if gcc_platform_import | trim == '0' %}
-        subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_intranet}}/subnets/AzureFirewallSubnet"
-{% else %}
-        lz_key = "networking_hub_intranet"
-        virtual_subnet_key = "AzureFirewallSubnet"        
-{% endif %}   
-
-      }
-    }
-{% else %}
-    resource_group_name = "{{prefix}}-rg-networking-hub-intranet-re1 " # the resource group name of the subnet  
-
-    vnet_key = "vnet_hub_intranet_ingress_re1"
-    subnet_key = "AzureFirewallSubnet"
-    lz_key = "networking_hub_intranet"    
-    # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-ingress-intranet/subnets/AzureFirewallSubnet"
-    sku_tier = "Premium"
-    firewall_policy_key = "policy1"    
-    public_ips = {
-      ip_configuration = {
-        name = "public-ip"
-        public_ip_key = "firewall_re1"
-        vnet_key = "vnet_hub_intranet_ingress_re1"
-        subnet_key = "AzureFirewallSubnet"
-        lz_key = "networking_hub_intranet"
-        # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-ingress-intranet/subnets/AzureFirewallSubnet"
-      }
-    }
-{% endif %}  
-
-
-
+    public_ip_key = "firewall_re1"
+{% endif %} 
 
     # management subnet is required for force tunneling
     #management_ip_configuration = {
@@ -64,7 +30,6 @@ azurerm_firewalls = {
     #  }
     #}    
 
-    # 27 Sep 2022 - add diagnostic_profiles and tags
     tags = { 
       purpose = "ingress networking spoke resource group" # replace with purpose
       project-code = "{{project_code}}" 

@@ -24,7 +24,8 @@ locals {
     gateway = {
       subnet_id = coalesce(
         try(local.gateway_vnet.subnets[var.settings.subnet_key].id, null),
-        try(var.settings.subnet_id, null)
+        try(var.settings.subnet_id, null),
+        try(var.virtual_subnets[try(var.settings.lz_key, var.client_config.landingzone_key)][var.settings.virtual_subnet_key].id,null)
       )
     }
 

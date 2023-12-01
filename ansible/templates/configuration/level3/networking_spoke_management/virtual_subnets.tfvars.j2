@@ -1,5 +1,4 @@
 
-{% if gcc_platform | trim == '1' %}
 virtual_subnets = {
 
   # begin management zone
@@ -49,8 +48,3 @@ virtual_subnets = {
   }  
   # end management zone
 }
-{% else %}
-#------------------------------------------------------
-# this page is leave blank intentionally
-#------------------------------------------------------
-{% endif %}

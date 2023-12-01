@@ -96,7 +96,7 @@
       # agw_ip_intranet: "{{configuration_application.agw_ip_intranet | trim}}"
 
       # gcc central managed configuration
-      gcc_platform: "{{configuration_gcc.gcc_platform | trim}}"          
+      gcc_platform: "1" # set to always 1 "{{configuration_gcc.gcc_platform | trim}}"          
       gcc_platform_import: "{{configuration_gcc.gcc_platform_import | trim}}"          
       tenant_id: "{{configuration_gcc.tenant_id | trim}}" 
       subscription_id: "{{configuration_gcc.subscription_id | trim}}" 
@@ -2271,6 +2271,12 @@
       template:
         src: "{{templates_folder}}/README.md.j2"   
         dest: "{{landingzone_parent_folder}}/README.md"
+
+# deploy_platform file
+    - name: deploy_platform.sh files
+      template:
+        src: "{{templates_folder}}/deploy_platform.sh.j2"   
+        dest: "{{landingzone_parent_folder}}/deploy_platform.sh"
 
 # ---------------------------------------------------------------------------------------------------
 # end readme file

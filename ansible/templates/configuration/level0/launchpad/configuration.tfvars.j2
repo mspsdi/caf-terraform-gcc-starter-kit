@@ -15,11 +15,7 @@ default_region = "region1"
 # of the unicity of the names you are giving. the CAF provider will clear out
 passthrough = false
 # adds random chars at the end of the names produced by the provider
-{% if gcc_platform | trim == '1' %}
-# random_length = 3
-{% else %}
-random_length = 3
-{% endif %}
+random_length = 0
 
 # Set the prefix that will be added to all azure resources.
 # if not set and passthrough=false, the CAF module generates a random one.

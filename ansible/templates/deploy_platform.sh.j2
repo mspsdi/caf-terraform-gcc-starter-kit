@@ -1,0 +1,467 @@
+
+#!/bin/bash
+# Define a timestamp function
+timestamp() {
+  date +"%T" # current time
+}
+echo "-----------------------------------------------------------------------------"  
+echo "begin deployment"  
+timestamp
+echo "-----------------------------------------------------------------------------"  
+echo " "  
+echo " "  
+
+
+echo "-----------------------------------------------------------------------------"  
+echo "start caf_launchpad"
+timestamp
+echo "-----------------------------------------------------------------------------"  
+echo " "  
+/tf/rover/rover.sh -lz /tf/caf/landingzones/caf_launchpad \
+-launchpad \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level0/launchpad \
+-skip-permission-check \
+-env {{caf_environment}} \
+-a apply
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo success
+  echo "-----------------------------------------------------------------------------"   
+  timestamp 
+  echo "end caf_launchpad"
+  echo "-----------------------------------------------------------------------------"    
+  echo " "    
+fi
+
+echo "-----------------------------------------------------------------------------"  
+echo "start shared_services"
+timestamp
+echo "-----------------------------------------------------------------------------"  
+echo " "  
+/tf/rover/rover.sh -lz  /tf/caf/landingzones/caf_solution \
+-level level3 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/shared_services \
+-env {{caf_environment}} \
+-tfstate shared_services.tfstate \
+-a apply
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo success
+  echo "-----------------------------------------------------------------------------"   
+  timestamp 
+  echo "end shared_services"
+  echo "-----------------------------------------------------------------------------"    
+  echo " "    
+fi
+
+
+echo "-----------------------------------------------------------------------------"  
+echo "start networking_spoke_management"
+timestamp
+echo "-----------------------------------------------------------------------------"  
+echo " "  
+/tf/rover/rover.sh -lz /tf/caf/landingzones/caf_solution \
+-level level3 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_management \
+-env {{caf_environment}} \
+-tfstate networking_spoke_management.tfstate \
+-a apply
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo success
+  echo "-----------------------------------------------------------------------------"   
+  timestamp 
+  echo "end networking_spoke_management"
+  echo "-----------------------------------------------------------------------------"    
+  echo " "    
+fi
+
+
+echo "-----------------------------------------------------------------------------"  
+echo "start networking_spoke_devops"
+timestamp
+echo "-----------------------------------------------------------------------------"  
+echo " "  
+/tf/rover/rover.sh -lz /tf/caf/landingzones/caf_solution \
+-level level3 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_devops \
+-env {{caf_environment}} \
+-tfstate networking_spoke_devops.tfstate \
+-a apply
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo success
+  echo "-----------------------------------------------------------------------------"   
+  timestamp 
+  echo "end networking_spoke_devops"
+  echo "-----------------------------------------------------------------------------"    
+  echo " "    
+fi
+
+
+echo "-----------------------------------------------------------------------------"  
+echo "start networking_hub_internet"
+timestamp
+echo "-----------------------------------------------------------------------------"  
+echo " "  
+/tf/rover/rover.sh -lz /tf/caf/landingzones/caf_solution \
+-level level3 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_hub_internet \
+-env {{caf_environment}} \
+-tfstate networking_hub_internet.tfstate \
+-a apply
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo success
+  echo "-----------------------------------------------------------------------------"   
+  timestamp 
+  echo "end networking_hub_internet"
+  echo "-----------------------------------------------------------------------------"    
+  echo " "    
+fi
+
+
+echo "-----------------------------------------------------------------------------"  
+echo "start networking_spoke_internet"
+timestamp
+echo "-----------------------------------------------------------------------------"  
+echo " "  
+/tf/rover/rover.sh -lz /tf/caf/landingzones/caf_solution \
+-level level3 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/networking_spoke_internet \
+-env {{caf_environment}} \
+-tfstate networking_spoke_internet.tfstate \
+-a apply
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo success
+  echo "-----------------------------------------------------------------------------"   
+  timestamp 
+  echo "end networking_spoke_internet"
+  echo "-----------------------------------------------------------------------------"    
+  echo " "    
+fi
+
+echo "-----------------------------------------------------------------------------"  
+echo "start networking_firewall_egress_internet"
+timestamp
+echo "-----------------------------------------------------------------------------"  
+echo " "  
+/tf/rover/rover.sh -lz /tf/caf/landingzones/caf_solution \
+-level level3 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/egress_internet/firewall \
+-env {{caf_environment}} \
+-tfstate networking_firewall_egress_internet.tfstate \
+-a apply
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo success
+  echo "-----------------------------------------------------------------------------"   
+  timestamp 
+  echo "end networking_firewall_egress_internet"
+  echo "-----------------------------------------------------------------------------"    
+  echo " "    
+fi
+
+
+echo "-----------------------------------------------------------------------------"  
+echo "start networking_firewall_egress_intranet"
+timestamp
+echo "-----------------------------------------------------------------------------"  
+echo " "  
+/tf/rover/rover.sh -lz /tf/caf/landingzones/caf_solution \
+-level level3 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/egress_intranet/firewall \
+-env {{caf_environment}} \
+-tfstate networking_firewall_egress_intranet.tfstate \
+-a apply
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo success
+  echo "-----------------------------------------------------------------------------"   
+  timestamp 
+  echo "end networking_firewall_egress_intranet"
+  echo "-----------------------------------------------------------------------------"    
+  echo " "    
+fi
+
+
+echo "-----------------------------------------------------------------------------"  
+echo "start solution_accelerators_agw_internet_ssl"
+timestamp
+echo "-----------------------------------------------------------------------------"  
+echo " "  
+/tf/rover/rover.sh -lz /tf/caf/landingzones/caf_solution \
+-level level3 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/ingress_internet/agw \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_agw_internet_ssl.tfstate \
+-a apply
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo success
+  echo "-----------------------------------------------------------------------------"   
+  timestamp 
+  echo "end solution_accelerators_agw_internet_ssl"
+  echo "-----------------------------------------------------------------------------"    
+  echo " "    
+fi
+
+echo "-----------------------------------------------------------------------------"  
+echo "start networking_firewall_ingress_internet"
+timestamp
+echo "-----------------------------------------------------------------------------"  
+echo " "  
+/tf/rover/rover.sh -lz /tf/caf/landingzones/caf_solution \
+-level level3 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/ingress_internet/firewall \
+-env {{caf_environment}} \
+-tfstate networking_firewall_ingress_internet.tfstate \
+-a apply
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo success
+  echo "-----------------------------------------------------------------------------"   
+  timestamp 
+  echo "end networking_firewall_ingress_internet"
+  echo "-----------------------------------------------------------------------------"    
+  echo " "    
+fi
+
+
+echo "-----------------------------------------------------------------------------"  
+echo "start solution_accelerators_devops"
+timestamp
+echo "-----------------------------------------------------------------------------"  
+echo " "  
+/tf/rover/rover.sh -lz  /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/devops \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_devops.tfstate \
+-a apply
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo success
+  echo "-----------------------------------------------------------------------------"   
+  timestamp 
+  echo "end solution_accelerators_devops"
+  echo "-----------------------------------------------------------------------------"    
+  echo " "    
+fi
+
+echo "-----------------------------------------------------------------------------"  
+echo "start solution_accelerators_management"
+timestamp
+echo "-----------------------------------------------------------------------------"  
+echo " "  
+/tf/rover/rover.sh -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/management \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_management.tfstate \
+-a apply
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo success
+  echo "-----------------------------------------------------------------------------"   
+  timestamp 
+  echo "end solution_accelerators_management"
+  echo "-----------------------------------------------------------------------------"    
+  echo " "    
+fi
+
+{% if internet_data_mssql | trim == '1' %}
+echo "-----------------------------------------------------------------------------"  
+echo "start solution_accelerators_mssql"
+timestamp
+echo "-----------------------------------------------------------------------------"  
+echo " "  
+/tf/rover/rover.sh -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/mssql \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_mssql.tfstate \
+-a apply
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo success
+  echo "-----------------------------------------------------------------------------"   
+  timestamp 
+  echo "end solution_accelerators_mssql"
+  echo "-----------------------------------------------------------------------------"    
+  echo " "    
+fi
+{% endif %}
+
+{% if internet_data_storage_account | trim == '1' %}
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo "-----------------------------------------------------------------------------"  
+  echo "begin solution_accelerators_storage_account"  
+  timestamp
+  echo "-----------------------------------------------------------------------------"  
+  echo " "  
+  /tf/rover/rover.sh  -lz /tf/caf/landingzones/caf_solution \
+  -level level4 \
+  -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/storage_account \
+  -env {{caf_environment}} \
+  -tfstate solution_accelerators_storage_account.tfstate \
+  -a apply
+fi
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo success
+  echo "-----------------------------------------------------------------------------"  
+  timestamp  
+  echo "end solution_accelerators_storage_account"
+  echo "-----------------------------------------------------------------------------"  
+  echo " "    
+fi
+{% endif %}
+
+{% if internet_app_keyvault | trim == '1' %}
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo "-----------------------------------------------------------------------------"  
+  echo "begin solution_accelerators_keyvault"  
+  timestamp  
+  echo "-----------------------------------------------------------------------------"  
+  echo " "  
+    /tf/rover/rover.sh -lz /tf/caf/landingzones/caf_solution \
+  -level level4 \
+  -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/keyvault \
+  -env {{caf_environment}} \
+  -tfstate solution_accelerators_keyvault.tfstate \
+  -a apply
+fi
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo success
+  echo "-----------------------------------------------------------------------------"  
+  timestamp  
+  echo "end solution_accelerators_keyvault"
+  echo "-----------------------------------------------------------------------------"  
+  echo " "    
+fi
+{% endif %}
+
+{% if internet_app_logic_app | trim == '1' %}
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo "-----------------------------------------------------------------------------"  
+  echo "begin solution_accelerators_logic_app"  
+  timestamp  
+  echo "-----------------------------------------------------------------------------"  
+  echo " "  
+  /tf/rover/rover.sh -lz /tf/caf/landingzones/caf_solution \
+  -level level4 \
+  -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/logic_app \
+  -env {{caf_environment}} \
+  -tfstate solution_accelerators_logic_app.tfstate \
+  -a apply
+fi
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo success
+  timestamp
+  echo "-----------------------------------------------------------------------------"  
+  timestamp  
+  echo "end solution_accelerators_logic_app"
+  echo "-----------------------------------------------------------------------------"  
+  echo " "    
+fi
+{% endif %}
+
+{% if internet_app_app_service | trim == '1' %}
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo "-----------------------------------------------------------------------------"  
+  echo "begin solution_accelerators_app_service"  
+  timestamp  
+  echo "-----------------------------------------------------------------------------"  
+  echo " "  
+  /tf/rover/rover.sh -lz  /tf/caf/landingzones/caf_solution \
+  -level level4 \
+  -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/app_service \
+  -env {{caf_environment}} \
+  -tfstate solution_accelerators_app_service.tfstate \
+  -a apply
+fi
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo success
+  timestamp
+  echo "-----------------------------------------------------------------------------"  
+  timestamp  
+  echo "end solution_accelerators_app_service"
+  echo "-----------------------------------------------------------------------------"  
+  echo " "    
+fi
+{% endif %}
+
+{% if internet_data_cosmosdb | trim == '1' %}
+{% endif %}
+
+{% if internet_app_aks | trim == '1' %}
+{% endif %}
+
+{% if internet_app_linux_function_app | trim == '1' %}
+{% endif %}
+
+{% if internet_app_openai | trim == '1' %}
+{% endif %}
+
+{% if internet_app_search_service | trim == '1' %}
+{% endif %}
+
+{% if internet_app_agw | trim == '1' %}
+{% endif %}
+
+{% if internet_app_container_instance | trim == '1' %}
+{% endif %}
+
+{% if internet_app_apim | trim == '1' %}
+{% endif %}
+
+{% if internet_data_redis_cache | trim == '1' %}
+{% endif %}
+
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo " "    
+  echo " "    
+  echo "-----------------------------------------------------------------------------"    
+  timestamp
+  echo "end deployment"  
+  echo "-----------------------------------------------------------------------------"    
+else
+  echo failed
+fi
+
+
+
+
+
+
+
+
+

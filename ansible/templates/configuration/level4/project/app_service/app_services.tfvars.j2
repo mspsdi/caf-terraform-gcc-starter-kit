@@ -21,7 +21,6 @@ app_services = {
     application_insight_key = "app_insights1"
 
     # outbound access - vnet ingration: vnet_spoke_internet_re1 - outbound subnet: web_internet_subnet 
-{% if gcc_platform | trim == '1' %}
 
 {% if gcc_platform_import | trim == '0' %}
     subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-web-internet"
@@ -31,15 +30,6 @@ app_services = {
       virtual_subnet_key = "web_internet_subnet"
     }
 {% endif %} 
-
-{% else %}
-    vnet_integration = {
-      vnet_key = "vnet_spoke_internet_re1"
-      subnet_key = "web_internet_subnet"
-      lz_key = "networking_spoke_internet"    
-      # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-web-internet"
-    }
-{% endif %}
 
     diagnostic_profiles = {
       central_logs_region = {
@@ -62,7 +52,6 @@ app_services = {
       # Require enforce_private_link_endpoint_network_policies set to true on the subnet
       pe1_webapp = {
         name       = "pep-web-app"
-{% if gcc_platform | trim == '1' %}
 
 {% if gcc_platform_import | trim == '0' %}
         subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-app-internet"
@@ -70,13 +59,6 @@ app_services = {
         lz_key = "networking_spoke_internet"
         virtual_subnet_key = "app_internet_subnet"
 {% endif %} 
-
-{% else %}
-        vnet_key = "vnet_spoke_internet_re1"
-        subnet_key = "app_internet_subnet"
-        lz_key = "networking_spoke_internet"    
-        # subnet_id = subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-app-internet"
-{% endif %}
 
         resource_group_key = "webapp_rg_re1"
 
@@ -240,9 +222,6 @@ app_services = {
     application_insight_key = "app_insights1"
 
     # outbound access - vnet ingration: vnet_spoke_internet_re1 - outbound subnet: web_internet_subnet 
-{% if gcc_platform | trim == '1' %}
-
-
     {% if gcc_platform_import | trim == '0' %}
     subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-web-internet"
     {% else %}
@@ -251,16 +230,6 @@ app_services = {
       virtual_subnet_key = "web_internet_subnet"
     }
     {% endif %} 
-
-
-{% else %}
-    vnet_integration = {
-      vnet_key = "vnet_spoke_internet_re1"
-      subnet_key = "web_internet_subnet"
-      lz_key = "networking_spoke_internet"    
-      # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-web-internet"
-    }
-{% endif %}
 
     diagnostic_profiles = {
       central_logs_region = {
@@ -284,26 +253,12 @@ app_services = {
       pe1_webapp = {
         name       = "pep-web-app2"
 
-        # vnet_key = "vnet_spoke_internet_re1"
-        # subnet_key = "app_internet_subnet"
-        # lz_key = "networking_spoke_internet"    
-        # subnet_id = subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-app-internet"
-
-{% if gcc_platform | trim == '1' %}
-
         {% if gcc_platform_import | trim == '0' %}
         subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-app-internet"
         {% else %}
         lz_key = "networking_spoke_internet"
         virtual_subnet_key = "app_internet_subnet"
         {% endif %} 
-
-{% else %}
-        vnet_key = "vnet_spoke_internet_re1"
-        subnet_key = "app_internet_subnet"
-        lz_key = "networking_spoke_internet"    
-        # subnet_id = subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-app-internet"
-{% endif %}
 
         resource_group_key = "webapp_rg_re1"
 

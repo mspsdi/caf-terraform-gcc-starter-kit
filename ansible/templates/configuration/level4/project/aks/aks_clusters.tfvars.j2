@@ -62,21 +62,12 @@ aks_clusters = {
     private_endpoints = {
       pe1 = {
         name = "aks-pe"
-{% if gcc_platform | trim == '1' %}
-
         {% if gcc_platform_import | trim == '0' %}
         subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-app-internet"
         {% else %}
         lz_key = "networking_spoke_internet"
         virtual_subnet_key = "app_internet_subnet"
         {% endif %} 
-
-{% else %}
-        vnet_key = "vnet_spoke_internet_re1"
-        subnet_key = "app_internet_subnet"
-        lz_key = "networking_spoke_internet"    
-        # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-app-internet"
-{% endif %} 
 
         private_service_connection = {
           name                 = "aks-psc"
@@ -106,21 +97,12 @@ aks_clusters = {
     #   type = "SystemAssigned"
     # }
 
-{% if gcc_platform | trim == '1' %}
-
     {% if gcc_platform_import | trim == '0' %}
     subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-app-internet"
     {% else %}
     lz_key = "networking_spoke_internet"
     virtual_subnet_key = "app_internet_subnet"
     {% endif %} 
-
-{% else %}
-    vnet_key = "vnet_spoke_internet_re1"
-    subnet_key = "app_internet_subnet"
-    lz_key = "networking_spoke_internet"    
-    # subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-app-internet"
-{% endif %} 
 
     # TODO: Azure AAD RBAC will required kubelogin for authentication
     # role_based_access_control = {
@@ -146,8 +128,6 @@ aks_clusters = {
       name    = "sharedsvc" # max length of 12, and only have characters a-z0-9
       vm_size = "Standard_D8ls_v5"  # "Standard_DS2_v2" # "Standard_F4s_v2" # "Standard_DS2_v2"
 
-{% if gcc_platform | trim == '1' %}
-
 {% if gcc_platform_import | trim == '0' %}
       subnet = {
         resource_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-app-internet"
@@ -155,13 +135,6 @@ aks_clusters = {
 {% else %}
       lz_key = "networking_spoke_internet"
       virtual_subnet_key = "app_internet_subnet"
-{% endif %} 
-
-{% else %}
-      vnet_key = "vnet_spoke_internet_re1"
-      subnet_key = "app_internet_subnet"
-      lz_key = "networking_spoke_internet"    
-      # resource_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-app-internet"
 {% endif %} 
 
       # availability_zones           = ["3"] # ["1","2","3"] # set to 3 AZs for production
@@ -191,8 +164,6 @@ aks_clusters = {
         name                = "npuser01"
         mode                = "User"
 
-{% if gcc_platform | trim == '1' %}
-
       {% if gcc_platform_import | trim == '0' %}
         subnet = {
           resource_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-app-internet"
@@ -201,13 +172,6 @@ aks_clusters = {
         lz_key = "networking_spoke_internet"
         virtual_subnet_key = "app_internet_subnet"
       {% endif %} 
-
-{% else %}
-        vnet_key = "vnet_spoke_internet_re1"
-        subnet_key = "app_internet_subnet"
-        lz_key = "networking_spoke_internet"    
-        # resource_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-app-internet"
-{% endif %} 
 
         # availability_zones           = ["3"] # ["1","2","3"] # set to 3 AZs for production
         max_pods            = 15 # 30
@@ -236,13 +200,9 @@ aks_clusters = {
     addon_profile = {
       oms_agent = {
         enabled = true
-{% if gcc_platform | trim == '1' %}
         # use "log_analytics_workspace_id" if using central log analytics workspace from gcc
+        # TODO: remove and change it to key - WIP
         log_analytics_workspace_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{log_analytics_workspace_resource_group_name}}/providers/Microsoft.OperationalInsights/workspaces/{{log_analytics_workspace_name}}",
-{% else %}
-        # TODO: manually replace this id if random code is used
-        log_analytics_workspace_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{prefix}}-rg-ops-re1/providers/Microsoft.OperationalInsights/workspaces/{{prefix}}-log-agency-law"
-{% endif %} 
       }
       azure_policy = {
         enabled = true

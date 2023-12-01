@@ -12,7 +12,7 @@ container_groups = {
     region             = "region1"
     resource_group_key = "devops_rg"
     ip_address_type    = "Private"
-{% if gcc_platform | trim == '1' %}
+
     network = {
       subnets = {
         subnet1 = {
@@ -25,18 +25,7 @@ container_groups = {
         }
       }
     }
-{% else %}
-    network = {
-      subnets = {
-        subnet1 = {
-          vnet_key = "vnet_spoke_devops_re1"
-          subnet_key = "devops_runner_subnet"
-          lz_key = "networking_spoke_devops"            
-          #   subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}/subnets/{{prefix}}-snet-runner-devops"
-        }
-      }
-    } 
-{% endif %}  
+
     os_type            = "Linux"
     restart_policy     = "OnFailure" // Possible values are 'Always'(default) 'Never' 'OnFailure'
 

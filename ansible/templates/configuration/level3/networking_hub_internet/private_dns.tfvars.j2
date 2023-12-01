@@ -19,7 +19,6 @@ private_dns = {
       }                 
     }
 
-{% if gcc_platform | trim == '1' %}
     vnet_links = {
       app_internet_vnet_link = {
         name               = "ingress-internet-vnet"
@@ -30,17 +29,8 @@ private_dns = {
         lz_key = "shared_services"
         vnet_key = "vnet_hub_internet_ingress_re1"              
 {% endif %}
-      
       }    
     }
-{% else %}
-    vnet_links = {
-      ingress_internet_vnet_link = {
-        name = "ingress-internet-vnet"
-        vnet_key = "vnet_hub_internet_ingress_re1"
-      }
-    }
-{% endif %}  
-
   }
+  
 }

@@ -1,4 +1,3 @@
-{% if gcc_platform | trim == '1' %}
 virtual_subnets = {
 
   # begin ingress zone
@@ -45,7 +44,7 @@ virtual_subnets = {
     {% endif %}
     } 
   }  
-  AzureFirewallMangementSubnet_egress = {
+  AzureFirewallManagementSubnet_egress = {
     name    = "AzureFirewallManagementSubnet" 
     cidr    = ["{{cidr_ingress_egress_zone_subnet_egress_mgmt_intranet}}"]   # 64 ips
     service_endpoints = ["Microsoft.KeyVault", "Microsoft.Storage"]    
@@ -60,8 +59,4 @@ virtual_subnets = {
   }   
   # end egress zone  
 }
-{% else %}
-#------------------------------------------------------
-# this page is leave blank intentionally
-#------------------------------------------------------
-{% endif %}
+

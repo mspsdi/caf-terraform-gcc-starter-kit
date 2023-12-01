@@ -4,7 +4,7 @@ private_dns = {
   azurewebsites_dns_re1 = {
     name               = "privatelink.azurewebsites.net"
     resource_group_key = "networking_spoke_internet_re1"
-{% if gcc_platform | trim == '1' %}   
+
     # vnet link is created after vnet is crated.
     vnet_links = {
       app_service_internet_vnet_link = {
@@ -36,26 +36,6 @@ private_dns = {
       #   virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}"
       # }                          
     }
-{% else %}
-    vnet_links = {
-      app_service_internet_vnet_link = {
-        name               = "app-service-app-internet-vnet"
-        # registration_enabled = false # a virtual network can only link to one private dns zone with registration enabled
-        vnet_key = "vnet_spoke_internet_re1"
-        # lz_key = "networking_spoke_internet"    
-        #          virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      }  
-
-      app_service_management_vnet_link = {
-        name                 = "app-service-management-vnet"
-        # registration_enabled = false
-        vnet_key = "vnet_hub_management_re1"
-        lz_key = "networking_spoke_management"        
-        # virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-      }      
-
-    }
-{% endif %}       
 
     tags = { 
       purpose = "internet app service private dns" 
@@ -71,7 +51,7 @@ private_dns = {
   aks_dns_re1 = {
     name               = "privatelink.southeastasia.azmk8s.io"
     resource_group_key = "networking_spoke_internet_re1"
-{% if gcc_platform | trim == '1' %}   
+  
     # vnet link is created after vnet is crated.
     vnet_links = {
       aks_internet_vnet_link = {
@@ -99,26 +79,7 @@ private_dns = {
       #   virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}"
       # }                          
     }
-{% else %}
-    vnet_links = {
-      aks_internet_vnet_link = {
-        name               = "aks-app-internet-vnet"
-        # registration_enabled = false # a virtual network can only link to one private dns zone with registration enabled
-        vnet_key = "vnet_spoke_internet_re1"
-        # lz_key = "networking_spoke_internet"    
-        #          virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      }  
-
-      aks_management_vnet_link = {
-        name                 = "aks-management-vnet"
-        # registration_enabled = false
-        vnet_key = "vnet_hub_management_re1"
-        lz_key = "networking_spoke_management"        
-        # virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-      }      
-
-    }
-{% endif %}       
+  
 
     tags = { 
       purpose = "internet azmk8s private dns" 
@@ -135,7 +96,7 @@ private_dns = {
     resource_group_key = "networking_spoke_internet_re1"
 
     # vnet link is created after vnet is crated.
-{% if gcc_platform | trim == '1' %}      
+    
     vnet_links = {
       acr_internet_vnet_link = {
         name               = "acr-app-internet-vnet"
@@ -158,26 +119,7 @@ private_dns = {
     {% endif %}
       }                     
     }
-{% else %}
-    vnet_links = {
-      acr_internet_vnet_link = {
-        name               = "acr-app-internet-vnet"
-        # registration_enabled = false # a virtual network can only link to one private dns zone with registration enabled
-        vnet_key = "vnet_spoke_internet_re1"
-        # lz_key = "networking_spoke_internet"    
-        #          virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      }  
-
-      acr_management_vnet_link = {
-        name                 = "acr-management-vnet"
-        # registration_enabled = false
-        vnet_key = "vnet_hub_management_re1"
-        lz_key = "networking_spoke_management"        
-        # virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-      }      
-
-    }
-{% endif %}   
+  
     tags = { 
       purpose = "acr private dns" 
       project-code = "{{project_code}}" 
@@ -192,7 +134,7 @@ private_dns = {
   db_dns_re1 = {
     name               = "privatelink.database.windows.net" # must be this name 0 do not change
     resource_group_key = "networking_spoke_internet_re1"
-{% if gcc_platform | trim == '1' %}  
+
     vnet_links = {
       db_internet_vnet_link = {
         name                 = "db-internet-vnet"
@@ -215,26 +157,7 @@ private_dns = {
     {% endif %}
       }
     }
-{% else %}
-    vnet_links = {
-      db_internet_vnet_link = {
-        name               = "db-app-internet-vnet"
-        # registration_enabled = false # a virtual network can only link to one private dns zone with registration enabled
-        vnet_key = "vnet_spoke_internet_re1"
-        # lz_key = "networking_spoke_internet"    
-        #          virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      }  
-
-      db_management_vnet_link = {
-        name                 = "db-management-vnet"
-        # registration_enabled = false
-        vnet_key = "vnet_hub_management_re1"
-        lz_key = "networking_spoke_management"        
-        # virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-      }      
-
-    }
-{% endif %}       
+      
 
     tags = { 
       purpose = "internet mssql private dns" 
@@ -250,7 +173,7 @@ private_dns = {
   cosmos_dns_re1 = {
     name               = "privatelink.documents.azure.com"
     resource_group_key = "networking_spoke_internet_re1"
-{% if gcc_platform | trim == '1' %}   
+
     vnet_links = {
       cosmos_internet_vnet_link = {
         name = "cosmos-vnet-link"
@@ -272,26 +195,7 @@ private_dns = {
     {% endif %}
       }      
     }
-{% else %}
-    vnet_links = {
-      cosmos_internet_vnet_link = {
-        name               = "cosmos-app-internet-vnet"
-        # registration_enabled = false # a virtual network can only link to one private dns zone with registration enabled
-        vnet_key = "vnet_spoke_internet_re1"
-        # lz_key = "networking_spoke_internet"    
-        #          virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      }  
 
-      cosmos_management_vnet_link = {
-        name                 = "cosmos-management-vnet"
-        # registration_enabled = false
-        vnet_key = "vnet_hub_management_re1"
-        lz_key = "networking_spoke_management"        
-        # virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-      }      
-
-    }
-{% endif %}   
     tags = { 
       purpose = "internet cosmos private dns" 
       project-code = "{{project_code}}" 
@@ -312,7 +216,7 @@ private_dns = {
   backup_dns_re1 = {
     name               = "privatelink.sea.backup.windowsazure.com"
     resource_group_key = "networking_spoke_internet_re1"
-{% if gcc_platform | trim == '1' %}       
+    
     vnet_links = {
       backup_internet_vnet_link = {
         name               = "backup-vent-link-project"
@@ -333,26 +237,7 @@ private_dns = {
     {% endif %}
       }
     }
-{% else %}
-    vnet_links = {
-      backup_internet_vnet_link = {
-        name               = "backup-app-internet-vnet"
-        # registration_enabled = false # a virtual network can only link to one private dns zone with registration enabled
-        vnet_key = "vnet_spoke_internet_re1"
-        # lz_key = "networking_spoke_internet"    
-        #          virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      }  
-
-      backup_management_vnet_link = {
-        name                 = "backup-management-vnet"
-        # registration_enabled = false
-        vnet_key = "vnet_hub_management_re1"
-        lz_key = "networking_spoke_management"        
-        # virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-      }      
-
-    }
-{% endif %}    
+   
     tags = { 
       purpose = "management backup private dns" 
       project-code = "{{project_code}}" 
@@ -368,7 +253,7 @@ private_dns = {
   monitor_dns_re1  = {
     name               = "privatelink.monitor.azure.com"
     resource_group_key = "networking_spoke_internet_re1"
-{% if gcc_platform | trim == '1' %}        
+      
     vnet_links = {
       monitor_internet_vnet_link = {
         name               = "monitor-vent-link-project"
@@ -388,26 +273,7 @@ private_dns = {
         vnet_key = "vnet_hub_management_re1"              
     {% endif %}
       }
-{% else %}
-    vnet_links = {
-      monitor_internet_vnet_link = {
-        name               = "monitor-app-internet-vnet"
-        # registration_enabled = false # a virtual network can only link to one private dns zone with registration enabled
-        vnet_key = "vnet_spoke_internet_re1"
-        # lz_key = "networking_spoke_internet"    
-        #          virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      }  
 
-      monitor_management_vnet_link = {
-        name                 = "monitor-management-vnet"
-        # registration_enabled = false
-        vnet_key = "vnet_hub_management_re1"
-        lz_key = "networking_spoke_management"        
-        # virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-      }      
-
-    }
-{% endif %}  
     tags = { 
       purpose = "management monitor private dns" 
       project-code = "{{project_code}}" 
@@ -420,7 +286,7 @@ private_dns = {
   oms_dns_re1 = {
     name               = "privatelink.oms.opinsights.azure.com"
     resource_group_key = "networking_spoke_internet_re1"
-{% if gcc_platform | trim == '1' %}       
+     
     vnet_links = {
       oms_internet_vnet_link = {
         name               = "oms-vent-link-project"
@@ -441,26 +307,7 @@ private_dns = {
     {% endif %}
       }
     }
-{% else %}
-    vnet_links = {
-      oms_internet_vnet_link = {
-        name               = "oms-app-internet-vnet"
-        # registration_enabled = false # a virtual network can only link to one private dns zone with registration enabled
-        vnet_key = "vnet_spoke_internet_re1"
-        # lz_key = "networking_spoke_internet"    
-        #          virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      }  
-
-      oms_management_vnet_link = {
-        name                 = "oms-management-vnet"
-        # registration_enabled = false
-        vnet_key = "vnet_hub_management_re1"
-        lz_key = "networking_spoke_management"        
-        # virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-      }      
-
-    }
-{% endif %}      
+   
     tags = { 
       purpose = "management ampls oms private dns" 
       project-code = "{{project_code}}" 
@@ -473,7 +320,7 @@ private_dns = {
   ods_dns_re1 = {
     name               = "privatelink.ods.opinsights.azure.com"
     resource_group_key = "networking_spoke_internet_re1"
-{% if gcc_platform | trim == '1' %}        
+     
     vnet_links = {
       ods_internet_vnet_link = {
         name               = "ods-vent-link-project"
@@ -494,26 +341,7 @@ private_dns = {
     {% endif %}
       }
     }
-{% else %}
-    vnet_links = {
-      ods_internet_vnet_link = {
-        name               = "ods-app-internet-vnet"
-        # registration_enabled = false # a virtual network can only link to one private dns zone with registration enabled
-        vnet_key = "vnet_spoke_internet_re1"
-        # lz_key = "networking_spoke_internet"    
-        #          virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      }  
 
-      ods_management_vnet_link = {
-        name                 = "ods-management-vnet"
-        # registration_enabled = false
-        vnet_key = "vnet_hub_management_re1"
-        lz_key = "networking_spoke_management"        
-        # virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-      }      
-
-    }
-{% endif %}  
 
     tags = { 
       purpose = "management ampls ods private dns" 
@@ -527,7 +355,7 @@ private_dns = {
   agentsvc_dns_re1 = {
     name               = "privatelink.agentsvc.azure-automation.net"
     resource_group_key = "networking_spoke_internet_re1"
-{% if gcc_platform | trim == '1' %}    
+ 
     vnet_links = {
       agentsvc_internet_vnet_link = {
         name               = "agentsvc-vent-link-project"
@@ -548,26 +376,7 @@ private_dns = {
     {% endif %}
       }
     }
-{% else %}
-    vnet_links = {
-      agentsvc_internet_vnet_link = {
-        name               = "agentsvc-app-internet-vnet"
-        # registration_enabled = false # a virtual network can only link to one private dns zone with registration enabled
-        vnet_key = "vnet_spoke_internet_re1"
-        # lz_key = "networking_spoke_internet"    
-        #          virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      }  
 
-      agentsvc_management_vnet_link = {
-        name                 = "agentsvc-management-vnet"
-        # registration_enabled = false
-        vnet_key = "vnet_hub_management_re1"
-        lz_key = "networking_spoke_management"        
-        # virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-      }      
-
-    }
-{% endif %}  
 
 
     tags = { 
@@ -591,7 +400,7 @@ private_dns = {
     # vnet link is created after vnet is crated.
 
 
-{% if gcc_platform | trim == '1' %}
+
     vnet_links = {
       kv_internet_vnet_link = {
         name                 = "kv-app-internet-vnet"
@@ -604,19 +413,6 @@ private_dns = {
     {% endif %}
       }              
     }
-{% else %}
-    vnet_links = {
-      kv_internet_vnet_link = {
-        name               = "kv-app-internet-vnet"
-        # registration_enabled = false # a virtual network can only link to one private dns zone with registration enabled
-        vnet_key = "vnet_spoke_internet_re1"
-        # lz_key = "networking_spoke_internet"    
-        #          virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      }                 
-    }
-{% endif %}  
-
-
 
     tags = { 
       purpose = "{{zone_code}} keyvault private dns" 
@@ -636,8 +432,6 @@ private_dns = {
     name               = "privatelink.openai.azure.com" # must be this name - do not change
     resource_group_key = "networking_spoke_internet_re1"
 
-
-{% if gcc_platform | trim == '1' %}
     vnet_links = {
       openai_internet_vnet_link = {
         name                 = "openai-internet-vnet"
@@ -661,26 +455,7 @@ private_dns = {
       }
     }
 
-{% else %}
-    vnet_links = {
-      openai_internet_vnet_link = {
-        name               = "openai-app-internet-vnet"
-        # registration_enabled = false # a virtual network can only link to one private dns zone with registration enabled
-        vnet_key = "vnet_spoke_internet_re1"
-        # lz_key = "networking_spoke_internet"    
-        #          virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      }  
 
-      openai_management_vnet_link = {
-        name                 = "openai-management-vnet"
-        # registration_enabled = false
-        vnet_key = "vnet_hub_management_re1"
-        lz_key = "networking_spoke_management"        
-        # virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-      }      
-
-    }
-{% endif %}  
 
 
     tags = { 
@@ -701,7 +476,7 @@ private_dns = {
     name               = "privatelink.search.windows.net" # must be this name - do not change
     resource_group_key = "networking_spoke_internet_re1"
 
-{% if gcc_platform | trim == '1' %}
+
     vnet_links = {
       search_service_internet_vnet_link = {
         name                 = "search-service-internet-vnet"
@@ -725,26 +500,6 @@ private_dns = {
       }
     }
 
-{% else %}
-    vnet_links = {
-      search_service_internet_vnet_link = {
-        name               = "search-service-app-internet-vnet"
-        # registration_enabled = false # a virtual network can only link to one private dns zone with registration enabled
-        vnet_key = "vnet_spoke_internet_re1"
-        # lz_key = "networking_spoke_internet"    
-        #          virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      }  
-
-      search_service_management_vnet_link = {
-        name                 = "search-service-management-vnet"
-        # registration_enabled = false
-        vnet_key = "vnet_hub_management_re1"
-        lz_key = "networking_spoke_management"        
-        # virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-      }      
-
-    }
-{% endif %}  
 
 
     tags = { 
@@ -767,7 +522,7 @@ private_dns = {
     resource_group_key = "networking_spoke_internet_re1"
     
 
-{% if gcc_platform | trim == '1' %}
+
     vnet_links = {
       sa_internet_vnet_link = {
         name                 = "sa-internet-vnet"
@@ -791,26 +546,7 @@ private_dns = {
       }
     }
 
-{% else %}
-    vnet_links = {
-      sa_internet_vnet_link = {
-        name               = "sa-app-internet-vnet"
-        # registration_enabled = false # a virtual network can only link to one private dns zone with registration enabled
-        vnet_key = "vnet_spoke_internet_re1"
-        # lz_key = "networking_spoke_internet"    
-        #          virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      }  
 
-      sa_management_vnet_link = {
-        name                 = "sa-management-vnet"
-        # registration_enabled = false
-        vnet_key = "vnet_hub_management_re1"
-        lz_key = "networking_spoke_management"        
-        # virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-      }      
-
-    }
-{% endif %}  
 
 
     tags = { 
@@ -833,7 +569,6 @@ private_dns = {
     resource_group_key = "networking_spoke_internet_re1"
     
 
-{% if gcc_platform | trim == '1' %}
     vnet_links = {
       redis_cache_internet_vnet_link = {
         name                 = "redis_cache-internet-vnet"
@@ -857,26 +592,6 @@ private_dns = {
       }
     }
 
-{% else %}
-    vnet_links = {
-      redis_cache_internet_vnet_link = {
-        name               = "redis-cache-app-internet-vnet"
-        # registration_enabled = false # a virtual network can only link to one private dns zone with registration enabled
-        vnet_key = "vnet_spoke_internet_re1"
-        # lz_key = "networking_spoke_internet"    
-        #          virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-      }  
-
-      redis_cache_management_vnet_link = {
-        name                 = "redis-cache-management-vnet"
-        # registration_enabled = false
-        vnet_key = "vnet_hub_management_re1"
-        lz_key = "networking_spoke_management"        
-        # virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-      }      
-
-    }
-{% endif %}  
 
 
     tags = { 
@@ -905,7 +620,6 @@ private_dns = {
       }
     }
 
-{% if gcc_platform | trim == '1' %}
     vnet_links = {
       project_internet_vnet_link = {
         name               = "project-internet-vnet"
@@ -918,14 +632,7 @@ private_dns = {
     {% endif %}
       }    
     }
-{% else %}
-    vnet_links = {
-      project_internet_vnet_link = {
-        name = "vnet-link-internet"
-        vnet_key = "vnet_spoke_internet_re1"
-      }
-    }
-{% endif %}        
+   
   }
 
 

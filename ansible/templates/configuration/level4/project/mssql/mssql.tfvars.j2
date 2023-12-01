@@ -34,9 +34,6 @@ mssql_servers = {
     private_endpoints = {
       private-link-sql = {
         name = "pep-mssql-server"
-        
-
-{% if gcc_platform | trim == '1' %}
 
 {% if gcc_platform_import | trim == '0' %}
         subnet_id          = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-db-internet"
@@ -44,13 +41,6 @@ mssql_servers = {
         lz_key = "networking_spoke_internet"
         virtual_subnet_key = "db_internet_subnet"
 {% endif %} 
-
-{% else %}
-        vnet_key = "vnet_spoke_internet_re1"
-        subnet_key = "db_internet_subnet"
-        lz_key = "networking_spoke_internet"    
-        # subnet_id          = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-db-internet"
-{% endif %}
 
         resource_group_key = "mssql_rg_re1"
 

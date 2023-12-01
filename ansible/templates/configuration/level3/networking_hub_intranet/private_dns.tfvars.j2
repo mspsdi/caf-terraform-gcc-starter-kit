@@ -19,7 +19,6 @@ private_dns = {
       }                
     }
 
-{% if gcc_platform | trim == '1' %}
     vnet_links = {
       ingress_intranet_vnet_link = {
         name               = "ingress-intranet-vnet"
@@ -32,16 +31,5 @@ private_dns = {
     {% endif %}      
       }    
     }
-{% else %}
-    vnet_links = {
-      ingress_intranet_vnet_link = {
-        name               = "ingress-intranet-vnet"
-        # registration_enabled = true
-        vnet_key = "vnet_hub_intranet_ingress_re1"
-        # virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-ingress-intranet"
-      }    
-    }
-{% endif %} 
-
   }
 }
