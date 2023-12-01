@@ -12,9 +12,9 @@ resource_groups = {
   }
   # Default to var.global_settings.default_region. You can overwrite it by setting the attribute region = "region2"
   networking_re1 = {
-    name   = "gcci-platform"
+    name   = "{{resource_group_name}}"
     tags = { 
-      purpose = "gcci-platform resource group" 
+      purpose = "{{resource_group_name}} resource group" 
       project-code = "{{project_code}}" 
       env = "{{caf_environment}}" 
       zone = "{{zone_code}}"

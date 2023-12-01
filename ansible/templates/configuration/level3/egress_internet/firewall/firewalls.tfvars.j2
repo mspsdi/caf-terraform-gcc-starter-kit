@@ -16,7 +16,7 @@ azurerm_firewalls = {
     resource_group_name = "{{resource_group_name}}" # the resource group name of the subnet    
     subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}/subnets/AzureFirewallSubnet"
 {% else %}
-    resource_group_name = "{{prefix}}-rg-gcci-platform"  # the resource group name of the subnet - TODO: replace random characters
+    resource_group_name = "{{prefix}}-rg-{{resource_group_name}}"  # the resource group name of the subnet - TODO: replace random characters
 
     ## direct subnet_id reference
     lz_key = "networking_hub_internet"
