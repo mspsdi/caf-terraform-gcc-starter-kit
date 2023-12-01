@@ -56,6 +56,34 @@ if [ $RESULT -eq 0 ]; then
   echo " "    
 fi
 
+echo "-----------------------------------------------------------------------------"  
+echo "start replace firewall resoruce group name - if you are using random code"
+timestamp
+echo "-----------------------------------------------------------------------------"  
+
+# Assign the filename
+filename1="/tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/egress_internet/firewall/firewalls.tfvars"
+filename2="/tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/egress_intranet/firewall/firewalls.tfvars"
+filename3="/tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/ingress_internet/firewall/firewalls.tfvars"
+# filename4="/tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/ingress_intranet/firewall/firewalls.tfvars"
+
+# assign the search and replace variables - set the xxx to the random code
+search="{{prefix}}-rg-{{resource_group_name}}"
+replace="{{prefix}}-rg-{{resource_group_name}}-xxx"
+
+# perform replace
+if [[ $search != "" && $replace != "" ]]; then
+  sed -i "s/$search/$replace/" $filename1
+  sed -i "s/$search/$replace/" $filename2
+  sed -i "s/$search/$replace/" $filename3
+  # sed -i "s/$search/$replace/" $filename4
+fi
+
+echo "-----------------------------------------------------------------------------"  
+echo "start replace firewall resoruce group name"
+timestamp
+echo "-----------------------------------------------------------------------------"  
+
 
 echo "-----------------------------------------------------------------------------"  
 echo "start networking_spoke_management"
