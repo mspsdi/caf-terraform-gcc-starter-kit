@@ -1,3 +1,13 @@
+<1--
+      internet_vnet_name: "{{configuration_gcc.internet_vnet_name | trim}}" 
+      management_vnet_name: "{{configuration_gcc.management_vnet_name | trim}}" 
+      devops_vnet_name: "{{configuration_gcc.devops_vnet_name | trim}}" 
+      ingress_egress_vnet_name_ingress_internet: "{{configuration_gcc.ingress_egress_vnet_name_ingress_internet | trim}}" 
+      ingress_egress_vnet_name_egress_internet: "{{configuration_gcc.ingress_egress_vnet_name_egress_internet | trim}}" 
+      ingress_egress_vnet_name_ingress_intranet: "{{configuration_gcc.ingress_egress_vnet_name_ingress_intranet | trim}}" 
+      ingress_egress_vnet_name_egress_intranet: "{{configuration_gcc.ingress_egress_vnet_name_egress_intranet | trim}}" 
+
+-->    
 {% if gcc_platform_import | trim == '0' %}
 #------------------------------------------------------
 # this page is leave blank intentionally
@@ -6,6 +16,7 @@
 # begin vnets
 vnets = {
 
+{% if internet_vnet_name | trim == '0' %}
   # project vnet - internet zone
   vnet_spoke_internet_re1 = { 
     resource_group_key = "networking_re1"
@@ -15,7 +26,9 @@ vnets = {
       address_space = ["{{internet_vnet_name_cidr}}"] # ["100.2.0.0/24"]
     } 
   }
+{% endif %}
 
+{% if management_vnet_name | trim == '0' %}
   # management vnet
   vnet_hub_management_re1 = { 
     resource_group_key = "networking_re1"
@@ -25,7 +38,9 @@ vnets = {
       address_space = ["{{management_vnet_name_cidr}}"] # ["100.3.0.0/24"]
     }  
   }
+{% endif %}
 
+{% if devops_vnet_name | trim == '0' %}
   # devops vnet
   vnet_spoke_devops_re1 = { 
     resource_group_key = "networking_re1"
@@ -35,7 +50,9 @@ vnets = {
       address_space = ["{{devops_vnet_name_cidr}}"] # ["100.4.0.0/24"]
     }
   }
+{% endif %}
 
+{% if ingress_egress_vnet_name_ingress_internet | trim == '0' %}
   # hub ingress internet
   vnet_hub_internet_ingress_re1 = { 
     resource_group_key = "networking_re1"
@@ -45,7 +62,9 @@ vnets = {
       address_space = ["{{ingress_egress_vnet_name_ingress_internet_cidr}}"] # ["100.1.0.0/24"]
     }
   }
+{% endif %}
 
+{% if ingress_egress_vnet_name_egress_internet | trim == '0' %}
   # hub egress internet
   vnet_hub_internet_egress_re1 = { 
     resource_group_key = "networking_re1"
@@ -55,7 +74,9 @@ vnets = {
       address_space = ["{{ingress_egress_vnet_name_egress_internet_cidr}}"] # ["100.1.1.0/24"]
     }
   }
+{% endif %}
 
+{% if ingress_egress_vnet_name_ingress_intranet | trim == '0' %}
   # hub ingress intranet
   vnet_hub_intranet_ingress_re1 = { 
     resource_group_key = "networking_re1"
@@ -65,7 +86,9 @@ vnets = {
       address_space = ["{{ingress_egress_vnet_name_ingress_intranet_cidr}}"] # ["10.2.0.0/25"]
     }
   }
+{% endif %}
 
+{% if ingress_egress_vnet_name_egress_intranet | trim == '0' %}
   # hub egress intranet
   vnet_hub_intranet_egress_re1 = { 
     resource_group_key = "networking_re1"
@@ -75,6 +98,8 @@ vnets = {
       address_space = ["{{ingress_egress_vnet_name_egress_intranet_cidr}}"] #["10.2.1.0/25"]
     }
   }
+{% endif %}
+
 } 
 # end vnets
 
