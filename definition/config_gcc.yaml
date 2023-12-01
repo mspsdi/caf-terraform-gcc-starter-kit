@@ -1,11 +1,10 @@
 ---
 configuration_gcc:
-  gcc_platform: 1 # 1 # 1: gcc platform or 0: non-gcc platform
-  gcc_platform_import: 1 # 1 # 1: to import gcci-platform rg, vents, law or 0: not importing
+  gcc_platform_import: 2 # 2: non-gcc platform 1: import gcci-platform tfstage rg, vents, law or 0: not importing - use vnet resource id
   platform_name: caf_terraform_starter 
   tenant_id: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx
   subscription_id: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx
-  workspace_id: ca2e37fc-07f3-4cf8-800f-35e900cfdec6 # law workspace id
+  workspace_id: ca2e37fc-07f3-4cf8-800f-35e900cfdec6 # do not change - law workspace id
   spn_name: gcci-spn-landing-zone-001 # dummy value - reserve for future use
   # GCC 2.0 compartment information 
   resource_group_name:	gcci-platform # do not change
@@ -14,16 +13,16 @@ configuration_gcc:
   # virtual network - leave empty if there is no such virtual network   
   ingress_egress_vnet_name_ingress_internet: gcci-vnet-ingress-internet   # do not change
   ingress_egress_vnet_name_egress_internet: gcci-vnet-egress-internet  # do not change
-  ingress_egress_vnet_name_ingress_intranet: # empty - gcci-vnet-ingress-intranet  # do not change
-  ingress_egress_vnet_name_egress_intranet: # empty - gcci-vnet-egress-intranet  # do not change
+  ingress_egress_vnet_name_ingress_intranet: gcci-vnet-ingress-intranet # empty - gcci-vnet-ingress-intranet  # do not change
+  ingress_egress_vnet_name_egress_intranet: gcci-vnet-egress-intranet  # empty - gcci-vnet-egress-intranet  # do not change
   internet_vnet_name: gcci-vnet-internet   # do not change
   management_vnet_name: gcci-vnet-management   # do not change
   devops_vnet_name: gcci-vnet-devops   # do not change
   # **Optional - Non GCC
   ingress_egress_vnet_name_ingress_internet_cidr: 100.127.0.0/24 # 100.1.0.0/24
   ingress_egress_vnet_name_egress_internet_cidr: 100.127.1.0/24 # 100.1.1.0/24
-  ingress_egress_vnet_name_ingress_intranet_cidr: # 10.2.0.0/25
-  ingress_egress_vnet_name_egress_intranet_cidr: # 10.2.1.0/25
+  ingress_egress_vnet_name_ingress_intranet_cidr: 10.127.0.0/24 # 10.2.0.0/25
+  ingress_egress_vnet_name_egress_intranet_cidr: 10.127.1.0/24 # 10.2.1.0/25
   internet_vnet_name_cidr: 100.64.0.0/23 # 100.2.0.0/24
   management_vnet_name_cidr: 100.127.3.0/24 # 100.3.0.0/24
   devops_vnet_name_cidr: 100.127.4.0/24 # 100.4.0.0/24 
