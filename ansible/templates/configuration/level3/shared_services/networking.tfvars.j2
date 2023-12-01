@@ -1,13 +1,3 @@
-<1--
-      internet_vnet_name: "{{configuration_gcc.internet_vnet_name | trim}}" 
-      management_vnet_name: "{{configuration_gcc.management_vnet_name | trim}}" 
-      devops_vnet_name: "{{configuration_gcc.devops_vnet_name | trim}}" 
-      ingress_egress_vnet_name_ingress_internet: "{{configuration_gcc.ingress_egress_vnet_name_ingress_internet | trim}}" 
-      ingress_egress_vnet_name_egress_internet: "{{configuration_gcc.ingress_egress_vnet_name_egress_internet | trim}}" 
-      ingress_egress_vnet_name_ingress_intranet: "{{configuration_gcc.ingress_egress_vnet_name_ingress_intranet | trim}}" 
-      ingress_egress_vnet_name_egress_intranet: "{{configuration_gcc.ingress_egress_vnet_name_egress_intranet | trim}}" 
-
--->    
 {% if gcc_platform_import | trim == '0' %}
 #------------------------------------------------------
 # this page is leave blank intentionally
