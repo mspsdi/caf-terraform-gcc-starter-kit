@@ -102,7 +102,7 @@ echo "--------------------------------------------------------------------------
 {% endif %}
 
 
-{% if management_vnet_name | trim == '1' %}
+{% if management_vnet_name | trim != 'None' %}
 echo "-----------------------------------------------------------------------------"  
 echo "start networking_spoke_management"
 timestamp
@@ -222,7 +222,7 @@ fi
 {% endif %}
 
 
-{% if ingress_egress_firewall_egress | trim != 'None' %}
+{% if ingress_egress_firewall_egress | trim == '1' %}
 echo "-----------------------------------------------------------------------------"  
 echo "start networking_firewall_egress_internet"
 timestamp
@@ -246,7 +246,7 @@ fi
 {% endif %}
 
 
-{% if ingress_egress_firewall_intranet | trim != 'None' %}
+{% if ingress_egress_firewall_egress_intranet | trim == '1' %}
 echo "-----------------------------------------------------------------------------"  
 echo "start networking_firewall_egress_intranet"
 timestamp
