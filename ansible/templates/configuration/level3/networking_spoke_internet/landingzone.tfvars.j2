@@ -12,9 +12,10 @@ landingzone = {
       level   = "current"
       tfstate = "shared_services.tfstate" # set to referenced landingzone tfstate name      
     }    
-    networking_spoke_management = { # vnet link for private dns
-      level   = "current"
-      tfstate = "networking_spoke_management.tfstate" # set to referenced landingzone tfstate name      
-    }            
+    # TODO: check if this LZ can be remove
+    # networking_spoke_management = { # vnet link for private dns
+    #  level   = "current"
+    #  tfstate = "networking_spoke_management.tfstate" # set to referenced landingzone tfstate name      
+    #}            
   }
 }
