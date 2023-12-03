@@ -71,6 +71,7 @@ fi
 # end shared_services - all
 
 
+{% if ingress_egress_vnet_name_ingress_internet | trim != 'None' or ingress_egress_vnet_name_egress_internet | trim != 'None' %}
 # IMPORTANT - OPTIONAL - manually replace osscuat-rg-gcci-platform-xxx if you are using random code
 echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"  
 echo "IMPORTANT - manually replace osscuat-rg-gcci-platform-xxx if you are using random code"
@@ -98,6 +99,7 @@ echo "--------------------------------------------------------------------------
 echo "end replace firewall resoruce group name - if you are using random code"
 timestamp
 echo "-----------------------------------------------------------------------------" 
+{% endif %}
 
 
 {% if management_vnet_name | trim == '1' %}
