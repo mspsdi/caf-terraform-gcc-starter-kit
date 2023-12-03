@@ -7,29 +7,31 @@ private_dns = {
 
     # vnet link is created after vnet is crated.
     vnet_links = {
+
       app_service_internet_vnet_link = {
         name               = "app-service-internet-vnet"
         registration_enabled = false # a virtual network can only link to one private dns zone with registration enabled
-
-    {% if gcc_platform_import | trim == '0' %}
+{% if gcc_platform_import | trim == '0' %}
         virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-    {% else %}
+{% else %}
         lz_key = "shared_services"
         vnet_key = "vnet_spoke_internet_re1"              
-    {% endif %}
-
-
+{% endif %}
       }   
+
+{% if management_vnet_name | trim != 'None' %}
       app_service_management_vnet_link = {
         name                 = "app-service-management-vnet"
         registration_enabled = false
-    {% if gcc_platform_import | trim == '0' %}
+{% if gcc_platform_import | trim == '0' %}
         virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
-    {% else %}
+{% else %}
         lz_key = "shared_services"
         vnet_key = "vnet_hub_management_re1"              
-    {% endif %}
+{% endif %}
       }
+{% endif %}
+
       # app_service_devops_vnet_link = {
       #   name                 = "app-service-devops-vnet"
       #   registration_enabled = false
