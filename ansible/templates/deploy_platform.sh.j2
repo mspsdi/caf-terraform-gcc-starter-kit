@@ -4,19 +4,16 @@
 timestamp() {
   date +"%T" # current time
 }
+
 echo "-----------------------------------------------------------------------------"  
 echo "begin deployment"  
 timestamp
 echo "-----------------------------------------------------------------------------"  
 echo " "  
 echo " "  
-
-
-
 # -------------------------------------------------------------------------------------------------------------
 # level 1 - launchpad   
 # ------------------------------------------------------------------------------------------------------------- 
-
 # start launchpad - all
 echo "-----------------------------------------------------------------------------"  
 echo "start caf_launchpad"
@@ -40,13 +37,9 @@ if [ $RESULT -eq 0 ]; then
 fi
 # end launchpad - all
 
-
-
-
 # -------------------------------------------------------------------------------------------------------------
 # level 3 - shared services and networking   
 # ------------------------------------------------------------------------------------------------------------- 
-
 # start shared_services - all
 echo "-----------------------------------------------------------------------------"  
 echo "start shared_services"
@@ -69,9 +62,8 @@ if [ $RESULT -eq 0 ]; then
   echo " "    
 fi
 # end shared_services - all
-
-
 {% if ingress_egress_vnet_name_ingress_internet | trim != 'None' or ingress_egress_vnet_name_egress_internet | trim != 'None' %}
+
 # IMPORTANT - OPTIONAL - manually replace osscuat-rg-gcci-platform-xxx if you are using random code
 echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"  
 echo "IMPORTANT - manually replace osscuat-rg-gcci-platform-xxx if you are using random code"
@@ -100,9 +92,8 @@ echo "end replace firewall resoruce group name - if you are using random code"
 timestamp
 echo "-----------------------------------------------------------------------------" 
 {% endif %}
-
-
 {% if management_vnet_name | trim != 'None' %}
+
 echo "-----------------------------------------------------------------------------"  
 echo "start networking_spoke_management"
 timestamp
@@ -124,9 +115,8 @@ if [ $RESULT -eq 0 ]; then
   echo " "    
 fi
 {% endif %}
-
-
 {% if devops_vnet_name | trim != 'None' %}
+
 echo "-----------------------------------------------------------------------------"  
 echo "start networking_spoke_devops"
 timestamp
@@ -148,9 +138,8 @@ if [ $RESULT -eq 0 ]; then
   echo " "    
 fi
 {% endif %}
-
-
 {% if ingress_egress_vnet_name_ingress_internet | trim != 'None' or ingress_egress_vnet_name_egress_internet | trim != 'None' %}
+
 echo "-----------------------------------------------------------------------------"  
 echo "start networking_hub_internet"
 timestamp
@@ -172,9 +161,8 @@ if [ $RESULT -eq 0 ]; then
   echo " "    
 fi
 {% endif %}
-
-
 {% if ingress_egress_vnet_name_ingress_intranet | trim != 'None' or ingress_egress_vnet_name_egress_intranet | trim != 'None' %}
+
 echo "-----------------------------------------------------------------------------"  
 echo "start networking_hub_intranet"
 timestamp
@@ -196,9 +184,8 @@ if [ $RESULT -eq 0 ]; then
   echo " "    
 fi
 {% endif %}
-
-
 {% if internet_vnet_name | trim != 'None' %}
+
 echo "-----------------------------------------------------------------------------"  
 echo "start networking_spoke_internet"
 timestamp
@@ -220,9 +207,8 @@ if [ $RESULT -eq 0 ]; then
   echo " "    
 fi
 {% endif %}
-
-
 {% if ingress_egress_firewall_egress | trim == '1' %}
+
 echo "-----------------------------------------------------------------------------"  
 echo "start networking_firewall_egress_internet"
 timestamp
@@ -244,9 +230,8 @@ if [ $RESULT -eq 0 ]; then
   echo " "    
 fi
 {% endif %}
-
-
 {% if ingress_egress_firewall_egress_intranet | trim == '1' %}
+
 echo "-----------------------------------------------------------------------------"  
 echo "start networking_firewall_egress_intranet"
 timestamp
@@ -268,9 +253,8 @@ if [ $RESULT -eq 0 ]; then
   echo " "    
 fi
 {% endif %}
-
-
 {% if ingress_egress_agw | trim == '1' %}
+
 echo "-----------------------------------------------------------------------------"  
 echo "start solution_accelerators_agw_internet_ssl"
 timestamp
@@ -292,9 +276,8 @@ if [ $RESULT -eq 0 ]; then
   echo " "    
 fi
 {% endif %}
-
-
 {% if ingress_egress_firewall | trim == '1' %}
+
 echo "-----------------------------------------------------------------------------"  
 echo "start networking_firewall_ingress_internet"
 timestamp
@@ -316,9 +299,8 @@ if [ $RESULT -eq 0 ]; then
   echo " "    
 fi
 {% endif %}
-
-
 {% if ingress_egress_agw_intranet | trim == '1' %}
+
 echo "-----------------------------------------------------------------------------"  
 echo "start solution_accelerators_agw_intranet_ssl"
 timestamp
@@ -340,9 +322,8 @@ if [ $RESULT -eq 0 ]; then
   echo " "    
 fi
 {% endif %}
-
-
 {% if ingress_egress_firewall_intranet | trim == '1' %}
+
 echo "-----------------------------------------------------------------------------"  
 echo "start networking_firewall_ingress_intranet"
 timestamp
@@ -364,15 +345,11 @@ if [ $RESULT -eq 0 ]; then
   echo " "    
 fi
 {% endif %}
-
-
-
-
 # -------------------------------------------------------------------------------------------------------------
 # level 4 - solutions accelerators   
 # ------------------------------------------------------------------------------------------------------------- 
-
 {% if devops_vnet_name | trim != 'None' %}
+
 echo "-----------------------------------------------------------------------------"  
 echo "start solution_accelerators_devops"
 timestamp
@@ -394,9 +371,8 @@ if [ $RESULT -eq 0 ]; then
   echo " "    
 fi
 {% endif %}
-
-
 {% if management_vnet_name | trim != 'None' %}
+
 echo "-----------------------------------------------------------------------------"  
 echo "start solution_accelerators_management"
 timestamp
@@ -418,9 +394,8 @@ if [ $RESULT -eq 0 ]; then
   echo " "    
 fi
 {% endif %}
-
-
 {% if internet_data_mssql | trim == '1' %}
+
 echo "-----------------------------------------------------------------------------"  
 echo "start solution_accelerators_mssql"
 timestamp
@@ -442,9 +417,8 @@ if [ $RESULT -eq 0 ]; then
   echo " "    
 fi
 {% endif %}
-
-
 {% if internet_data_storage_account | trim == '1' %}
+
 RESULT=$?
 if [ $RESULT -eq 0 ]; then
   echo "-----------------------------------------------------------------------------"  
@@ -469,9 +443,8 @@ if [ $RESULT -eq 0 ]; then
   echo " "    
 fi
 {% endif %}
-
-
 {% if internet_app_keyvault | trim == '1' %}
+
 RESULT=$?
 if [ $RESULT -eq 0 ]; then
   echo "-----------------------------------------------------------------------------"  
@@ -496,9 +469,8 @@ if [ $RESULT -eq 0 ]; then
   echo " "    
 fi
 {% endif %}
-
-
 {% if internet_app_logic_app | trim == '1' %}
+
 RESULT=$?
 if [ $RESULT -eq 0 ]; then
   echo "-----------------------------------------------------------------------------"  
@@ -524,9 +496,8 @@ if [ $RESULT -eq 0 ]; then
   echo " "    
 fi
 {% endif %}
-
-
 {% if internet_app_app_service | trim == '1' %}
+
 RESULT=$?
 if [ $RESULT -eq 0 ]; then
   echo "-----------------------------------------------------------------------------"  
@@ -552,45 +523,250 @@ if [ $RESULT -eq 0 ]; then
   echo " "    
 fi
 {% endif %}
-
-
 {% if internet_data_cosmosdb | trim == '1' %}
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo "-----------------------------------------------------------------------------"  
+  echo "begin solution_accelerators_cosmosdb"  
+  timestamp  
+  echo "-----------------------------------------------------------------------------"  
+  echo " "  
+rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/cosmosdb \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_cosmosdb.tfstate \
+-a apply
+fi
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo success
+  timestamp
+  echo "-----------------------------------------------------------------------------"  
+  timestamp  
+  echo "end solution_accelerators_cosmosdb"
+  echo "-----------------------------------------------------------------------------"  
+  echo " "    
+fi
 {% endif %}
-
-
 {% if internet_app_aks | trim == '1' %}
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo "-----------------------------------------------------------------------------"  
+  echo "begin solution_accelerators_aks"  
+  timestamp  
+  echo "-----------------------------------------------------------------------------"  
+  echo " "  
+rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/aks \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_aks.tfstate \
+-a apply
+fi
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo success
+  timestamp
+  echo "-----------------------------------------------------------------------------"  
+  timestamp  
+  echo "end solution_accelerators_aks"
+  echo "-----------------------------------------------------------------------------"  
+  echo " "    
+fi
 {% endif %}
-
-
 {% if internet_app_linux_function_app | trim == '1' %}
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo "-----------------------------------------------------------------------------"  
+  echo "begin solution_accelerators_linux_function_app"  
+  timestamp  
+  echo "-----------------------------------------------------------------------------"  
+  echo " "  
+rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/linux_function_app \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_linux_function_app.tfstate \
+-a apply
+fi
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo success
+  timestamp
+  echo "-----------------------------------------------------------------------------"  
+  timestamp  
+  echo "end solution_accelerators_linux_function_app"
+  echo "-----------------------------------------------------------------------------"  
+  echo " "    
+fi
 {% endif %}
-
-
 {% if internet_app_openai | trim == '1' %}
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo "-----------------------------------------------------------------------------"  
+  echo "begin solution_accelerators_openai"  
+  timestamp  
+  echo "-----------------------------------------------------------------------------"  
+  echo " "  
+rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/openai_service \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_openai.tfstate \
+-a apply
+fi
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo success
+  timestamp
+  echo "-----------------------------------------------------------------------------"  
+  timestamp  
+  echo "end solution_accelerators_openai"
+  echo "-----------------------------------------------------------------------------"  
+  echo " "    
+fi
 {% endif %}
-
-
 {% if internet_app_search_service | trim == '1' %}
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo "-----------------------------------------------------------------------------"  
+  echo "begin solution_accelerators_search_service"  
+  timestamp  
+  echo "-----------------------------------------------------------------------------"  
+  echo " "  
+rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/search_service \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_search_service.tfstate \
+-a apply
+fi
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo success
+  timestamp
+  echo "-----------------------------------------------------------------------------"  
+  timestamp  
+  echo "end solution_accelerators_search_service"
+  echo "-----------------------------------------------------------------------------"  
+  echo " "    
+fi
 {% endif %}
-
-
 {% if internet_app_agw | trim == '1' %}
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo "-----------------------------------------------------------------------------"  
+  echo "begin solution_accelerators_agw"  
+  timestamp  
+  echo "-----------------------------------------------------------------------------"  
+  echo " "  
+rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/agw \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_agw.tfstate \
+-a apply
+fi
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo success
+  timestamp
+  echo "-----------------------------------------------------------------------------"  
+  timestamp  
+  echo "end solution_accelerators_agw"
+  echo "-----------------------------------------------------------------------------"  
+  echo " "    
+fi
 {% endif %}
-
-
 {% if internet_app_container_instance | trim == '1' %}
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo "-----------------------------------------------------------------------------"  
+  echo "begin solution_accelerators_container_instance"  
+  timestamp  
+  echo "-----------------------------------------------------------------------------"  
+  echo " "  
+rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/container_instance \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_container_instance.tfstate \
+-a apply
+fi
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo success
+  timestamp
+  echo "-----------------------------------------------------------------------------"  
+  timestamp  
+  echo "end solution_accelerators_container_instance"
+  echo "-----------------------------------------------------------------------------"  
+  echo " "    
+fi
 {% endif %}
-
-
 {% if internet_app_apim | trim == '1' %}
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo "-----------------------------------------------------------------------------"  
+  echo "begin solution_accelerators_apim"  
+  timestamp  
+  echo "-----------------------------------------------------------------------------"  
+  echo " "  
+rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/apim \
+-parallelism 30 \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_apim.tfstate \
+-a apply
+fi
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo success
+  timestamp
+  echo "-----------------------------------------------------------------------------"  
+  timestamp  
+  echo "end solution_accelerators_apim"
+  echo "-----------------------------------------------------------------------------"  
+  echo " "    
+fi
 {% endif %}
-
-
 {% if internet_data_redis_cache | trim == '1' %}
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo "-----------------------------------------------------------------------------"  
+  echo "begin solution_accelerators_redis"  
+  timestamp  
+  echo "-----------------------------------------------------------------------------"  
+  echo " "  
+rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/redis \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_redis.tfstate \
+-a apply
+fi
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo success
+  timestamp
+  echo "-----------------------------------------------------------------------------"  
+  timestamp  
+  echo "end solution_accelerators_redis"
+  echo "-----------------------------------------------------------------------------"  
+  echo " "    
+fi
 {% endif %}
-
-
-
 
 RESULT=$?
 if [ $RESULT -eq 0 ]; then
@@ -606,10 +782,10 @@ else
 fi
 
 
-  echo "-----------------------------------------------------------------------------"    
-  timestamp
-  echo "Check and Manually add peering if required."  
-  echo "-----------------------------------------------------------------------------"    
+echo "-----------------------------------------------------------------------------"    
+timestamp
+echo "Check and Manually add peering if required."  
+echo "-----------------------------------------------------------------------------"    
 
 
 
