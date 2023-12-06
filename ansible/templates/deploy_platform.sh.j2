@@ -116,8 +116,8 @@ filename2="/tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/leve
 filename3="/tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/ingress_internet/firewall/firewalls.tfvars"
 # filename4="/tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/ingress_intranet/firewall/firewalls.tfvars"
 # assign the search and replace variables - set the xxx to the random code
-search="{{prefix}}-rg-{{resource_group_name}}"
-replace="{{prefix}}-rg-{{resource_group_name}}-$random_code"
+search="\"{{prefix}}-rg-{{resource_group_name}}\""
+replace="\"{{prefix}}-rg-{{resource_group_name}}-$random_code\""
 # perform replace
 if [[ $search != "" && $replace != "" ]]; then
   sed -i "s/$search/$replace/" $filename1
