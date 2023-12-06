@@ -112,6 +112,7 @@ DevOps Compartment
 - [ ] Test modules for pre-configured solution accelerators
 - [ ] Integration with GitHub
 - [ ] One Click deployment
+- [ ] AKS etcd data store encryption
 
 ### Built With
 
