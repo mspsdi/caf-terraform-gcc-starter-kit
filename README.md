@@ -210,9 +210,13 @@ sudo chmod -R -f 777 /tf/caf/{{gcc_starter_project_folder}}
 cd /tf/caf
 ```
 
-#### A3. execute the deploy_platform.sh under the working folder /tf/caf/{{gcc_starter_project_folder}}
-
-OR execute steps by steps the below rover commands:
+#### A3.1 deploy the landing zone and solution accelerators
+execute the deploy_platform.sh under the working folder /tf/caf/{{gcc_starter_project_folder}}
+```bash
+cd /tf/caf/{{gcc_starter_project_folder}}
+./deploy_platform.sh
+```
+#### A3.2 OR execute steps by steps the below rover commands
 
 To continue, goto README.md file 
 /tf/caf/{{gcc_starter_project_folder}}/README.md
