@@ -84,6 +84,7 @@ Intranet Ingress
 
 Project compartment
 - [x] AKS private cluster
+- [x] Application Gateway
 - [x] Azure Container Registry + private endpoint
 - [x] APIM stsv2 + vnet integration
 - [x] App Service + vnet integration + private endpoint
