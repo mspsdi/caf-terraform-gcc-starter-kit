@@ -36,6 +36,36 @@ if [ $RESULT -eq 0 ]; then
   echo " "    
 fi
 # end launchpad - all
+{% if gcc_platform_import | trim == '1' %}
+
+
+# -------------------------------------------------------------------------------------------------------------
+# level 3 - shared services and networking   
+# ------------------------------------------------------------------------------------------------------------- 
+
+echo "-----------------------------------------------------------------------------"  
+echo "start import terraform state for gcci-platform resources"
+echo "-----------------------------------------------------------------------------"  
+# * random code must set to 0, else add the random code below to the account-name
+# * execute the below steps if import terraform state set to "1"
+# ** IMPORTANT:
+# Upload caf terraform state file to level3 storage account: {{prefix}}-rg-launchpad-level3
+# /tf/caf/{{gcc_starter_project_folder}}_{{prefix}}_{{caf_environment}}/landingzone/configuration/level3/shared_services/networking_vnets.tfstate
+
+az storage blob upload \
+--account-name "{{prefix}}stlevel3" \
+--container-name "tfstate" \
+--name shared_services.tfstate \
+--file "/tf/caf/{{gcc_starter_project_folder}}_{{prefix}}_{{caf_environment}}/landingzone/configuration/level3/shared_services/shared_services.tfstate" \
+--auth-mode login
+
+echo "-----------------------------------------------------------------------------"   
+timestamp 
+echo "end import terraform state"
+echo "-----------------------------------------------------------------------------"   
+{% endif %}
+{% if gcc_platform_import | trim == '2' %}
+
 
 # -------------------------------------------------------------------------------------------------------------
 # level 3 - shared services and networking   
@@ -62,8 +92,9 @@ if [ $RESULT -eq 0 ]; then
   echo " "    
 fi
 # end shared_services - all
+{% endif %}
+{% if gcc_platform_import | trim == '2' %}
 {% if ingress_egress_vnet_name_ingress_internet | trim != 'None' or ingress_egress_vnet_name_egress_internet | trim != 'None' %}
-
 # IMPORTANT - OPTIONAL - manually replace osscuat-rg-gcci-platform-xxx if you are using random code
 echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"  
 echo "IMPORTANT - manually replace osscuat-rg-gcci-platform-xxx if you are using random code"
@@ -72,6 +103,13 @@ echo "--------------------------------------------------------------------------
 echo "start replace firewall resoruce group name - if you are using random code"
 timestamp
 echo "-----------------------------------------------------------------------------"  
+# get random code
+rg=$(az group list --query "[?contains(name,'{{prefix}}-rg-gcci-platform-')].name"  --output tsv)
+echo $rg
+lastthreecharacters=${rg%???}
+random_code=${rg#"$lastthreecharacters"}
+echo $random_code
+if [[ $random_code != "" ]]; then
 # Assign the filename
 filename1="/tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/egress_internet/firewall/firewalls.tfvars"
 filename2="/tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/egress_intranet/firewall/firewalls.tfvars"
@@ -79,7 +117,7 @@ filename3="/tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/leve
 # filename4="/tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/ingress_intranet/firewall/firewalls.tfvars"
 # assign the search and replace variables - set the xxx to the random code
 search="{{prefix}}-rg-{{resource_group_name}}"
-replace="{{prefix}}-rg-{{resource_group_name}}-xxx"
+replace="{{prefix}}-rg-{{resource_group_name}}-$random_code"
 # perform replace
 if [[ $search != "" && $replace != "" ]]; then
   sed -i "s/$search/$replace/" $filename1
@@ -87,10 +125,12 @@ if [[ $search != "" && $replace != "" ]]; then
   sed -i "s/$search/$replace/" $filename3
   # sed -i "s/$search/$replace/" $filename4
 fi
+fi
 echo "-----------------------------------------------------------------------------"  
 echo "end replace firewall resoruce group name - if you are using random code"
 timestamp
 echo "-----------------------------------------------------------------------------" 
+{% endif %}
 {% endif %}
 {% if management_vnet_name | trim != 'None' %}
 
@@ -345,10 +385,12 @@ if [ $RESULT -eq 0 ]; then
   echo " "    
 fi
 {% endif %}
+{% if devops_vnet_name | trim != 'None' %}
+
+
 # -------------------------------------------------------------------------------------------------------------
 # level 4 - solutions accelerators   
 # ------------------------------------------------------------------------------------------------------------- 
-{% if devops_vnet_name | trim != 'None' %}
 
 echo "-----------------------------------------------------------------------------"  
 echo "start solution_accelerators_devops"
