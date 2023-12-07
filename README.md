@@ -84,6 +84,7 @@ Intranet Ingress
 
 Project compartment
 - [x] AKS private cluster
+- [x] Application Gateway
 - [x] Azure Container Registry + private endpoint
 - [x] APIM stsv2 + vnet integration
 - [x] App Service + vnet integration + private endpoint
@@ -111,6 +112,7 @@ DevOps Compartment
 - [ ] Test modules for pre-configured solution accelerators
 - [ ] Integration with GitHub
 - [ ] One Click deployment
+- [ ] AKS etcd data store encryption
 
 ### Built With
 
@@ -208,6 +210,14 @@ rover ignite --playbook /tf/caf/ansible/gcc-starter-playbook.yml
 sudo chmod -R -f 777 /tf/caf/{{gcc_starter_project_folder}}
 cd /tf/caf
 ```
+
+#### A3.1 deploy the landing zone and solution accelerators
+execute the deploy_platform.sh under the working folder /tf/caf/{{gcc_starter_project_folder}}
+```bash
+cd /tf/caf/{{gcc_starter_project_folder}}
+./deploy_platform.sh
+```
+#### A3.2 OR execute steps by steps the below rover commands
 
 To continue, goto README.md file 
 /tf/caf/{{gcc_starter_project_folder}}/README.md
