@@ -103,14 +103,17 @@ echo "--------------------------------------------------------------------------
 echo "start replace firewall resoruce group name - if you are using random code"
 timestamp
 echo "-----------------------------------------------------------------------------"  
+# wait 60 seconds
+sleep 1m
 # get random code
 rg=$(az group list --query "[?contains(name,'{{prefix}}-rg-gcci-platform-')].name"  --output tsv)
 echo $rg
 lastthreecharacters=${rg%???}
 random_code=${rg#"$lastthreecharacters"}
 echo $random_code
-if [[ $random_code != "" ]]; then
+if [ $random_code != "" ]; then
 # Assign the filename
+echo "start replacing firewall resource group"
 filename1="/tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/egress_internet/firewall/firewalls.tfvars"
 filename2="/tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/egress_intranet/firewall/firewalls.tfvars"
 filename3="/tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/ingress_internet/firewall/firewalls.tfvars"
@@ -119,12 +122,13 @@ filename3="/tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/leve
 search="\"{{prefix}}-rg-{{resource_group_name}}\""
 replace="\"{{prefix}}-rg-{{resource_group_name}}-$random_code\""
 # perform replace
-if [[ $search != "" && $replace != "" ]]; then
-  sed -i "s/$search/$replace/" $filename1
-  sed -i "s/$search/$replace/" $filename2
-  sed -i "s/$search/$replace/" $filename3
-  # sed -i "s/$search/$replace/" $filename4
-fi
+echo "start sed to do the replace"
+sed -i "s/$search/$replace/" $filename1
+sed -i "s/$search/$replace/" $filename2
+sed -i "s/$search/$replace/" $filename3
+# sed -i "s/$search/$replace/" $filename4
+echo "end sed to do the replace"
+echo "end replacing firewall resource group"
 fi
 echo "-----------------------------------------------------------------------------"  
 echo "end replace firewall resoruce group name - if you are using random code"
