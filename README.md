@@ -63,7 +63,7 @@ aztfmod/azurecaf: 1.2.0 <br/>
 
 Version: 0.1-1.6.4-5.7.7-3.80 (0.1-[rover version]-[caf terraform version]-[azurerm version])
 
-Note: do not use azurerm version 3.82.
+Note: do not use azurerm version 3.83 - plan for 1st week of Jan 2024.
 
 ### Features
 The landing zones solutions provide the underlying infrastructure to support your applications. The following are solutions accelerator ready to be deployed into your environment. They would require some review to match your operating model.
