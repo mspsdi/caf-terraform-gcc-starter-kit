@@ -92,6 +92,7 @@ Project compartment
 - [x] Linux Function App + vnet integration + private endpoint
 - [x] Container Instance + vnet integration
 - [x] Open AI Service + private endpoint
+- [x] Data Factory + private endpoint
 - [x] Cognitive Search Service + private endpoint
 - [x] Cosmos DB + private endpoint
 - [x] SQL Server + private endpoint
