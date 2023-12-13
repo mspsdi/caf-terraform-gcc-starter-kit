@@ -6,9 +6,9 @@ configuration_application:
   ingress_internet_agw_ip: 100.127.0.138 # 100.2.0.74 # dummy value + 10 (128 + 10 = 138)
   ingress_internet_aks_ip: 100.64.0.4 # 100.2.0.95 # dummy value + 10??? - to double check this IP
   ingress_intranet_agw_ip: 10.127.0.138 # 10.2.0.74 # dummy value
-  ingress_intranet_aks_ip: 100.64.0.4 # 10.2.0.95 # dummy value
+  ingress_intranet_aks_ip: 10.64.0.4 # 10.2.0.95 # dummy value
   ingress_internet_aks_fqdn: aks-demoapp1 # dummy value  
-  ingress_intranet_aks_fqdn: aks-demoapp2# dummy value    
+  ingress_intranet_aks_fqdn: aks-demoapp2 # dummy value    
   ingress_internet_agw_fqdn: demoapp1 # dummy value demoapp1.internet.caflabs.com 
   ingress_intranet_agw_fqdn: demoapp2 # dummy value demoapp1.intranet.caflabs.com    
   ingress_internet_dns_zone: internet.xxx.gov.sg # dummy value demoapp1.internet.caflabs.com 
