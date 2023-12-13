@@ -34,7 +34,7 @@ caf terraform accelerator kit for GCC 2.0
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Version 0.1.0 plan release date: 09 Dec 2023
+Version 0.1.0.alpha. plan release date: 31 Dec 2023
 
 The “AZURE GCC Acceleration Kit” is designed to streamline the workload setup process in the AZURE environment. This kit provides a project-based, preconfigured landing zone and Azure resources in GCC 2.0 subscription. You can choose from a library of pre-configured Azure resources that cater to your specific project requirements.
 
@@ -63,7 +63,7 @@ aztfmod/azurecaf: 1.2.0 <br/>
 
 Version: 0.1-1.6.4-5.7.7-3.80 (0.1-[rover version]-[caf terraform version]-[azurerm version])
 
-Note: do not use azurerm version 3.82.
+Note: do not use azurerm version 3.83 - plan for 1st week of Jan 2024.
 
 ### Features
 The landing zones solutions provide the underlying infrastructure to support your applications. The following are solutions accelerator ready to be deployed into your environment. They would require some review to match your operating model.
