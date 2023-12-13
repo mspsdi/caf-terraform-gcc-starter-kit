@@ -1,3 +1,8 @@
+{% if gcc_platform_import | trim != '2' %}
+#------------------------------------------------------
+# this page is leave blank intentionally
+#------------------------------------------------------
+{% else %}
 resource_groups = {
   ops_rg_re1 = {
     name   = "ops-re1"
@@ -32,3 +37,4 @@ resource_groups = {
     }  
   }  
 }
+{% endif %}

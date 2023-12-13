@@ -24,7 +24,6 @@ variable "gcci_resource_groups" {
 # Virtual networks
 variable "gcci_virtual_networks" {
   default = {
-
 {% if ingress_egress_vnet_name_ingress_internet | trim != 'None' %}
     gcci_ingress_vnet = {
       rg_key        = "gcci_vnets_rg"
@@ -33,7 +32,6 @@ variable "gcci_virtual_networks" {
       tags          = {}
     } 
 {% endif %}
-
 {% if ingress_egress_vnet_name_egress_internet | trim != 'None' %}
     gcci_egress_vnet = {
       rg_key        = "gcci_vnets_rg"
@@ -42,7 +40,6 @@ variable "gcci_virtual_networks" {
       tags          = {}
     } 
 {% endif %}
-
 {% if ingress_egress_vnet_name_ingress_intranet | trim != 'None' %}
     gcci_ingress_intranet_vnet = {
       rg_key        = "gcci_vnets_rg"
@@ -51,7 +48,6 @@ variable "gcci_virtual_networks" {
       tags          = {}
     }   
 {% endif %}
-
 {% if ingress_egress_vnet_name_egress_intranet | trim != 'None' %}      
     gcci_egress_intranet_vnet = {
       rg_key        = "gcci_vnets_rg"
@@ -60,7 +56,6 @@ variable "gcci_virtual_networks" {
       tags          = {}
     }          
 {% endif %}
-
 {% if internet_vnet_name | trim != 'None' %}
     gcci_internet_vnet = {
       rg_key        = "gcci_vnets_rg"
@@ -69,7 +64,6 @@ variable "gcci_virtual_networks" {
       tags          = {}
     }
 {% endif %}
-
 {% if management_vnet_name | trim != 'None' %}
     gcci_mgmt_vnet = {
       rg_key        = "gcci_vnets_rg"
@@ -78,7 +72,6 @@ variable "gcci_virtual_networks" {
       tags          = {}
     }
 {% endif %}
-
 {% if devops_vnet_name | trim != 'None' %}
     gcci_devops_vnet = {
       rg_key        = "gcci_vnets_rg"
@@ -87,8 +80,7 @@ variable "gcci_virtual_networks" {
       tags          = {}
     }
 {% endif %}
-   
-
+  
   }
 }
 

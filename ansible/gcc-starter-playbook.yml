@@ -89,17 +89,16 @@
       ingress_intranet_agw_fqdn:  "{{configuration_application.ingress_intranet_agw_fqdn | trim}}"  
       ingress_intranet_dns_zone:  "{{configuration_application.ingress_intranet_dns_zone | trim}}"  
 
-
-      # aks_ip_internet: "{{configuration_application.aks_ip_internet | trim}}"
-      # aks_ip_intranet: "{{configuration_application.aks_ip_intranet | trim}}"
-      # agw_ip_internet: "{{configuration_application.agw_ip_internet | trim}}"
-      # agw_ip_intranet: "{{configuration_application.agw_ip_intranet | trim}}"
-
       # gcc central managed configuration
       gcc_platform: "1" # set to always 1 "{{configuration_gcc.gcc_platform | trim}}"          
       gcc_platform_import: "{{configuration_gcc.gcc_platform_import | trim}}"          
       tenant_id: "{{configuration_gcc.tenant_id | trim}}" 
       subscription_id: "{{configuration_gcc.subscription_id | trim}}" 
+
+      management_subscription_id: "{{configuration_gcc.ingress_egress_subscription_id | trim}}" 
+      ingress_egress_subscription_id: "{{configuration_gcc.ingress_egress_subscription_id | trim}}" 
+      devops_subscription_id: "{{configuration_gcc.devops_subscription_id | trim}}" 
+
       workspace_id: "{{configuration_gcc.workspace_id | trim}}" 
       resource_group_name: "{{configuration_gcc.resource_group_name | trim}}" 
       log_analytics_workspace_resource_group_name: "{{configuration_gcc.log_analytics_workspace_resource_group_name | trim}}" 
@@ -115,16 +114,6 @@
       management_vnet_name: "{{configuration_gcc.management_vnet_name | trim}}" 
       devops_vnet_name: "{{configuration_gcc.devops_vnet_name | trim}}" 
 
-
-
-      # ingress_egress_vnet_name_ingress_internet_cidr: 100.1.0.0/24
-      # ingress_egress_vnet_name_egress_internet_cidr: 100.1.1.0/24
-      # ingress_egress_vnet_name_ingress_intranet_cidr: 10.2.0.0/25
-      # ingress_egress_vnet_name_egress_intranet_cidr: 10.2.1.0/25
-      # internet_vnet_name_cidr: 100.2.0.0/24
-      # management_vnet_name_cidr: 100.3.0.0/24
-      # devops_vnet_name_cidr: 100.4.0.0/24 
-
       ingress_egress_vnet_name_ingress_internet_cidr: "{{configuration_gcc.ingress_egress_vnet_name_ingress_internet_cidr | trim}}" 
       ingress_egress_vnet_name_egress_internet_cidr: "{{configuration_gcc.ingress_egress_vnet_name_egress_internet_cidr | trim}}" 
       ingress_egress_vnet_name_ingress_intranet_cidr: "{{configuration_gcc.ingress_egress_vnet_name_ingress_intranet_cidr | trim}}" 
@@ -132,8 +121,6 @@
       internet_vnet_name_cidr: "{{configuration_gcc.internet_vnet_name_cidr | trim}}" 
       management_vnet_name_cidr: "{{configuration_gcc.management_vnet_name_cidr | trim}}" 
       devops_vnet_name_cidr: "{{configuration_gcc.devops_vnet_name_cidr | trim}}" 
-
-
 
       # solution accelerators configuration
       cidr_ingress_egress_zone_subnet_ingress_internet: "{{configuration.cidr_ingress_egress_zone_subnet_ingress_internet | trim}}"    
@@ -194,6 +181,7 @@
       internet_app_keyvault: "{{solution_accelerators.internet_zone.app.app_keyvault | trim}}" 
       internet_app_apim: "{{solution_accelerators.internet_zone.app.app_apim | trim}}" 
       internet_app_logic_app: "{{solution_accelerators.internet_zone.app.app_logic_app | trim}}" 
+      internet_app_data_factory: "{{solution_accelerators.internet_zone.app.app_data_factory | trim}}" 
 
       internet_data_cosmosdb: "{{solution_accelerators.internet_zone.data.data_cosmosdb | trim}}" 
       internet_data_mssql: "{{solution_accelerators.internet_zone.data.data_mssql | trim}}" 
@@ -1833,6 +1821,54 @@
       ignore_errors: no
       # end block   
 # end level4 internet/logic_app
+
+# level4 internet/data_factory 
+    - name: internet zone data_factory
+      # beign block
+      block:
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_internet}}"
+          tier_code: "{{tier_app}}"   
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/data_factory/"
+          templates_path: "{{templates_folder}}/configuration/level4/project/data_factory/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: data_factory_files_to_process
+
+      - name: copy data_factory
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{data_factory_files_to_process.files}}"     
+      # end creating tfvars files
+
+      when: internet_app_data_factory | trim == '1'  or internet_app_data_factory | trim == 'yes'
+      become: true
+      ignore_errors: no
+      # end block   
+# end level4 internet/data_factory
 
 # ----------------------------
 # end internet level4

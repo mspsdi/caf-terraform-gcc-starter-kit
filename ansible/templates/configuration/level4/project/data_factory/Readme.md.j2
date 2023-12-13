@@ -1,0 +1,29 @@
+#
+# ** IMPORTANT
+# before you run the below rover command, ensure you have register the dataFactory provider
+# cli commands:
+# register dataFactory provider:
+# az provider register --namespace Microsoft.DataFactory
+# Check registration:
+# az provider show --namespace Microsoft.DataFactory --query "registrationState"
+
+rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/data_factory \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_data_factory.tfstate \
+-a plan
+
+rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/data_factory \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_data_factory.tfstate \
+-a apply
+
+rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/data_factory \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_data_factory.tfstate \
+-a destroy

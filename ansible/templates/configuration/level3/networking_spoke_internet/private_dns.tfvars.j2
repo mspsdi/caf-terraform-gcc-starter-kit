@@ -1,6 +1,6 @@
 private_dns = {
-
 {% if internet_app_app_service | trim == '1' or internet_app_linux_function_app | trim == '1' or internet_app_logic_app | trim == '1' %}
+
   azurewebsites_dns_re1 = {
     name               = "privatelink.azurewebsites.net"
     resource_group_key = "networking_spoke_internet_re1"
@@ -48,8 +48,8 @@ private_dns = {
     } 
   }
 {% endif %}    
-
 {% if internet_app_aks | trim == '1' %}
+
   aks_dns_re1 = {
     name               = "privatelink.southeastasia.azmk8s.io"
     resource_group_key = "networking_spoke_internet_re1"
@@ -87,7 +87,6 @@ private_dns = {
       # }                          
 
     }
-  
 
     tags = { 
       purpose = "internet azmk8s private dns" 
@@ -97,7 +96,6 @@ private_dns = {
       tier = "{{tier_code}}"            
     } 
   }
-
 
   acr_dns_re1 = {
     name               = "privatelink.azurecr.io" # must be this name 0 do not change
@@ -141,8 +139,8 @@ private_dns = {
     }      
   }
 {% endif %}
-
 {% if internet_data_mssql | trim == '1' %}
+
   db_dns_re1 = {
     name               = "privatelink.database.windows.net" # must be this name 0 do not change
     resource_group_key = "networking_spoke_internet_re1"
@@ -172,7 +170,6 @@ private_dns = {
       }
 {% endif %}      
     }
-      
 
     tags = { 
       purpose = "internet mssql private dns" 
@@ -183,8 +180,8 @@ private_dns = {
     } 
   }
 {% endif %}
-
 {% if internet_data_cosmosdb | trim == '1' %}
+
   cosmos_dns_re1 = {
     name               = "privatelink.documents.azure.com"
     resource_group_key = "networking_spoke_internet_re1"
@@ -223,14 +220,8 @@ private_dns = {
     } 
   }
 {% endif %}
-
-  #   monitoring: 1    
-  #   recovery_services_vault: 1 
-  #   ampls: 1   
-  #   application_insights: 0 # wip
-  #   automation: 0          # wip
-
 {% if management_recovery_services_vault | trim == '1' %}
+
   backup_dns_re1 = {
     name               = "privatelink.sea.backup.windowsazure.com"
     resource_group_key = "networking_spoke_internet_re1"
@@ -268,9 +259,9 @@ private_dns = {
     } 
   }
 {% endif %}  
+{% if management_ampls | trim == '1' %}  
 
   # begin ampls dns
-{% if management_ampls | trim == '1' %}  
   monitor_dns_re1  = {
     name               = "privatelink.monitor.azure.com"
     resource_group_key = "networking_spoke_internet_re1"
@@ -373,7 +364,6 @@ private_dns = {
 {% endif %}
     }
 
-
     tags = { 
       purpose = "management ampls ods private dns" 
       project-code = "{{project_code}}" 
@@ -419,11 +409,10 @@ private_dns = {
       tier = "{{tier_code}}"            
     }     
   }  
+  # end ampls dns  
 {% endif %}    
-  # end ampls dns
-
-
 {% if internet_app_keyvault | trim == '1' %}
+
   # begin keyvault
   kv_dns_re1 = {
     name               = "privatelink.vaultcore.azure.net" # must be this name 0 do not change
@@ -454,8 +443,8 @@ private_dns = {
   }
   # end keyvault
 {% endif %}  
-
 {% if internet_app_openai | trim == '1' %}
+
   # begin openai
   openai_dns_re1 = {
     name               = "privatelink.openai.azure.com" # must be this name - do not change
@@ -487,9 +476,6 @@ private_dns = {
 {% endif %}
     }
 
-
-
-
     tags = { 
       purpose = "{{zone_code}} openai service private dns" 
       project-code = "{{project_code}}" 
@@ -501,8 +487,8 @@ private_dns = {
   }
   # end openai
 {% endif %}  
-
 {% if internet_app_search_service | trim == '1' %}
+
   # begin search service
   search_service_dns_re1 = {
     name               = "privatelink.search.windows.net" # must be this name - do not change
@@ -535,8 +521,6 @@ private_dns = {
 {% endif %}
     }
 
-
-
     tags = { 
       purpose = "{{zone_code}} search service private dns" 
       project-code = "{{project_code}}" 
@@ -548,15 +532,12 @@ private_dns = {
   }
   # end search service
 {% endif %}  
-
-
 {% if internet_data_storage_account | trim == '1' %}
+
   # begin blob storage
   blob_dns_re1 = {
     name               = "privatelink.blob.core.windows.net"
     resource_group_key = "networking_spoke_internet_re1"
-    
-
 
     vnet_links = {
       sa_internet_vnet_link = {
@@ -584,9 +565,6 @@ private_dns = {
 {% endif %}      
     }
 
-
-
-
     tags = { 
       purpose = "{{zone_code}} storage account private dns" 
       project-code = "{{project_code}}" 
@@ -598,9 +576,8 @@ private_dns = {
   }
   # end blob storage
 {% endif %}  
-
-
 {% if internet_data_redis_cache | trim == '1' %}
+
   # begin redis.cache
   redis_cache_dns_re1 = {
     name               = "privatelink.redis.cache.windows.net"
@@ -632,8 +609,6 @@ private_dns = {
 {% endif %}
     }
 
-
-
     tags = { 
       purpose = "{{zone_code}} redis cache private dns" 
       project-code = "{{project_code}}" 
@@ -645,7 +620,52 @@ private_dns = {
   }
   # end redis.cache
 {% endif %}  
+{% if internet_app_data_factory | trim == '1' %}
 
+  # begin data factory
+  data_factory_dns_re1 = {
+    name               = "privatelink.datafactory.azure.net"
+    resource_group_key = "networking_spoke_internet_re1"
+    
+    vnet_links = {
+      data_factory_internet_vnet_link = {
+        name                 = "data_factory-internet-vnet"
+        registration_enabled = false
+{% if gcc_platform_import | trim == '0' %}
+        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+{% else %}
+        lz_key = "shared_services"
+        vnet_key = "vnet_spoke_internet_re1"              
+{% endif %}
+      }
+
+{% if management_vnet_name | trim != 'None' %}        
+      data_factory_management_vnet_link = {
+        name                 = "data_factory-management-vnet"
+        registration_enabled = false
+{% if gcc_platform_import | trim == '0' %}
+        virtual_network_id   = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}"
+{% else %}
+        lz_key = "shared_services"
+        vnet_key = "vnet_hub_management_re1"              
+{% endif %}
+      }
+{% endif %}
+    }
+
+    tags = { 
+      purpose = "{{zone_code}} data factory private dns" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"          
+    } 
+
+  }
+  # end redis.cache
+{% endif %}  
+
+  # is the below required?
   project_dns1 = {
     name               = "project.{{ingress_internet_dns_zone}}"
     resource_group_key = "networking_spoke_internet_re1"

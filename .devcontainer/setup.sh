@@ -105,6 +105,7 @@ if [ ! -d /tf/caf/landingzones ]; then
     cp /tf/caf/patches/virtual_subnets/aztfmod/bastion_service.tf  /tf/caf/landingzones/aztfmod/bastion_service.tf
     cp /tf/caf/patches/virtual_subnets/aztfmod/networking_firewall.tf /tf/caf/landingzones/aztfmod/networking_firewall.tf
     # cp /tf/caf/patches/virtual_subnets/aztfmod/application_gateways.tf /tf/caf/landingzones/aztfmod/application_gateways.tf
+    cp /tf/caf/patches/virtual_subnets/aztfmod/data_factory.tf /tf/caf/patches/virtual_subnets/aztfmod/data_factory.tf
 
     # aks       
     cp /tf/caf/patches/virtual_subnets/aks/aks.tf  /tf/caf/landingzones/aztfmod/modules/compute/aks/aks.tf
@@ -148,9 +149,17 @@ if [ ! -d /tf/caf/landingzones ]; then
     # cp /tf/caf/patches/virtual_subnets/application_gateway/variable.tf /tf/caf/landingzones/aztfmod/modules/networking/application_gateway/variable.tf
     # cp /tf/caf/patches/virtual_subnets/application_gateway/locals.networking.tf /tf/caf/landingzones/aztfmod/modules/networking/application_gateway/locals.networking.tf
 
+    # data factory
+    cp /tf/caf/patches/virtual_subnets/data_factory/private_endpoints.tf  /tf/caf/landingzones/aztfmod/modules/data_factory/data_factory/private_endpoints.tf
+    cp /tf/caf/patches/virtual_subnets/data_factory/variables.tf /tf/caf/landingzones/aztfmod/modules/data_factory/data_factory/variables.tf
+
+
     # Patches 7: azurerm 3.82 api_management_gateway_api fixed Error An argument named "update" is not expected here.
     cp /tf/caf/patches/api_management_gateway_api/module.tf /tf/caf/landingzones/aztfmod/modules/apim/api_management_gateway_api/module.tf
 
+    # compatible fixes for azurerm 3.84.0
+    cp /tf/caf/patches/access_policy/variables.tf /tf/caf/landingzones/aztfmod/modules/security/keyvault_access_policies/access_policy/variables.tf
+    
     cd /tf/caf/
 
     # note: /tf/caf/landingzones/aztfmod/main.tf show the version of the azurerm

@@ -51,12 +51,15 @@ echo "--------------------------------------------------------------------------
 # ** IMPORTANT:
 # Upload caf terraform state file to level3 storage account: {{prefix}}-rg-launchpad-level3
 # /tf/caf/{{gcc_starter_project_folder}}_{{prefix}}_{{caf_environment}}/landingzone/configuration/level3/shared_services/networking_vnets.tfstate
+# get level3 storage account name
+sa=$(az storage account list --query "[?contains(name,'{{prefix}}stlevel3')].name"  --output tsv)
+echo $sa
 
 az storage blob upload \
---account-name "{{prefix}}stlevel3" \
+--account-name $sa \
 --container-name "tfstate" \
 --name shared_services.tfstate \
---file "/tf/caf/{{gcc_starter_project_folder}}_{{prefix}}_{{caf_environment}}/landingzone/configuration/level3/shared_services/shared_services.tfstate" \
+--file "/tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/shared_services/shared_services.tfstate" \
 --auth-mode login
 
 echo "-----------------------------------------------------------------------------"   
@@ -95,6 +98,7 @@ fi
 {% endif %}
 {% if gcc_platform_import | trim == '2' %}
 {% if ingress_egress_vnet_name_ingress_internet | trim != 'None' or ingress_egress_vnet_name_egress_internet | trim != 'None' %}
+
 # IMPORTANT - OPTIONAL - manually replace osscuat-rg-gcci-platform-xxx if you are using random code
 echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"  
 echo "IMPORTANT - manually replace osscuat-rg-gcci-platform-xxx if you are using random code"
@@ -117,16 +121,24 @@ echo "start replacing firewall resource group"
 filename1="/tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/egress_internet/firewall/firewalls.tfvars"
 filename2="/tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/egress_intranet/firewall/firewalls.tfvars"
 filename3="/tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/ingress_internet/firewall/firewalls.tfvars"
-# filename4="/tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/ingress_intranet/firewall/firewalls.tfvars"
+filename4="/tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/ingress_intranet/firewall/firewalls.tfvars"
 # assign the search and replace variables - set the xxx to the random code
 search="\"{{prefix}}-rg-{{resource_group_name}}\""
 replace="\"{{prefix}}-rg-{{resource_group_name}}-$random_code\""
 # perform replace
 echo "start sed to do the replace"
+{% if ingress_egress_firewall_egress | trim == '1' %}
 sed -i "s/$search/$replace/" $filename1
+{% endif %}
+{% if ingress_egress_firewall_egress_intranet | trim == '1' %}
 sed -i "s/$search/$replace/" $filename2
+{% endif %}
+{% if ingress_egress_firewall | trim == '1' %}
 sed -i "s/$search/$replace/" $filename3
-# sed -i "s/$search/$replace/" $filename4
+{% endif %}
+{% if ingress_egress_firewall_intranet | trim == '1' %}
+sed -i "s/$search/$replace/" $filename4
+{% endif %}
 echo "end sed to do the replace"
 echo "end replacing firewall resource group"
 fi
@@ -809,6 +821,34 @@ if [ $RESULT -eq 0 ]; then
   echo "-----------------------------------------------------------------------------"  
   timestamp  
   echo "end solution_accelerators_redis"
+  echo "-----------------------------------------------------------------------------"  
+  echo " "    
+fi
+{% endif %}
+
+{% if internet_app_data_factory | trim == '1' %}
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo "-----------------------------------------------------------------------------"  
+  echo "begin solution_accelerators_data_factory"  
+  timestamp  
+  echo "-----------------------------------------------------------------------------"  
+  echo " "  
+rover -lz /tf/caf/landingzones/caf_solution \
+-level level4 \
+-var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/data_factory \
+-env {{caf_environment}} \
+-tfstate solution_accelerators_data_factory.tfstate \
+-a apply
+fi
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo success
+  timestamp
+  echo "-----------------------------------------------------------------------------"  
+  timestamp  
+  echo "end solution_accelerators_data_factory"
   echo "-----------------------------------------------------------------------------"  
   echo " "    
 fi

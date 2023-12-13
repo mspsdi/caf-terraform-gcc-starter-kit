@@ -43,8 +43,8 @@ role_mapping = {
       # }    
   {% endif %}         
 {% endif %}
-
 {% if internet_data_mssql | trim == '1' %}
+
       db_dns_re1 = {
         "Private DNS Zone Contributor" = {
           managed_identities = {
@@ -53,8 +53,8 @@ role_mapping = {
         }
       }  
 {% endif %}
-
 {% if internet_data_cosmosdb | trim == '1' %}
+
       cosmos_dns_re1 = {
         "Private DNS Zone Contributor" = {
           managed_identities = {
@@ -63,12 +63,9 @@ role_mapping = {
         }
       }  
 {% endif %}       
-
-
-
-
 {% if internet_app_search_service | trim == '1' %}
-#search_service_dns_re1
+
+# search_service_dns_re1
       search_service_dns_re1 = {
         "Private DNS Zone Contributor" = {
           managed_identities = {
@@ -77,9 +74,9 @@ role_mapping = {
         }
       }  
 {% endif %}  
-
 {% if internet_app_openai | trim == '1' %}
-#openai_dns_re1
+
+# openai_dns_re1
       openai_dns_re1 = {
         "Private DNS Zone Contributor" = {
           managed_identities = {
@@ -88,9 +85,9 @@ role_mapping = {
         }
       }  
 {% endif %}  
-
 {% if internet_app_linux_function_app | trim == '1' %}
-#fa_dns_re1
+
+# fa_dns_re1
       azurewebsites_dns_re1 = {
         "Private DNS Zone Contributor" = {
           managed_identities = {
@@ -99,9 +96,9 @@ role_mapping = {
         }
       }  
 {% endif %}  
-
 {% if internet_app_keyvault | trim == '1' %}
-#kv_dns_re1
+
+# kv_dns_re1
       kv_dns_re1 = {
         "Private DNS Zone Contributor" = {
           managed_identities = {
@@ -110,9 +107,9 @@ role_mapping = {
         }
       }  
 {% endif %}  
-
 {% if internet_data_storage_account | trim == '1' %}
-#blob_dns_re1
+
+# blob_dns_re1
       blob_dns_re1 = {
         "Private DNS Zone Contributor" = {
           managed_identities = {
@@ -121,9 +118,9 @@ role_mapping = {
         }
       }  
 {% endif %}  
-
 {% if internet_data_redis_cache | trim == '1' %}
-#redis_cache_dns_re1
+
+# redis_cache_dns_re1
       redis_cache_dns_re1 = {
         "Private DNS Zone Contributor" = {
           managed_identities = {
@@ -132,9 +129,6 @@ role_mapping = {
         }
       }  
 {% endif %}  
-
-
-
 
     } 
 

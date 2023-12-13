@@ -7,8 +7,8 @@ route_tables = {
 }
 
 azurerm_routes = {
+{% if ingress_egress_firewall_egress | trim == '1' %} 
 
-{% if ingress_egress_firewall_egress | trim == '1' %}     
   default_to_firewall_re1 = {
     name               = "0-0-0-0-through-firewall-re1"
     resource_group_key = "networking_spoke_internet_re1"
@@ -29,7 +29,6 @@ azurerm_routes = {
     }
   }
 {% endif %}   
-  
 {% if ingress_egress_firewall_egress_intranet | trim == '1' %}     
 
   {% if egress_intranet_firewall_ip | trim == '1' %}   
@@ -52,9 +51,7 @@ azurerm_routes = {
     }
   }  
   {% endif %}    
-
 {% endif %}    
-
 }
 {% else %}
 #------------------------------------------------------

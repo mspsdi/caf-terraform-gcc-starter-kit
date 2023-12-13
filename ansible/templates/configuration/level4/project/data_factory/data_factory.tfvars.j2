@@ -1,0 +1,55 @@
+data_factory = {
+  df_re1 = {
+    name = "df-1"
+    resource_group_key = "data_factory_rg_re1"
+    region = "region1"   
+
+    managed_virtual_network_enabled = true
+    public_network_enabled          = false
+
+    identity = {
+      type = "SystemAssigned"
+    } 
+
+    private_endpoints = {
+      private-link-adf = {
+        name = "df-private-endpoint"
+        resource_group_key = "data_factory_rg_re1"
+{% if gcc_platform_import | trim == '0' %}
+        subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-service-internet"
+{% else %}
+        lz_key = "networking_spoke_internet"
+        virtual_subnet_key = "service_internet_subnet"
+{% endif %} 
+
+        private_service_connection = {
+          name                 = "df-private-link"
+          is_manual_connection = false
+          subresource_names    = ["dataFactory"]
+        }
+
+        private_dns = {
+          zone_group_name = "default"
+          lz_key          = "networking_spoke_internet" # if DNS keys is deployed in remote landingzone
+          keys = ["data_factory_dns_re1"]
+        }        
+      }
+    }
+
+    diagnostic_profiles = {
+      operations = {
+        definition_key   = "data_factory"
+        destination_type = "log_analytics" # or destination_type = "event_hub"
+        destination_key  = "central_logs"          
+      }
+    }
+
+    tags = { 
+      purpose = "{{zone_code}} data factory" 
+      project-code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{zone_code}}"
+      tier = "{{tier_code}}"          
+    }     
+  }
+}

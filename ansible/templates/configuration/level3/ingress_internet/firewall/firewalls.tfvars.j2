@@ -12,11 +12,19 @@ azurerm_firewalls = {
     resource_group_name = "{{resource_group_name}}" # the resource group name of the subnet    
     subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}/subnets/AzureFirewallSubnet"
 {% else %}
+{% if gcc_platform_import | trim == '1' %}
+    resource_group_name = "{{resource_group_name}}"  # the resource group name of the subnet - TODO: replace random characters
+    ## direct subnet_id reference
+    lz_key = "networking_hub_internet"
+    virtual_subnet_key = "AzureFirewallSubnet"        
+    public_ip_key = "firewall_re1"
+{% else %}
     resource_group_name = "{{prefix}}-rg-{{resource_group_name}}"  # the resource group name of the subnet - TODO: replace random characters
     ## direct subnet_id reference
     lz_key = "networking_hub_internet"
     virtual_subnet_key = "AzureFirewallSubnet"        
     public_ip_key = "firewall_re1"
+{% endif %}     
 {% endif %} 
 
     # management subnet is required for force tunneling

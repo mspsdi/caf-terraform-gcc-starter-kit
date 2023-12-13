@@ -1,13 +1,21 @@
-# Azure resourceGroups
-# =================================================
-# diagnostics definition
-# diagnostics destination
-# diagnostic_log_analytics
-# =================================================
 
-# import {{resource_group_name}} rg, vnet, law into level4 terraform state file
-** IMPORTANT: copy /tf/caf/caf_terraform_starter_osscuat_sandpit/landingzone/configuration/level3/shared_services/shared_services.tfstate to level3 blob storage shared_services.tfstate
+{% if gcc_platform_import | trim == '1' %}
+# * execute the below steps if import terraform state set to "1"
+# ** IMPORTANT:
+# Upload caf terraform state file to level3 storage account: {{prefix}}-rg-launchpad-level3
+# /tf/caf/{{gcc_starter_project_folder}}_{{prefix}}_{{caf_environment}}/landingzone/configuration/level3/shared_services/networking_vnets.tfstate
+# get level3 storage account name
+sa=$(az storage account list --query "[?contains(name,'{{prefix}}stlevel3')].name"  --output tsv)
+echo $sa
 
+az storage blob upload \
+--account-name $sa \
+--container-name "tfstate" \
+--name shared_services.tfstate \
+--file "/tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/shared_services/shared_services.tfstate" \
+--auth-mode login
+{% endif %}
+{% if gcc_platform_import | trim == '2' %}
 
 rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -level level3 \
@@ -30,3 +38,40 @@ rover -lz rover -lz /tf/caf/landingzones/caf_solution \
 -env {{caf_environment}} \
 -tfstate shared_services.tfstate \
 -a destroy
+{% endif %}
+{% if gcc_platform_import | trim == '2' %}
+{% if ingress_egress_vnet_name_ingress_internet | trim != 'None' or ingress_egress_vnet_name_egress_internet | trim != 'None' %}
+
+# IMPORTANT - OPTIONAL - manually replace osscuat-rg-gcci-platform-xxx if you are using random code
+# IMPORTANT - manually replace osscuat-rg-gcci-platform-xxx if you are using random code
+# start replace firewall resoruce group name - if you are using random code
+
+# get random code
+rg=$(az group list --query "[?contains(name,'{{prefix}}-rg-gcci-platform-')].name"  --output tsv)
+lastthreecharacters=${rg%???}
+random_code=${rg#"$lastthreecharacters"}
+if [ $random_code != "" ]; then
+# Assign the filename
+filename1="/tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/egress_internet/firewall/firewalls.tfvars"
+filename2="/tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/egress_intranet/firewall/firewalls.tfvars"
+filename3="/tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/ingress_internet/firewall/firewalls.tfvars"
+filename4="/tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level3/ingress_intranet/firewall/firewalls.tfvars"
+# assign the search and replace variables - set the xxx to the random code
+search="\"{{prefix}}-rg-{{resource_group_name}}\""
+replace="\"{{prefix}}-rg-{{resource_group_name}}-$random_code\""
+# perform replace
+{% if ingress_egress_firewall_egress | trim == '1' %}
+sed -i "s/$search/$replace/" $filename1
+{% endif %}
+{% if ingress_egress_firewall_egress_intranet | trim == '1' %}
+sed -i "s/$search/$replace/" $filename2
+{% endif %}
+{% if ingress_egress_firewall | trim == '1' %}
+sed -i "s/$search/$replace/" $filename3
+{% endif %}
+{% if ingress_egress_firewall_intranet | trim == '1' %}
+sed -i "s/$search/$replace/" $filename4
+{% endif %}
+fi
+{% endif %}
+{% endif %}

@@ -1,3 +1,8 @@
+{% if gcc_platform_import | trim != '2' %}
+#------------------------------------------------------
+# this page is leave blank intentionally
+#------------------------------------------------------
+{% else %}
 landingzone = {
   backend_type        = "azurerm"
   global_settings_key = "launchpad"
@@ -10,3 +15,4 @@ landingzone = {
     }    
   }
 }
+{% endif %}

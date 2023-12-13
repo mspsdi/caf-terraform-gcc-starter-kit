@@ -2,7 +2,6 @@
 rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/container_instance \
--parallelism 30 \
 -env {{caf_environment}} \
 -tfstate solution_accelerators_container_instance.tfstate \
 -a plan
@@ -10,7 +9,6 @@ rover -lz /tf/caf/landingzones/caf_solution \
 rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/container_instance \
--parallelism 30 \
 -env {{caf_environment}} \
 -tfstate solution_accelerators_container_instance.tfstate \
 -a apply
@@ -18,7 +16,6 @@ rover -lz /tf/caf/landingzones/caf_solution \
 rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
 -var-folder /tf/caf/{{gcc_starter_project_folder}}/landingzone/configuration/level4/project/container_instance \
--parallelism 30 \
 -env {{caf_environment}} \
 -tfstate solution_accelerators_container_instance.tfstate \
 -a destroy
