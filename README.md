@@ -223,7 +223,7 @@ OPTIONAL - create development environment (only for your own test environment)
 go to /tf/caf/{{gcc_starter_project_folder}}/gcc-dev-env/README.md and follow the steps
 
 
-##### A3.2. Deploy the platform
+##### A3.2. Deploy the level0 launchpad, level3 networking and level4 solution accelerators 
 
 execute the deploy_platform.sh under the working folder /tf/caf/{{gcc_starter_project_folder}}
 ```bash
