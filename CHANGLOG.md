@@ -2,7 +2,7 @@
 ## COMPATIBLE WITH:
 * caf rover: version rover:1.6.0-rc1-2310.0211
 * azurerm: version 3.84
-* terraform-azurerm-caf: version 5.7.6
+* terraform-azurerm-caf: version 5.7.7
 * aztfmod/azurecaf: 1.2.0
 
 ## FEATURES:
