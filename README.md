@@ -184,7 +184,9 @@ DevOps VNET (AgencyManaged): 192.x.x.x/24 (256)<br/>
 3. azure container instance
 ```bash
 az group create --name ignite-rg-launchpad --location southeastasia
+
 RG_ID="/subscriptions/xxxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+
 az container create \
   --name aci-platform-runner \
   --resource-group ignite-rg-launchpad \
@@ -196,8 +198,8 @@ az container create \
   --assign-identity --scope $RG_ID \
   --cpu 4 \
   --memory 16 \
-  --command-line '"/bin/sh" "-c" "while sleep 1000; do :; done;"'
-  ```
+  --command-line '"/bin/sh" "-c" "git clone https://github.com/mspsdi/caf-terraform-gcc-starter-kit.git /tf/caf; sudo chmod -R -f 777 /tf/caf/.devcontainer; cd /tf/caf/.devcontainer; ./setup.sh; sudo chmod -R -f 777 /tf/caf/ansible; sudo chmod -R -f 777 /tf/caf/definition; while sleep 1000; do :; done"'
+```
 goto azure portal resource group "ignite-rg-launchpad" and select container instance "aci-platform-runner". At the container instance page, open console with zsh terminal
 
 #### Login to Azure
