@@ -27,9 +27,9 @@ configuration_gcc:
   management_vnet_name_cidr: 100.127.3.0/24 # do not leave blank - 100.3.0.0/24
   devops_vnet_name_cidr: 100.127.4.0/24 # do not leave blank - 100.4.0.0/24 
   # **Optional - Peering Requirement - Management Subscription ID and Ingress/Egress Subscription ID
-  management_subscription_id: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx # 6f035180-4066-42f0-b0fa-5fbc1ae67500 # if empty, default to subscription_id
+  management_subscription_id: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx #  if empty, default to subscription_id
   devops_subscription_id:  # if empty, default to subscription_id
-  ingress_egress_subscription_id: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx # 6f035180-4066-42f0-b0fa-5fbc1ae67500 # if empty, default to subscription_id
+  ingress_egress_subscription_id: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx #  if empty, default to subscription_id
 
 
   
