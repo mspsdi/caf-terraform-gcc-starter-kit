@@ -105,7 +105,7 @@ if [ ! -d /tf/caf/landingzones ]; then
     cp /tf/caf/patches/virtual_subnets/aztfmod/bastion_service.tf  /tf/caf/landingzones/aztfmod/bastion_service.tf
     cp /tf/caf/patches/virtual_subnets/aztfmod/networking_firewall.tf /tf/caf/landingzones/aztfmod/networking_firewall.tf
     # cp /tf/caf/patches/virtual_subnets/aztfmod/application_gateways.tf /tf/caf/landingzones/aztfmod/application_gateways.tf
-    cp /tf/caf/patches/virtual_subnets/aztfmod/data_factory.tf /tf/caf/patches/virtual_subnets/aztfmod/data_factory.tf
+    cp /tf/caf/patches/virtual_subnets/aztfmod/data_factory.tf /tf/caf/landingzones/aztfmod/data_factory.tf
 
     # aks       
     cp /tf/caf/patches/virtual_subnets/aks/aks.tf  /tf/caf/landingzones/aztfmod/modules/compute/aks/aks.tf
