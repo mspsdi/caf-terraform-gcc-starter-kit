@@ -178,6 +178,29 @@ Project VNET (Internet): xxx.x.x.x/24 (256)<br/>
 Management VNET (Internet): xxx.x.x.x/24 (256)<br/>
 DevOps VNET (AgencyManaged): 192.x.x.x/24 (256)<br/>
 
+#### Deployment Environment
+1. vs code and docker desktop
+   (see Prerequisites)
+   
+3. azure container instance
+```bash
+az group create --name ignite-rg-launchpad --location southeastasia
+RG_ID="/subscriptions/xxxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+az container create \
+  --name aci-platform-runner \
+  --resource-group ignite-rg-launchpad \
+  --image aztfmod/rover:1.6.4-2311.2003  \
+  --vnet ignite-vnet-am-devops-uat \
+  --vnet-address-prefix 192.200.1.96/27 \
+  --subnet ignite-snet-aci  \
+  --subnet-address-prefix 192.200.1.96/28 \
+  --assign-identity --scope $RG_ID \
+  --cpu 4 \
+  --memory 16 \
+  --command-line '"/bin/sh" "-c" "while sleep 1000; do :; done;"'
+  ```
+goto azure portal resource group "ignite-rg-launchpad" and select container instance "aci-platform-runner". At the container instance page, open console with zsh terminal
+
 #### Login to Azure
 ```bash
 az login --tenant {{tenant id}} # azure tenant id
