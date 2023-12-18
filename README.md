@@ -127,6 +127,36 @@ This section aims to give the reader an overview of CAF Terraform GCC Starter Ki
   <img src="docs/gcc-starter-kit-architecture.png">
 </p>
 
+#### Core architecture components
+TBD
+
+#### Networking
+TBD
+
+#### Scenerio Details
+TBD
+
+#### Potential Use Cases
+TBD
+<b>Hub</b>
+
+Ingress Intranet
+- Ingress Firewall
+- Application Gateway
+
+Management
+- Azure Bastion
+- Windows Tooling Server
+
+<b>Spoke</b>
+
+Project
+- AKS
+- SQL Server
+
+DevOps
+- Runner VM or Container
+
 ### Frontend
 
 WIP
