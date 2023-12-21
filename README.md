@@ -36,13 +36,7 @@ caf terraform accelerator kit for GCC 2.0
 
 Version 0.1.0.alpha. plan release date: 31 Dec 2023
 
-The “AZURE GCC Acceleration Kit” is designed to streamline the workload setup process in the AZURE environment. This kit provides a project-based, preconfigured landing zone and Azure resources in GCC 2.0 subscription. You can choose from a library of pre-configured Azure resources that cater to your specific project requirements.
-
-* Easy Setup with Standard Rules:
-Break down and save the setup details into smaller parts so that setting up a complex system becomes quicker and more straightforward.
-* Leveraging pre-configured solution accelerators: deploys using configuration files and ensure compliance with policy and best practices.
-* Secured Connectivity: Ensuring the secure interconnection of all project workloads.
-
+The “AZURE GCC Acceleration Kit” is an open-source project and is designed to streamline the workload setup process in the AZURE environment. This kit provides a project-based, preconfigured landing zone and Azure resources in GCC 2.0 subscription. You can choose from a library of pre-configured Azure resources that cater to your specific project requirements.
 This will be achieved in a two-step layered approach. 
 This starter kit is based on "Cloud Adoption Framework Landing zones for Terraform". More details you can find [here](https://aztfmod.github.io/documentation/docs/intro)
 
@@ -108,12 +102,11 @@ DevOps Compartment
 
 ### Work In Progress
 
-- [ ] Import gcci_platform and gcci-agency-law resource group, VNET(s) and gcci-agency-workspace log analytic workspace into level3 networking state file
+- [x] Import gcci_platform and gcci-agency-law resource group, VNET(s) and gcci-agency-workspace log analytic workspace into level3 networking state file
 - [ ] Acceleration Kit UI
 - [ ] Test modules for pre-configured solution accelerators
 - [ ] Integration with GitHub
 - [ ] One Click deployment
-- [ ] AKS etcd data store encryption
 
 ### Built With
 
@@ -133,6 +126,36 @@ This section aims to give the reader an overview of CAF Terraform GCC Starter Ki
 <p align="center">
   <img src="docs/gcc-starter-kit-architecture.png">
 </p>
+
+#### Core architecture components
+TBD
+
+#### Networking
+TBD
+
+#### Scenerio Details
+TBD
+
+#### Potential Use Cases
+TBD
+<b>Hub</b>
+
+Ingress Intranet
+- Ingress Firewall
+- Application Gateway
+
+Management
+- Azure Bastion
+- Windows Tooling Server
+
+<b>Spoke</b>
+
+Project
+- AKS
+- SQL Server
+
+DevOps
+- Runner VM or Container
 
 ### Frontend
 
@@ -177,6 +200,31 @@ Intranet egress VNET (Intranet): xx.x.x.x/25 (128)<br/>
 Project VNET (Internet): xxx.x.x.x/24 (256)<br/>
 Management VNET (Internet): xxx.x.x.x/24 (256)<br/>
 DevOps VNET (AgencyManaged): 192.x.x.x/24 (256)<br/>
+
+#### Deployment Environment
+1. vs code and docker desktop
+   (see Prerequisites)
+   
+3. azure container instance
+```bash
+az group create --name ignite-rg-launchpad --location southeastasia
+
+RG_ID="/subscriptions/xxxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+
+az container create \
+  --name aci-platform-runner \
+  --resource-group ignite-rg-launchpad \
+  --image aztfmod/rover:1.6.4-2311.2003  \
+  --vnet ignite-vnet-am-devops-uat \
+  --vnet-address-prefix 192.200.1.96/27 \
+  --subnet ignite-snet-aci  \
+  --subnet-address-prefix 192.200.1.96/28 \
+  --assign-identity --scope $RG_ID \
+  --cpu 4 \
+  --memory 16 \
+  --command-line '"/bin/sh" "-c" "git clone https://github.com/mspsdi/caf-terraform-gcc-starter-kit.git /tf/caf; sudo chmod -R -f 777 /tf/caf/.devcontainer; cd /tf/caf/.devcontainer; ./setup.sh; sudo chmod -R -f 777 /tf/caf/ansible; sudo chmod -R -f 777 /tf/caf/definition; while sleep 1000; do :; done"'
+```
+goto azure portal resource group "ignite-rg-launchpad" and select container instance "aci-platform-runner". At the container instance page, open console with zsh terminal
 
 #### Login to Azure
 ```bash
