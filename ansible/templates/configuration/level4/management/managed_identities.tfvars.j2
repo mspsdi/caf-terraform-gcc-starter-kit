@@ -4,6 +4,13 @@ managed_identities = {
   user_mi = {
     name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}user_mi"
     resource_group_key = "vm_windows_tooling_re1"
+    tags = { 
+      purpose = "{{tag_zone_code}} vm windows tooling server managed identity" 
+      # project_code = "{{project_code}}" 
+      env = "{{caf_environment}}" 
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"          
+    }  
   }
 }
 

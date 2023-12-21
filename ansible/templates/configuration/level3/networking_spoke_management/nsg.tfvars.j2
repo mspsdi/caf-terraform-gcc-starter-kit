@@ -16,7 +16,7 @@ network_security_group_definition = {
     name               = "azure_bastion"   
     tags = { 
       purpose = "management bastion network security group"
-      project_code = "ignite" 
+      # project_code = "{{project_code}}"  
       env = "{{caf_environment}}" 
       zone = "management"     
     }   
@@ -209,7 +209,7 @@ network_security_group_definition = {
     name               = "jumpbox"   
     tags = { 
       purpose = "management jumpbox network security group"
-      project_code = "ignite" 
+      # project_code = "{{project_code}}"  
       env = "{{caf_environment}}" 
       zone = "management"     
     }  

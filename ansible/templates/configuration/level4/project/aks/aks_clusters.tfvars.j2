@@ -149,7 +149,7 @@ aks_clusters = {
       orchestrator_version         = "1.26.6" 
       tags = { 
         purpose = "{{project_code}} default node pool" 
-        project_code = "{{project_code}}" 
+        # project_code = "{{project_code}}" 
         env = "uat" 
         zone = "internet"
         tier = "app"     
@@ -187,7 +187,7 @@ aks_clusters = {
         }        
         tags = { 
           purpose = "{{project_code}} user node pool" 
-          project_code = "{{project_code}}" 
+          # project_code = "{{project_code}}" 
           env = "uat" 
           zone = "internet"
           tier = "app"       
@@ -230,7 +230,7 @@ aks_clusters = {
 
     tags = { 
       purpose = "internet aks cluster" 
-      project_code = "{{project_code}}" 
+      # project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
       zone = "{{tag_zone_code}}"
       tier = "{{tag_tier_code}}"        

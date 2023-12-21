@@ -109,8 +109,8 @@
           "region2": "eastus"
         },
         "tags": {
-          "Application_Classification": "Standard",
-          "Data_Classification": "Internal",
+          "Application_Classification": "Restricted",
+          "Data_Classification": "Restricted",
           "Name": "{{prefix}} - CAF Terraform Landingzones and solutions",
           "Project_Code": "{{prefix}}"
         },
@@ -208,8 +208,8 @@
               "region2": "eastus"
             },
             "tags": {
-              "Application_Classification": "Standard",
-              "Data_Classification": "Internal",
+              "Application_Classification": "Restricted",
+              "Data_Classification": "Restricted",
               "Name": "{{prefix}} - CAF Terraform Landingzones and solutions",
               "Project_Code": "{{prefix}}"
             },
@@ -222,16 +222,16 @@
               "name": "gcci-agency-law",
               "rbac_id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-agency-law",
               "tags": {
-                "Application_Classification": "Standard",
-                "Data_Classification": "Internal",
+                "Application_Classification": "Restricted",
+                "Data_Classification": "Restricted",
                 "Name": "{{prefix}} - CAF Terraform Landingzones and solutions",
                 "Project_Code": "{{prefix}}",
-                "caf_environment": "sandpit",
+                "caf_environment": "{{caf_environment}}",
                 "caf_level": "level3",
                 "env": "sandpit",
                 "project_code": "{{prefix}}",
                 "purpose": "hub internet resource group",
-                "rover_version": "aztfmod/rover:1.6.0-rc1-2310.0211",
+                "rover_version": "aztfmod/rover:1.6.4-2311.2003",
                 "tier": "",
                 "zone": "internet"
               }
@@ -242,16 +242,16 @@
               "name": "gcci-platform",
               "rbac_id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform",
               "tags": {
-                "Application_Classification": "Standard",
-                "Data_Classification": "Internal",
+                "Application_Classification": "Restricted",
+                "Data_Classification": "Restricted",
                 "Name": "{{prefix}} - CAF Terraform Landingzones and solutions",
                 "Project_Code": "{{prefix}}",
-                "caf_environment": "sandpit",
+                "caf_environment": "{{caf_environment}}",
                 "caf_level": "level3",
                 "env": "sandpit",
                 "project_code": "{{prefix}}",
                 "purpose": "hub internet resource group",
-                "rover_version": "aztfmod/rover:1.6.0-rc1-2310.0211",
+                "rover_version": "aztfmod/rover:1.6.4-2311.2003",
                 "tier": "",
                 "zone": "internet"
               }
@@ -762,8 +762,8 @@
                     "region2": "eastus"
                   },
                   "tags": {
-                    "Application_Classification": "Standard",
-                    "Data_Classification": "Internal",
+                    "Application_Classification": "Restricted",
+                    "Data_Classification": "Restricted",
                     "Name": "{{prefix}} - CAF Terraform Landingzones and solutions",
                     "Project_Code": "{{prefix}}"
                   },
@@ -800,8 +800,8 @@
                         "region2": "eastus"
                       },
                       "tags": {
-                        "Application_Classification": "Standard",
-                        "Data_Classification": "Internal",
+                        "Application_Classification": "Restricted",
+                        "Data_Classification": "Restricted",
                         "Name": "{{prefix}} - CAF Terraform Landingzones and solutions",
                         "Project_Code": "{{prefix}}"
                       },
@@ -810,15 +810,15 @@
                     "keyvaults": {
                       "level0": {
                         "base_tags": {
-                          "Application_Classification": "Standard",
-                          "Data_Classification": "Internal",
+                          "Application_Classification": "Restricted",
+                          "Data_Classification": "Restricted",
                           "Name": "{{prefix}} - CAF Terraform Landingzones and solutions",
                           "Project_Code": "{{prefix}}",
-                          "caf_environment": "sandpit",
+                          "caf_environment": "{{caf_environment}}",
                           "caf_tfstate": "level0",
                           "landingzone": "launchpad",
                           "level": "level0",
-                          "rover_version": "aztfmod/rover:1.6.0-rc1-2310.0211"
+                          "rover_version": "aztfmod/rover:1.6.4-2311.2003"
                         },
                         "id": "/subscriptions/{{subscription_id}}/resourceGroups/{{prefix}}-rg-launchpad-level0/providers/Microsoft.KeyVault/vaults/{{prefix}}-kv-level0",
                         "name": "{{prefix}}-kv-level0",
@@ -827,15 +827,15 @@
                       },
                       "level3": {
                         "base_tags": {
-                          "Application_Classification": "Standard",
-                          "Data_Classification": "Internal",
+                          "Application_Classification": "Restricted",
+                          "Data_Classification": "Restricted",
                           "Name": "{{prefix}} - CAF Terraform Landingzones and solutions",
                           "Project_Code": "{{prefix}}",
-                          "caf_environment": "sandpit",
+                          "caf_environment": "{{caf_environment}}",
                           "caf_tfstate": "level3",
                           "landingzone": "launchpad",
                           "level": "level3",
-                          "rover_version": "aztfmod/rover:1.6.0-rc1-2310.0211"
+                          "rover_version": "aztfmod/rover:1.6.4-2311.2003"
                         },
                         "id": "/subscriptions/{{subscription_id}}/resourceGroups/{{prefix}}-rg-launchpad-level3/providers/Microsoft.KeyVault/vaults/{{prefix}}-kv-level3",
                         "name": "{{prefix}}-kv-level3",
@@ -844,15 +844,15 @@
                       },
                       "level4": {
                         "base_tags": {
-                          "Application_Classification": "Standard",
-                          "Data_Classification": "Internal",
+                          "Application_Classification": "Restricted",
+                          "Data_Classification": "Restricted",
                           "Name": "{{prefix}} - CAF Terraform Landingzones and solutions",
                           "Project_Code": "{{prefix}}",
-                          "caf_environment": "sandpit",
+                          "caf_environment": "{{caf_environment}}",
                           "caf_tfstate": "level4",
                           "landingzone": "launchpad",
                           "level": "level4",
-                          "rover_version": "aztfmod/rover:1.6.0-rc1-2310.0211"
+                          "rover_version": "aztfmod/rover:1.6.4-2311.2003"
                         },
                         "id": "/subscriptions/{{subscription_id}}/resourceGroups/{{prefix}}-rg-launchpad-level4/providers/Microsoft.KeyVault/vaults/{{prefix}}-kv-level4",
                         "name": "{{prefix}}-kv-level4",
@@ -867,14 +867,14 @@
                         "name": "{{prefix}}-rg-launchpad-level0",
                         "rbac_id": "/subscriptions/{{subscription_id}}/resourceGroups/{{prefix}}-rg-launchpad-level0",
                         "tags": {
-                          "Application_Classification": "Standard",
-                          "Data_Classification": "Internal",
+                          "Application_Classification": "Restricted",
+                          "Data_Classification": "Restricted",
                           "Name": "{{prefix}} - CAF Terraform Landingzones and solutions",
                           "Project_Code": "{{prefix}}",
-                          "caf_environment": "sandpit",
+                          "caf_environment": "{{caf_environment}}",
                           "landingzone": "launchpad",
                           "level": "level0",
-                          "rover_version": "aztfmod/rover:1.6.0-rc1-2310.0211"
+                          "rover_version": "aztfmod/rover:1.6.4-2311.2003"
                         }
                       },
                       "level3": {
@@ -883,14 +883,14 @@
                         "name": "{{prefix}}-rg-launchpad-level3",
                         "rbac_id": "/subscriptions/{{subscription_id}}/resourceGroups/{{prefix}}-rg-launchpad-level3",
                         "tags": {
-                          "Application_Classification": "Standard",
-                          "Data_Classification": "Internal",
+                          "Application_Classification": "Restricted",
+                          "Data_Classification": "Restricted",
                           "Name": "{{prefix}} - CAF Terraform Landingzones and solutions",
                           "Project_Code": "{{prefix}}",
-                          "caf_environment": "sandpit",
+                          "caf_environment": "{{caf_environment}}",
                           "landingzone": "launchpad",
                           "level": "level3",
-                          "rover_version": "aztfmod/rover:1.6.0-rc1-2310.0211"
+                          "rover_version": "aztfmod/rover:1.6.4-2311.2003"
                         }
                       },
                       "level4": {
@@ -899,14 +899,14 @@
                         "name": "{{prefix}}-rg-launchpad-level4",
                         "rbac_id": "/subscriptions/{{subscription_id}}/resourceGroups/{{prefix}}-rg-launchpad-level4",
                         "tags": {
-                          "Application_Classification": "Standard",
-                          "Data_Classification": "Internal",
+                          "Application_Classification": "Restricted",
+                          "Data_Classification": "Restricted",
                           "Name": "{{prefix}} - CAF Terraform Landingzones and solutions",
                           "Project_Code": "{{prefix}}",
-                          "caf_environment": "sandpit",
+                          "caf_environment": "{{caf_environment}}",
                           "landingzone": "launchpad",
                           "level": "level4",
-                          "rover_version": "aztfmod/rover:1.6.0-rc1-2310.0211"
+                          "rover_version": "aztfmod/rover:1.6.4-2311.2003"
                         }
                       }
                     },
@@ -1585,16 +1585,16 @@
             "secondary_shared_key": "SACYi5bg9k5MIt/bKlMYQlp3RgVidZTM6Y0L4UqDbwBhDA/1TY5yPx7u5VCt+LpkVGphRELcayCxbH8s/GW70g==",
             "sku": "PerGB2018",
             "tags": {
-              "Application_Classification": "Standard",
-              "Data_Classification": "Internal",
+              "Application_Classification": "Restricted",
+              "Data_Classification": "Restricted",
               "Name": "{{prefix}} - CAF Terraform Landingzones and solutions",
               "Project_Code": "{{prefix}}",
-              "caf_environment": "sandpit",
+              "caf_environment": "{{caf_environment}}",
               "caf_level": "level3",
               "env": "sandpit",
               "project_code": "{{prefix}}",
               "purpose": "hub internet resource group",
-              "rover_version": "aztfmod/rover:1.6.0-rc1-2310.0211",
+              "rover_version": "aztfmod/rover:1.6.4-2311.2003",
               "tier": "",
               "zone": "internet"
             },
@@ -1693,16 +1693,16 @@
             "resource_group_name": "gcci-platform",
             "subnet": [],
             "tags": {
-              "Application_Classification": "Standard",
-              "Data_Classification": "Internal",
+              "Application_Classification": "Restricted",
+              "Data_Classification": "Restricted",
               "Name": "{{prefix}} - CAF Terraform Landingzones and solutions",
               "Project_Code": "{{prefix}}",
-              "caf_environment": "sandpit",
+              "caf_environment": "{{caf_environment}}",
               "caf_level": "level3",
               "env": "sandpit",
               "project_code": "{{prefix}}",
               "purpose": "hub internet resource group",
-              "rover_version": "aztfmod/rover:1.6.0-rc1-2310.0211",
+              "rover_version": "aztfmod/rover:1.6.4-2311.2003",
               "tier": "",
               "zone": "internet"
             },
@@ -1804,16 +1804,16 @@
             "resource_group_name": "gcci-platform",
             "subnet": [],
             "tags": {
-              "Application_Classification": "Standard",
-              "Data_Classification": "Internal",
+              "Application_Classification": "Restricted",
+              "Data_Classification": "Restricted",
               "Name": "{{prefix}} - CAF Terraform Landingzones and solutions",
               "Project_Code": "{{prefix}}",
-              "caf_environment": "sandpit",
+              "caf_environment": "{{caf_environment}}",
               "caf_level": "level3",
               "env": "sandpit",
               "project_code": "{{prefix}}",
               "purpose": "hub internet resource group",
-              "rover_version": "aztfmod/rover:1.6.0-rc1-2310.0211",
+              "rover_version": "aztfmod/rover:1.6.4-2311.2003",
               "tier": "",
               "zone": "internet"
             },
@@ -1915,16 +1915,16 @@
             "resource_group_name": "gcci-platform",
             "subnet": [],
             "tags": {
-              "Application_Classification": "Standard",
-              "Data_Classification": "Internal",
+              "Application_Classification": "Restricted",
+              "Data_Classification": "Restricted",
               "Name": "{{prefix}} - CAF Terraform Landingzones and solutions",
               "Project_Code": "{{prefix}}",
-              "caf_environment": "sandpit",
+              "caf_environment": "{{caf_environment}}",
               "caf_level": "level3",
               "env": "sandpit",
               "project_code": "{{prefix}}",
               "purpose": "hub internet resource group",
-              "rover_version": "aztfmod/rover:1.6.0-rc1-2310.0211",
+              "rover_version": "aztfmod/rover:1.6.4-2311.2003",
               "tier": "",
               "zone": "internet"
             },
@@ -2026,16 +2026,16 @@
             "resource_group_name": "gcci-platform",
             "subnet": [],
             "tags": {
-              "Application_Classification": "Standard",
-              "Data_Classification": "Internal",
+              "Application_Classification": "Restricted",
+              "Data_Classification": "Restricted",
               "Name": "{{prefix}} - CAF Terraform Landingzones and solutions",
               "Project_Code": "{{prefix}}",
-              "caf_environment": "sandpit",
+              "caf_environment": "{{caf_environment}}",
               "caf_level": "level3",
               "env": "sandpit",
               "project_code": "{{prefix}}",
               "purpose": "hub internet resource group",
-              "rover_version": "aztfmod/rover:1.6.0-rc1-2310.0211",
+              "rover_version": "aztfmod/rover:1.6.4-2311.2003",
               "tier": "",
               "zone": "internet"
             },
@@ -2137,16 +2137,16 @@
             "resource_group_name": "gcci-platform",
             "subnet": [],
             "tags": {
-              "Application_Classification": "Standard",
-              "Data_Classification": "Internal",
+              "Application_Classification": "Restricted",
+              "Data_Classification": "Restricted",
               "Name": "{{prefix}} - CAF Terraform Landingzones and solutions",
               "Project_Code": "{{prefix}}",
-              "caf_environment": "sandpit",
+              "caf_environment": "{{caf_environment}}",
               "caf_level": "level3",
               "env": "sandpit",
               "project_code": "{{prefix}}",
               "purpose": "hub internet resource group",
-              "rover_version": "aztfmod/rover:1.6.0-rc1-2310.0211",
+              "rover_version": "aztfmod/rover:1.6.4-2311.2003",
               "tier": "",
               "zone": "internet"
             },
@@ -2248,16 +2248,16 @@
             "resource_group_name": "gcci-platform",
             "subnet": [],
             "tags": {
-              "Application_Classification": "Standard",
-              "Data_Classification": "Internal",
+              "Application_Classification": "Restricted",
+              "Data_Classification": "Restricted",
               "Name": "{{prefix}} - CAF Terraform Landingzones and solutions",
               "Project_Code": "{{prefix}}",
-              "caf_environment": "sandpit",
+              "caf_environment": "{{caf_environment}}",
               "caf_level": "level3",
               "env": "sandpit",
               "project_code": "{{prefix}}",
               "purpose": "hub internet resource group",
-              "rover_version": "aztfmod/rover:1.6.0-rc1-2310.0211",
+              "rover_version": "aztfmod/rover:1.6.4-2311.2003",
               "tier": "",
               "zone": "internet"
             },
@@ -2355,16 +2355,16 @@
             "resource_group_name": "gcci-platform",
             "subnet": [],
             "tags": {
-              "Application_Classification": "Standard",
-              "Data_Classification": "Internal",
+              "Application_Classification": "Restricted",
+              "Data_Classification": "Restricted",
               "Name": "{{prefix}} - CAF Terraform Landingzones and solutions",
               "Project_Code": "{{prefix}}",
-              "caf_environment": "sandpit",
+              "caf_environment": "{{caf_environment}}",
               "caf_level": "level3",
               "env": "sandpit",
               "project_code": "{{prefix}}",
               "purpose": "hub internet resource group",
-              "rover_version": "aztfmod/rover:1.6.0-rc1-2310.0211",
+              "rover_version": "aztfmod/rover:1.6.4-2311.2003",
               "tier": "",
               "zone": "internet"
             },
@@ -2443,16 +2443,16 @@
             "managed_by": "",
             "name": "gcci-agency-law",
             "tags": {
-              "Application_Classification": "Standard",
-              "Data_Classification": "Internal",
+              "Application_Classification": "Restricted",
+              "Data_Classification": "Restricted",
               "Name": "{{prefix}} - CAF Terraform Landingzones and solutions",
               "Project_Code": "{{prefix}}",
-              "caf_environment": "sandpit",
+              "caf_environment": "{{caf_environment}}",
               "caf_level": "level3",
               "env": "sandpit",
               "project_code": "{{prefix}}",
               "purpose": "hub internet resource group",
-              "rover_version": "aztfmod/rover:1.6.0-rc1-2310.0211",
+              "rover_version": "aztfmod/rover:1.6.4-2311.2003",
               "tier": "",
               "zone": "internet"
             },
@@ -2521,16 +2521,16 @@
             "managed_by": "",
             "name": "gcci-platform",
             "tags": {
-              "Application_Classification": "Standard",
-              "Data_Classification": "Internal",
+              "Application_Classification": "Restricted",
+              "Data_Classification": "Restricted",
               "Name": "{{prefix}} - CAF Terraform Landingzones and solutions",
               "Project_Code": "{{prefix}}",
-              "caf_environment": "sandpit",
+              "caf_environment": "{{caf_environment}}",
               "caf_level": "level3",
               "env": "sandpit",
               "project_code": "{{prefix}}",
               "purpose": "hub internet resource group",
-              "rover_version": "aztfmod/rover:1.6.0-rc1-2310.0211",
+              "rover_version": "aztfmod/rover:1.6.4-2311.2003",
               "tier": "",
               "zone": "internet"
             },
