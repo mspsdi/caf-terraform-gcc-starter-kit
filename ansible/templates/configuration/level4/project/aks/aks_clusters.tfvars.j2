@@ -172,7 +172,7 @@ aks_clusters = {
         virtual_subnet_key = "app_internet_subnet"
 {% endif %} 
 {% if caf_environment | trim == 'prd' %}
-      availability_zones           = ["1","2","3"] # set to 3 AZs for production
+        availability_zones           = ["1","2","3"] # set to 3 AZs for production
 {% endif %} 
         max_pods            = 15 # 30
         vm_size               = "Standard_D8ls_v5"  # "Standard_DS2_v2" # "Standard_F4s_v2"
