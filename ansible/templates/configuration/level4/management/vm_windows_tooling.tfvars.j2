@@ -86,6 +86,9 @@ CUSTOM_DATA
         # format: source_image_id = "/subscriptions/subscriptio_name/resourceGroups/RG_NAME/providers/Microsoft.Compute/images/image_name"
         # e.g. source_image_id = “/subscriptions/XXXXXXXX/resourceGroups/XXXXXXXXXX/providers/Microsoft.Compute/galleries/XXXXXXXXXX/images/XXXXXXXXXX/versions/1.0.9”
         # custom_image_id = "/subscriptions/XXXXXXXX-xxxx-xxxx-xxxx-XXXXXXXX/resourceGroups/rg-prd-standardbuild/providers/Microsoft.Compute/galleries/standardbuild/images/GT-GCCS-StandardBuild-Windows-Server-2022-on-2023-08-21"
+        # list vm image custom image id
+        # az vm image show --location southeastasia --urn MicrosoftWindowsServer:WindowsServer:2019-datacenter-gensecond:latest
+        # "/Subscriptions/XXXXXXXX-xxxx-xxxx-xxxx-XXXXXXXX/Providers/Microsoft.Compute/Locations/southeastasia/Publishers/MicrosoftWindowsServer/ArtifactTypes/VMImage/Offers/WindowsServer/Skus/2019-datacenter-gensecond/Versions/17763.5206.231202"
 
 {% if custom_image_id | trim == 'None' or custom_image_id | trim == '' %}
         source_image_reference = {
@@ -95,7 +98,7 @@ CUSTOM_DATA
           version   = "latest"
         }
 {% else %}
-        custom_image_id = "/subscriptions/{{subscription_id}}/resourceGroups/rg-prd-standardbuild/providers/Microsoft.Compute/galleries/standardbuild/images/GT-GCCS-StandardBuild-Windows-Server-2022-on-2023-08-21"
+        custom_image_id = "{{custom_image_id}}"
 {% endif %}   
 
         identity = {
