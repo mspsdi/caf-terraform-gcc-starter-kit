@@ -104,7 +104,6 @@
       project_code: "{{configuration.project_code | trim}}"  
       env: "sandpit"       
       
-
       on_prem_api_ip: "{{configuration_application.on_prem_api_ip | trim}}"
       on_prem_sftp_ip: "{{configuration_application.on_prem_sftp_ip | trim}}"
       on_prem_mq_ip: "{{configuration_application.on_prem_mq_ip | trim}}"
@@ -132,6 +131,7 @@
       management_subscription_id: "{{configuration_gcc.ingress_egress_subscription_id | trim}}" 
       ingress_egress_subscription_id: "{{configuration_gcc.ingress_egress_subscription_id | trim}}" 
       devops_subscription_id: "{{configuration_gcc.devops_subscription_id | trim}}" 
+      custom_image_id: "{{configuration_gcc.custom_image_id | trim}}" 
 
       workspace_id: "xxxxxxxx-07f3-4cf8-800f-xxxxxxxxxxxx" # "{{configuration_gcc.workspace_id | trim}}" 
       resource_group_name: "{{configuration_gcc.resource_group_name | trim}}" 
