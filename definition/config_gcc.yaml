@@ -2,7 +2,10 @@
 configuration_gcc:
   gcc_platform_import: 1 # 2: non-gcc platform 1: import gcci-platform tfstage rg, vents, law or 0: not importing - use vnet resource id
   platform_name: gcc_starter 
-  subscription_id: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx
+  tenant_id: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx # xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx
+  subscription_id: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx # xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx
+  workspace_id: ca2e37fc-07f3-4cf8-800f-35e900cfdec6 # do not change - law workspace id
+  spn_name: gcci-spn-landing-zone-001 # dummy value - reserve for future use
   # GCC 2.0 compartment information 
   resource_group_name:	gcci-platform # do not change
   log_analytics_workspace_resource_group_name:	gcci-agency-law  # do not change
@@ -18,17 +21,15 @@ configuration_gcc:
   # **Optional - Non GCC - Do not leave blank - peering requirements ; if GCC, for information in state file only
   ingress_egress_vnet_name_ingress_internet_cidr: 100.127.0.0/24 # do not leave blank - 100.1.0.0/24
   ingress_egress_vnet_name_egress_internet_cidr: 100.127.1.0/24 # do not leave blank - 100.1.1.0/24
-  ingress_egress_vnet_name_ingress_intranet_cidr:  # do not leave blank - 10.2.0.0/25
-  ingress_egress_vnet_name_egress_intranet_cidr:  # do not leave blank - 10.2.1.0/25
+  ingress_egress_vnet_name_ingress_intranet_cidr: 10.127.0.0/24 # do not leave blank - 10.2.0.0/25
+  ingress_egress_vnet_name_egress_intranet_cidr: 10.127.1.0/24 # do not leave blank - 10.2.1.0/25
   internet_vnet_name_cidr: 100.64.0.0/23 # do not leave blank - 100.2.0.0/24
   management_vnet_name_cidr: 100.127.3.0/24 # do not leave blank - 100.3.0.0/24
   devops_vnet_name_cidr: 100.127.4.0/24 # do not leave blank - 100.4.0.0/24 
   # **Optional - Peering Requirement - Management Subscription ID and Ingress/Egress Subscription ID
-  management_subscription_id:  # if empty, default to subscription_id
+  management_subscription_id: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx #  if empty, default to subscription_id
   devops_subscription_id:  # if empty, default to subscription_id
-  ingress_egress_subscription_id:  # if empty, default to subscription_id
-  custom_image_id: # set the custom image id for tooling server or vm from govtech cts e.g. "/subscriptions/{{subscription_id}}/resourceGroups/rg-prd-standardbuild/providers/Microsoft.Compute/galleries/standardbuild/images/GT-GCCS-StandardBuild-Windows-Server-2022-on-2023-08-21"
+  ingress_egress_subscription_id: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx #  if empty, default to subscription_id
 
 
   
-
