@@ -1,7 +1,7 @@
 # apim stv2 or stv2.1 will required a public ip
 api_management = {
   integration_apim_re1 = {
-    name                 = "integration-re1"
+    name                 = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}integration-re1"
     resource_group_key = "apim_rg_re1"
     publisher_name       = "My Company"
     publisher_email      = "company@terraform.io"
@@ -45,11 +45,11 @@ api_management = {
     }   
 
     tags = { 
-      purpose = "{{zone_code}} apim" 
-      project-code = "{{project_code}}" 
+      purpose = "{{tag_zone_code}} apim" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"          
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"          
     }  
   }
 }

@@ -4,7 +4,7 @@
 application_gateway_platforms = {
   agw1 = {
     resource_group_key = "agw_internet_re1"
-    name               = "openai-load-balancer"
+    name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}openai-load-balancer"
 {% if gcc_platform_import | trim == '0' %}
     subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-applicationgateway-internet"
 {% else %}
@@ -108,11 +108,11 @@ application_gateway_platforms = {
     }
 
     tags = { 
-      purpose = "{{zone_code}} web reverse proxy application gateway" 
-      project-code = "{{project_code}}" 
+      purpose = "{{tag_zone_code}} web reverse proxy application gateway" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"           
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"           
     } 
         
   }

@@ -1,7 +1,7 @@
 azurerm_firewalls = {
   # ingress firewall
   fw_re1 = {
-    name               = "egress-internet"
+    name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}egress-internet"
 
     resource_group_key = "networking_firewall_egress_internet_re1"
 
@@ -33,7 +33,7 @@ azurerm_firewalls = {
     # management subnet is required for force tunneling
     management_ip_configuration = {
       management_ip_configuration = {
-        name = "management-ip"
+        name = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}management-ip"
         public_ip_key = "firewall_mgmt_re1"
 {% if gcc_platform_import | trim == '0' %}
         subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_internet}}/subnets/AzureFirewallManagementSubnet"
@@ -46,11 +46,11 @@ azurerm_firewalls = {
 
     # add diagnostic_profiles and tags
     tags = { 
-      purpose = "ingress networking spoke resource group" # replace with purpose
-      project-code = "{{project_code}}" 
+      purpose = "egress networking spoke resource group" # replace with purpose
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"          
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"          
     } 
 
     diagnostic_profiles = {

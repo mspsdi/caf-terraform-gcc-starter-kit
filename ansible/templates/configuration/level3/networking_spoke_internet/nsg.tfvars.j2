@@ -17,7 +17,7 @@ network_security_group_definition = {
     name               = "apim-nsg"
     tags = { 
       purpose = "apim tier network security group"
-      project-code = "{{project_code}}" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
       zone = "internet"     
     }     
@@ -304,7 +304,7 @@ network_security_group_definition = {
     name               = "services-nsg"
     tags = { 
       purpose = "services tier network security group"
-      project-code = "{{project_code}}" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
       zone = "internet"     
     }     
@@ -350,7 +350,7 @@ network_security_group_definition = {
     name               = "chatgpt-nsg"
     tags = { 
       purpose = "chatgpt tier network security group"
-      project-code = "{{project_code}}" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
       zone = "internet"     
     }     
@@ -396,7 +396,7 @@ network_security_group_definition = {
     name               = "ai-nsg"
     tags = { 
       purpose = "ai tier network security group"
-      project-code = "{{project_code}}" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
       zone = "internet"     
     }     
@@ -442,7 +442,7 @@ network_security_group_definition = {
     name               = "applicaitongateway-nsg"
     tags = { 
       purpose = "agw tier network security group"
-      project-code = "{{project_code}}" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
       zone = "internet"     
     }     
@@ -488,7 +488,7 @@ network_security_group_definition = {
     name               = "functionapps-nsg"
     tags = { 
       purpose = "agw tier network security group"
-      project-code = "{{project_code}}" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
       zone = "internet"     
     }     
@@ -592,7 +592,7 @@ network_security_group_definition = {
     name               = "app"   
     tags = { 
       purpose = "app tier network security group"
-      project-code = "{{project_code}}" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
       zone = "internet"     
     }     
@@ -1231,7 +1231,7 @@ network_security_group_definition = {
     name               = "db"    
     tags = { 
       purpose = "database tier network security group"
-      project-code = "{{project_code}}" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
       zone = "internet"           
     }
@@ -1424,9 +1424,9 @@ network_security_group_definition = {
     name               = "it"   
     tags = { 
       purpose = "it tier network security group"
-      project-code = "{{project_code}}" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"      
+      zone = "{{tag_zone_code}}"      
     }
     flow_logs = {
       name    = "it-nsg-internet" 

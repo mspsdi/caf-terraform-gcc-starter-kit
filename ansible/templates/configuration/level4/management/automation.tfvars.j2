@@ -1,7 +1,7 @@
 {% if management_automation | trim == '1' %}
 automations = {
   automation_account = {
-    name               = "automation-ops"
+    name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}automation-ops"
     sku                = "Basic"
     resource_group_key = "mgmt_ops_re1"
     
@@ -9,17 +9,17 @@ automations = {
 
     tags = { 
       purpose = "management automations" 
-      project-code = "{{project_code}}" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"          
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"          
     }     
 
 
     private_endpoints = {
       # Require enforce_private_link_endpoint_network_policies set to true on the subnet
       pep_automation = {
-        name               = "pep-automation"
+        name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}pep-automation"
         resource_group_key = "mgmt_ops_re1"
 
 {% if gcc_platform_import | trim == '0' %}
@@ -31,7 +31,7 @@ automations = {
 {% endif %}    
 
         private_service_connection = {
-          name                 = "psc-automation"
+          name                 = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}psc-automation"
           is_manual_connection = false
           subresource_names    = ["DSCAndHybridWorker"]
         }

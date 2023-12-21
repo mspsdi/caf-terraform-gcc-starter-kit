@@ -27,11 +27,13 @@
     - /tf/caf/definition/config_gcc.yaml
     - /tf/caf/definition/config_solution_accelerators.yaml
     - /tf/caf/definition/config_application.yaml
+    - /tf/caf/ansible/naming_convention.yml  
 # end include variables file config.yaml
     
   vars:
 # begin set global variable
     - name: set global variables  
+      # azurecaf_name: "" # dbs-sqlnmi-n-adlx-u1dt-db01 svc-aks-{{p/np}}-adlx-{{caf_environment}}{{1-this is what}}{{app_tier}}-{{resource_name}}
       gcc_starter_project_folder: "{{configuration_gcc.platform_name | trim}}_{{configuration.project_code | trim}}_{{caf_environment}}"    
       # landingzone_parent_folder: "/tf/caf/gcc_starter"         
       landingzone_parent_folder: "/tf/caf/{{gcc_starter_project_folder}}"      
@@ -46,18 +48,50 @@
       cidr_subnet_security: ""
       cidr_subnet_devops: ""
       cidr_subnet_private_endpoint: ""   
+
+      # ** naming convention **
       zone_code: "" # iz - intranet zone, ez - internet zone, mz - management zone, dz - devops zone, ingress zone ie 
       tier_code: "" # web, app, data, it, gut 
-      zone_internet: "internet" # internet zone
-      zone_intranet: "intranet"  # intranet zone
-      zone_management: "management" # management zone
-      zone_devops: "devops" # devops zone
-      zone_ingress_egress: "ingress" # dmz zone
-      tier_web: "web"
-      tier_app: "app"
-      tier_data: "data"
-      tier_it: "it"
-      tier_gut: "gut"
+      env_code: "" # p: prod n: non-prod
+      # env_non_prod: "n" # p: prod n: non-prod
+      # env_prod: "p" # p: prod n: non-prod
+      # zone_internet: "ez" # internet zone
+      # zone_intranet: "iz"  # intranet zone
+      # zone_project: "pz" # management zone
+      # zone_management: "mz" # management zone
+      # zone_devops: "dz" # devops zone
+      # zone_ingress_egress: "iegz" # dmz zone
+      # zone_ingress: igz
+      # zone_egress: egz      
+      # tier_web: "wt"
+      # tier_app: "at"
+      # tier_data: "dt"
+      # tier_it: "it"
+      # tier_gut: "gt"
+
+      # tag zone and tier code
+      tag_zone_code: "" 
+      tag_tier_code: "" 
+      # tags
+      tag_zone_internet: "internet zone" # internet zone
+      tag_zone_intranet: "intranet zone"  # intranet zone
+      tag_zone_project: "project zone" # management zone
+      tag_zone_management: "management zone" # management zone
+      tag_zone_devops: "devops zone" # devops zone
+      tag_zone_ingress_egress: "ingress egress" # dmz zone - not used
+      tag_zone_ingress: "ingress" # not used
+      tag_zone_egress: "egress" # not used
+
+      # tier_code
+      tag_tier_web: "web"
+      tag_tier_app: "app"
+      tag_tier_data: "data"
+      tag_tier_it: "it" # not used
+      tag_tier_gut: "gut" # not used
+      tag_tier_ingress: "ingress"
+      tag_tier_egress: "egress"
+      tag_tier_service: "service"
+
 
       solution_accelerators_path: ""
       templates_path: ""   
@@ -92,18 +126,18 @@
       # gcc central managed configuration
       gcc_platform: "1" # set to always 1 "{{configuration_gcc.gcc_platform | trim}}"          
       gcc_platform_import: "{{configuration_gcc.gcc_platform_import | trim}}"          
-      tenant_id: "{{configuration_gcc.tenant_id | trim}}" 
+      tenant_id: "xxxxxxxx-ffda-45c1-adc5-xxxxxxxxxxxx" # "{{configuration_gcc.tenant_id | trim}}" 
       subscription_id: "{{configuration_gcc.subscription_id | trim}}" 
 
       management_subscription_id: "{{configuration_gcc.ingress_egress_subscription_id | trim}}" 
       ingress_egress_subscription_id: "{{configuration_gcc.ingress_egress_subscription_id | trim}}" 
       devops_subscription_id: "{{configuration_gcc.devops_subscription_id | trim}}" 
 
-      workspace_id: "{{configuration_gcc.workspace_id | trim}}" 
+      workspace_id: "xxxxxxxx-07f3-4cf8-800f-xxxxxxxxxxxx" # "{{configuration_gcc.workspace_id | trim}}" 
       resource_group_name: "{{configuration_gcc.resource_group_name | trim}}" 
       log_analytics_workspace_resource_group_name: "{{configuration_gcc.log_analytics_workspace_resource_group_name | trim}}" 
       log_analytics_workspace_name: "{{configuration_gcc.log_analytics_workspace_name | trim}}" 
-      spn_name: "{{configuration_gcc.spn_name | trim}}"       
+      spn_name: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" # "{{configuration_gcc.spn_name | trim}}"       
       ingress_egress_vnet_name_ingress_internet: "{{configuration_gcc.ingress_egress_vnet_name_ingress_internet | trim}}" 
       ingress_egress_vnet_name_egress_internet: "{{configuration_gcc.ingress_egress_vnet_name_egress_internet | trim}}" 
       ingress_egress_vnet_name_ingress_intranet: "{{configuration_gcc.ingress_egress_vnet_name_ingress_intranet | trim}}" 
@@ -334,10 +368,23 @@
       # beign block
       block:
 
+      # start naming convention variables
+      - name: set_env_code non prod
+        set_fact:
+          env_code: "{{ env_non_prod | trim }}"
+        when: caf_environment | trim  != "prd"            
+
+      - name: set_env_code prod
+        set_fact:
+          env_code: "{{ env_prod | trim }}"
+        when: caf_environment | trim  == "prd"    
+      # end naming convention variables
+
       # start set variables
       - name: set_variables
         set_fact:
           zone_code: ""
+          tag_zone_code: ""          
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level0/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level0/launchpad/"
           templates_path: "{{templates_folder}}/configuration/level0/launchpad/"          
@@ -390,6 +437,7 @@
       - name: set_variables
         set_fact:
           zone_code: "{{zone_internet}}"
+          tag_zone_code: "{{tag_zone_internet}}"          
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level3/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level3/networking_vnet_peering/"
           templates_path: "{{templates_folder}}/configuration/level3/networking_vnet_peering/"          
@@ -438,6 +486,7 @@
       - name: set_variables
         set_fact:
           zone_code: "{{zone_internet}}"
+          tag_zone_code: "{{tag_zone_internet}}"          
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level3/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level3/shared_services/"
           templates_path: "{{templates_folder}}/configuration/level3/shared_services/"          
@@ -519,6 +568,7 @@
       - name: set_variables
         set_fact:
           zone_code: "{{zone_internet}}"
+          tag_zone_code: "{{tag_zone_internet}}"          
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level3/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level3/networking_hub_internet/"
           templates_path: "{{templates_folder}}/configuration/level3/networking_hub_internet/"          
@@ -566,7 +616,9 @@
       - name: set_variables
         set_fact:
           zone_code: "{{zone_internet}}"
-          tier_code: "egress"
+          tier_code: "{{tier_egress}}"
+          tag_zone_code: "{{tag_zone_internet}}"
+          tag_tier_code: "{{tag_tier_egress}}"          
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level3/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level3/egress_internet/firewall/"
           templates_path: "{{templates_folder}}/configuration/level3/egress_internet/firewall/"          
@@ -614,7 +666,9 @@
       - name: set_variables
         set_fact:
           zone_code: "{{zone_internet}}"
-          tier_code: "ingress"          
+          tier_code: "{{tier_ingress}}"       
+          tag_zone_code: "{{tag_zone_internet}}"
+          tag_tier_code: "{{tag_tier_ingress}}"            
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level3/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level3/ingress_internet/firewall/"
           templates_path: "{{templates_folder}}/configuration/level3/ingress_internet/firewall/"          
@@ -662,7 +716,9 @@
       - name: set_variables
         set_fact:
           zone_code: "{{zone_internet}}"
-          tier_code: "ingress"          
+          tier_code: "{{tier_ingress}}"     
+          tag_zone_code: "{{tag_zone_internet}}"
+          tag_tier_code: "{{tag_tier_ingress}}"                  
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level3/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level3/ingress_internet/agw/"
           templates_path: "{{templates_folder}}/configuration/level3/ingress_internet/agw/"          
@@ -744,6 +800,7 @@
       - name: set_variables
         set_fact:
           zone_code: "{{zone_intranet}}"
+          tag_zone_code: "{{tag_zone_intranet}}"          
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level3/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level3/networking_hub_intranet/"
           templates_path: "{{templates_folder}}/configuration/level3/networking_hub_intranet/"          
@@ -791,7 +848,9 @@
       - name: set_variables
         set_fact:
           zone_code: "{{zone_intranet}}"
-          tier_code: "egress"          
+          tier_code: "{{tier_egress}}"    
+          tag_zone_code: "{{tag_zone_intranet}}"
+          tag_tier_code: "{{tag_tier_egress}}"                
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level3/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level3/egress_intranet/firewall/"
           templates_path: "{{templates_folder}}/configuration/level3/egress_intranet/firewall/"          
@@ -839,7 +898,9 @@
       - name: set_variables
         set_fact:
           zone_code: "{{zone_intranet}}"
-          tier_code: "ingress"          
+          tier_code: "{{tier_ingress}}"   
+          tag_zone_code: "{{tag_zone_intranet}}"
+          tag_tier_code: "{{tag_tier_ingress}}"                   
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level3/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level3/ingress_intranet/firewall/"
           templates_path: "{{templates_folder}}/configuration/level3/ingress_intranet/firewall/"          
@@ -887,7 +948,9 @@
       - name: set_variables
         set_fact:
           zone_code: "{{zone_intranet}}"
-          tier_code: "ingress"          
+          tier_code: "{{tier_ingress}}"     
+          tag_zone_code: "{{tag_zone_intranet}}"
+          tag_tier_code: "{{tag_tier_ingress}}"                   
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level3/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level3/ingress_intranet/agw/"
           templates_path: "{{templates_folder}}/configuration/level3/ingress_intranet/agw/"          
@@ -970,6 +1033,7 @@
           cidr_subnet_data: "{{ cidr_internet_zone_subnet_data | trim }}"
         when: cidr_internet_zone_subnet_data | trim  != "None"      
 
+
       # - name: set_cidr_internet_zone_subnet_it
       #   set_fact:
       #     cidr_subnet_it: "{{ cidr_internet_zone_subnet_it | trim }}"
@@ -1005,7 +1069,9 @@
       - name: set_variables
         set_fact:
           zone_code: "{{zone_internet}}"
-          tier_code: ""          
+          tier_code: ""     
+          tag_zone_code: "{{tag_zone_internet}}"
+          tag_tier_code: ""                 
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level3/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level3/networking_spoke_internet/"
           templates_path: "{{templates_folder}}/configuration/level3/networking_spoke_internet/"          
@@ -1109,11 +1175,15 @@
       # start set variables
       - name: set_variables
         set_fact:
-          zone_code: "{{zone_internet}}"
-          tier_code: "{{tier_app}}"           
+          zone_code: "{{zone_project}}" # "{{zone_internet}}"
+          tier_code: "{{tier_app}}"  
+          tag_zone_code: "{{tag_zone_project}}" # "{{zone_internet}}"
+          tag_tier_code: "{{tag_tier_app}}"            
+          # caf_environment, agency_code, prefix         
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/aks/"
-          templates_path: "{{templates_folder}}/configuration/level4/project/aks/"          
+          templates_path: "{{templates_folder}}/configuration/level4/project/aks/"    
+          # azurecaf_name: "{{tier_code}}-{{zone_code}}"      
       # end set variables
 
       # start folder structure
@@ -1157,8 +1227,10 @@
       # start set variables
       - name: set_variables
         set_fact:
-          zone_code: "{{zone_internet}}"
-          tier_code: "{{tier_data}}"           
+          zone_code: "{{zone_project}}"
+          tier_code: "{{tier_data}}"   
+          tag_zone_code: "{{tag_zone_project}}"
+          tag_tier_code: "{{tag_tier_data}}"                     
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/mssql/"
           templates_path: "{{templates_folder}}/configuration/level4/project/mssql/"          
@@ -1205,8 +1277,10 @@
       # start set variables
       - name: set_variables
         set_fact:
-          zone_code: "{{zone_internet}}"
+          zone_code: "{{zone_project}}"
           tier_code: "{{tier_app}}"   
+          tag_zone_code: "{{tag_zone_project}}"
+          tag_tier_code: "{{tag_tier_app}}"           
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/acr/"
           templates_path: "{{templates_folder}}/configuration/level4/project/acr/"          
@@ -1253,8 +1327,10 @@
       # start set variables
       - name: set_variables
         set_fact:
-          zone_code: "{{zone_internet}}"
-          tier_code: "{{tier_app}}"   
+          zone_code: "{{zone_project}}"
+          tier_code: "{{tier_data}}"   
+          tag_zone_code: "{{tag_zone_project}}"
+          tag_tier_code: "{{tag_tier_app}}"           
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/cosmosdb/"
           templates_path: "{{templates_folder}}/configuration/level4/project/cosmosdb/"          
@@ -1301,8 +1377,10 @@
       # start set variables
       - name: set_variables
         set_fact:
-          zone_code: "{{zone_internet}}"
+          zone_code: "{{zone_project}}"
           tier_code: "{{tier_app}}"   
+          tag_zone_code: "{{tag_zone_project}}"
+          tag_tier_code: "{{tag_tier_app}}"           
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/app_service/"
           templates_path: "{{templates_folder}}/configuration/level4/project/app_service/"          
@@ -1350,8 +1428,10 @@
       # start set variables
       - name: set_variables
         set_fact:
-          zone_code: "{{zone_internet}}"
+          zone_code: "{{zone_project}}"
           tier_code: "{{tier_app}}"   
+          tag_zone_code: "{{tag_zone_project}}"
+          tag_tier_code: "{{tag_tier_app}}"           
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/cognitive_service/"
           templates_path: "{{templates_folder}}/configuration/level4/project/cognitive_service/"          
@@ -1398,8 +1478,10 @@
       # start set variables
       - name: set_variables
         set_fact:
-          zone_code: "{{zone_internet}}"
-          tier_code: "{{tier_app}}"   
+          zone_code: "{{zone_project}}"
+          tier_code: "{{tier_data}}"   
+          tag_zone_code: "{{tag_zone_project}}"
+          tag_tier_code: "{{tag_tier_data}}"           
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/storage_account/"
           templates_path: "{{templates_folder}}/configuration/level4/project/storage_account/"          
@@ -1446,8 +1528,10 @@
       # start set variables
       - name: set_variables
         set_fact:
-          zone_code: "{{zone_internet}}"
+          zone_code: "{{zone_project}}"
           tier_code: "{{tier_app}}"   
+          tag_zone_code: "{{tag_zone_project}}"
+          tag_tier_code: "{{tag_tier_app}}"           
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/openai_service/"
           templates_path: "{{templates_folder}}/configuration/level4/project/openai_service/"          
@@ -1494,8 +1578,10 @@
       # start set variables
       - name: set_variables
         set_fact:
-          zone_code: "{{zone_internet}}"
+          zone_code: "{{zone_project}}"
           tier_code: "{{tier_app}}"   
+          tag_zone_code: "{{tag_zone_project}}"
+          tag_tier_code: "{{tag_tier_app}}"           
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/linux_function_app/"
           templates_path: "{{templates_folder}}/configuration/level4/project/linux_function_app/"          
@@ -1542,8 +1628,10 @@
       # start set variables
       - name: set_variables
         set_fact:
-          zone_code: "{{zone_internet}}"
+          zone_code: "{{zone_project}}"
           tier_code: "{{tier_app}}"   
+          tag_zone_code: "{{tag_zone_project}}"
+          tag_tier_code: "{{tag_tier_app}}"           
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/search_service/"
           templates_path: "{{templates_folder}}/configuration/level4/project/search_service/"          
@@ -1590,8 +1678,10 @@
       # start set variables
       - name: set_variables
         set_fact:
-          zone_code: "{{zone_internet}}"
+          zone_code: "{{zone_project}}"
           tier_code: "{{tier_app}}"   
+          tag_zone_code: "{{tag_zone_project}}"
+          tag_tier_code: "{{tag_tier_app}}"           
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/agw/"
           templates_path: "{{templates_folder}}/configuration/level4/project/agw/"          
@@ -1638,8 +1728,10 @@
       # start set variables
       - name: set_variables
         set_fact:
-          zone_code: "{{zone_internet}}"
+          zone_code: "{{zone_project}}"
           tier_code: "{{tier_app}}"   
+          tag_zone_code: "{{tag_zone_project}}"
+          tag_tier_code: "{{tag_tier_app}}"           
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/container_instance/"
           templates_path: "{{templates_folder}}/configuration/level4/project/container_instance/"          
@@ -1686,8 +1778,10 @@
       # start set variables
       - name: set_variables
         set_fact:
-          zone_code: "{{zone_internet}}"
+          zone_code: "{{zone_project}}"
           tier_code: "{{tier_app}}"   
+          tag_zone_code: "{{tag_zone_project}}"
+          tag_tier_code: "{{tag_tier_app}}"           
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/keyvault/"
           templates_path: "{{templates_folder}}/configuration/level4/project/keyvault/"          
@@ -1734,8 +1828,10 @@
       # start set variables
       - name: set_variables
         set_fact:
-          zone_code: "{{zone_internet}}"
+          zone_code: "{{zone_project}}"
           tier_code: "{{tier_app}}"   
+          tag_zone_code: "{{tag_zone_project}}"
+          tag_tier_code: "{{tag_tier_app}}"           
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/apim/"
           templates_path: "{{templates_folder}}/configuration/level4/project/apim/"          
@@ -1782,8 +1878,10 @@
       # start set variables
       - name: set_variables
         set_fact:
-          zone_code: "{{zone_internet}}"
+          zone_code: "{{zone_project}}"
           tier_code: "{{tier_app}}"   
+          tag_zone_code: "{{tag_zone_project}}"
+          tag_tier_code: "{{tag_tier_app}}"           
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/logic_app/"
           templates_path: "{{templates_folder}}/configuration/level4/project/logic_app/"          
@@ -1830,8 +1928,10 @@
       # start set variables
       - name: set_variables
         set_fact:
-          zone_code: "{{zone_internet}}"
+          zone_code: "{{zone_project}}"
           tier_code: "{{tier_app}}"   
+          tag_zone_code: "{{tag_zone_project}}"
+          tag_tier_code: "{{tag_tier_app}}"           
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/data_factory/"
           templates_path: "{{templates_folder}}/configuration/level4/project/data_factory/"          
@@ -1870,6 +1970,58 @@
       # end block   
 # end level4 internet/data_factory
 
+
+# level4 internet/redis 
+    - name: internet zone redis
+      # beign block
+      block:
+
+      # start set variables
+      - name: set_variables
+        set_fact:
+          zone_code: "{{zone_project}}"
+          tier_code: "{{tier_data}}"   
+          tag_zone_code: "{{tag_zone_project}}"
+          tag_tier_code: "{{tag_tier_data}}"             
+          solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/project/"
+          solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/project/redis/"
+          templates_path: "{{templates_folder}}/configuration/level4/project/redis/"          
+      # end set variables
+
+      # start folder structure
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_parent_path}}"
+          state: directory
+          mode: '0777'    
+
+      - name: Create a directory if it does not exist
+        ansible.builtin.file:
+          path: "{{solution_accelerators_path}}"
+          state: directory
+          mode: '0777'  
+      #end folder structure
+
+      # start creating tfvars files
+      - find:
+          paths: "{{templates_path}}" 
+          # recurse: yes
+          patterns: ["*.j2"]
+          file_type: file
+        register: redis_files_to_process
+
+      - name: copy redis
+        include_tasks: template_j2_to_tfvars.yml      
+        loop: "{{redis_files_to_process.files}}"     
+      # end creating tfvars files
+
+      when: internet_data_redis_cache | trim == '1'  or internet_data_redis_cache | trim == 'yes'
+      become: true
+      ignore_errors: no
+      # end block   
+# end level4 internet/redis
+
+
 # ----------------------------
 # end internet level4
 # ----------------------------
@@ -1892,11 +2044,13 @@
           vnet_resource_id: ""
           zone_code: ""          
           tier_code: ""           
-
+          tag_zone_code: ""
+          tag_tier_code: ""    
       - name: set_zone code
         set_fact:
           zone_code: "{{zone_management}}"
-
+          tag_zone_code: "{{tag_zone_management}}"
+  
       - name: set_internet vnet resource id to vnet_resource_id
         set_fact:
           vnet_resource_id: "{{ '/subscriptions/' + subscription_id | trim + '/resourceGroups/' + resource_group_name | trim + '/providers/Microsoft.Network/virtualNetworks/' + management_vnet_name | trim }}"
@@ -1917,7 +2071,9 @@
       - name: set_variables
         set_fact:
           zone_code: "{{zone_management}}"
-          tier_code: ""          
+          tier_code: ""   
+          tag_zone_code: "{{tag_zone_management}}"
+          tag_tier_code: ""                 
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level3/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level3/networking_spoke_management/"
           templates_path: "{{templates_folder}}/configuration/level3/networking_spoke_management/"          
@@ -1965,7 +2121,9 @@
       - name: set_variables
         set_fact:
           zone_code: "{{zone_management}}"
-          tier_code: ""          
+          tier_code: ""   
+          tag_zone_code: "{{tag_zone_management}}"
+          tag_tier_code: ""                     
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/management/"
           templates_path: "{{templates_folder}}/configuration/level4/management/"          
@@ -2020,11 +2178,14 @@
         set_fact:
           vnet_resource_id: ""
           zone_code: ""
-          tier_code: ""             
+          tier_code: ""    
+          tag_zone_code: ""
+          tag_tier_code: ""                       
 
       - name: set_zone code
         set_fact:
           zone_code: "{{ zone_devops }}"
+          tag_zone_code: "{{tag_zone_devops}}"       
 
       #     cidr_subnet_devops: ""
       #     cidr_subnet_private_endpoint: ""    
@@ -2060,6 +2221,8 @@
         set_fact:
           zone_code: "{{zone_devops}}"
           tier_code: ""          
+          tag_zone_code: "{{tag_zone_devops}}"  
+          tag_tier_code: ""          
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level3/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level3/networking_spoke_devops/"
           templates_path: "{{templates_folder}}/configuration/level3/networking_spoke_devops/"          
@@ -2107,7 +2270,9 @@
       - name: set_variables
         set_fact:
           zone_code: "{{zone_devops}}"
-          tier_code: ""          
+          tier_code: ""     
+          tag_zone_code: "{{tag_zone_devops}}"
+          tag_tier_code: ""                     
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/level4/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/level4/devops/"
           templates_path: "{{templates_folder}}/configuration/level4/devops/"          
@@ -2163,6 +2328,7 @@
       - name: set_variables
         set_fact:
           zone_code: ""
+          tag_zone_code: ""          
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/gcc_dev_env/"
           templates_path: "{{templates_folder}}/configuration/gcc_dev_env/"          
@@ -2207,6 +2373,7 @@
       - name: set_variables
         set_fact:
           zone_code: ""
+          tag_zone_code: ""
           solution_accelerators_parent_path: "{{landingzone_folder}}/configuration/gcc_dev_env/modules/"
           solution_accelerators_path: "{{landingzone_folder}}/configuration/gcc_dev_env/modules/scaffolding/"
           templates_path: "{{templates_folder}}/configuration/gcc_dev_env/modules/scaffolding/"          
@@ -2259,6 +2426,7 @@
       - name: set_variables
         set_fact:
           zone_code: ""
+          tag_zone_code: ""
           solution_accelerators_parent_path: "{{landingzone_parent_folder}}/"
           solution_accelerators_path: "{{landingzone_parent_folder}}/scripts/"
           templates_path: "{{templates_folder}}/scripts/"          

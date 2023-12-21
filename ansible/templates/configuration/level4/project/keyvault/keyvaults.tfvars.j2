@@ -1,6 +1,6 @@
 keyvaults = {
   shared_kv1 = {
-    name               = "shared-kv1"
+    name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}shared-kv1"
     resource_group_key = "kv_rg_re1"
     sku_name           = "standard"
 
@@ -17,7 +17,7 @@ keyvaults = {
     private_endpoints = {
       # Require enforce_private_link_endpoint_network_policies set to true on the subnet
       pe1 = {
-        name               = "shared-kv-pep"
+        name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}shared-kv-pep"
         resource_group_key = "kv_rg_re1"
 
 {% if gcc_platform_import | trim == '0' %}
@@ -28,7 +28,7 @@ keyvaults = {
 {% endif %} 
 
         private_service_connection = {
-          name                 = "shared-kv-psc"
+          name                 = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}shared-kv-psc"
           is_manual_connection = false
           subresource_names    = ["Vault"]
         }
@@ -51,11 +51,11 @@ keyvaults = {
     }
 
     tags = { 
-      purpose = "{{zone_code}} keyvault" 
-      project-code = "{{project_code}}" 
+      purpose = "{{tag_zone_code}} keyvault" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"          
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"          
     } 
 
   }

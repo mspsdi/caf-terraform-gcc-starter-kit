@@ -1,7 +1,7 @@
 {% if management_recovery_services_vault | trim == '1' %}
 recovery_vaults = {
   rsv = {
-    name               = "management-infra"
+    name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}management-infra"
     resource_group_key = "mgmt_ops_re1"
     region             = "region1"
 
@@ -33,7 +33,7 @@ recovery_vaults = {
     private_endpoints = {
       # Require enforce_private_link_endpoint_network_policies set to true on the subnet
       private-link-keyvault = {
-        name               = "pep-rsv"
+        name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}pep-rsv"
 
 {% if gcc_platform | trim == '1' %}
 
@@ -54,7 +54,7 @@ recovery_vaults = {
         resource_group_key = "mgmt_ops_re1"
 
         private_service_connection = {
-          name                 = "psc-rsv"
+          name                 = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}psc-rsv"
           is_manual_connection = false
           subresource_names    = ["AzureBackup"]
         }

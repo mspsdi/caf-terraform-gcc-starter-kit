@@ -8,7 +8,7 @@
 # command: /bin/sh -c "while sleep 1000; do :; done"
 container_groups = {
   runner_aci = {
-    name               = "runner-devops"
+    name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}runner-devops"
     region             = "region1"
     resource_group_key = "devops_rg"
     ip_address_type    = "Private"
@@ -107,10 +107,10 @@ container_groups = {
     
     tags = { 
       purpose = "container groups" 
-      project-code = "{{project_code}}" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"           
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"           
     } 
 
     identity = {

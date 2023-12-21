@@ -1,18 +1,18 @@
 keyvaults = {
   # vm windows tooling server
   kv1_vm = {
-    name               = "kvvmwin01"
+    name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}kvvmwin01"
     resource_group_key = "vm_windows_tooling_re1"
     sku_name           = "standard"
     soft_delete_enabled         = false    # set to true for production
     purge_protection_enabled    = false    # set to true for production    
 
     tags = { 
-      purpose = "{{zone_code}} vm windows tooling server key vault" 
-      project-code = "{{project_code}}" 
+      purpose = "{{tag_zone_code}} vm windows tooling server key vault" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"          
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"          
     }    
 
     # creation_policies = {

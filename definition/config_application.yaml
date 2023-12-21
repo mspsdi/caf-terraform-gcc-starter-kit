@@ -17,6 +17,12 @@ configuration_application:
   egress_internet_firewall_ip: 100.127.1.4 # 100.1.1.4 # dummy value internet firewall subnet cidr + 4   
 
 
+
+
+
+
+
+
     
  
 

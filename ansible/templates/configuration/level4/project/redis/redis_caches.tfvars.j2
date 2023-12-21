@@ -3,7 +3,7 @@ azurerm_redis_caches = {
     resource_group_key = "redis_rg_re1"
 
     redis = {
-      name                          = "redis-re1"
+      name                          = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}redis-re1"
       capacity                      = 1
       family                        = "P"
       sku_name                      = "Premium"
@@ -24,11 +24,11 @@ azurerm_redis_caches = {
     }
 
     tags = { 
-      purpose = "{{zone_code}} redis caches" 
-      project-code = "{{project_code}}" 
+      purpose = "{{tag_zone_code}} redis caches" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"          
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"          
     }  
   
     diagnostic_profiles = {
@@ -41,7 +41,7 @@ azurerm_redis_caches = {
 
     private_endpoints = {
       redis_pep_re1 = {
-        name               = "redis-re1"
+        name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}redis-re1"
         resource_group_key = "redis_rg_re1"
 
 {% if gcc_platform_import | trim == '0' %}
@@ -52,7 +52,7 @@ azurerm_redis_caches = {
 {% endif %} 
 
         private_service_connection = {
-          name                 = "redis"
+          name                 = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}redis-psc"
           is_manual_connection = false
           subresource_names    = ["redisCache"]
         }

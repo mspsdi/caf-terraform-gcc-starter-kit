@@ -3,11 +3,11 @@ resource_groups = {
     name = "agw-ingress-intranet-re1"           
     region = "region1"    
     tags = { 
-      purpose = "{{zone_code}} agw resource group" 
-      project-code = "{{project_code}}" 
+      purpose = "{{tag_zone_code}} agw resource group" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"          
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"          
     }        
   }
 }

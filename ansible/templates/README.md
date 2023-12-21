@@ -33,11 +33,11 @@ az group create --name ignite-rg-launchpad --location southeastasia
 
 RG_ID="/subscriptions/xxxxxxxx-4066-42f0-b0fa-xxxxxxxxxxxx"
 
-# cep-vnet-am-devops-prd - recommended vnet name
+# {{project_code}}-vnet-am-devops-prd - recommended vnet name
 az container create \
-  --name aci-gitlab-runner \
+  --name aci-platform-runner \
   --resource-group ignite-rg-launchpad \
-  --image aztfmod/rover-agent:1.4.6-2307.0508-gitlab  \
+  --image aztfmod/rover:1.6.4-2311.2003  \
   --vnet ignite-vnet-am-devops-uat \
   --vnet-address-prefix 192.200.1.96/27 \
   --subnet ignite-snet-aci  \
@@ -51,17 +51,17 @@ az container create \
 
 az container show \
   --resource-group ignite-rg-launchpad \
-  --name aci-gitlab-runner
+  --name aci-platform-runner
 
 
 SP_ID=$(az container show \
   --resource-group ignite-rg-launchpad \
-  --name aci-gitlab-runner \
+  --name aci-platform-runner \
   --query identity.principalId --out tsv)
 
 az container exec \
   --resource-group ignite-rg-launchpad \
-  --name aci-gitlab-runner \
+  --name aci-platform-runner \
   --exec-command "/bin/zsh"
 
 # execute commands line by line

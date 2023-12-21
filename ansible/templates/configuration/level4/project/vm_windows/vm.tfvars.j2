@@ -75,12 +75,17 @@ CUSTOM_DATA
           create_option        = "FromImage"
         }
 
+{% if custom_image_id | trim == 'None' or custom_image_id | trim == '' %}
         source_image_reference = {
           publisher = "MicrosoftWindowsServer"
           offer     = "WindowsServer"
           sku       = "2019-Datacenter"
           version   = "latest"
         }
+{% else %}
+        custom_image_id = "/subscriptions/{{subscription_id}}/resourceGroups/rg-prd-standardbuild/providers/Microsoft.Compute/galleries/standardbuild/images/GT-GCCS-StandardBuild-Windows-Server-2022-on-2023-08-21"
+{% endif %}   
+
         identity = {
           type                  = "UserAssigned"
           managed_identity_keys = ["user_mi"]

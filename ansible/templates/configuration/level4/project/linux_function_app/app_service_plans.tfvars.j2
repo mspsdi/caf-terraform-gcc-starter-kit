@@ -2,7 +2,7 @@
 app_service_plans = {
   fa_asp1 = {
     resource_group_key = "fa_rg_re1"
-    name               = "asp-document-processing"
+    name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}asp-document-processing"
     kind               = "linux" # "functionapp" <<< "linux"
     reserved           = true
     is_xenon                     = false # default is false, do not set to null

@@ -1,7 +1,7 @@
 app_service_plans = {
   asp1 = {
     resource_group_key = "webapp_rg_re1"
-    name               = "asp-webapp"
+    name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}asp-webapp"
 
     maximum_elastic_worker_count = 5
     kind = "Linux"
@@ -16,7 +16,7 @@ app_service_plans = {
 app_services = {
   webapp1 = {
     resource_group_key   = "webapp_rg_re1"
-    name                 = "webapp1-node-20-lts"
+    name                 = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}webapp1-node-20-lts"
     app_service_plan_key = "asp1"
     application_insight_key = "app_insights1"
 
@@ -41,17 +41,17 @@ app_services = {
 
     tags = { 
       purpose = "internet app service" 
-      project-code = "{{project_code}}" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"        
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"        
     }     
 
     # Optional: inbound access - enabled private endpoint - private endpoint name - inbound subnet - private dns 
     private_endpoints = {
       # Require enforce_private_link_endpoint_network_policies set to true on the subnet
       pe1_webapp = {
-        name       = "pep-web-app"
+        name       = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}pep-web-app"
 
 {% if gcc_platform_import | trim == '0' %}
         subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-app-internet"
@@ -63,7 +63,7 @@ app_services = {
         resource_group_key = "webapp_rg_re1"
 
         private_service_connection = {
-          name                 = "psc-webapp"
+          name                 = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}psc-webapp"
           is_manual_connection = false
           subresource_names    = ["sites"]
         }
@@ -115,10 +115,10 @@ app_services = {
 
       tags = { 
         purpose = "internet app service webapp1" 
-        project-code = "{{project_code}}" 
+        project_code = "{{project_code}}" 
         env = "{{caf_environment}}" 
-        zone = "{{zone_code}}"
-        tier = "{{tier_code}}"        
+        zone = "{{tag_zone_code}}"
+        tier = "{{tag_tier_code}}"        
       } 
 
       backup = {
@@ -217,7 +217,7 @@ app_services = {
 
   webapp2 = {
     resource_group_key   = "webapp_rg_re1"
-    name                 = "webapp2-node-20-lts"
+    name                 = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}webapp2-node-20-lts"
     app_service_plan_key = "asp1"
     application_insight_key = "app_insights1"
 
@@ -241,17 +241,17 @@ app_services = {
 
     tags = { 
       purpose = "internet app service" 
-      project-code = "{{project_code}}" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"        
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"        
     }     
 
     # Optional: inbound access - enabled private endpoint - private endpoint name - inbound subnet - private dns 
     private_endpoints = {
       # Require enforce_private_link_endpoint_network_policies set to true on the subnet
       pe1_webapp = {
-        name       = "pep-web-app2"
+        name       = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}pep-web-app2"
 
         {% if gcc_platform_import | trim == '0' %}
         subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-app-internet"
@@ -263,7 +263,7 @@ app_services = {
         resource_group_key = "webapp_rg_re1"
 
         private_service_connection = {
-          name                 = "psc-webapp2"
+          name                 = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}psc-webapp2"
           is_manual_connection = false
           subresource_names    = ["sites"]
         }
@@ -315,10 +315,10 @@ app_services = {
 
       tags = { 
         purpose = "internet app service webapp1" 
-        project-code = "{{project_code}}" 
+        project_code = "{{project_code}}" 
         env = "{{caf_environment}}" 
-        zone = "{{zone_code}}"
-        tier = "{{tier_code}}"        
+        zone = "{{tag_zone_code}}"
+        tier = "{{tag_tier_code}}"        
       } 
 
       backup = {

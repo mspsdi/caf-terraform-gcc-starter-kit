@@ -1,6 +1,6 @@
 public_ip_addresses = {
   bastion_host_pip_re1 = {
-    name                    = "bastion-pip-re1"
+    name                    = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}bastion-pip-re1"
     region                  = "region1"
     resource_group_key      = "bastion_rg_re1"
     sku                     = "Standard"
@@ -18,10 +18,10 @@ public_ip_addresses = {
     # }
     tags = { 
       purpose = "management bastion public ip address" 
-      project-code = "{{project_code}}" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"            
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"            
     }  
   }
 }

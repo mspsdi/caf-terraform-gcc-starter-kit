@@ -1,6 +1,6 @@
 application_gateway_waf_policies = {
   agw_wp_re1 = {
-    name               = "rp-waf-policy"
+    name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}rp-waf-policy"
     resource_group_key = "agw_internet_re1"
 
     policy_settings = {

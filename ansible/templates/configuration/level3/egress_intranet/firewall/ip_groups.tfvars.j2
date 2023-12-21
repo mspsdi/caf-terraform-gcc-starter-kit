@@ -1,6 +1,6 @@
 ip_groups = {
   aks_ip_group1 = {
-    name               = "aks_ip_group1"
+    name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}aks_ip_group1"
     cidrs              = ["{{cidr_internet_zone_subnet_app}}"] # if cidrs is defined all vnet & subnet are ignored
     resource_group_key = "networking_firewall_egress_intranet_re1"
     # vnet_key = "vnet_aks_re1"

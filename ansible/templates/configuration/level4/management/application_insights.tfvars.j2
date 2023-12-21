@@ -1,7 +1,7 @@
 {% if management_application_insights | trim == '1' %}
 azurerm_application_insights = {
   app_insights = {
-    name                                = "app-insights-u-adlx-u3mt-mgmt"
+    name                                = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}app-insights"
     resource_group_key                  = "mgmt_ops_re1"
     application_type                    = "web"
     log_analytics_workspace_destination = "central_logs"

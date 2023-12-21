@@ -1,85 +1,127 @@
+# Deployment Steps
 
-# GCC Starter Kit - scenario H-Model
+## table of contents
+Deployment can be done via the below environments
+1. vs code and docker desktop
+2. azure container instance
 
-The H-Model scenario is designed to demonstrate a basic functional foundations to store Terraform state on Azure storage and use it centrally.
-The focus of this scenario is to be able to deploy a basic launchpad from a remote machine and use the portal to review the settings in a non-constrained environment.
-For example in this scenario you can go to the Key Vaults and view the secrets from the portal, a feature that is disabled in the 300+ scenarios.
-We recommend using the 100 scenario for demonstration purposes.
+# 1. deploy environment: vs code and docker desktop
 
-An estimated time of 120 minutes is required to deploy this scenario.
+## login to azure - note: ensure dns is 8.8.8.8 
 
-## Pre-requisites
+az login --tenant xxxxxxxx-ffda-45c1-adc5-xxxxxxxxxxxx  [tenant id] e.g. htx sandpit xxxxxxxx-ffda-45c1-adc5-xxxxxxxxxxxx
 
-This scenario require the following privileges:
+az account set --subscription xxxxxxxx-4066-42f0-b0fa-xxxxxxxxxxxx 
 
-| Component          | Privileges         |
-|--------------------|--------------------|
-| Active Directory   | None               |
-| Azure subscription | Subscription owner |
+## edit definition files with your subscription id
 
-Agency GCC Environment 
+vi /tf/caf/definition/config_gcc.yaml
 
-| Azure Resource                                  | Privileges         |
-|-------------------------------------------------|--------------------|
-| VNet-Ingress/Egress                             | None               |
-| VNet-Project Internet                           | None               |
-| VNet-Project Intranet                           | None               |
-| VNet-Management                                 | None               |
-| VNet-DevOps                                     | None               |
-| Internet Ingress - Azure Firewall               | None               |
-| Internet Web Tier - Application Gateway         | None               |
-| Internet App Tier - AKS                         | None               |
-| Internet DB Tier - MSSQL                        | None               |
-| Internet IT Tier - APIM                         | None               |
-| Internet GUT Tier - VM for Forward Proxy        | None               |
-| Intranet Web Tier - Application Gateway         | None               |
-| Intranet App Tier - AKS                         | None               |
-| Intranet DB Tier - MSSQL                        | None               |
-| Intranet IT Tier - APIM                         | None               |
-| Intranet GUT Tier - VM for Forward Proxy        | None               |
-| Management Zone - VM for Tooling Server         | None               |
-| DevOps Zone - VM for Runner/Agent + A           | None               |
+## ignite code generation
 
-Verify and update the config.yaml file
-
-
-## Deployment
-
-1. Go to ansible folder
-```bash
-cd ansible
-```
-2. Generate level0, level3 and level4 tfvars files of GCC Starter Kit
-```bash
-ansible-playbook gcc-starter-playbook.yml  
 rover ignite --playbook /tf/caf/ansible/gcc-starter-playbook.yml
 
-```
+sudo chmod -R -f 777 /tf/caf/gcc_starter_ignitexxx_uat
 
-3. Optional: if deploy at Azure commerical cloud run the below bash command to create GCC simulator development environment in Azure
+## execute script to run the all rover commands for the landing zone and solution accelerators
+
+cd /tf/caf/gcc_starter_morisuat_uat
+./deploy_platform.sh
+
+## check results
+
+# 2. deploy environment: azure container instance
+
+## setup launchpad - create container instance as a platform launchpad
+
+az group create --name ignite-rg-launchpad --location southeastasia
+
+RG_ID="/subscriptions/{{subscription_id}}" # "/subscriptions/xxxxxxxx-4066-42f0-b0fa-xxxxxxxxxxxx"
+
+
+az container create \
+  --name aci-platform-runner \
+  --resource-group ignite-rg-launchpad \
+  --image aztfmod/rover:1.6.4-2311.2003  \
+  --vnet ignite-vnet-am-devops-uat \
+  --vnet-address-prefix 192.200.1.96/27 \
+  --subnet ignite-snet-aci  \
+  --subnet-address-prefix 192.200.1.96/28 \
+  --assign-identity --scope $RG_ID \
+  --cpu 4 \
+  --memory 16 \
+  --command-line '"/bin/sh" "-c" "git clone https://github.com/mspsdi/caf-terraform-gcc-starter-kit.git /tf/caf; sudo chmod -R -f 777 /tf/caf/.devcontainer; cd /tf/caf/.devcontainer; ./setup.sh; sudo chmod -R -f 777 /tf/caf/ansible; sudo chmod -R -f 777 /tf/caf/definition; while sleep 1000; do :; done"'
+
+
+az container show \
+  --resource-group ignite-rg-launchpad \
+  --name aci-platform-runner
+
+SP_ID=$(az container show \
+  --resource-group ignite-rg-launchpad \
+  --name aci-platform-runner \
+  --query identity.principalId --out tsv)
+
+az container exec \
+  --resource-group ignite-rg-launchpad \
+  --name aci-platform-runner \
+  --exec-command "/bin/zsh"
+
+
+## login to azure container instance console with zsh terminal
+goto azure portal container instance, open the container instance console
+
+## git clone gcc starter kit to /tf/caf folder
+
+git clone https://github.com/mspsdi/caf-terraform-gcc-starter-kit.git /tf/caf
+
+## grant permission for execution
+
+sudo chmod -R -f 777 /tf/caf/.devcontainer
+sudo chmod -R -f 777 /tf/caf/ansible
+sudo chmod -R -f 777 /tf/caf/definition
+
+## execute setup.sh
+
+cd /tf/caf/.devcontainer
+./setup.sh
+
+## login to azure - note: ensure dns is 8.8.8.8 
+
+az login --tenant xxxxxxxx-ffda-45c1-adc5-xxxxxxxxxxxx  [tenant id] e.g. htx sandpit xxxxxxxx-ffda-45c1-adc5-xxxxxxxxxxxx
+
+az account set --subscription xxxxxxxx-4066-42f0-b0fa-xxxxxxxxxxxx 
+
+## edit definition files with your subscription id
+
+vi /tf/caf/definition/config_gcc.yaml
+
+## ignite code generation
+
+rover ignite --playbook /tf/caf/ansible/gcc-starter-playbook.yml
+
+sudo chmod -R -f 777 /tf/caf/gcc_starter_ignitexxx_uat
+
+
+# OPTIONAL: Create GCC Development Environment
 ```bash
-/tf/caf/gcc_starter/scripts/deploy_dev_env.sh 
+cd /tf/caf/gcc_starter_ignitexxx_uat/landingzone/configuration/gcc_dev_env
+
+terraform init
+
+terraform plan
+
+terraform apply
+
+cd ..
+
 ```
+## execute script to run the all rover commands for the landing zone and solution accelerators
 
-4. Deploy gcc starter landingzone and solution accelerators
-```bash
-/tf/caf/gcc_starter/scripts/deploy_gcc_starter.sh 
-```
+cd /tf/caf/gcc_starter_ignitexxx_uat
+./deploy_platform.sh
 
-## Architecture diagram
-![GCC Starter Kit H-Model](../../documentation/img/GCC-Starter-Kit-H-Model.PNG)
-![GCC Starter Kit U@App-Model](../../documentation/img/GCC-Starter-Kit-U@-Model.PNG)
-![GCC Starter Kit I-Model](../../documentation/img/GCC-Starter-Kit-I-Model.PNG)
-![GCC Starter Kit U@DB-Model](../../documentation/img/GCC-Starter-Kit-U@DB-Model.PNG)
-??? ![GCC Starter Kit T-Model](../../documentation/img/GCC-Starter-Kit-I-Model.PNG)
-??? ![GCC Starter Kit N-Model](../../documentation/img/GCC-Starter-Kit-I-Model.PNG)
+## check results
 
 
-## Services deployed in this scenario
-| Component             | Purpose                                                                                                                                                                                                                    |
-|-----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Resource group        | Multiple resource groups are created to isolate the services.                                                                                                                                                              |
-| Storage account       | A storage account for remote tfstate management is provided for each level of the framework. Additional storage accounts are created for diagnostic logs.                                                                  |
-| Key Vault             | The launchpad Key Vault hosts all secrets required by the rover to access the remote states, the Key Vault policies are created allowing the logged-in user to see secrets created and stored.                             |
-| Virtual network       | To secure the communication between the services a dedicated virtual network is deployed with a gateway subnet, bastion service, jumpbox and azure devops release agents. Service endpoints is enabled but not configured. |
-| Azure AD Applications | An Azure AD application is created. This account is mainly use to bootstrap the services during the initialization. It is also considered as a breakglass account for the launchpad landing zones  
+

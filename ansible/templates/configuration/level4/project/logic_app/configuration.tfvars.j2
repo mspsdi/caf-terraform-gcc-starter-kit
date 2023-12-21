@@ -1,6 +1,6 @@
 storage_accounts = {
   sa1 = {
-    name                     = "staccsa1"
+    name                     = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}staccsa1"
     resource_group_key       = "logic_app_rg_re1"
     account_tier             = "Standard"
     account_replication_type = "LRS"
@@ -9,7 +9,7 @@ storage_accounts = {
 
 app_service_plans = {
   asp1 = {
-    name               = "asp1"
+    name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}asp1"
     resource_group_key = "logic_app_rg_re1"
     kind               = "elastic"
 
@@ -22,7 +22,7 @@ app_service_plans = {
 
 logic_app_standard = {
   las1 = {
-    name                 = "las1"
+    name                 = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}las1"
     resource_group_key   = "logic_app_rg_re1"
     app_service_plan_key = "asp1"
     storage_account_key  = "sa1"
@@ -60,17 +60,17 @@ logic_app_standard = {
 
     tags = { 
       purpose = "internet logic app" 
-      project-code = "{{project_code}}" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"        
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"        
     }  
 
     # Optional: inbound access - enabled private endpoint - private endpoint name - inbound subnet - private dns 
     private_endpoints = {
       # Require enforce_private_link_endpoint_network_policies set to true on the subnet
       pe1_logic_app = {
-        name       = "pep-logic-app"
+        name       = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}pep-logic-app"
 
 {% if gcc_platform_import | trim == '0' %}
         subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-app-internet"
@@ -83,7 +83,7 @@ logic_app_standard = {
         resource_group_key = "logic_app_rg_re1"
 
         private_service_connection = {
-          name                 = "psc-logic_app"
+          name                 = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}psc-logic_app"
           is_manual_connection = false
           subresource_names    = ["sites"]
         }

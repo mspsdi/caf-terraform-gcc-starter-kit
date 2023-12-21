@@ -1,6 +1,6 @@
 data_factory = {
   df_re1 = {
-    name = "df-1"
+    name = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}df-1"
     resource_group_key = "data_factory_rg_re1"
     region = "region1"   
 
@@ -13,7 +13,7 @@ data_factory = {
 
     private_endpoints = {
       private-link-adf = {
-        name = "df-private-endpoint"
+        name = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}df-private-endpoint"
         resource_group_key = "data_factory_rg_re1"
 {% if gcc_platform_import | trim == '0' %}
         subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-service-internet"
@@ -23,7 +23,7 @@ data_factory = {
 {% endif %} 
 
         private_service_connection = {
-          name                 = "df-private-link"
+          name                 = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}df-private-link"
           is_manual_connection = false
           subresource_names    = ["dataFactory"]
         }
@@ -45,11 +45,11 @@ data_factory = {
     }
 
     tags = { 
-      purpose = "{{zone_code}} data factory" 
-      project-code = "{{project_code}}" 
+      purpose = "{{tag_zone_code}} data factory" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"          
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"          
     }     
   }
 }

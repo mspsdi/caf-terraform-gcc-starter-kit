@@ -71,8 +71,8 @@ resource_groups = {
 }
 
 tags = {
-  Project_Code               = "{{project_code}}" # "CAF-TF"
-  Name                       = "{{project_code}} - CAF Terraform Landingzones and solutions"
-  Data_Classification        = "Internal"
-  Application_Classification = "Standard"
+  agency_code               = "{{agency_code}}" # "CAF-TF"
+  name                       = "{{agency_code}} {{project_code}} - CAF Terraform Landingzones and solutions"
+  data_classification        = "Restricted" # "Internal"
+  application_classification = "Restricted" # "Standard"
 }

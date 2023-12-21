@@ -7,18 +7,18 @@ diagnostic_log_analytics = {
   }
 }
 
-diagnostics_destinations = {
-  log_analytics = {
-    central_logs = {
-      log_analytics_key              = "central_logs_region1"
-      log_analytics_destination_type = "Dedicated"
-    }
-  }
-}
+# diagnostics_destinations = {
+#  log_analytics = {
+#    central_logs = {
+#      log_analytics_key              = "central_logs_region1"
+#      log_analytics_destination_type = "Dedicated"
+#    }
+#  }
+#}
 
 azurerm_application_insights = {
   webapp = {
-    name                                = "aks-appinsights-web"
+    name                                = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}aks-appinsights-web"
     resource_group_key                  = "aks_re1"
     application_type                    = "web"
     log_analytics_workspace_destination = "central_logs"

@@ -1,13 +1,13 @@
 resource_groups = {
   kv_rg_re1 = {
-    name = "kv-re1"           
+    name = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}kv-re1"           
     region = "region1"    
     tags = { 
-      purpose = "{{zone_code}} keyvault resource group" 
-      project-code = "{{project_code}}" 
+      purpose = "{{tag_zone_code}} keyvault resource group" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"          
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"          
     }     
   }
 }

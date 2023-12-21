@@ -2,7 +2,7 @@
 managed_identities = {
   # vm windows tooling server
   user_mi = {
-    name               = "user_mi"
+    name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}user_mi"
     resource_group_key = "vm_windows_tooling_re1"
   }
 }

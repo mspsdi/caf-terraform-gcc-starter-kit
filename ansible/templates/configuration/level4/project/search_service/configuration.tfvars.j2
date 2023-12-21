@@ -3,7 +3,7 @@ search_services = {
     resource_group = {
       key = "search_service_rg_re1"
     }
-    name               = "ss-openai" # search-service openai    
+    name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}ss-openai" # search-service openai    
     sku               = "standard" # ["free" "basic" "standard" "standard2" "standard3" "storage_optimized_l1" "storage_optimized_l2"]
     replica_count     = "1" 
     partition_count   = "1"
@@ -20,7 +20,7 @@ search_services = {
     private_endpoints = {
       # Require enforce_private_link_endpoint_network_policies set to true on the subnet
       pe1 = {
-        name               = "search-service-pep"
+        name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}search-service-pep"
         resource_group_key = "search_service_rg_re1"
 
 {% if gcc_platform_import | trim == '0' %}
@@ -31,7 +31,7 @@ search_services = {
 {% endif %} 
 
         private_service_connection = {
-          name                 = "search-service-psc"
+          name                 = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}search-service-psc"
           is_manual_connection = false
           subresource_names    = ["searchService"]
         }
@@ -46,11 +46,11 @@ search_services = {
     }   
 
     tags = { 
-      purpose = "{{zone_code}} search service" 
-      project-code = "{{project_code}}" 
+      purpose = "{{tag_zone_code}} search service" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"          
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"          
     } 
 
     # # you can setup up to 5 key

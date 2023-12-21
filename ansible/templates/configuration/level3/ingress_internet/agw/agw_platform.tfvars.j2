@@ -11,7 +11,7 @@
 application_gateway_platforms = {
   agw1 = {
     resource_group_key = "agw_ingress_internet_re1"
-    name               = "ingress-reverse-proxy"
+    name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}ingress-reverse-proxy"
 
 {% if gcc_platform_import | trim == '0' %}
     subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}/subnets/{{prefix}}-snet-ingress-agw"
@@ -114,11 +114,11 @@ application_gateway_platforms = {
     }
 
     tags = { 
-      purpose = "{{zone_code}} web reverse proxy application gateway" 
-      project-code = "{{project_code}}" 
+      purpose = "{{tag_zone_code}} web reverse proxy application gateway" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"           
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"           
     } 
         
   }

@@ -1,7 +1,7 @@
 azurerm_firewalls = {
   # ingress firewall
   fw_re1 = {
-    name               = "ingress-internet"
+    name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}ingress-internet"
     resource_group_key = "networking_firewall_ingress_internet_re1"
     # add the resource group name to resolve the issue of subnet rg different from firewall rg
     # TODO: subnet resource group name - input as variable for code generation
@@ -38,10 +38,10 @@ azurerm_firewalls = {
 
     tags = { 
       purpose = "ingress networking spoke resource group" # replace with purpose
-      project-code = "{{project_code}}" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"          
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"          
     } 
 
     diagnostic_profiles = {

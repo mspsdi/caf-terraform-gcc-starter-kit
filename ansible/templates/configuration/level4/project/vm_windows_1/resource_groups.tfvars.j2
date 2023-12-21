@@ -1,13 +1,13 @@
 resource_groups = {
   vm_region1 = {
-    name = "app-windows-ingress-internet"
+    name = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}app-windows-ingress-internet"
     region = "region1"      
     tags = { 
-      purpose = "{{zone_code}} vm tooling server resource group" 
-      project-code = "{{project_code}}" 
+      purpose = "{{tag_zone_code}} vm tooling server resource group" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"          
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"          
     }    
   }
 }

@@ -1,0 +1,66 @@
+# prefix-azure_resource_code-env_code-zone_code+tier_code-custom_name_string
+# {{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}custom_name_string
+# if you want to change the naming convention, do a global replace "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}" with your own naming convention variables.
+
+# # env_code
+# env_non_prod: "n" # p: prod n: non-prod
+# env_prod: "p" # p: prod n: non-prod
+
+# # zone_code
+# zone_internet: "ez" # internet zone
+# zone_intranet: "iz"  # intranet zone
+# zone_project: "pz" # management zone
+# zone_management: "mz" # management zone
+# zone_devops: "dz" # devops zone
+# zone_ingress_egress: "iegz" # dmz zone - not used
+# zone_ingress: "igz" # not used
+# zone_egress: "egz" # not used
+
+# # tier_code
+# tier_web: "wt"
+# tier_app: "at"
+# tier_data: "dt"
+# tier_it: "it" # not used
+# tier_gut: "gt" # not used
+# tier_ingress: "ig"
+# tier_egress: "eg"
+# tier_service: "st"
+
+# # dash_? character in resoruce name
+# dash_1: "-"
+# dash_2: "" # sometime tier code can be empty for devops and management
+# dash_3: "" # not used
+# dash_last: "-" # last dash before the custom string
+
+# --------------------------------------------------------
+# comment above and uncomment below will give you no extra naming to azure resource
+# --------------------------------------------------------
+# env_code
+env_non_prod: "" # p: prod n: non-prod
+env_prod: "" # p: prod n: non-prod
+
+# zone_code
+zone_internet: "" # internet zone
+zone_intranet: ""  # intranet zone
+zone_project: "" # management zone
+zone_management: "" # management zone
+zone_devops: "" # devops zone
+zone_ingress_egress: "" # dmz zone - not used
+zone_ingress: "" # not used
+zone_egress: "" # not used
+
+# tier_code
+tier_web: ""
+tier_app: ""
+tier_data: ""
+tier_it: "" # not used
+tier_gut: "" # not used
+tier_ingress: ""
+tier_egress: ""
+tier_service: ""
+
+# dash_? character in resoruce name
+dash_1: ""
+dash_2: ""
+dash_3: "" # not used
+dash_last: "" # last dash before the custom string

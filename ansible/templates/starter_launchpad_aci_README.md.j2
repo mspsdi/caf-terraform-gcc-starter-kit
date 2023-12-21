@@ -12,7 +12,7 @@ az group create --name ignite-rg-launchpad --location southeastasia
 RG_ID=$(az group show --name ignite-rg-launchpad --query id --output tsv)
 
 
-# az subscription show --name sandpit-htx-Trials-CEP-Staging --query id --output tsv
+# az subscription show --name sandpit-htx-Trials-{{project_code}}-Staging --query id --output tsv
 
 az group create --name ignite-rg-launchpad --location southeastasia
 

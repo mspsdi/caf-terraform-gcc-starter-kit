@@ -1,6 +1,6 @@
 mssql_servers = {
   mssql_server_re1 = {
-    name                = "mssql-server"
+    name                = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}mssql-server"
     region              = "region1"
     resource_group_key  = "mssql_rg_re1"
     administrator_login = "sqladminuser01"
@@ -24,16 +24,16 @@ mssql_servers = {
     minimum_tls_version           = "1.2"
 
     tags = { 
-      purpose = "{{zone_code}} mssql server" 
-      project-code = "{{project_code}}" 
+      purpose = "{{tag_zone_code}} mssql server" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"         
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"         
     } 
     
     private_endpoints = {
       private-link-sql = {
-        name = "pep-mssql-server"
+        name = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}pep-mssql-server"
 
 {% if gcc_platform_import | trim == '0' %}
         subnet_id          = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-db-internet"
@@ -45,7 +45,7 @@ mssql_servers = {
         resource_group_key = "mssql_rg_re1"
 
         private_service_connection = {
-          name                 = "psc-sql"
+          name                 = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}psc-sql"
           is_manual_connection = false
           subresource_names    = ["sqlServer"]
         }
@@ -66,7 +66,7 @@ mssql_databases = {
     resource_group_key = "mssql_rg_re1"
     mssql_server_key   = "mssql_server_re1"
     elastic_pool_key   = "ep1"
-    name               = "sqldb1"
+    name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}sqldb1"
     # to avoid update due to "geo_backup_enabled = true -> false"
     # geo_backup_enabled is only applicable for DataWarehouse SKUs (DW*). This setting is ignored for all other SKUs.
     geo_backup_enabled = true # since it is ignore caf terraform is default is false
@@ -81,11 +81,11 @@ mssql_databases = {
     }
 
     tags = { 
-      purpose = "{{zone_code}} mssql database" 
-      project-code = "{{project_code}}" 
+      purpose = "{{tag_zone_code}} mssql database" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"          
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"          
     } 
 
   }
@@ -96,7 +96,7 @@ mssql_elastic_pools = {
   ep1 = {
     resource_group_key = "mssql_rg_re1"
     mssql_server_key   = "mssql_server_re1"
-    name               = "ep1"
+    name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}ep1"
     max_size_gb        = 756
 
     sku = {

@@ -10,12 +10,12 @@ vi azure-vote.yaml
 # sandpit tenant - must use this to login
 az login --tenant [your tenant id] # htx sandpit - xxxxxx-ffda-45c1-adc5-xxxxxxxxxxxx
 
-# CEP subscription
-az account set --subscription [your subscription id] # cep - xxxxxxxx-4066-42f0-b0fa-xxxxxxxxxxxx
+# {{project_code}} subscription
+az account set --subscription [your subscription id] # {{project_code}} - xxxxxxxx-4066-42f0-b0fa-xxxxxxxxxxxx
 
 # sample: az aks get-credentials --resource-group ignite-rg-aks --name ignite-aks
 # get aks credentials
-az aks get-credentials --resource-group escep-rg-aks-re1 --name escep-aks-cluster-re1
+az aks get-credentials --resource-group {{project_code}}-rg-aks-re1 --name {{project_code}}-aks-cluster-re1
 
 # **IMPORTANT 
 # TODO: 

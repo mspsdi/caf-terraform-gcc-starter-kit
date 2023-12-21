@@ -27,7 +27,7 @@ storage_accounts = {
 
     private_endpoints = {
       private-link-storage-account = {
-        name = "sa1-pep"
+        name = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}sa1-pep"
 
 {% if gcc_platform_import | trim == '0' %}
         subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-db-internet"
@@ -39,7 +39,7 @@ storage_accounts = {
         resource_group_key = "storage_accounts_re1"
 
         private_service_connection = {
-          name                 = "psc-sa1"
+          name                 = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}psc-sa1"
           is_manual_connection = false
           subresource_names    = ["blob"]
         }
@@ -72,10 +72,10 @@ storage_accounts = {
 
     tags = {
       purpose = "internet storage accounts"       
-      project-code = "{{project_code}}" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"   
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"   
     }  
         
   } 

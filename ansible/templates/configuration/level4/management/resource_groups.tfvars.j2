@@ -1,25 +1,25 @@
 resource_groups = {
   bastion_rg_re1 = {
-    name = "mgmt-bastion-host-re1"           
+    name = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}mgmt-bastion-host-re1"           
     region = "region1"    
     tags = { 
       purpose = "management bastion resource group" 
-      project-code = "{{project_code}}" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"           
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"           
     }    
   }
 
   vm_windows_tooling_re1 = {
-    name = "mgmt-vm-windows-tooling-re1"
+    name = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}mgmt-vm-windows-tooling-re1"
     region = "region1"      
     tags = { 
       purpose = "internet vm tooling server resource group" 
-      project-code = "{{project_code}}" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"            
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"            
     }    
   }  
 
@@ -28,10 +28,10 @@ resource_groups = {
     region = "region1"      
     tags = { 
       purpose = "mgmt ops resource group" 
-      project-code = "{{project_code}}" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"            
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"            
     }    
   } 
 

@@ -1,13 +1,13 @@
 resource_groups = {
   data_factory_rg_re1 = {
-    name = "data-factory-re1"           
+    name = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}data-factory-re1"           
     region = "region1"    
     tags = { 
-      purpose = "{{zone_code}} data factory resource group" 
-      project-code = "{{project_code}}" 
+      purpose = "{{tag_zone_code}} data factory resource group" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"          
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"          
     }     
   }
 }

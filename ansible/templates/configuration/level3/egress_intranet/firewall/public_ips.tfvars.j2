@@ -1,6 +1,6 @@
 public_ip_addresses = {
   firewall_re1 = {
-    name                    = "fw-egress-pip1"
+    name                    = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}fw-egress-pip1"
     resource_group_key      = "networking_firewall_egress_intranet_re1"
     sku                     = "Standard"
     allocation_method       = "Static"
@@ -10,7 +10,7 @@ public_ip_addresses = {
   }
 
   firewall_mgmt_re1 = {
-    name                    = "fw-egress-pip2"
+    name                    = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}fw-egress-pip2"
     resource_group_key      = "networking_firewall_egress_intranet_re1"
     sku                     = "Standard"
     allocation_method       = "Static"

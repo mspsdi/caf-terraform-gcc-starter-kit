@@ -11,10 +11,10 @@ module.solution.module.aks_clusters["cluster_re1"].azurerm_kubernetes_cluster.ak
 # ERROR encounter
 # does not have authorization to perform when deploy a container to AKS, unable to create the internal LB
 #  action 'Microsoft.Network/virtualNetworks/subnets/read' over scope
-#  '/subscriptions/xxxxxxxx-4066-42f0-b0fa-xxxxxxxxxxxx/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-internet/subnets/escep-snet-app-internet'
+#  '/subscriptions/xxxxxxxx-4066-42f0-b0fa-xxxxxxxxxxxx/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-internet/subnets/{{project_code}}-snet-app-internet'
 
 # 3. Important *** Private DNS Zone - Service principal or user-assigned identity must be given permission to read and write to custom private dns zone
-# ERROR: Message="Service principal or user-assigned identity must be given permission to read and write to custom private dns zone /subscriptions/6f035180-4066-42f0-b0fa-5fbc1ae67500/resourceGroups/osscuat-rg-networking-spoke-internet-re1-ojx/providers/Microsoft.Network/privateDnsZones/privatelink.southeastasia.azmk8s.io. Check access result not allowed for action Microsoft.Network/privateDnsZones/read."
+# ERROR: Message="Service principal or user-assigned identity must be given permission to read and write to custom private dns zone /subscriptions/xxxxxxxx-4066-42f0-b0fa-xxxxxxxxxxxx/resourceGroups/osscuat-rg-networking-spoke-internet-re1-ojx/providers/Microsoft.Network/privateDnsZones/privatelink.southeastasia.azmk8s.io. Check access result not allowed for action Microsoft.Network/privateDnsZones/read."
 # aks_user has no right to access private dns zone
 # use azure cli to create this private dns zone for aks
 #   

@@ -1,6 +1,6 @@
 azure_container_registries = {
   aks_acr = {
-    name               = "aks-acr"
+    name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}aks-acr"
     resource_group_key = "aks_re1"
     sku                = "Premium"
 
@@ -9,7 +9,7 @@ azure_container_registries = {
     private_endpoints = {
       # Require enforce_private_link_endpoint_network_policies set to true on the subnet
       private-link-acr-mgmt = {
-        name               = "pep-acr"
+        name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}pep-acr"
         resource_group_key = "aks_re1"
 
 {% if gcc_platform_import | trim == '0' %}
@@ -20,13 +20,12 @@ azure_container_registries = {
 {% endif %} 
 
         private_service_connection = {
-          name                 = "psc-acr"
+          name                 = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}psc-acr"
           is_manual_connection = false
           subresource_names    = ["registry"]
         }
         
         private_dns = {
-          # zone_group_name = "acr_rg_re1" # TODO: is this the resource group name?        
           lz_key = "networking_spoke_internet" # if DNS keys is deployed in another landingzone
           keys = ["acr_dns_re1"]            
         }        
@@ -43,11 +42,11 @@ azure_container_registries = {
     }
 
     tags = { 
-      purpose = "{{zone_code}} acr" 
-      project-code = "{{project_code}}" 
+      purpose = "{{tag_zone_code}} acr" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"          
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"          
     } 
 
   }

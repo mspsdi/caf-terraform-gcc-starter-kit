@@ -1,7 +1,7 @@
 
 linux_function_apps = {
   f1 = {
-    name               = "document-processing"
+    name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}document-processing"
     resource_group_key = "fa_rg_re1"
     region             = "region1"
     #  ~ kind                         = "linux" -> "functionapp" # forces replacement
@@ -47,7 +47,7 @@ linux_function_apps = {
     private_endpoints = {
       # Require enforce_private_link_endpoint_network_policies set to true on the subnet
       pe1_functionapp = {
-        name       = "pep-function-app"
+        name       = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}pep-function-app"
 
 {% if gcc_platform_import | trim == '0' %}
         subnet_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}/subnets/{{prefix}}-snet-app-internet"
@@ -59,7 +59,7 @@ linux_function_apps = {
         resource_group_key = "fa_rg_re1"
 
         private_service_connection = {
-          name                 = "psc-functionapp"
+          name                 = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}psc-functionapp"
           is_manual_connection = false
           subresource_names    = ["sites"]
         }
@@ -73,11 +73,11 @@ linux_function_apps = {
     }
 
     tags = { 
-      purpose = "{{zone_code}} linux function app" 
-      project-code = "{{project_code}}" 
+      purpose = "{{tag_zone_code}} linux function app" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"          
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"          
     } 
 
     diagnostic_profiles = {

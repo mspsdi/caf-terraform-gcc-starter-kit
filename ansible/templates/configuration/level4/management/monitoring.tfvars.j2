@@ -2,7 +2,7 @@
 monitoring = {
   service_health_alerts = {
     enable_service_health_alerts = true
-    name                         = "service-health-alert"
+    name                         = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}service-health-alert"
     action_group_name            = "ag_servicehealth"
     shortname                    = "HealthAlerts" # expected length of short_name to be in the range (1 - 12), got ServiceHealthAlerts
     resource_group_key           = "mgmt_ops_re1"

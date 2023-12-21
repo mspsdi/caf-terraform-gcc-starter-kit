@@ -1,6 +1,6 @@
 public_ip_addresses = {
   firewall_re1 = {
-    name                    = "fw-ingress-pip1"
+    name                    = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}fw-ingress-pip1"
     resource_group_key      = "networking_firewall_ingress_intranet_re1"
     sku                     = "Standard"
     allocation_method       = "Static"

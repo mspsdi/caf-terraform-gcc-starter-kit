@@ -1,6 +1,6 @@
 cosmos_dbs = {
   cosmosdb_account_re1 = {
-    name                      = "cosmosdb_acc"
+    name                      = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}cosmosdb_acc"
     resource_group_key        = "cosmodb_rg_re1"
     offer_type                = "Standard"
     kind                      = "GlobalDocumentDB"
@@ -37,7 +37,7 @@ cosmos_dbs = {
     private_endpoints = {
       # Require enforce_private_link_endpoint_network_policies set to true on the subnet
       cosmos_db_pe1 = {
-        name               = "cosmos-private-endpoint"
+        name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}cosmos-private-endpoint"
         resource_group_key = "cosmodb_rg_re1"
 
 {% if gcc_platform_import | trim == '0' %}
@@ -48,7 +48,7 @@ cosmos_dbs = {
 {% endif %} 
 
         private_service_connection = {
-          name                 = "cosmos-private-link"
+          name                 = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}cosmos-private-link"
           is_manual_connection = false
           subresource_names    = ["Sql"]
         }
@@ -67,11 +67,11 @@ cosmos_dbs = {
     #capabilities              = ["EnableTable"]
     enable_multiple_write_locations = false
     tags = { 
-      purpose = "{{zone_code}} mssql server" 
-      project-code = "{{project_code}}" 
+      purpose = "{{tag_zone_code}} mssql server" 
+      project_code = "{{project_code}}" 
       env = "{{caf_environment}}" 
-      zone = "{{zone_code}}"
-      tier = "{{tier_code}}"         
+      zone = "{{tag_zone_code}}"
+      tier = "{{tag_tier_code}}"         
     } 
     # # you can setup up to 5 key
     diagnostic_profiles = {
@@ -89,7 +89,7 @@ cosmos_dbs = {
         # when set to 'true' it will append random generated integer to sql database
         # defaults to 'true'
         # add_rnd_num = true
-        name       = "cosmos-sql-exdb"
+        name       = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}cosmos-sql-exdb"
         throughput = 400
         #autoscale_settings = {
         #      max_throughput = 4000
@@ -97,7 +97,7 @@ cosmos_dbs = {
 
         containers = {
           container1 = {
-            name               = "container-ex101"
+            name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}container-ex101"
             throughput = 400
             partition_key_path = "/partitionKeyPath"
 
