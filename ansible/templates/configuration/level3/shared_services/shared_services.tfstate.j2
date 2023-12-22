@@ -264,12 +264,12 @@
               ],
               "dns_servers": [],
 {% if ingress_egress_subscription_id | trim != 'None' %}
-              "id": "/subscriptions/{{ingress_egress_subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-egress-internet",
+              "id": "/subscriptions/{{ingress_egress_subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_internet}}",
 {% else %}
-              "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-egress-internet",
+              "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_internet}}",
 {% endif %}
               "location": "southeastasia",
-              "name": "gcci-vnet-egress-internet",
+              "name": "{{ingress_egress_vnet_name_egress_internet}}",
               "resource_group_name": "gcci-platform",
               "subnets": {}
             },
@@ -279,12 +279,12 @@
               ],
               "dns_servers": [],
 {% if ingress_egress_subscription_id | trim != 'None' %}
-              "id": "/subscriptions/{{ingress_egress_subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-ingress-internet",
+              "id": "/subscriptions/{{ingress_egress_subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}",
 {% else %}
-              "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-ingress-internet",
+              "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}",
 {% endif %}
               "location": "southeastasia",
-              "name": "gcci-vnet-ingress-internet",
+              "name": "{{ingress_egress_vnet_name_ingress_internet}}",
               "resource_group_name": "gcci-platform",
               "subnets": {}
             },
@@ -294,12 +294,12 @@
               ],
               "dns_servers": [],
 {% if ingress_egress_subscription_id | trim != 'None' %}
-              "id": "/subscriptions/{{ingress_egress_subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-egress-intranet",
+              "id": "/subscriptions/{{ingress_egress_subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_intranet}}",
 {% else %}
-              "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-egress-intranet",
+              "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_intranet}}",
 {% endif %}
               "location": "southeastasia",
-              "name": "gcci-vnet-egress-intranet",
+              "name": "{{ingress_egress_vnet_name_egress_intranet}}",
               "resource_group_name": "gcci-platform",
               "subnets": {}
             },
@@ -309,12 +309,12 @@
               ],
               "dns_servers": [],
 {% if ingress_egress_subscription_id | trim != 'None' %}
-              "id": "/subscriptions/{{ingress_egress_subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-ingress-intranet",
+              "id": "/subscriptions/{{ingress_egress_subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_intranet}}",
 {% else %}
-              "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-ingress-intranet",
+              "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_intranet}}",
 {% endif %}
               "location": "southeastasia",
-              "name": "gcci-vnet-ingress-intranet",
+              "name": "{{ingress_egress_vnet_name_ingress_intranet}}",
               "resource_group_name": "gcci-platform",
               "subnets": {}
             },
@@ -324,12 +324,12 @@
               ],
               "dns_servers": [],
 {% if management_subscription_id | trim != 'None' %}
-              "id": "/subscriptions/{{management_subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-management",
+              "id": "/subscriptions/{{management_subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}",
 {% else %}
-              "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-management",
+              "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}",
 {% endif %}
               "location": "southeastasia",
-              "name": "gcci-vnet-management",
+              "name": "{{management_vnet_name}}",
               "resource_group_name": "gcci-platform",
               "subnets": {}
             },
@@ -339,12 +339,12 @@
               ],
               "dns_servers": [],
 {% if devops_subscription_id | trim != 'None' %}
-              "id": "/subscriptions/{{devops_subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-devops",
+              "id": "/subscriptions/{{devops_subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}",
 {% else %}
-              "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-devops",
+              "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}",
 {% endif %}
               "location": "southeastasia",
-              "name": "gcci-vnet-devops",
+              "name": "{{devops_vnet_name}}",
               "resource_group_name": "gcci-platform",
               "subnets": {}
             },
@@ -353,9 +353,9 @@
                 "{{internet_vnet_name_cidr}}"
               ],
               "dns_servers": [],
-              "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-internet",
+              "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}",
               "location": "southeastasia",
-              "name": "gcci-vnet-internet",
+              "name": "{{internet_vnet_name}}",
               "resource_group_name": "gcci-platform",
               "subnets": {}
             }
@@ -1639,7 +1639,7 @@
             "random_seed": null,
             "resource_type": "azurerm_virtual_network",
             "resource_types": null,
-            "result": "gcci-vnet-egress-internet",
+            "result": "{{ingress_egress_vnet_name_egress_internet}}",
             "results": {},
             "separator": "-",
             "suffixes": null,
@@ -1684,12 +1684,12 @@
             "flow_timeout_in_minutes": 0,
             "guid": "1396f724-e5ad-4c5f-af02-ef52d67ee8f7",
 {% if ingress_egress_subscription_id | trim != 'None' %}
-            "id": "/subscriptions/{{ingress_egress_subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-egress-internet",
+            "id": "/subscriptions/{{ingress_egress_subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_internet}}",
 {% else %}
-            "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-egress-internet",
+            "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_internet}}",
 {% endif %}
             "location": "southeastasia",
-            "name": "gcci-vnet-egress-internet",
+            "name": "{{ingress_egress_vnet_name_egress_internet}}",
             "resource_group_name": "gcci-platform",
             "subnet": [],
             "tags": {
@@ -1750,7 +1750,7 @@
             "random_seed": null,
             "resource_type": "azurerm_virtual_network",
             "resource_types": null,
-            "result": "gcci-vnet-ingress-internet",
+            "result": "{{ingress_egress_vnet_name_ingress_internet}}",
             "results": {},
             "separator": "-",
             "suffixes": null,
@@ -1795,12 +1795,12 @@
             "flow_timeout_in_minutes": 0,
             "guid": "71de9ba9-f2f7-45a0-8a10-1fa89f02eb11",
 {% if ingress_egress_subscription_id | trim != 'None' %}
-            "id": "/subscriptions/{{ingress_egress_subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-ingress-internet",
+            "id": "/subscriptions/{{ingress_egress_subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}",
 {% else %}
-            "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-ingress-internet",
+            "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_internet}}",
 {% endif %}
             "location": "southeastasia",
-            "name": "gcci-vnet-ingress-internet",
+            "name": "{{ingress_egress_vnet_name_ingress_internet}}",
             "resource_group_name": "gcci-platform",
             "subnet": [],
             "tags": {
@@ -1861,7 +1861,7 @@
             "random_seed": null,
             "resource_type": "azurerm_virtual_network",
             "resource_types": null,
-            "result": "gcci-vnet-egress-intranet",
+            "result": "{{ingress_egress_vnet_name_egress_intranet}}",
             "results": {},
             "separator": "-",
             "suffixes": null,
@@ -1906,12 +1906,12 @@
             "flow_timeout_in_minutes": 0,
             "guid": "78d9854d-308d-45a0-bdeb-fc4e23ef2210",
 {% if ingress_egress_subscription_id | trim != 'None' %}
-            "id": "/subscriptions/{{ingress_egress_subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-egress-intranet",
+            "id": "/subscriptions/{{ingress_egress_subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_intranet}}",
 {% else %}
-            "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-egress-intranet",
+            "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_egress_intranet}}",
 {% endif %}
             "location": "southeastasia",
-            "name": "gcci-vnet-egress-intranet",
+            "name": "{{ingress_egress_vnet_name_egress_intranet}}",
             "resource_group_name": "gcci-platform",
             "subnet": [],
             "tags": {
@@ -1972,7 +1972,7 @@
             "random_seed": null,
             "resource_type": "azurerm_virtual_network",
             "resource_types": null,
-            "result": "gcci-vnet-ingress-intranet",
+            "result": "{{ingress_egress_vnet_name_ingress_intranet}}",
             "results": {},
             "separator": "-",
             "suffixes": null,
@@ -2017,12 +2017,12 @@
             "flow_timeout_in_minutes": 0,
             "guid": "cf248228-4549-4477-a1f4-504cede4a85a",
 {% if ingress_egress_subscription_id | trim != 'None' %}
-            "id": "/subscriptions/{{ingress_egress_subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-ingress-intranet",
+            "id": "/subscriptions/{{ingress_egress_subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_intranet}}",
 {% else %}
-            "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-ingress-intranet",
+            "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{ingress_egress_vnet_name_ingress_intranet}}",
 {% endif %}
             "location": "southeastasia",
-            "name": "gcci-vnet-ingress-intranet",
+            "name": "{{ingress_egress_vnet_name_ingress_intranet}}",
             "resource_group_name": "gcci-platform",
             "subnet": [],
             "tags": {
@@ -2083,7 +2083,7 @@
             "random_seed": null,
             "resource_type": "azurerm_virtual_network",
             "resource_types": null,
-            "result": "gcci-vnet-management",
+            "result": "{{management_vnet_name}}",
             "results": {},
             "separator": "-",
             "suffixes": null,
@@ -2128,12 +2128,12 @@
             "flow_timeout_in_minutes": 0,
             "guid": "4e702c90-2553-4572-90fa-2495418ca053",
 {% if management_subscription_id | trim != 'None' %}
-            "id": "/subscriptions/{{management_subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-management",
+            "id": "/subscriptions/{{management_subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}",
 {% else %}
-            "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-management",
+            "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{management_vnet_name}}",
 {% endif %}
             "location": "southeastasia",
-            "name": "gcci-vnet-management",
+            "name": "{{management_vnet_name}}",
             "resource_group_name": "gcci-platform",
             "subnet": [],
             "tags": {
@@ -2194,7 +2194,7 @@
             "random_seed": null,
             "resource_type": "azurerm_virtual_network",
             "resource_types": null,
-            "result": "gcci-vnet-devops",
+            "result": "{{devops_vnet_name}}",
             "results": {},
             "separator": "-",
             "suffixes": null,
@@ -2239,12 +2239,12 @@
             "flow_timeout_in_minutes": 0,
             "guid": "426ff077-0033-459a-ac80-77ffccb1c3fa",
 {% if devops_subscription_id | trim != 'None' %}
-            "id": "/subscriptions/{{devops_subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-devops",
+            "id": "/subscriptions/{{devops_subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}",
 {% else %}
-            "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-devops",
+            "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}",
 {% endif %}
             "location": "southeastasia",
-            "name": "gcci-vnet-devops",
+            "name": "{{devops_vnet_name}}",
             "resource_group_name": "gcci-platform",
             "subnet": [],
             "tags": {
@@ -2305,7 +2305,7 @@
             "random_seed": null,
             "resource_type": "azurerm_virtual_network",
             "resource_types": null,
-            "result": "gcci-vnet-internet",
+            "result": "{{internet_vnet_name}}",
             "results": {},
             "separator": "-",
             "suffixes": null,
@@ -2349,9 +2349,9 @@
             "encryption": [],
             "flow_timeout_in_minutes": 0,
             "guid": "94ed6b02-670e-44ca-a380-c919c28f7d0b",
-            "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/gcci-vnet-internet",
+            "id": "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}",
             "location": "southeastasia",
-            "name": "gcci-vnet-internet",
+            "name": "{{internet_vnet_name}}",
             "resource_group_name": "gcci-platform",
             "subnet": [],
             "tags": {
