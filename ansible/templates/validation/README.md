@@ -49,6 +49,26 @@ kubectl get pods
 kubectl get services
 kubectl get events
 
+# test the azure vote application
+
+e.g.
+
+# get pods
+➜  caf kubectl get pods  
+NAME                               READY   STATUS    RESTARTS   AGE
+azure-vote-back-65c595548d-dz9cf   1/1     Running   0          3m56s
+azure-vote-front-d99b7676c-phwk8   1/1     Running   0          3m56s
+
+# get services to find the internal load balancer external-ip
+➜  caf kubectl get services
+NAME               TYPE           CLUSTER-IP   EXTERNAL-IP     PORT(S)        AGE
+azure-vote-back    ClusterIP      8.0.179.57   <none>          6379/TCP       4m34s
+azure-vote-front   LoadBalancer   8.0.43.64    100.73.133.10   80:31015/TCP   4m34s
+kubernetes         ClusterIP      8.0.0.1      <none>          443/TCP        3h5m
+
+# curl http url to perform smoke testing
+➜  caf curl http://100.73.133.10/
+
 
 # sql commands
 
