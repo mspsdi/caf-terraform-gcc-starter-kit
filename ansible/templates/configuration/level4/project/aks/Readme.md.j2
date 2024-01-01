@@ -44,12 +44,6 @@ rover -lz /tf/caf/landingzones/caf_solution \
 -tfstate solution_accelerators_aks.tfstate \
 -a apply
 
-# azure cli to add private dns
-az aks update --name "{{project_code}}-rg-aks-re1" \
-              --resource-group "{{project_code}}-rg-shared-services-re1" \ 
-              --private-dns-zone "/subscriptions/{{subscription_id}}/resourceGroups/{{project_code}}-rg-shared-services-re1/providers/Microsoft.Network/privateDnsZones/privatelink.southeastasia.azmk8s.io"
-
-
 
 rover -lz /tf/caf/landingzones/caf_solution \
 -level level4 \
