@@ -1,11 +1,11 @@
 # TODO: how to turn on container insight.
-diagnostic_log_analytics = {
-  central_logs_region1 = {
-    region             = "region1"
-    name               = "central_logs"
-    resource_group_key = "aks_re1"
-  }
-}
+# diagnostic_log_analytics = {
+#   central_logs_region1 = {
+#     region             = "region1"
+#     name               = "central_logs"
+#     resource_group_key = "aks_re1"
+#   }
+# }
 
 # diagnostics_destinations = {
 #  log_analytics = {
@@ -16,12 +16,12 @@ diagnostic_log_analytics = {
 #  }
 #}
 
-azurerm_application_insights = {
-  webapp = {
-    name                                = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}aks-appinsights-web"
-    resource_group_key                  = "aks_re1"
-    application_type                    = "web"
-    log_analytics_workspace_destination = "central_logs"
-  }
-}
+# azurerm_application_insights = {
+#   webapp = {
+#     name                                = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}aks-appinsights-web"
+#     resource_group_key                  = "aks_re1"
+#     application_type                    = "web"
+#     log_analytics_workspace_destination = "central_logs"
+#   }
+# }
 

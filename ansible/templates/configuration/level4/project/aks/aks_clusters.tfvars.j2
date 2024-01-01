@@ -12,12 +12,12 @@
 
 aks_clusters = {
   cluster_re1 = {
-    name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}privatecluster" # "cluster-re1" # {{caf_environment}}{{zone_code}}{{tier_code}}-privatecluster svc-aks-n-adlx-u1at-private
+    name               = "{{env_code}}{{dash_1}}{{zone_code}}{{dash_2}}{{tier_code}}{{dash_last}}privatecluster" # "cluster-re1" 
     resource_group_key = "aks_re1"
     os_type            = "Linux"
 
-    # latest version 4th Aug 2023 - 1.27.3, default 1.26.6   
-    kubernetes_version = "1.26.6" 
+    # latest version 29th Dec 2023 - "1.27.7"  1.27.3, default 1.26.6   
+    kubernetes_version = "1.27.7" # "1.26.6" 
     dns_prefix              = "private-aks"
 
     # ** IMPORTANT ** a user assigned identity or a service principal must be used when using a custom private dns zone
@@ -145,8 +145,8 @@ aks_clusters = {
       os_disk_size_gb              = 256
       # when using ingress_application_gateway you need an additional node_pool as agic is a non-critical addon
       only_critical_addons_enabled = false     
-      # latest version 4th Aug 2023 - 1.27.3, default 1.26.6                
-      orchestrator_version         = "1.26.6" 
+      # latest version 29 Dec 2023 - 1.27.7 4th Aug 2023 - 1.27.3, default 1.26.6                
+      orchestrator_version         = "1.27.7" # "1.26.6" 
       tags = { 
         purpose = "{{project_code}} default node pool" 
         # project_code = "{{project_code}}" 

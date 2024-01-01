@@ -34,6 +34,25 @@ role_mapping = {
       }
     } 
 
+    # NOT WORKING 
+    # fix the error of creating "internal load balancer" for AKS
+    # virtual networks [spoke_internet] - read, network contributor
+    vnets = {
+      vnet_spoke_internet_re1 = {
+        lz_key = "shared_services"           
+        "Reader" = {
+          managed_identities = {          
+            keys = ["aks_usermsi"]
+          }
+        }
+        "Network Contributor" = {
+          managed_identities = {             
+            keys = ["aks_usermsi"]
+          }
+        }
+      }
+    }   
+
     # mssql_servers = {     #Follow the same way as declaring the service
     #   sql_server = {
     #     lz_key = "mssql"

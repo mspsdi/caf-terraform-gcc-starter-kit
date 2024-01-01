@@ -7,42 +7,6 @@ role_mapping = {
     # role mapping must execute before ask cluster
     # grant aks_usermsi with right "Private DNS Zone Contributor" to "privatelink.southeastasia.azmk8s.io" private dns zone
     private_dns = {
-{% if internet_app_aks | trim == '1' %}      
-      aks_dns_re1 = {
-        "Private DNS Zone Contributor" = {
-          managed_identities = {
-            keys = ["aks_usermsi"]
-          }
-        }
-      }
-      acr_dns_re1 = {
-        "Private DNS Zone Contributor" = {
-          managed_identities = {
-            keys = ["aks_usermsi"]
-          }
-        }
-      }  
-  {% if gcc_platform | trim == '1' %}
-  #------------------------------------------------------
-  # this section is leave blank intentionally
-  #------------------------------------------------------
-  {% else %}      
-      # vnet_spoke_internet_re1 = {
-      #   "Reader" = {
-      #     managed_identities = {
-      #       keys = ["aks_usermsi"]
-      #     }
-      #   }
-      # }  
-      # vnet_spoke_internet_re1 = {
-      #   "Network Contributor" = {
-      #     managed_identities = {
-      #       keys = ["aks_usermsi"]
-      #     }
-      #   }
-      # }    
-  {% endif %}         
-{% endif %}
 {% if internet_data_mssql | trim == '1' %}
 
       db_dns_re1 = {
@@ -65,7 +29,7 @@ role_mapping = {
 {% endif %}       
 {% if internet_app_search_service | trim == '1' %}
 
-# search_service_dns_re1
+      # search_service_dns_re1
       search_service_dns_re1 = {
         "Private DNS Zone Contributor" = {
           managed_identities = {
@@ -76,7 +40,7 @@ role_mapping = {
 {% endif %}  
 {% if internet_app_openai | trim == '1' %}
 
-# openai_dns_re1
+      # openai_dns_re1
       openai_dns_re1 = {
         "Private DNS Zone Contributor" = {
           managed_identities = {
@@ -87,7 +51,7 @@ role_mapping = {
 {% endif %}  
 {% if internet_app_linux_function_app | trim == '1' %}
 
-# fa_dns_re1
+      # fa_dns_re1
       azurewebsites_dns_re1 = {
         "Private DNS Zone Contributor" = {
           managed_identities = {
@@ -98,7 +62,7 @@ role_mapping = {
 {% endif %}  
 {% if internet_app_keyvault | trim == '1' %}
 
-# kv_dns_re1
+      # kv_dns_re1
       kv_dns_re1 = {
         "Private DNS Zone Contributor" = {
           managed_identities = {
@@ -109,7 +73,7 @@ role_mapping = {
 {% endif %}  
 {% if internet_data_storage_account | trim == '1' %}
 
-# blob_dns_re1
+      # blob_dns_re1
       blob_dns_re1 = {
         "Private DNS Zone Contributor" = {
           managed_identities = {
@@ -120,7 +84,7 @@ role_mapping = {
 {% endif %}  
 {% if internet_data_redis_cache | trim == '1' %}
 
-# redis_cache_dns_re1
+      # redis_cache_dns_re1
       redis_cache_dns_re1 = {
         "Private DNS Zone Contributor" = {
           managed_identities = {
@@ -131,23 +95,6 @@ role_mapping = {
 {% endif %}  
 
     } 
-
-    # vnet = {
-      # vnet_spoke_internet_re1 = {
-      #   "Reader" = {
-      #     managed_identities = {
-      #       keys = ["aks_usermsi"]
-      #     }
-      #   }
-      # }  
-      # vnet_spoke_internet_re1 = {
-      #   "Network Contributor" = {
-      #     managed_identities = {
-      #       keys = ["aks_usermsi"]
-      #     }
-      #   }
-      # } 
-    # } 
-        
+       
   }
 }

@@ -634,6 +634,57 @@ if [ $RESULT -eq 0 ]; then
   echo "-----------------------------------------------------------------------------"  
   echo " "    
 fi
+{% if gcc_platform_import | trim == '1' %}
+
+echo "-----------------------------------------------------------------------------"    
+timestamp
+echo "Begin assigning reader and network contributor to spoke internet virtual network"  
+echo "-----------------------------------------------------------------------------"    
+
+pid=$(az identity list --query "[?contains(name,'prdmoriscep-msi-aks-usermsi')].principalId"  --output tsv)
+echo $pid
+
+az role assignment create \
+--assignee-object-id $pid  \
+--role "Reader"  \
+--assignee-principal-type "ServicePrincipal" \
+--scope "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+
+az role assignment create \
+--assignee-object-id $pid  \
+--role "Network Contributor"  \
+--assignee-principal-type "ServicePrincipal" \
+--scope "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
+
+echo "-----------------------------------------------------------------------------"    
+timestamp
+echo "End assigning reader and network contributor to spoke internet virtual network"  
+echo "-----------------------------------------------------------------------------"    
+
+echo "-----------------------------------------------------------------------------"    
+timestamp
+echo "Start vnet link to aks private dns to devops vnet"  
+echo "-----------------------------------------------------------------------------"    
+
+rg=$(az group list --query "[?contains(name,'prdmoriscep-rg-aks-nodes-re1')].name"  --output tsv)
+echo $rg
+
+dnszone=$(az network private-dns zone list --query "[?contains(name,'.privatelink.southeastasia.azmk8s.io')].name"  --output tsv)
+echo $dnszone
+
+az network private-dns link vnet create  \
+-n "private-aks-link-devops"  \
+-g $rg  \
+-z $dnszone \
+-v "/subscriptions/{{subscription_id}}/resourceGroups/gcci-platform/providers/Microsoft.Network/virtualNetworks/{{devops_vnet_name}}"  \
+-e False
+
+echo "-----------------------------------------------------------------------------"    
+timestamp
+echo "End vnet link to aks private dns to devops vnet"  
+echo "-----------------------------------------------------------------------------"    
+{% endif %}
+
 {% endif %}
 {% if internet_app_linux_function_app | trim == '1' %}
 
