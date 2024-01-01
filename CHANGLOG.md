@@ -1,4 +1,4 @@
-# 0.0.1.alpha (December 15, 2023)
+# 0.0.1.alpha (December 31, 2023)
 ## COMPATIBLE WITH:
 * caf rover: version rover:1.6.0-rc1-2310.0211
 * azurerm: version 3.84
