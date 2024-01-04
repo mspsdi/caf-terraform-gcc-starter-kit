@@ -124,7 +124,7 @@ This section aims to give the reader an overview of CAF Terraform GCC Starter Ki
 #### Overview Architecture
 
 <p align="center">
-  <img src="docs/gcc-starter-kit-architecture.png">
+  <img src="docs/gcc-starter-kit-architecture v0.2.png">
 </p>
 
 #### Core architecture components
