@@ -48,28 +48,28 @@ azurerm_firewall_policy_rule_collection_groups = {
 
     # The application rule covers all needed FQDNs accessible through TCP port 443 and port 80.
     application_rule_collections = {
-      rule1 = { # dummy example
-        name     = "app_rule_collection1"
-        priority = 500
-        action   = "Deny"
-        rules = {
-          rule1 = {
-            name = "app_rule_collection1_rule1"
-            protocols = {
-              1 = {
-                type = "Http"
-                port = 80
-              }
-              2 = {
-                type = "Https"
-                port = 443
-              }
-            }
-            source_addresses  = ["10.0.0.1"]
-            destination_fqdns = ["*.microsoft.com"]
-          }
-        }
-      }
+      # rule1 = { # dummy example
+      #   name     = "app_rule_collection1"
+      #   priority = 500
+      #   action   = "Deny"
+      #   rules = {
+      #     rule1 = {
+      #       name = "app_rule_collection1_rule1"
+      #       protocols = {
+      #         1 = {
+      #           type = "Http"
+      #           port = 80
+      #         }
+      #         2 = {
+      #           type = "Https"
+      #           port = 443
+      #         }
+      #       }
+      #       source_addresses  = ["10.0.0.1"]
+      #       destination_fqdns = ["*.microsoft.com"]
+      #     }
+      #   }
+      # }
       aks = {
         name     = "app-rule-collection1-aks"
         priority = 600
@@ -227,20 +227,20 @@ azurerm_firewall_policy_rule_collection_groups = {
 # The application rule covers all needed FQDNs accessible through TCP port 443 and port 80.
 
     network_rule_collections = {
-      group1 = { # dummy example
-        name     = "network_rule_collection1"
-        priority = 400
-        action   = "Deny"
-        rules = {
-          rule1 = {
-            name                  = "network_rule_collection1_rule1"
-            protocols             = ["TCP", "UDP"]
-            source_addresses      = ["10.0.0.1"]
-            destination_addresses = ["192.168.1.1", "192.168.1.2"]
-            destination_ports     = ["80", "1000-2000"]
-          }
-        }
-      }
+      # group1 = { # dummy example
+      #   name     = "network_rule_collection1"
+      #   priority = 400
+      #   action   = "Deny"
+      #   rules = {
+      #     rule1 = {
+      #       name                  = "network_rule_collection1_rule1"
+      #       protocols             = ["TCP", "UDP"]
+      #       source_addresses      = ["10.0.0.1"]
+      #       destination_addresses = ["192.168.1.1", "192.168.1.2"]
+      #       destination_ports     = ["80", "1000-2000"]
+      #     }
+      #   }
+      # }
 
       aks = { # aks > firewall > internet (ip address/cidr or service tag)
         name     = "aks"
