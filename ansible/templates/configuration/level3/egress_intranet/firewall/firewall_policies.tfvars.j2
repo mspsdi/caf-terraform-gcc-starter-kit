@@ -85,24 +85,24 @@ azurerm_firewall_policy_rule_collection_groups = {
             destination_addresses = ["192.168.1.1", "192.168.1.2"]
             destination_ports     = ["80", "1000-2000"]
           }
-          apex = { # api
-            name = "apex"
-            # source_addresses = [
-            #   "*",
-            # ]
-            source_ip_groups_keys = [
-              "aks_ip_group1"
-            ]
-            destination_ports = [
-              "443",
-            ]
-            destination_addresses = [
-              "{{on_prem_api_ip}}" # TODO: set the apex ip addresses or on-prem ip addresses.
-            ]
-            protocols = [
-              "TCP",
-            ]
-          }  
+          # apex = { # api
+          #   name = "apex"
+          #   # source_addresses = [
+          #   #   "*",
+          #   # ]
+          #   source_ip_groups_keys = [
+          #     "aks_ip_group1"
+          #   ]
+          #   destination_ports = [
+          #     "443",
+          #   ]
+          #   destination_addresses = [
+          #     "{{on_prem_api_ip}}" # TODO: set the apex ip addresses or on-prem ip addresses.
+          #   ]
+          #   protocols = [
+          #     "TCP",
+          #   ]
+          # }  
           # astra = { # sftp
           #   name = "astra"
           #   # source_addresses = [

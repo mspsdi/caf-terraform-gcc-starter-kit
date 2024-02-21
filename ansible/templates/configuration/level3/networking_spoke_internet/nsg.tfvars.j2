@@ -528,7 +528,7 @@ network_security_group_definition = {
 {% endif %}  
 
 
-{% if internet_app_aks | trim == '1' %}
+{% if internet_app_aks | trim == '1' or internet_app_app_service | trim == '1' %}
 
   # AKS
   # The following FQDN / application rules are required:
@@ -811,7 +811,7 @@ network_security_group_definition = {
       # custom deny all  - TODO: test what else is required - TODO: set this aks is not working.
       # {
       #   name                       = "Custom-Deny-All-Inbound"
-      #   priority                   = "4000"
+      #   priority                   = "4095"
       #   direction                  = "Inbound"
       #   access                     = "Deny"
       #   protocol                   = "*"
@@ -1216,7 +1216,7 @@ network_security_group_definition = {
       # # custom deny all outbound - TODO: test what else is required
       # {
       #   name                       = "Custom-Deny-All-Outbound"
-      #   priority                   = "4000"
+      #   priority                   = "4095"
       #   direction                  = "Outbound"
       #   access                     = "Deny"
       #   protocol                   = "tcp"
@@ -1276,17 +1276,17 @@ network_security_group_definition = {
     # management inbound
        # do not change            
       # inbound ssh 22 management bastion "{{cidr_management_zone_subnet_bastion}}" > db "{{cidr_internet_zone_subnet_app}}"          
-      {
-        name                       = "Inbound-SSH-management"
-        priority                   = "100"
-        direction                  = "Inbound"
-        access                     = "Allow"
-        protocol                   = "tcp"
-        source_port_range          = "*"
-        destination_port_range     = "22"
-        source_address_prefix      = "{{cidr_management_zone_subnet_bastion}}"
-        destination_address_prefix = "{{cidr_internet_zone_subnet_data}}"
-      }, 
+#      {
+#        name                       = "Inbound-SSH-management"
+#        priority                   = "100"
+#        direction                  = "Inbound"
+#        access                     = "Allow"
+#        protocol                   = "tcp"
+#        source_port_range          = "*"
+#        destination_port_range     = "22"
+#        source_address_prefix      = "{{cidr_management_zone_subnet_bastion}}"
+#        destination_address_prefix = "{{cidr_internet_zone_subnet_data}}"
+#      }, 
       {
         name                       = "Inbound-MSSQL-management"
         priority                   = "110"
@@ -1298,28 +1298,28 @@ network_security_group_definition = {
         source_address_prefix      = "{{cidr_management_zone_subnet_bastion}}"
         destination_address_prefix = "{{cidr_internet_zone_subnet_data}}"
       },
-      {
-        name                       = "Inbound-POSTRESQL-management"
-        priority                   = "120"
-        direction                  = "Inbound"
-        access                     = "Allow"
-        protocol                   = "tcp"
-        source_port_range          = "*"
-        destination_port_range     = "5432"
-        source_address_prefix      = "{{cidr_management_zone_subnet_bastion}}"
-        destination_address_prefix = "{{cidr_internet_zone_subnet_data}}"
-      }, 
-      {
-        name                       = "Inbound-Redis-Caches-management"
-        priority                   = "130"
-        direction                  = "Inbound"
-        access                     = "Allow"
-        protocol                   = "tcp"
-        source_port_range          = "*"
-        destination_port_range     = "6380-6383"
-        source_address_prefix      = "{{cidr_management_zone_subnet_bastion}}"
-        destination_address_prefix = "{{cidr_internet_zone_subnet_data}}"
-      },           
+#      {
+#        name                       = "Inbound-POSTRESQL-management"
+#        priority                   = "120"
+#        direction                  = "Inbound"
+#        access                     = "Allow"
+#        protocol                   = "tcp"
+#        source_port_range          = "*"
+#        destination_port_range     = "5432"
+#        source_address_prefix      = "{{cidr_management_zone_subnet_bastion}}"
+#        destination_address_prefix = "{{cidr_internet_zone_subnet_data}}"
+#      }, 
+#      {
+#        name                       = "Inbound-Redis-Caches-management"
+#        priority                   = "130"
+#        direction                  = "Inbound"
+#        access                     = "Allow"
+#        protocol                   = "tcp"
+#        source_port_range          = "*"
+#        destination_port_range     = "6380-6383"
+#        source_address_prefix      = "{{cidr_management_zone_subnet_bastion}}"
+#        destination_address_prefix = "{{cidr_internet_zone_subnet_data}}"
+#      },           
     # end management inbound   
 {% if internet_app_aks | trim == '1' %}        
       # inbound mssql 1433 app "{{cidr_internet_zone_subnet_app}}" > db "{{cidr_internet_zone_subnet_data}}"         
@@ -1335,29 +1335,29 @@ network_security_group_definition = {
         destination_address_prefix = "{{cidr_internet_zone_subnet_data}}"
       },
       # inbound postgresql 5432 app "{{cidr_internet_zone_subnet_app}}" > db "{{cidr_internet_zone_subnet_data}}"        
-      {
-        name                       = "Inbound-POSTRESQL-app"
-        priority                   = "210"
-        direction                  = "Inbound"
-        access                     = "Allow"
-        protocol                   = "tcp"
-        source_port_range          = "*"
-        destination_port_range     = "5432"
-        source_address_prefix      = "{{cidr_internet_zone_subnet_app}}"
-        destination_address_prefix = "{{cidr_internet_zone_subnet_data}}"
-      }, 
+#      {
+#        name                       = "Inbound-POSTRESQL-app"
+#        priority                   = "210"
+#        direction                  = "Inbound"
+#        access                     = "Allow"
+#        protocol                   = "tcp"
+#        source_port_range          = "*"
+#        destination_port_range     = "5432"
+#        source_address_prefix      = "{{cidr_internet_zone_subnet_app}}"
+#        destination_address_prefix = "{{cidr_internet_zone_subnet_data}}"
+#      }, 
       # inbound Redis 6380-6383 app "{{cidr_internet_zone_subnet_app}}" > db "{{cidr_internet_zone_subnet_data}}"        
-      {
-        name                       = "Inbound-Redis-Caches-app"
-        priority                   = "220"
-        direction                  = "Inbound"
-        access                     = "Allow"
-        protocol                   = "tcp"
-        source_port_range          = "*"
-        destination_port_range     = "6380-6383"
-        source_address_prefix      = "{{cidr_internet_zone_subnet_app}}"
-        destination_address_prefix = "{{cidr_internet_zone_subnet_data}}"
-      },  
+#      {
+#        name                       = "Inbound-Redis-Caches-app"
+#        priority                   = "220"
+#        direction                  = "Inbound"
+#        access                     = "Allow"
+#        protocol                   = "tcp"
+#        source_port_range          = "*"
+#        destination_port_range     = "6380-6383"
+#        source_address_prefix      = "{{cidr_internet_zone_subnet_app}}"
+#        destination_address_prefix = "{{cidr_internet_zone_subnet_data}}"
+#      },  
 {% endif %}                   
       {
         name                       = "Inbound-MSSQL"
@@ -1370,33 +1370,33 @@ network_security_group_definition = {
         source_address_prefix      = "VirtualNetwork"
         destination_address_prefix = "VirtualNetwork"
       },
-      {
-        name                       = "Inbound-POSTRESQL"
-        priority                   = "240"
-        direction                  = "Inbound"
-        access                     = "Allow"
-        protocol                   = "tcp"
-        source_port_range          = "*"
-        destination_port_range     = "5432"
-        source_address_prefix      = "VirtualNetwork"
-        destination_address_prefix = "VirtualNetwork"
-      }, 
-      {
-        name                       = "Inbound-Redis-Caches"
-        priority                   = "250"
-        direction                  = "Inbound"
-        access                     = "Allow"
-        protocol                   = "tcp"
-        source_port_range          = "*"
-        destination_port_range     = "6380"
-        source_address_prefix      = "VirtualNetwork"
-        destination_address_prefix = "VirtualNetwork"
-      },   
+#      {
+#        name                       = "Inbound-POSTRESQL"
+#        priority                   = "240"
+#        direction                  = "Inbound"
+#        access                     = "Allow"
+#        protocol                   = "tcp"
+#        source_port_range          = "*"
+#        destination_port_range     = "5432"
+#        source_address_prefix      = "VirtualNetwork"
+#        destination_address_prefix = "VirtualNetwork"
+#      }, 
+#      {
+#        name                       = "Inbound-Redis-Caches"
+#        priority                   = "250"
+#        direction                  = "Inbound"
+#        access                     = "Allow"
+#        protocol                   = "tcp"
+#        source_port_range          = "*"
+#        destination_port_range     = "6380"
+#        source_address_prefix      = "VirtualNetwork"
+#        destination_address_prefix = "VirtualNetwork"
+#      },   
 
       # custom deny all inbound
       {
         name                       = "Custom-Deny-All-Inbound"
-        priority                   = "4000"
+        priority                   = "4095"
         direction                  = "Inbound"
         access                     = "Deny"
         protocol                   = "*"
@@ -1409,7 +1409,7 @@ network_security_group_definition = {
       # custom deny all outbound
       {
         name                       = "Custom-Deny-All-Outbound"
-        priority                   = "4000"
+        priority                   = "4095"
         direction                  = "Outbound"
         access                     = "Deny"
         protocol                   = "tcp"

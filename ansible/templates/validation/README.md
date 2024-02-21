@@ -88,8 +88,7 @@ CREATE TABLE Students (StudentId int, StudentName nvarchar(50), StudentAge int);
 
 
 
-openssl genrsa -out moris-uat.gra.gov.sg key 2048 
-
+openssl genrsa -out claim-uat.dso.gov.sg key 2048 
 
 openssl pkcs12 -export -out certificate.pfx -inkey privateKey.key -in certificate.crt -certfile CACert.crt
 

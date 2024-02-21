@@ -1,3 +1,6 @@
+# Those that using HTTPS will cause SSL Cert Error if Host Name are different.
+# e.g. Storage Account
+# ERROR: SSL: no alternative certificate subject name matches target host name 'xxxxxxxxxxxx.privatelink.blob.core.windows.net'
 private_dns = {
 {% if internet_app_app_service | trim == '1' or internet_app_linux_function_app | trim == '1' or internet_app_logic_app | trim == '1' %}
 
@@ -368,7 +371,7 @@ private_dns = {
 
   # begin keyvault
   kv_dns_re1 = {
-    name               = "privatelink.vaultcore.azure.net" # must be this name 0 do not change
+    name               = "vault.azure.net" # cannot use privatelink. as will have SSL error. must be this name 0 do not change
     resource_group_key = "networking_spoke_internet_re1"
 
     # vnet link is created after vnet is crated.
@@ -489,7 +492,7 @@ private_dns = {
 
   # begin blob storage
   blob_dns_re1 = {
-    name               = "privatelink.blob.core.windows.net"
+    name               = "blob.core.windows.net" # cannot use privatelink. as will have SSL cert error.
     resource_group_key = "networking_spoke_internet_re1"
 
     vnet_links = {
@@ -617,36 +620,5 @@ private_dns = {
   }
   # end redis.cache
 {% endif %}  
-
-  # is the below required?
-  project_dns1 = {
-    name               = "project.{{ingress_internet_dns_zone}}"
-    resource_group_key = "networking_spoke_internet_re1"
-
-    records = {
-      a_records = {
-        ingress = {
-          name    = "aks"
-          ttl     = 3600
-          records = ["{{ingress_internet_aks_ip}}"] # TODO: set the ingress controller private ip address
-        }
-      }
-    }
-
-    vnet_links = {
-      project_internet_vnet_link = {
-        name               = "project-internet-vnet"
-        registration_enabled = true
-{% if gcc_platform_import | trim == '0' %}
-        virtual_network_id = "/subscriptions/{{subscription_id}}/resourceGroups/{{resource_group_name}}/providers/Microsoft.Network/virtualNetworks/{{internet_vnet_name}}"
-{% else %}
-        lz_key = "shared_services"
-        vnet_key = "vnet_spoke_internet_re1"              
-{% endif %}
-      }    
-    }
-   
-  }
-
 
 }
